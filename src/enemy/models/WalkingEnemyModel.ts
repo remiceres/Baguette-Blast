@@ -1,3 +1,4 @@
+import { EnemyBehavior } from '../controllers/EnemyBehavior';
 import { WalkingBehavior } from '../controllers/WalkingBehavior';
 import { EnemyModel } from './EnemyModel';
 import { Vector3 } from '@babylonjs/core';
@@ -5,8 +6,8 @@ import { Vector3 } from '@babylonjs/core';
 class WalkingEnemyModel extends EnemyModel {
     private groundLevel: number;
 
-    constructor(initialPosition: Vector3, initialSpeed: number, initialHealth: number) {
-        super(initialPosition, initialSpeed, initialHealth, new WalkingBehavior());
+    constructor(initialPosition: Vector3, initialSpeed: number, initialHealth: number, behavior: EnemyBehavior) {
+        super(initialPosition, initialSpeed, initialHealth, behavior);
         this.groundLevel = 0;
     }
 
