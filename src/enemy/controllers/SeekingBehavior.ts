@@ -1,21 +1,38 @@
-import { Vector3 } from "@babylonjs/core";
-import { EnemyBehavior } from "./EnemyBehavior";
-import { EnemyModel } from "../models/EnemyModel";
+import { EnemyModel } from '../models/EnemyModel';
+import { EnemyBehavior } from './EnemyBehavior';
 
+/**
+ * Implements seeking behavior for enemies.
+ * This behavior makes the enemy move towards a specified target.
+ */
 class SeekingBehavior implements EnemyBehavior {
-    private target: EnemyModel;
+    private _target: EnemyModel;
 
+    /**
+     * Constructs a SeekingBehavior with a specified target.
+     * @param {EnemyModel} target - The target enemy model that this behavior will seek.
+     */
     constructor(target: EnemyModel) {
-        this.target = target;
+        this._target = target;
     }
 
-    public execute(model: EnemyModel, deltaTime: number): void {
-        let targetPosition = this.target.getPosition();
-        let position = model.getPosition();
-        let speed = model.getSpeed();
-        let desiredVelocity = targetPosition.subtract(position).normalize().scale(speed);
-        let steering = desiredVelocity.subtract(model.getVelocity());
+    /**
+     * Animates the enemy model with seeking behavior towards the target.
+     * @param {EnemyModel} model - The enemy model to animate.
+     * @param {number} deltaTime - The time in seconds since the last update.
+     */
+    public animate(model: EnemyModel, deltaTime: number): void {
+        const targetPosition = this._target.getPosition();
+        const position = model.getPosition();
+        const speed = model.getSpeed();
 
+        // Calculate the desired velocity towards the target
+        const desiredVelocity = targetPosition.subtract(position).normalize().scale(speed);
+
+        // Compute the steering force required to adjust the enemy's current velocity towards the desired velocity
+        const steering = desiredVelocity.subtract(model.getVelocity());
+
+        // Update the enemy's velocity and position based on the steering force
         model.setVelocity(model.getVelocity().add(steering));
         model.setPosition(position.add(model.getVelocity().scale(deltaTime)));
     }

@@ -1,8 +1,8 @@
-import StateInterface from './stateInterface';
-import MenuState from './states/menuState';
-import LevelTest1State from './states/levelTest1State';
 import { Scene } from '@babylonjs/core';
-import LevelTest2State from './states/levelTest2State';
+import StateInterface from './StateInterface';
+import LevelTest1State from './states/LevelTest1State';
+import LevelTest2State from './states/LevelTest2State';
+import MenuState from './states/MenuState';
 
 /**
  * Manages the different states of the application, such as menu, game levels, etc.

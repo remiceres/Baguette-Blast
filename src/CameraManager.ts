@@ -35,7 +35,7 @@ class CameraManager {
             'Camera',
             Math.PI / 2,
             Math.PI / 2,
-            10,
+            -10,
             Vector3.Zero(),
             this._scene
         );

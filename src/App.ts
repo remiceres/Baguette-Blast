@@ -1,13 +1,15 @@
 import { Engine, Scene } from '@babylonjs/core';
 import '@babylonjs/inspector';
-import CameraManager from './cameraManager';
-import StateManager from './stateManager/stateManager';
+import CameraManager from './CameraManager';
+import StateManager from './stateManager/StateManager';
 
 /**
  * The main application class for initializing and running the Babylon.js scene.
+ * It sets up the canvas, engine, camera, state manager, and rendering loop.
  */
 class App {
     private _engine: Engine;
+    private _lastTime: number; // Tracks the time of the last frame
 
     /**
      * Constructs the App class and initializes the scene.
@@ -21,8 +23,21 @@ class App {
         this._initializeCamera(scene);
         this._initializeStateManager(scene);
 
+        this._lastTime = window.performance.now();
         window.addEventListener('resize', () => this._engine.resize());
         this._engine.runRenderLoop(() => this._renderLoop(scene, StateManager.getInstance()));
+
+        document.addEventListener('visibilitychange', () => this._handleVisibilityChange());
+    }
+
+    /**
+     * Handles browser visibility change events to maintain accurate timing.
+     */
+    private _handleVisibilityChange(): void {
+        if (document.visibilityState === 'visible') {
+            // Reset the last recorded time when the tab becomes visible
+            this._lastTime = window.performance.now();
+        }
     }
 
     /**
@@ -31,9 +46,15 @@ class App {
      * @param {StateManager} stateManager - The state manager of the application.
      */
     private _renderLoop(scene: Scene, stateManager: StateManager): void {
-        const deltaTime = this._engine.getDeltaTime() / 1000.0;
-        stateManager.currentState.animate(deltaTime);
-        scene.render();
+        const currentTime = window.performance.now();
+        const deltaTime = (currentTime - this._lastTime) / 1000.0;
+        this._lastTime = currentTime;
+
+        // Check if the tab is visible before updating
+        if (document.visibilityState === 'visible') {
+            stateManager.currentState.animate(deltaTime);
+            scene.render();
+        }
     }
 
     /**

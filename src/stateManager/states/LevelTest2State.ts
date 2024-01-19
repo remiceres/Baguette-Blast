@@ -1,16 +1,16 @@
 import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
-import InteractionManager from '../../interactionManager';
-import StateInterface from '../stateInterface';
-import StateManager from '../stateManager';
+import InteractionManager from '../../InteractionManager';
+import StateInterface from '../StateInterface';
+import StateManager from '../StateManager';
 
 /**
- * Represents the first level test state of the application.
+ * Represents the second level test state of the application.
  * It handles the initialization, disposal, and animation of the scene's level test elements.
  */
-class LevelTest1State implements StateInterface {
+class LevelTest2State implements StateInterface {
     private _scene: Scene;
-    private light1: HemisphericLight;
-    private cubeMenu: Mesh;
+    private _light1: HemisphericLight;
+    private _cubeMenu: Mesh;
 
     /**
      * Initializes the level test state with the given scene.
@@ -19,11 +19,11 @@ class LevelTest1State implements StateInterface {
      */
     public async init(scene: Scene): Promise<void> {
         this._scene = scene;
-        this.light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
+        this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
 
-        this.cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
-        this.cubeMenu.position = new Vector3(0, -2, 0);
-        InteractionManager.setupMeshInteraction(scene, this.cubeMenu, () => {
+        this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
+        this._cubeMenu.position = new Vector3(0, -2, 0);
+        InteractionManager.setupMeshInteraction(scene, this._cubeMenu, () => {
             StateManager.getInstance().changeState('Menu');
         });
 
@@ -34,14 +34,17 @@ class LevelTest1State implements StateInterface {
      * Disposes of resources used by the level test state.
      */
     public dispose(): void {
-        this.light1.dispose();
-        this.cubeMenu.dispose();
+        this._light1.dispose();
+        this._cubeMenu.dispose();
     }
 
     /**
      * Animates the level test state elements. (Empty implementation if no animation is required)
      */
-    public animate(): void {}
+    public animate(deltaTime: number): void {
+        // Empty implementation if no animation is required
+        deltaTime;
+    }
 }
 
-export default LevelTest1State;
+export default LevelTest2State;
