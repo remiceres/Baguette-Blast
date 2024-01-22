@@ -8,6 +8,10 @@ import { WalkingBehavior } from '../../enemy/models/Walking/WalkingBehavior';
 import { EnemyView } from '../../enemy/views/EnemyView';
 import StateInterface from '../StateInterface';
 import StateManager from '../StateManager';
+import InputManager from '../../player/controllers/InputManager';
+import PlayerModel from '../../player/models/PlayerModel';
+import PlayerView from '../../player/views/PlayerView';
+import PlayerController from '../../player/controllers/PlayerController';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -22,8 +26,13 @@ class LevelTest1State implements StateInterface {
     private _walkingEnemyController: EnemyController;
     private _seekingEnemyController: EnemyController;
 
+    private _playerModel: PlayerModel;
+    private _playerView: PlayerView;
+    private _playerController: PlayerController;
+    private _inputManager: InputManager;
+
     /**
-     * Initializes the level test state with the given scene and sets up enemies.
+     * Initializes the level test state with the given scene.
      * @param {Scene} scene - The Babylon.js scene for the level.
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
@@ -32,6 +41,7 @@ class LevelTest1State implements StateInterface {
         this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
 
         this._setupMenuCube();
+        this._initializePlayer();
         this._createEnemies();
 
         return Promise.resolve();
@@ -49,6 +59,16 @@ class LevelTest1State implements StateInterface {
     }
 
     /**
+     * Initializes the player with its model, view, and controller.
+     */
+    private _initializePlayer(): void {
+        this._playerModel = new PlayerModel();
+        this._playerView = new PlayerView(this._scene, this._playerModel); // Pass the PlayerModel here
+        this._playerController = new PlayerController(this._playerModel, this._playerView);
+        this._inputManager = new InputManager(this._playerModel, this._scene);
+    }    
+
+    /**
      * Creates and initializes enemies with their respective behaviors and views.
      */
     private _createEnemies(): void {
@@ -58,7 +78,7 @@ class LevelTest1State implements StateInterface {
             new Vector3(0, 10, 0),
             1,
             100,
-            new FlyingBehavior(this._scene.activeCamera.position)
+            new FlyingBehavior(this._playerModel)
         );
         const flyingEnemyView = new EnemyView(flyingEnemyModel, this._scene, Color3.Blue());
         this._flyingEnemyController = new EnemyController(flyingEnemyModel, flyingEnemyView);
@@ -80,7 +100,7 @@ class LevelTest1State implements StateInterface {
             new Vector3(0, 0, 0),
             3,
             100,
-            new WalkingBehavior(this._scene.activeCamera.position)
+            new WalkingBehavior(this._playerModel)
         );
         const walkingEnemyView = new EnemyView(walkingEnemyModel, this._scene, Color3.Red());
         this._walkingEnemyController = new EnemyController(walkingEnemyModel, walkingEnemyView);
@@ -95,6 +115,8 @@ class LevelTest1State implements StateInterface {
         this._flyingEnemyController.dispose();
         this._seekingEnemyController.dispose();
         this._walkingEnemyController.dispose();
+        this._playerController.dispose();
+        this._playerView.dispose();
     }
 
     /**
@@ -105,6 +127,8 @@ class LevelTest1State implements StateInterface {
         this._flyingEnemyController.animate(deltaTime);
         this._seekingEnemyController.animate(deltaTime);
         this._walkingEnemyController.animate(deltaTime);
+        this._inputManager.update(deltaTime); // Updating the input manager
+        // this._playerView.update(); // Updating the player view to reflect any changes
     }
 }
 
