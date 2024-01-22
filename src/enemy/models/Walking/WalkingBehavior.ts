@@ -1,23 +1,24 @@
 import { EnemyModel } from '../EnemyModel';
 import { EnemyBehavior } from '../EnemyBehavior';
-import { Vector3 } from '@babylonjs/core';
+import PlayerModel from '../../../player/models/PlayerModel';
+// import { Vector3 } from '@babylonjs/core';
 
 /**
  * Implements walking and seeking behavior for enemies.
  * Controls the horizontal movement of enemies, making them move left and right within a defined range,
- * and also moves them towards a specified target position.
+ * and also moves them towards a specified target player.
  */
 class WalkingBehavior implements EnemyBehavior {
     private _movingRight: boolean = true;
     private _maxDistance: number = 10; // Maximum distance to the right
     private _minDistance: number = -10; // Minimum distance to the left
-    private _targetPosition: Vector3; // The target to seek
+    private _targetPosition: PlayerModel; // The player to seek
 
     /**
      * Constructs a WalkingSeekingBehavior with a specified target.
-     * @param {Vector3} target - The target enemy model that this behavior will seek.
+     * @param {PlayerModel} target - The target enemy model that this behavior will seek.
      */
-    constructor(targetPosition: Vector3) {
+    constructor(targetPosition: PlayerModel) {
         this._targetPosition = targetPosition;
     }
 
@@ -45,7 +46,8 @@ class WalkingBehavior implements EnemyBehavior {
 
         // Vertical or depth movement towards the target
         const verticalOrDepthSpeed = speed / 2; // Adjust speed for seeking behavior
-        const desiredVelocityZ = this._targetPosition.z - currentPosition.z;
+        // const desiredVelocityZ = this._targetPosition.z - currentPosition.z;
+        const desiredVelocityZ = this._targetPosition.position.z - currentPosition.z;
         currentPosition.z += Math.sign(desiredVelocityZ) * verticalOrDepthSpeed * deltaTime;
 
         model.setPosition(currentPosition);
