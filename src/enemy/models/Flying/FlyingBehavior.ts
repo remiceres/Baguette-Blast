@@ -1,14 +1,25 @@
 import { EnemyModel } from '../EnemyModel';
 import { EnemyBehavior } from '../EnemyBehavior';
+import { Vector3 } from '@babylonjs/core';
 
 /**
  * Implements flying behavior for enemies.
- * Controls the vertical movement of enemies, making them ascend and descend within a defined range.
+ * Controls the vertical movement of enemies, making them ascend and descend within a defined range,
+ * and also moves them horizontally towards a specified target position.
  */
 class FlyingBehavior implements EnemyBehavior {
     private _ascending: boolean = true;
     private _maxHeight: number = 10; // Maximum altitude
     private _minHeight: number = 5; // Minimum altitude
+    private _targetPosition: Vector3; // The target position to seek
+
+    /**
+     * Constructs a FlyingBehavior with a specified target position.
+     * @param {Vector3} targetPosition - The target position that this behavior will seek.
+     */
+    constructor(targetPosition: Vector3) {
+        this._targetPosition = targetPosition;
+    }
 
     /**
      * Animates the enemy model with flying behavior.
@@ -19,7 +30,7 @@ class FlyingBehavior implements EnemyBehavior {
         const currentPosition = model.getPosition();
         const speed = model.getSpeed();
 
-        // Adjust the y-position based on ascending or descending status
+        // Vertical movement (ascend and descend)
         if (this._ascending) {
             currentPosition.y += speed * deltaTime;
             if (currentPosition.y >= this._maxHeight) {
@@ -31,6 +42,13 @@ class FlyingBehavior implements EnemyBehavior {
                 this._ascending = true; // Switch to ascending
             }
         }
+
+        // Horizontal movement towards the target
+        const horizontalSpeed = speed / 2; // Adjust speed for horizontal movement
+        const desiredVelocityX = this._targetPosition.x - currentPosition.x;
+        const desiredVelocityZ = this._targetPosition.z - currentPosition.z;
+        currentPosition.x += Math.sign(desiredVelocityX) * horizontalSpeed * deltaTime;
+        currentPosition.z += Math.sign(desiredVelocityZ) * horizontalSpeed * deltaTime;
 
         model.setPosition(currentPosition);
     }

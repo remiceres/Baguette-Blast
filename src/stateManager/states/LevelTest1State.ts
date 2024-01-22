@@ -58,7 +58,7 @@ class LevelTest1State implements StateInterface {
             new Vector3(0, 10, 0),
             1,
             100,
-            new FlyingBehavior()
+            new FlyingBehavior(this._scene.activeCamera.position)
         );
         const flyingEnemyView = new EnemyView(flyingEnemyModel, this._scene, Color3.Blue());
         this._flyingEnemyController = new EnemyController(flyingEnemyModel, flyingEnemyView);
@@ -80,7 +80,7 @@ class LevelTest1State implements StateInterface {
             new Vector3(0, 0, 0),
             3,
             100,
-            new WalkingBehavior()
+            new WalkingBehavior(this._scene.activeCamera.position)
         );
         const walkingEnemyView = new EnemyView(walkingEnemyModel, this._scene, Color3.Red());
         this._walkingEnemyController = new EnemyController(walkingEnemyModel, walkingEnemyView);
