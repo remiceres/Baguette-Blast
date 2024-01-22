@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { realpathSync } = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { resolve: _resolve } = require('path');
@@ -7,7 +8,7 @@ const appDirectory = realpathSync(process.cwd());
 
 const entry = _resolve(appDirectory, 'src/App.ts');
 const output = {
-    filename: 'js/bundleName.js', //name for the js file that is created/compiled in memory
+    filename: 'js/bundleName.js',
     clean: true,
 };
 const resolve = {
@@ -15,12 +16,18 @@ const resolve = {
 };
 const devServer = {
     host: '0.0.0.0',
-    port: 8080, //port that we're using for local host (localhost:8080)
-    static: _resolve(appDirectory, 'public'), //tells webpack to serve from the public folder
+    port: process.env.HTTPS ? 8443 : 8080,
+    static: _resolve(appDirectory, 'public'),
     hot: true,
     devMiddleware: {
         publicPath: '/',
     },
+    https: process.env.HTTPS
+        ? {
+            key: fs.readFileSync(_resolve(appDirectory, 'key.pem')),
+            cert: fs.readFileSync(_resolve(appDirectory, 'cert.pem')),
+        }
+        : false,
 };
 const moduleRules = {
     rules: [

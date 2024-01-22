@@ -2,6 +2,7 @@ import { Engine, Scene } from '@babylonjs/core';
 import '@babylonjs/inspector';
 import CameraManager from './CameraManager';
 import StateManager from './stateManager/StateManager';
+import XRHandler from './XRHandler';
 
 /**
  * The main application class for initializing and running the Babylon.js scene.
@@ -19,7 +20,8 @@ class App {
         this._engine = new Engine(canvas, true);
         const scene = new Scene(this._engine);
 
-        this._initInspector(scene);
+        // this._initInspector(scene);
+        this._initXR(scene);
         this._initializeCamera(scene);
         this._initializeStateManager(scene);
 
@@ -68,6 +70,15 @@ class App {
         canvas.id = 'gameCanvas';
         document.body.appendChild(canvas);
         return canvas;
+    }
+
+    /**
+     * Initializes the WebXR experience.
+     * @param {Scene} scene - The Babylon.js scene.
+     */
+    private async _initXR(scene : Scene): Promise<void> {
+        const xr = XRHandler.getInstance();
+        await xr.initXRAsync(scene);
     }
 
     /**
