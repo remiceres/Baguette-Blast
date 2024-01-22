@@ -1,5 +1,5 @@
-import { EnemyModel } from '../models/EnemyModel';
-import { EnemyBehavior } from './EnemyBehavior';
+import { EnemyModel } from '../EnemyModel';
+import { EnemyBehavior } from '../EnemyBehavior';
 
 /**
  * Implements walking behavior for enemies.

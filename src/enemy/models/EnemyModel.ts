@@ -1,5 +1,5 @@
 import { Vector3 } from '@babylonjs/core';
-import { EnemyBehavior } from '../controllers/EnemyBehavior';
+import { EnemyBehavior } from './EnemyBehavior';
 
 /**
  * Abstract class representing the data model for an enemy, including position, speed, health, and behavior.

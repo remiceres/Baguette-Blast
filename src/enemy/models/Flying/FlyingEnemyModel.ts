@@ -1,6 +1,6 @@
 import { Vector3 } from '@babylonjs/core';
-import { EnemyBehavior } from '../controllers/EnemyBehavior';
-import { EnemyModel } from './EnemyModel';
+import { EnemyBehavior } from '../EnemyBehavior';
+import { EnemyModel } from '../EnemyModel';
 
 /**
  * Represents a flying enemy model, extending the basic enemy model with flying-specific properties.

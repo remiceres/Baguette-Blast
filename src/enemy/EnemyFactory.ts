@@ -1,8 +1,8 @@
 import { Vector3 } from '@babylonjs/core';
-import { EnemyBehavior } from './controllers/EnemyBehavior';
+import { EnemyBehavior } from './models/EnemyBehavior';
 import { EnemyModel } from './models/EnemyModel';
-import { FlyingEnemyModel } from './models/FlyingEnemyModel';
-import { WalkingEnemyModel } from './models/WalkingEnemyModel';
+import { FlyingEnemyModel } from './models/Flying/FlyingEnemyModel';
+import { WalkingEnemyModel } from './models/Walking/WalkingEnemyModel';
 
 /**
  * Factory class for creating enemy objects.

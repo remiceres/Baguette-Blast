@@ -2,9 +2,9 @@ import { Color3, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@ba
 import InteractionManager from '../../InteractionManager';
 import { EnemyFactory } from '../../enemy/EnemyFactory';
 import { EnemyController } from '../../enemy/controllers/EnemyController';
-import { FlyingBehavior } from '../../enemy/controllers/FlyingBehavior';
-import { SeekingBehavior } from '../../enemy/controllers/SeekingBehavior';
-import { WalkingBehavior } from '../../enemy/controllers/WalkingBehavior';
+import { FlyingBehavior } from '../../enemy/models/Flying/FlyingBehavior';
+import { SeekingBehavior } from '../../enemy/models/Seeking/SeekingBehavior';
+import { WalkingBehavior } from '../../enemy/models/Walking/WalkingBehavior';
 import { EnemyView } from '../../enemy/views/EnemyView';
 import StateInterface from '../StateInterface';
 import StateManager from '../StateManager';

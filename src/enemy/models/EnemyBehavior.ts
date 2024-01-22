@@ -1,4 +1,4 @@
-import { EnemyModel } from '../models/EnemyModel';
+import { EnemyModel } from './EnemyModel';
 
 /**
  * Interface for defining behavior of enemy entities.
