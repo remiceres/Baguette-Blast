@@ -1,5 +1,5 @@
 import { Scene } from '@babylonjs/core';
-import StateInterface from './StateInterface';
+import StateInterface from './states/IState';
 import LevelTest1State from './states/LevelTest1State';
 import LevelTest2State from './states/LevelTest2State';
 import MenuState from './states/MenuState';

@@ -6,7 +6,7 @@ import { FlyingBehavior } from '../../enemy/models/Flying/FlyingBehavior';
 import { SeekingBehavior } from '../../enemy/models/Seeking/SeekingBehavior';
 import { WalkingBehavior } from '../../enemy/models/Walking/WalkingBehavior';
 import { EnemyView } from '../../enemy/views/EnemyView';
-import StateInterface from '../StateInterface';
+import StateInterface from './IState';
 import StateManager from '../StateManager';
 import InputManager from '../../player/controllers/InputManager';
 import PlayerModel from '../../player/models/PlayerModel';

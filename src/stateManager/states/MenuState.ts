@@ -1,6 +1,6 @@
 import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import InteractionManager from '../../InteractionManager';
-import StateInterface from '../StateInterface';
+import StateInterface from './IState';
 import StateManager from '../StateManager';
 
 /**
