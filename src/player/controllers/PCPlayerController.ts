@@ -1,4 +1,4 @@
-import { Vector3, Scene, ActionManager, ExecuteCodeAction } from '@babylonjs/core';
+import { ActionManager, ExecuteCodeAction, Scene, Vector3 } from '@babylonjs/core';
 import PlayerModel from '../models/PlayerModel';
 
 class PCPlayerController {
@@ -22,13 +22,17 @@ class PCPlayerController {
 
         // Mapping keys to movement directions
         const inputMap: { [key: string]: boolean } = {};
-        this._scene.actionManager.registerAction(new ExecuteCodeAction(ActionManager.OnKeyDownTrigger, (evt) => {
-            console.log('Key Down: ' + evt.sourceEvent.key); // Add this line
-            inputMap[evt.sourceEvent.key] = evt.sourceEvent.type === 'keydown';
-        }));        
-        this._scene.actionManager.registerAction(new ExecuteCodeAction(ActionManager.OnKeyUpTrigger, (evt) => {
-            inputMap[evt.sourceEvent.key] = evt.sourceEvent.type === 'keydown';
-        }));
+        this._scene.actionManager.registerAction(
+            new ExecuteCodeAction(ActionManager.OnKeyDownTrigger, (evt) => {
+                console.log('Key Down: ' + evt.sourceEvent.key); // Add this line
+                inputMap[evt.sourceEvent.key] = evt.sourceEvent.type === 'keydown';
+            })
+        );
+        this._scene.actionManager.registerAction(
+            new ExecuteCodeAction(ActionManager.OnKeyUpTrigger, (evt) => {
+                inputMap[evt.sourceEvent.key] = evt.sourceEvent.type === 'keydown';
+            })
+        );
 
         // Update model position based on input
         this._scene.onBeforeRenderObservable.add(() => {
@@ -55,8 +59,6 @@ class PCPlayerController {
                     )
                 )
             );
-            console.log('Delta Position: ', deltaPosition.toString()); // Add this line
-            console.log(this._model.position.toString()); // Add this line
         });
     }
 

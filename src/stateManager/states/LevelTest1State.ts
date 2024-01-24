@@ -1,4 +1,5 @@
 import { Color3, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import Game from '../../Game';
 import InteractionManager from '../../InteractionManager';
 import { EnemyFactory } from '../../enemy/EnemyFactory';
 import { EnemyController } from '../../enemy/controllers/EnemyController';
@@ -6,12 +7,12 @@ import { FlyingBehavior } from '../../enemy/models/Flying/FlyingBehavior';
 import { SeekingBehavior } from '../../enemy/models/Seeking/SeekingBehavior';
 import { WalkingBehavior } from '../../enemy/models/Walking/WalkingBehavior';
 import { EnemyView } from '../../enemy/views/EnemyView';
-import StateInterface from './IState';
-import StateManager from '../StateManager';
 import InputManager from '../../player/controllers/InputManager';
+import PlayerController from '../../player/controllers/PlayerController';
 import PlayerModel from '../../player/models/PlayerModel';
 import PlayerView from '../../player/views/PlayerView';
-import PlayerController from '../../player/controllers/PlayerController';
+import State from '../EnumState';
+import StateInterface from './IState';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -54,7 +55,7 @@ class LevelTest1State implements StateInterface {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, this._scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
         InteractionManager.setupMeshInteraction(this._scene, this._cubeMenu, () => {
-            StateManager.getInstance().changeState('Menu');
+            Game.instance.stateManager.changeState(State.Menu);
         });
     }
 
@@ -66,7 +67,7 @@ class LevelTest1State implements StateInterface {
         this._playerView = new PlayerView(this._scene, this._playerModel); // Pass the PlayerModel here
         this._playerController = new PlayerController(this._playerModel, this._playerView);
         this._inputManager = new InputManager(this._playerModel, this._scene);
-    }    
+    }
 
     /**
      * Creates and initializes enemies with their respective behaviors and views.

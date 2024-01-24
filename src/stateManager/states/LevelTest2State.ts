@@ -1,7 +1,8 @@
 import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import Game from '../../Game';
 import InteractionManager from '../../InteractionManager';
+import State from '../EnumState';
 import StateInterface from './IState';
-import StateManager from '../StateManager';
 
 /**
  * Represents the second level test state of the application.
@@ -24,7 +25,7 @@ class LevelTest2State implements StateInterface {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
         InteractionManager.setupMeshInteraction(scene, this._cubeMenu, () => {
-            StateManager.getInstance().changeState('Menu');
+            Game.instance.stateManager.changeState(State.Menu);
         });
 
         return Promise.resolve();
