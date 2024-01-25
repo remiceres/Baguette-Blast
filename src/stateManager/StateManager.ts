@@ -26,6 +26,7 @@ class StateManager {
             [State.LevelTest2, new LevelTest2State()],
         ]);
         this._currentState = this._states.get(initialState);
+        this._currentState.init(this._scene);
     }
 
     /**
@@ -46,6 +47,7 @@ class StateManager {
         }
 
         this._currentState = this._states.get(State);
+        this._currentState.init(this._scene);
     }
 }
 
