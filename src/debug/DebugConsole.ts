@@ -30,7 +30,7 @@ export default class DebugConsole {
     private _initializeDebugPanel(): void {
         // Create a plane for the debug panel
         this._plane = MeshBuilder.CreatePlane('debugPanel', { width: 1, height: 0.25 }, this._scene);
-        this._plane.isVisible = false;
+        this._plane.isVisible = true;
 
         // Setting up the advanced texture
         const advancedTexture = AdvancedDynamicTexture.CreateForMesh(this._plane, 1024, 256, true);
@@ -83,6 +83,6 @@ export default class DebugConsole {
      * @param {string} message - The message to log.
      */
     public log(message: string): void {
-        this._log += message + '\n';
+        this._log = message + '\n';
     }
 }
