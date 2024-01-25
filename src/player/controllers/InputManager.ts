@@ -34,6 +34,9 @@ class InputManager {
         }
     }    
 
+    dispose() {
+        throw new Error('Method not implemented.');
+    }
     // Additional methods to handle specific input events can be added here
 }
 
