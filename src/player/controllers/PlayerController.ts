@@ -28,8 +28,9 @@ class PlayerController {
     }
 
     public dispose(): void {
-        // Implement cleanup logic here
-        // For example, remove event listeners or nullify references
+        // TODO: Dispose model?
+        // Dispose view and other resources
+        this._view.dispose();       
     }
 
     // Additional methods for input handling can be added here
