@@ -1,5 +1,6 @@
 import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
 import CameraManager from './CameraManager';
+import DebugConsole from './debug/DebugConsole';
 import State from './stateManager/EnumState';
 import StateManager from './stateManager/StateManager';
 
@@ -18,8 +19,8 @@ class Game {
 
     // @todo I will add controllerManager later
 
-    // @todo I will add debugManager later
-    
+    private _debugConsole: DebugConsole;
+
     /////////////////
     // Constructor //
     /////////////////
@@ -32,8 +33,9 @@ class Game {
         this._initializeXR(this._scene);
 
         this._cameraManager = this._initializeCamera(this._scene);
+        this._debugConsole = new DebugConsole(this._scene);
 
-        this._render(this._scene, this._stateManager);
+        this._render(this._scene, this._stateManager, this._debugConsole);
     }
 
     public static init(canvas: HTMLCanvasElement): Game {
@@ -90,7 +92,7 @@ class Game {
     // Render //
     ////////////
 
-    private _render(scene: Scene, stateManager: StateManager): void {
+    private _render(scene: Scene, stateManager: StateManager, debugConsole: DebugConsole): void {
         let curentTime = window.performance.now();
         let lastTime = curentTime;
         let deltaTime = (curentTime - lastTime) / 1000.0;
@@ -108,6 +110,7 @@ class Game {
 
             if (document.visibilityState === 'visible') {
                 stateManager.currentState.animate(deltaTime);
+                debugConsole.update(this._engine.getFps().toFixed() + ' fps');
                 scene.render();
             }
         });

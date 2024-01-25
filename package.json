@@ -11,6 +11,7 @@
     "license": "ISC",
     "devDependencies": {
         "@babylonjs/core": "^6.38.0",
+        "@babylonjs/gui": "^6.40.0",
         "@babylonjs/inspector": "^6.38.0",
         "@typescript-eslint/eslint-plugin": "^6.19.0",
         "@typescript-eslint/parser": "^6.19.0",
