@@ -1,29 +1,10 @@
 import { ArcRotateCamera, Scene, Vector3 } from '@babylonjs/core';
 
-/**
- * CameraManager is a singleton class responsible for managing cameras in a Babylon.js scene.
- */
 class CameraManager {
-    private static _instance: CameraManager = new CameraManager();
     private _scene: Scene;
     private _arcRotateCamera: ArcRotateCamera;
 
-    // Private constructor to enforce singleton pattern
-    private constructor() {}
-
-    /**
-     * Retrieves the singleton instance of CameraManager.
-     * @returns {CameraManager} The singleton instance of the CameraManager.
-     */
-    public static getInstance(): CameraManager {
-        return CameraManager._instance;
-    }
-
-    /**
-     * Sets the scene for which the camera is to be managed.
-     * @param {Scene} scene - The Babylon.js scene.
-     */
-    public setScene(scene: Scene): void {
+    public constructor(scene: Scene) {
         this._scene = scene;
     }
 

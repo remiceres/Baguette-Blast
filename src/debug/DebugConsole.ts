@@ -2,6 +2,8 @@ import { Axis, Mesh, MeshBuilder, Scene, Space, Vector3 } from '@babylonjs/core'
 import { AdvancedDynamicTexture } from '@babylonjs/gui/2D/advancedDynamicTexture';
 import { Rectangle } from '@babylonjs/gui/2D/controls/rectangle';
 import { TextBlock } from '@babylonjs/gui/2D/controls/textBlock';
+import Game from '../Game';
+import InputManager from '../inputs/InputManager';
 
 /**
  * Class representing a debug console within a Babylon.js scene.
@@ -12,6 +14,7 @@ export default class DebugConsole {
     private _plane: Mesh;
     private _debugPanel: TextBlock;
     private _scene: Scene;
+    private _inputManager: InputManager;
 
     /**
      * Constructor for the DebugConsole class.
@@ -21,6 +24,7 @@ export default class DebugConsole {
         this._scene = scene;
         this._log = '';
         this._initializeDebugPanel();
+        this._inputManager = Game.instance.inputManager;
     }
 
     /**
@@ -30,7 +34,7 @@ export default class DebugConsole {
     private _initializeDebugPanel(): void {
         // Create a plane for the debug panel
         this._plane = MeshBuilder.CreatePlane('debugPanel', { width: 1, height: 0.25 }, this._scene);
-        this._plane.isVisible = true;
+        this._plane.isVisible = false;
 
         // Setting up the advanced texture
         const advancedTexture = AdvancedDynamicTexture.CreateForMesh(this._plane, 1024, 256, true);
@@ -54,11 +58,78 @@ export default class DebugConsole {
     }
 
     /**
+     * Returns a string containing the current input state.
+     * @returns {string} A string containing the current input state.
+     */
+    private _inputController(): string {
+        let result = '';
+        const inputManager = Game.instance.inputManager;
+
+        if (inputManager.leftTrigger.pressed) {
+            result += 'Left Trigger Pressed value: ' + inputManager.leftTrigger.value + '\n';
+        }
+
+        if (inputManager.rightTrigger.pressed) {
+            result += 'Right Trigger Pressed value: ' + inputManager.rightTrigger.value + '\n';
+        }
+
+        if (inputManager.leftGrip.pressed) {
+            result += 'Left Grip Pressed value: ' + inputManager.leftGrip.value + '\n';
+        }
+
+        if (inputManager.rightGrip.pressed) {
+            result += 'Right Grip Pressed value: ' + inputManager.rightGrip.value + '\n';
+        }
+
+        if (inputManager.leftPrimary.pressed) {
+            result += 'Left Primary Pressed\n';
+        }
+
+        if (inputManager.rightPrimary.pressed) {
+            result += 'Right Primary Pressed\n';
+        }
+
+        if (inputManager.leftSecondary.pressed) {
+            result += 'Left Secondary Pressed\n';
+        }
+
+        if (inputManager.rightSecondary.pressed) {
+            result += 'Right Secondary Pressed\n';
+        }
+
+        if (inputManager.leftThumbstick.pressed) {
+            result +=
+                'Left Thumbstick Pressed x: ' +
+                inputManager.leftThumbstick.x +
+                ' y: ' +
+                inputManager.leftThumbstick.y +
+                '\n';
+        }
+
+        if (inputManager.rightThumbstick.pressed) {
+            result +=
+                'Right Thumbstick Pressed x: ' +
+                inputManager.rightThumbstick.x +
+                ' y: ' +
+                inputManager.rightThumbstick.y +
+                '\n';
+        }
+
+        return result;
+    }
+
+    /**
      * Updates the debug panel with new information.
      * @param {string} fps - The current frames per second to display.
      */
     public update(fps: string): void {
-        this._debugPanel.text = `Debug Info\n${fps}\n\n${this._log}`;
+        this._toggleDebug();
+
+        if (!this._plane.isVisible) {
+            return;
+        }
+
+        this._debugPanel.text = `Debug Info\n${fps}\n${this._inputController()}\n${this._log}`;
 
         // Update the position of the debug panel
         const camera = this._scene.activeCamera;
@@ -72,10 +143,23 @@ export default class DebugConsole {
     }
 
     /**
-     * Toggles the visibility of the debug panel.
+     * Tracks whether the left primary button is pressed.
      */
-    public toggleDebug(): void {
-        this._plane.isVisible = !this._plane.isVisible;
+    private _continuePressed: boolean = false;
+
+    /**
+     * Toggles the debug panel's visibility when the left primary button is pressed.
+     */
+    private _toggleDebug(): void {
+
+        const primaryPressed : boolean = this._inputManager.leftPrimary.pressed;
+        const isVisible : boolean = this._plane.isVisible;
+
+        if (primaryPressed && !this._continuePressed) {
+            this._plane.isVisible = !isVisible;
+        }
+
+        this._continuePressed = primaryPressed;
     }
 
     /**
