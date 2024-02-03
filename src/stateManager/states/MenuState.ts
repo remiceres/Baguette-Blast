@@ -1,6 +1,6 @@
 import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
-import InteractionManager from '../../InteractionManager';
+import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './IState';
 
@@ -39,13 +39,13 @@ class MenuState implements StateInterface {
     private _setupInteractiveCubes(scene: Scene): void {
         this._cubelevel1 = MeshBuilder.CreateBox('cubelevel1', { size: 1 }, scene);
         this._cubelevel1.position = new Vector3(-2, 0, 0);
-        InteractionManager.setupMeshInteraction(scene, this._cubelevel1, () => {
+        Buttons.clickable(scene, this._cubelevel1, () => {
             Game.instance.stateManager.changeState(State.LevelTest1);
         });
 
         this._cubelevel2 = MeshBuilder.CreateBox('cubelevel2', { size: 1 }, scene);
         this._cubelevel2.position = new Vector3(2, 0, 0);
-        InteractionManager.setupMeshInteraction(scene, this._cubelevel2, () => {
+        Buttons.clickable(scene, this._cubelevel2, () => {
             Game.instance.stateManager.changeState(State.LevelTest2);
         });
     }
