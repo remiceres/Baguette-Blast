@@ -46,12 +46,13 @@ class Game {
      * @param canvas The HTML canvas element to render the game on.
      */
     private constructor(canvas: HTMLCanvasElement) {
-        this._engine = this._initializeEngine(canvas);
+        this._engine = new Engine(canvas, true);
+        window.addEventListener('resize', () => this._engine.resize());
         this._scene = new Scene(this._engine);
-        this._cameraManager = this._initializeCamera(this._scene);
 
         this._initializeXR(this._scene).then(() => {
             this._inputManager = this._supportedVR ? new QuestInput(this._xr) : new KeyboardInput();
+            this._cameraManager = new CameraManager(this._scene, this._supportedVR);
             this._stateManager = new StateManager(this._scene, State.Menu);
             this._debugConsole = new DebugConsole(this._scene);
 
@@ -84,17 +85,6 @@ class Game {
     }
 
     /**
-     * Initializes the Babylon.js engine.
-     * @param canvas The HTML canvas element for the engine.
-     * @returns The initialized engine.
-     */
-    private _initializeEngine(canvas: HTMLCanvasElement): Engine {
-        const engine = new Engine(canvas, true);
-        window.addEventListener('resize', () => engine.resize());
-        return engine;
-    }
-
-    /**
      * Initializes the XR experience for VR support.
      * @param scene The Babylon.js scene.
      * @returns A promise that resolves when the XR experience is initialized.
@@ -105,17 +95,6 @@ class Game {
         if (this._supportedVR) {
             this._xr = await scene.createDefaultXRExperienceAsync({});
         }
-    }
-
-    /**
-     * Initializes the camera within the scene.
-     * @param scene The Babylon.js scene.
-     * @returns The initialized camera manager.
-     */
-    private _initializeCamera(scene: Scene): CameraManager {
-        const cameraManager = new CameraManager(scene);
-        cameraManager.createCamera();
-        return cameraManager;
     }
 
     /**
@@ -138,6 +117,7 @@ class Game {
             if (document.visibilityState === 'visible') {
                 this._stateManager.currentState.animate(deltaTime);
                 this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
+                this._cameraManager.update();
                 this._scene.render();
             }
         });
