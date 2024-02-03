@@ -10,6 +10,9 @@ import State from '../EnumState';
 import StateInterface from './IState';
 import { PlayerInitializer } from './PlayerInitializer';
 import { EnemyInitializer } from './EnemyInitializer';
+import { WeaponModel } from '../../weapon/models/WeaponModel';
+import { WeaponView } from '../../weapon/views/WeaponView';
+import { WeaponController } from '../../weapon/controllers/WeaponController';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -28,6 +31,10 @@ class LevelTest1State implements StateInterface {
     private _playerView: PlayerView;
     private _playerController: PlayerController;
     private _inputManager: InputManager;
+
+    private _weaponModel: WeaponModel;
+    private _weaponView: WeaponView;
+    private _weaponController: WeaponController;
 
     /**
      * Initializes the level test state with the given scene.
@@ -50,6 +57,15 @@ class LevelTest1State implements StateInterface {
         this._flyingEnemyController = enemies.flyingEnemyController;
         this._seekingEnemyController = enemies.seekingEnemyController;
         this._walkingEnemyController = enemies.walkingEnemyController;
+
+        // Initialize weapon components
+        const weaponInitialPosition = playerModel.position.add(new Vector3(0, 0, 1));
+        this._weaponModel = new WeaponModel(weaponInitialPosition);
+        this._weaponView = new WeaponView(scene);
+        this._weaponController = new WeaponController(this._weaponModel, this._weaponView);
+
+        // Example of firing the weapon
+        this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
 
         return Promise.resolve();
     }
@@ -98,6 +114,9 @@ class LevelTest1State implements StateInterface {
         // Update input manager and player controller
         this._inputManager?.update(deltaTime);
         this._playerController?.update(deltaTime); // If playerController has an update method
+
+        // Update weapon controller
+        this._weaponController?.update(deltaTime);
     }
 }
 
