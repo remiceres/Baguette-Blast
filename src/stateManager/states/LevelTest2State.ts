@@ -1,4 +1,4 @@
-import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
@@ -12,6 +12,7 @@ class LevelTest2State implements StateInterface {
     private _scene: Scene;
     private _light1: HemisphericLight;
     private _cubeMenu: Mesh;
+    private _assetManager: AssetsManager;
 
     /**
      * Initializes the level test state with the given scene.
@@ -21,6 +22,10 @@ class LevelTest2State implements StateInterface {
     public async init(scene: Scene): Promise<void> {
         this._scene = scene;
         this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
+        this._assetManager = new AssetsManager(this._scene);
+
+        await this._assetManager.addMeshTask('scene', '', '', 'Environment.glb');
+        this._assetManager.load();
 
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
@@ -38,6 +43,7 @@ class LevelTest2State implements StateInterface {
         this._light1.dispose();
         this._cubeMenu.dispose();
     }
+    
 
     /**
      * Animates the level test state elements. (Empty implementation if no animation is required)
