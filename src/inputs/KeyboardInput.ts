@@ -94,6 +94,25 @@ class KeyboardInput extends InputManager {
         if (event.key === 'z') this.setTrigger('left', false, 0);
         if (event.key === 'c') this.setTrigger('right', false, 0);
     }
+
+    public setControllerVisibility(visible: boolean, controllerSide: 'left' | 'right' | 'both'): void {
+        // No-op
+        visible;
+        controllerSide;
+    }
+
+    public vibrateController(
+        handedness: 'left' | 'right' | 'both',
+        intensity: number,
+        duration: number,
+        timeout: number
+    ): void {
+        // No-op
+        handedness;
+        intensity;
+        duration;
+        timeout;
+    }
 }
 
 export default KeyboardInput;

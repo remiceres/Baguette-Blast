@@ -43,7 +43,9 @@ class LevelTest2State implements StateInterface {
         this._light1.dispose();
         this._cubeMenu.dispose();
     }
-    
+
+    private _isRightControllerVisible: boolean = true;
+    private _secondaryButtonPressed: boolean = false;
 
     /**
      * Animates the level test state elements. (Empty implementation if no animation is required)
@@ -51,6 +53,23 @@ class LevelTest2State implements StateInterface {
     public animate(deltaTime: number): void {
         // Empty implementation if no animation is required
         deltaTime;
+
+        // Vibrate if push right primary
+        if (Game.instance.inputManager.rightPrimary.pressed) {
+            Game.instance.inputManager.vibrateController('both', 0.5, 100, 5);
+        }
+
+        // Toogle right controller visibility if push right secondary
+        if (Game.instance.inputManager.rightSecondary.pressed && !this._secondaryButtonPressed) {
+            this._isRightControllerVisible = !this._isRightControllerVisible;
+            Game.instance.inputManager.setControllerVisibility(this._isRightControllerVisible, 'right');
+
+            this._secondaryButtonPressed = true;
+        }
+
+        if (!Game.instance.inputManager.rightSecondary.pressed) {
+            this._secondaryButtonPressed = false;
+        }
     }
 }
 

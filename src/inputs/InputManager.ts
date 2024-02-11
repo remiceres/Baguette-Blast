@@ -147,6 +147,27 @@ abstract class InputManager {
     public get rightThumbstick(): { pressed: boolean; x: number; y: number } {
         return this._rightThumbstick;
     }
+
+    /**
+     * Hide or show the controllers and laser.
+     * @param visible True to show the controllers and laser, false to hide them.
+     * @param controllerSide The side of the controller to hide.
+     */
+    public abstract setControllerVisibility(visible: boolean, controllerSide: 'left' | 'right' | 'both'): void;
+
+    /**
+     * Vibrate the controllers.
+     * @param handedness witch controller to vibrate
+     * @param intensity intensity of the vibration
+     * @param duration duration of the vibration
+     * @param timeout time before the vibration
+     */
+    public abstract vibrateController(
+        handedness: 'left' | 'right' | 'both',
+        intensity: number,
+        duration: number,
+        timeout: number
+    ): void;
 }
 
 export default InputManager;
