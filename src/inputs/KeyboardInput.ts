@@ -1,3 +1,5 @@
+import { Scene, Vector3 } from '@babylonjs/core';
+import Game from '../Game';
 import InputManager from './InputManager';
 
 /**
@@ -8,8 +10,8 @@ class KeyboardInput extends InputManager {
     /**
      * Initializes a new instance of the KeyboardInput class.
      */
-    public constructor() {
-        super();
+    public constructor(scene: Scene) {
+        super(scene);
         this._initializeKeyboardInput();
     }
 
@@ -24,6 +26,17 @@ class KeyboardInput extends InputManager {
         window.addEventListener('keyup', (event) => {
             this._updateInputUpActions(event);
         });
+
+        // Attach anchor to simulate controller in front of the user.
+        const camera = Game.instance.cameraManager.playerCamera;
+
+        this._leftAnchor.parent = camera;
+        this._leftAnchor.position = new Vector3(0.5, -0.3, 1.5);
+        this._leftAnchor.rotation = new Vector3(0, 0, 0);
+
+        this._rightAnchor.parent = camera;
+        this._rightAnchor.position = new Vector3(-0.5, -0.3, 1.5);
+        this._rightAnchor.rotation = new Vector3(0, 0, 0);
     }
 
     /**

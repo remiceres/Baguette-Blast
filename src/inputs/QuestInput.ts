@@ -1,6 +1,7 @@
 import {
     AbstractMesh,
     Scene,
+    Vector3,
     WebXRAbstractMotionController,
     WebXRControllerComponent,
     WebXRDefaultExperience,
@@ -13,7 +14,6 @@ import InputManager from './InputManager';
  */
 class QuestInput extends InputManager {
     private _xr: WebXRDefaultExperience;
-    private _scene: Scene;
 
     private _leftController: WebXRAbstractMotionController;
     private _rightController: WebXRAbstractMotionController;
@@ -23,9 +23,8 @@ class QuestInput extends InputManager {
      * @param xr The WebXRDefaultExperience object.
      */
     public constructor(xr: WebXRDefaultExperience, scene: Scene) {
-        super();
+        super(scene);
         this._xr = xr;
-        this._scene = scene;
         this._initializeQuestInput();
     }
 
@@ -47,6 +46,12 @@ class QuestInput extends InputManager {
                 } else if (handedness === 'right') {
                     this._rightController = motionController;
                 }
+
+                // Attach anchor to the controller.
+                const anchor = handedness === 'left' ? this._leftAnchor : this._rightAnchor;
+                anchor.setParent(controller.grip);
+                anchor.rotation = controller.grip.rotation.clone();
+                anchor.position = new Vector3(0, 0, 0);
 
                 // Get each component of the motion controller.
                 const trigger = motionController.getComponent(triggerId);
@@ -134,6 +139,11 @@ class QuestInput extends InputManager {
         }
     }
 
+    /**
+     * Hide or show the controllers and laser.
+     * @param visible True to show the controllers and laser, false to hide them.
+     * @param controllerSide The side of the controller to hide.
+     */
     private _hideMeshWithChildren(mesh: AbstractMesh, hide: boolean) {
         mesh.isVisible = hide;
         mesh.getChildren().forEach((child) => {

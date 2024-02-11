@@ -1,4 +1,4 @@
-import { ArcRotateCamera, Scene, Vector3 } from '@babylonjs/core';
+import { ArcRotateCamera, Camera, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
 import InputManager from './inputs/InputManager';
 
@@ -26,7 +26,6 @@ class CameraManager {
     public constructor(scene: Scene, vrIsEnabled: boolean) {
         this._scene = scene;
         this._vrIsEnabled = vrIsEnabled;
-        this._inputManager = Game.instance.inputManager;
 
         this._pcCamera = new ArcRotateCamera('pcCamera', Math.PI / 2, Math.PI / 2, 10, Vector3.Zero(), scene);
         this._pcCamera.attachControl();
@@ -58,7 +57,7 @@ class CameraManager {
             return;
         }
 
-        const secondaryPressed = this._inputManager.leftSecondary.pressed;
+        const secondaryPressed = Game.instance.inputManager.leftSecondary.pressed;
         if (secondaryPressed && !this._continuePressed) {
             this._continuePressed = true;
             this._debugModeEnabled = !this._debugModeEnabled;
@@ -66,6 +65,14 @@ class CameraManager {
         } else if (!secondaryPressed) {
             this._continuePressed = false;
         }
+    }
+
+    /**
+     * Gets the active camera, which is the VR camera if VR is enabled, or the PC camera otherwise (no debug camera).
+     * @returns {Camera} The active camera, no debug camera.
+     */
+    public get playerCamera(): Camera {
+        return this._vrIsEnabled ? this._scene.activeCamera : this._pcCamera;
     }
 }
 

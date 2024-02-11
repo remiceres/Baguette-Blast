@@ -51,8 +51,10 @@ class Game {
         this._scene = new Scene(this._engine);
 
         this._initializeXR(this._scene).then(() => {
-            this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput();
             this._cameraManager = new CameraManager(this._scene, this._supportedVR);
+            this._inputManager = this._supportedVR
+                ? new QuestInput(this._xr, this._scene)
+                : new KeyboardInput(this._scene);
             this._stateManager = new StateManager(this._scene, State.Menu);
             this._debugConsole = new DebugConsole(this._scene);
 
@@ -135,6 +137,10 @@ class Game {
 
     public get inputManager(): InputManager {
         return this._inputManager;
+    }
+
+    public get cameraManager(): CameraManager {
+        return this._cameraManager;
     }
 }
 

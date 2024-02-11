@@ -1,7 +1,14 @@
+import { AbstractMesh, Mesh, MeshBuilder, Scene } from '@babylonjs/core';
+
 /**
  * The InputManager class provides access to the state of the input devices.
  */
 abstract class InputManager {
+    protected _scene: Scene;
+
+    protected _leftAnchor: Mesh;
+    protected _rightAnchor: Mesh;
+
     private _leftTrigger: { pressed: boolean; value: number };
     private _rightTrigger: { pressed: boolean; value: number };
 
@@ -20,7 +27,9 @@ abstract class InputManager {
     /**
      * Initializes a new instance of the InputManager class.
      */
-    public constructor() {
+    public constructor(scene: Scene) {
+        this._scene = scene;
+
         this._leftTrigger = { pressed: false, value: 0 };
         this._rightTrigger = { pressed: false, value: 0 };
 
@@ -35,6 +44,8 @@ abstract class InputManager {
 
         this._leftThumbstick = { pressed: false, x: 0, y: 0 };
         this._rightThumbstick = { pressed: false, x: 0, y: 0 };
+
+        this._createAnchor();
     }
 
     /**
@@ -168,6 +179,34 @@ abstract class InputManager {
         duration: number,
         timeout: number
     ): void;
+
+    /**
+     * Gets the left anchor mesh.
+     */
+    public get rightAnchor(): AbstractMesh {
+        return this._rightAnchor;
+    }
+
+    /**
+     * Gets the right anchor mesh.
+     */
+    public get leftAnchor(): AbstractMesh {
+        return this._leftAnchor;
+    }
+
+    /**
+     * Creates an anchor mesh for the given handedness.
+     * @param name The name of the anchor mesh.
+     * @returns The anchor mesh.
+     */
+    protected _createAnchor(): void {
+        for (const name of ['leftAnchor', 'rightAnchor']) {
+            const anchor = MeshBuilder.CreateBox(name, { size: 0.1 }, this._scene);
+            anchor.isVisible = true;
+            anchor.isPickable = false;
+            this[`_${name}`] = anchor;
+        }
+    }
 }
 
 export default InputManager;
