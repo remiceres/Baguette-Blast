@@ -1,0 +1,97 @@
+# Blender 3.5.1 MTL File: 'None'
+# www.blender.org
+
+newmtl Billboard_Mat.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/BillboardAds.png
+
+newmtl PolygonCity_Glass_Mat.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.285075 0.435294 0.391358
+Ks 0.500000 0.500000 0.500000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ke C:/Emissive_01.png
+map_Bump -bm 1.000000 C:/PolygonCity_Texture_Normal.png
+
+newmtl PolygonCity_Glass_Veh_Mat.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.197847 0.325490 0.324424
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl PolygonCity_Mat_01_A.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.450000
+illum 2
+map_Kd C:/PolygonCity_Texture.png
+map_Ke C:/Emissive_02 1.png
+map_d C:/PolygonCity_Texture.png
+map_Bump -bm 1.000000 C:/PolygonCity_Texture_Normal.png
+
+newmtl PolygonCity_Mat_01_B.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd C:/PolygonCity_Texture_01_B.png
+map_d C:/PolygonCity_Texture_01_B.png
+map_Bump -bm 1.000000 C:/PolygonCity_Texture_Normal.png
+
+newmtl PolygonCity_Mat_02_A.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.450000
+illum 2
+map_Kd C:/PolygonCity_Texture_02_A.png
+map_Ke C:/Emissive_01.png
+map_d C:/PolygonCity_Texture_02_A.png
+map_Bump -bm 1.000000 C:/PolygonCity_Texture_Normal.png
+
+newmtl PolygonCity_Mat_Road_01.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/PolygonCity_Road_01.png
+map_Bump -bm 1.000000 C:/PolygonCity_Road_Normal.png
+
+newmtl PolygonOffice_Material_01_A.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/PolygonOffice_Texture_01_C.png
+
+newmtl PolygonOffice_Material_Screen_02.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/PolygonOffice_Texture_Sceen_02.png
+map_Ke C:/PolygonOffice_Texture_Sceen_02.png

@@ -1,4 +1,4 @@
-import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3, StandardMaterial, Color3 } from '@babylonjs/core';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
@@ -13,6 +13,8 @@ class LevelTest2State implements StateInterface {
     private _light1: HemisphericLight;
     private _cubeMenu: Mesh;
     private _assetManager: AssetsManager;
+    private _material: StandardMaterial;
+    private _mesh: Mesh;
 
     /**
      * Initializes the level test state with the given scene.
@@ -24,7 +26,18 @@ class LevelTest2State implements StateInterface {
         this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
         this._assetManager = new AssetsManager(this._scene);
 
-        await this._assetManager.addMeshTask('scene', '', '', 'Environment.glb');
+        const meshTask = this._assetManager.addMeshTask('scene', '', '', 'Scene.obj', '');
+
+        // Callback function when the mesh is loaded
+        meshTask.onSuccess = (task) => {
+            // Create a material
+            const material = new StandardMaterial('Scene.mtl', scene); // 'scene' is your Babylon scene
+
+            // Assign the material to the mesh
+            task.loadedMeshes.forEach((mesh) => {
+                mesh.material = material;
+            });
+        };
         this._assetManager.load();
 
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
