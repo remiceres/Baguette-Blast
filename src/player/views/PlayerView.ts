@@ -1,15 +1,16 @@
-import { MeshBuilder, Scene, Vector3, Mesh, Color3, StandardMaterial } from '@babylonjs/core';
+import { MeshBuilder, Scene, Mesh, Color3, StandardMaterial } from '@babylonjs/core';
 import PlayerModel from '../models/PlayerModel';
+import Game from '../../Game';
 
 class PlayerView {
     private _playerMesh: Mesh;
     private _scene: Scene;
     private _model: PlayerModel;
 
-    constructor(scene: Scene, model: PlayerModel) {
-        this._scene = scene;
+    constructor(model: PlayerModel) {
         this._model = model;
         this._initializePlayerMesh();
+        this._scene = Game.instance.scene;
 
         model.onPositionChanged = (newPosition) => {
             this._playerMesh.position = newPosition;
@@ -19,7 +20,7 @@ class PlayerView {
     private _initializePlayerMesh(): void {
         // Create a simple box to represent the player
         this._playerMesh = MeshBuilder.CreateBox('player', { size: 1 }, this._scene);
-        this._playerMesh.position = new Vector3(0, 0, 5); // Position the player slightly away from the camera
+        this._playerMesh.parent = Game.instance.cameraManager.playerCamera;
 
         // Applying a basic color to the player mesh
         const material = new StandardMaterial('playerMaterial', this._scene);

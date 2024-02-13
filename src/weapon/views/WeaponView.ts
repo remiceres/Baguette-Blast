@@ -1,11 +1,12 @@
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import Game from '../../Game';
 
 export class WeaponView {
     private _scene: Scene;
     private _discMesh: Mesh;
 
-    constructor(scene: Scene) {
-        this._scene = scene;
+    constructor() {
+        this._scene = Game.instance.scene;
         this._discMesh = this._createDiscMesh();
     }
 

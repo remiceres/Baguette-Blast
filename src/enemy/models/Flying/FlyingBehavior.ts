@@ -1,7 +1,6 @@
 import { EnemyModel } from '../EnemyModel';
 import { EnemyBehavior } from '../EnemyBehavior';
-// import { Vector3 } from '@babylonjs/core';
-import PlayerModel from '../../../player/models/PlayerModel';
+import { Vector3 } from '@babylonjs/core';
 
 /**
  * Implements flying behavior for enemies.
@@ -12,13 +11,13 @@ class FlyingBehavior implements EnemyBehavior {
     private _ascending: boolean = true;
     private _maxHeight: number = 10; // Maximum altitude
     private _minHeight: number = 5; // Minimum altitude
-    private _targetPosition: PlayerModel; // The target player to seek
+    private _targetPosition: Vector3; // The target player to seek
 
     /**
      * Constructs a FlyingBehavior with a specified target player.
-     * @param {PlayerModel} targetPosition - The target player that this behavior will seek.
+     * @param {Vector3} targetPosition - The target player that this behavior will seek.
      */
-    constructor(targetPosition: PlayerModel) {
+    constructor(targetPosition: Vector3) {
         this._targetPosition = targetPosition;
     }
 
@@ -46,8 +45,8 @@ class FlyingBehavior implements EnemyBehavior {
 
         // Horizontal movement towards the target
         const horizontalSpeed = speed / 2; // Adjust speed for horizontal movement
-        const desiredVelocityX = this._targetPosition.position.x - currentPosition.x;
-        const desiredVelocityZ = this._targetPosition.position.z - currentPosition.z;
+        const desiredVelocityX = this._targetPosition.x - currentPosition.x;
+        const desiredVelocityZ = this._targetPosition.z - currentPosition.z;
         currentPosition.x += Math.sign(desiredVelocityX) * horizontalSpeed * deltaTime;
         currentPosition.z += Math.sign(desiredVelocityZ) * horizontalSpeed * deltaTime;
 

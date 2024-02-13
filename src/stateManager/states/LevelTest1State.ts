@@ -2,17 +2,17 @@ import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import { EnemyController } from '../../enemy/controllers/EnemyController';
-import InputManager from '../../player/controllers/InputManager';
 import PlayerController from '../../player/controllers/PlayerController';
 import PlayerModel from '../../player/models/PlayerModel';
 import PlayerView from '../../player/views/PlayerView';
 import State from '../EnumState';
 import StateInterface from './IState';
 import { PlayerInitializer } from './PlayerInitializer';
-import { EnemyInitializer } from './EnemyInitializer';
 import { WeaponModel } from '../../weapon/models/WeaponModel';
 import { WeaponView } from '../../weapon/views/WeaponView';
 import { WeaponController } from '../../weapon/controllers/WeaponController';
+import InputManager from '../../inputs/InputManager';
+import { WeaponInitializer } from './WeaponInitializer';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -48,21 +48,16 @@ class LevelTest1State implements StateInterface {
         this._setupMenuCube();
 
         // Initialize player components
-        const { playerModel, playerController, inputManager } = PlayerInitializer.initializePlayer(scene);
-        this._playerController = playerController;
-        this._inputManager = inputManager;
+        this._playerController = PlayerInitializer.initializePlayer();
+        // this._inputManager = Game.instance.inputManager;
 
         // Initialize enemies
-        const enemies = EnemyInitializer.createEnemies(scene, playerModel);
-        this._flyingEnemyController = enemies.flyingEnemyController;
-        this._seekingEnemyController = enemies.seekingEnemyController;
-        this._walkingEnemyController = enemies.walkingEnemyController;
+        // const enemies = EnemyInitializer.createEnemies(scene, playerController.position);
+        // this._flyingEnemyController = enemies.flyingEnemyController;
+        // this._seekingEnemyController = enemies.seekingEnemyController;
+        // this._walkingEnemyController = enemies.walkingEnemyController;
 
-        // Initialize weapon components
-        const weaponInitialPosition = playerModel.position.add(new Vector3(0, 0, 1));
-        this._weaponModel = new WeaponModel(weaponInitialPosition);
-        this._weaponView = new WeaponView(scene);
-        this._weaponController = new WeaponController(this._weaponModel, this._weaponView);
+        this._weaponController = WeaponInitializer.initializeWeapon(this._playerController);
 
         // Example of firing the weapon
         this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
@@ -112,7 +107,7 @@ class LevelTest1State implements StateInterface {
         this._walkingEnemyController?.animate(deltaTime);
 
         // Update input manager and player controller
-        this._inputManager?.update(deltaTime);
+        // this._inputManager?.update(deltaTime);
         this._playerController?.update(deltaTime); // If playerController has an update method
 
         // Update weapon controller
