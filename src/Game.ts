@@ -142,6 +142,10 @@ class Game {
     public get cameraManager(): CameraManager {
         return this._cameraManager;
     }
+
+    public get scene(): Scene {
+        return this._scene;
+    }
 }
 
 export default Game;

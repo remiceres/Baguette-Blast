@@ -47,7 +47,7 @@ class LevelTest1State implements StateInterface {
         this._setupMenuCube();
 
         // Initialize player components
-        this._playerController = PlayerInitializer.initializePlayer(scene);
+        this._playerController = PlayerInitializer.initializePlayer();
         // this._inputManager = Game.instance.inputManager;
 
         // Initialize enemies
