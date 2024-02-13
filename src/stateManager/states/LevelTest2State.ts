@@ -3,6 +3,7 @@ import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './IState';
+import LoadAssets from '../../LoadAssets';
 
 /**
  * Represents the second level test state of the application.
@@ -23,22 +24,12 @@ class LevelTest2State implements StateInterface {
      */
     public async init(scene: Scene): Promise<void> {
         this._scene = scene;
-        this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
-        this._assetManager = new AssetsManager(this._scene);
-
-        const meshTask = this._assetManager.addMeshTask('scene', '', '', 'Scene.obj', '');
-
-        // Callback function when the mesh is loaded
-        meshTask.onSuccess = (task) => {
-            // Create a material
-            const material = new StandardMaterial('Scene.mtl', scene); // 'scene' is your Babylon scene
-
-            // Assign the material to the mesh
-            task.loadedMeshes.forEach((mesh) => {
-                mesh.material = material;
-            });
-        };
-        this._assetManager.load();
+        this._assetManager = new AssetsManager(scene);
+        
+        LoadAssets.initLight(scene);
+        LoadAssets.initModels(scene, this._assetManager);
+        LoadAssets._dictLights.get('light1');
+        LoadAssets._dictModels.get('scene');
 
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
