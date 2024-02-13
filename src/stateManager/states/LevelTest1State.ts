@@ -12,6 +12,7 @@ import { WeaponModel } from '../../weapon/models/WeaponModel';
 import { WeaponView } from '../../weapon/views/WeaponView';
 import { WeaponController } from '../../weapon/controllers/WeaponController';
 import InputManager from '../../inputs/InputManager';
+import { WeaponInitializer } from './WeaponInitializer';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -56,14 +57,10 @@ class LevelTest1State implements StateInterface {
         // this._seekingEnemyController = enemies.seekingEnemyController;
         // this._walkingEnemyController = enemies.walkingEnemyController;
 
-        // // Initialize weapon components
-        // const weaponInitialPosition = this._playerModel.position.add(new Vector3(0, 0, 1));
-        // this._weaponModel = new WeaponModel(weaponInitialPosition);
-        // this._weaponView = new WeaponView(scene);
-        // this._weaponController = new WeaponController(this._weaponModel, this._weaponView);
+        this._weaponController = WeaponInitializer.initializeWeapon(this._playerController);
 
-        // // Example of firing the weapon
-        // this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
+        // Example of firing the weapon
+        this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
 
         return Promise.resolve();
     }
