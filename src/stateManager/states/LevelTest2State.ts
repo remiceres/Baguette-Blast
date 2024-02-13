@@ -1,4 +1,4 @@
-import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3, StandardMaterial, Color3 } from '@babylonjs/core';
+import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3, StandardMaterial } from '@babylonjs/core';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
