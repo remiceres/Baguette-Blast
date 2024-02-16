@@ -1,6 +1,8 @@
 import { Vector3 } from '@babylonjs/core';
+import { WeaponController } from '../../weapon/controllers/WeaponController';
 
 class PlayerModel {
+    weapon: WeaponController;
     position: Vector3;
     health: number;
     onPositionChanged: (newPosition: Vector3) => void;

@@ -1,38 +1,51 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import PlayerModel from '../models/PlayerModel';
 import PlayerView from '../views/PlayerView';
 import InputManager from '../../inputs/InputManager';
 import Game from '../../Game';
+import { WeaponController } from '../../weapon/controllers/WeaponController';
+import { WeaponInitializer } from '../../stateManager/states/WeaponInitializer';
+// import { WeaponInitializer } from '../../stateManager/states/WeaponInitializer';
 
 
 class PlayerController {
     private _model: PlayerModel;
     private _view: PlayerView;
     private _inputManager: InputManager;
+    private _leftHand: AbstractMesh;
+    private _rightHand: AbstractMesh;
+    private _weaponController: WeaponController;
 
     constructor(model: PlayerModel, view: PlayerView) {
         this._model = model;
         this._view = view;
         this._inputManager = Game.instance.inputManager;
+        this._leftHand = Game.instance.inputManager.leftAnchor;
+        this._rightHand = Game.instance.inputManager.rightAnchor;
+        // this._weaponController = WeaponInitializer.initializeWeapon(this._rightHand);
+    }
+
+    public initWeapon(hand: 'left'|'right'): void {
+        this._weaponController = WeaponInitializer.initializeWeapon(hand === 'left' ? this._leftHand : this._rightHand);
     }
 
     public get position(): Vector3 {
         return this._model.position;
     }
 
-    public fireWeapon(): void {
-        // On space press or click, print "Pew pew!"
-        console.log('Pew pew!');
-    }
+    // public fireWeapon(): void {
+    //     // On space press or click, print "Pew pew!"
+    //     console.log('Pew pew!');
+    // }
 
     public update(deltaTime: number): void {
         // Update player state based on input
         deltaTime;
 
-        // Catch fire weapon input
-        if (this._inputManager.rightGrip.pressed) {
-            this.fireWeapon();
-        }
+        // // Catch fire weapon input
+        // if (this._inputManager.rightGrip.pressed) {
+        //     this.fireWeapon();
+        // }
     }
 
     public dispose(): void {

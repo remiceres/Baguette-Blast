@@ -1,4 +1,4 @@
-import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 
 export class WeaponView {
@@ -7,18 +7,12 @@ export class WeaponView {
 
     constructor() {
         this._scene = Game.instance.scene;
-        this._discMesh = this._createDiscMesh();
+        // Create a sphere
+        this._discMesh = MeshBuilder.CreateSphere('disc', { diameter: 0.5 }, this._scene);
     }
 
-    private _createDiscMesh(): Mesh {
-        // Create vertical disc mesh
-        const disc = MeshBuilder.CreateDisc('disc', { radius: 1, tessellation: 32 }, this._scene);
-
-        return disc;
-    }
-
-    public updatePosition(position: Vector3): void {
-        this._discMesh.position = position;
+    public updateParent(anchor: AbstractMesh): void {
+        this._discMesh.parent = anchor;
     }
 
     public updateRotation(rotation: Vector3): void {

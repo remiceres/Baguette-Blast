@@ -12,7 +12,7 @@ import { WeaponModel } from '../../weapon/models/WeaponModel';
 import { WeaponView } from '../../weapon/views/WeaponView';
 import { WeaponController } from '../../weapon/controllers/WeaponController';
 import InputManager from '../../inputs/InputManager';
-import { WeaponInitializer } from './WeaponInitializer';
+// import { WeaponInitializer } from './WeaponInitializer';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -49,6 +49,7 @@ class LevelTest1State implements StateInterface {
 
         // Initialize player components
         this._playerController = PlayerInitializer.initializePlayer();
+        this._playerController.initWeapon('right');
         // this._inputManager = Game.instance.inputManager;
 
         // Initialize enemies
@@ -57,10 +58,10 @@ class LevelTest1State implements StateInterface {
         // this._seekingEnemyController = enemies.seekingEnemyController;
         // this._walkingEnemyController = enemies.walkingEnemyController;
 
-        this._weaponController = WeaponInitializer.initializeWeapon(this._playerController);
+        // this._weaponController = WeaponInitializer.initializeWeapon(this._playerController);
 
         // Example of firing the weapon
-        this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
+        // this._weaponController.fire(new Vector3(0, 0, 1)); // Fire straight ahead
 
         return Promise.resolve();
     }

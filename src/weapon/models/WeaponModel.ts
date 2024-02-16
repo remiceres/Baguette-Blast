@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 
 export class WeaponModel {
     private _position: Vector3;
@@ -6,9 +6,10 @@ export class WeaponModel {
     private _isThrown: boolean;
     private _velocity: Vector3;
     private _disposeTime: number;
+    private _anchor: AbstractMesh;
 
-    constructor(initialPosition: Vector3) {
-        this._position = initialPosition;
+    constructor(anchor: AbstractMesh) {
+        this._anchor = anchor;
         this._rotation = new Vector3(0, 0, 0);
         this._isThrown = false;
     }
@@ -51,6 +52,10 @@ export class WeaponModel {
 
     public getDisposeTime(): number {
         return this._disposeTime;
+    }
+
+    public getAnchor(): AbstractMesh {
+        return this._anchor;
     }
 
     public update(deltaTime: number): void {
