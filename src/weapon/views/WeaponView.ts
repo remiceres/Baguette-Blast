@@ -15,6 +15,10 @@ export class WeaponView {
         this._discMesh.parent = anchor;
     }
 
+    public updatePosition(position: Vector3): void {
+        this._discMesh.position = position;
+    }
+
     public updateRotation(rotation: Vector3): void {
         this._discMesh.rotation = rotation;
     }

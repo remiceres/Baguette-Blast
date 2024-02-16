@@ -9,31 +9,31 @@ export class WeaponController {
         this._model = model;
         this._view = view;
         this._view.updateParent(this._model.getAnchor());
+        this._model.setPosition(this._model.getAnchor().position);
     }
 
     public fire(): void {
-        // direction;
-        console.log('WeaponController.fire');
-        // this._model.throw();
-        // this._model.setVelocity(direction.scale(2)); // Set the speed of the disc
-        // // After 5 seconds, the weapon will be disposed
-        // this._model.setDisposeTime(5);
+        // direction is where the weapon is facing
+        const direction = this._model.getAnchor().forward;
+        this._model.throw();
+        this._model.setVelocity(direction.scale(2)); // Set the speed of the disc
+        // After 5 seconds, the weapon will be disposed
+        this._model.setDisposeTime(5);
     
-        // this._view.onFire();
+        this._view.onFire();
     }
     
 
     public update(deltaTime: number): void {
-        deltaTime;
-        // this._model.update(deltaTime);
+        this._model.update(deltaTime);
 
-        // if (this._model.isThrown()) {
-        //     this._view.updatePosition(this._model.getPosition());
-        // }
+        if (this._model.isThrown()) {
+            this._view.updatePosition(this._model.getPosition());
+        }
     
-        // if (this._model.shouldDispose()) {
-        //     this._view.dispose();
-        // }
+        if (this._model.shouldDispose()) {
+            this._view.dispose();
+        }
     
         // // Sync the view with the model
         // this._view.updatePosition(this._model.getPosition());

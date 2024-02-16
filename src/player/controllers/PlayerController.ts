@@ -5,7 +5,6 @@ import InputManager from '../../inputs/InputManager';
 import Game from '../../Game';
 import { WeaponController } from '../../weapon/controllers/WeaponController';
 import { WeaponInitializer } from '../../stateManager/states/WeaponInitializer';
-// import { WeaponInitializer } from '../../stateManager/states/WeaponInitializer';
 
 
 class PlayerController {
@@ -22,7 +21,6 @@ class PlayerController {
         this._inputManager = Game.instance.inputManager;
         this._leftHand = Game.instance.inputManager.leftAnchor;
         this._rightHand = Game.instance.inputManager.rightAnchor;
-        // this._weaponController = WeaponInitializer.initializeWeapon(this._rightHand);
     }
 
     public initWeapon(hand: 'left'|'right'): void {
@@ -33,13 +31,9 @@ class PlayerController {
         return this._model.position;
     }
 
-    // public fireWeapon(): void {
-    //     // On space press or click, print "Pew pew!"
-    //     console.log('Pew pew!');
-    // }
-
     public update(deltaTime: number): void {
         // Update player state based on input
+        this._weaponController.update(deltaTime);
         deltaTime;
 
         // // Catch fire weapon input
@@ -49,7 +43,6 @@ class PlayerController {
     }
 
     public dispose(): void {
-        // TODO: Dispose model?
         // Dispose view and other resources
         this._view.dispose();       
     }

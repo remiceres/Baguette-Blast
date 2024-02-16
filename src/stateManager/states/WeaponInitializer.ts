@@ -5,7 +5,6 @@ import { WeaponView } from '../../weapon/views/WeaponView';
 export class WeaponInitializer {
     static initializeWeapon(hand): WeaponController
     {
-        console.log('WeaponInitializer.initializeWeapon');
         const weaponModel = new WeaponModel(hand);
         const weaponView = new WeaponView(); // use scene
         const weaponController = new WeaponController(weaponModel, weaponView); // local variable
