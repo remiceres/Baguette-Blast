@@ -1,4 +1,3 @@
-import { Vector3 } from '@babylonjs/core';
 import { WeaponModel } from '../models/WeaponModel';
 import { WeaponView } from '../views/WeaponView';
 
@@ -12,8 +11,8 @@ export class WeaponController {
         this._view.updateParent(this._model.getAnchor());
     }
 
-    public fire(direction: Vector3): void {
-        direction;
+    public fire(): void {
+        // direction;
         console.log('WeaponController.fire');
         // this._model.throw();
         // this._model.setVelocity(direction.scale(2)); // Set the speed of the disc

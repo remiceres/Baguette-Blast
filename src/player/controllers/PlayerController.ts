@@ -43,9 +43,9 @@ class PlayerController {
         deltaTime;
 
         // // Catch fire weapon input
-        // if (this._inputManager.rightGrip.pressed) {
-        //     this.fireWeapon();
-        // }
+        if (this._inputManager.rightPrimary.pressed) {
+            this._weaponController.fire();
+        }
     }
 
     public dispose(): void {
