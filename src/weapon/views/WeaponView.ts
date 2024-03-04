@@ -1,36 +1,40 @@
-import { AbstractMesh, Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 
+/**
+ * Represents a view for a weapon in the game.
+ */
 export class WeaponView {
-    private _scene: Scene;
     private _discMesh: Mesh;
 
     constructor() {
-        this._scene = Game.instance.scene;
-        // Create a sphere
-        this._discMesh = MeshBuilder.CreateSphere('disc', { diameter: 0.5 }, this._scene);
+        this._discMesh = MeshBuilder.CreateSphere('disc', { diameter: 0.25 }, Game.instance.scene);
     }
 
-    public updateParent(anchor: AbstractMesh): void {
-        this._discMesh.parent = anchor;
-    }
-
+    /**
+     * Updates the position of the weapon view.
+     * @param position - The new position of the weapon.
+     */
     public updatePosition(position: Vector3): void {
         this._discMesh.position = position;
     }
 
+    /**
+     * Updates the rotation of the weapon view.
+     * @param rotation - The new rotation of the weapon.
+     */
     public updateRotation(rotation: Vector3): void {
         this._discMesh.rotation = rotation;
     }
 
-    public onFire(): void {
-        // Visual changes when the weapon is fired
-        if (this._discMesh.material) {
-            (this._discMesh.material as StandardMaterial).diffuseColor = new Color3(1, 1, 0);
-        }
-    }
-
+    /**
+     * Disposes the weapon view and releases any associated resources.
+     */
     public dispose(): void {
         this._discMesh.dispose();
-    }    
+    }
+
+    public setParent(parent: AbstractMesh): void {
+        this._discMesh.setParent(parent);
+    }
 }
