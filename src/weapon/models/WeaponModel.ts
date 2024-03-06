@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 
 export class WeaponModel {
 
@@ -8,8 +8,18 @@ export class WeaponModel {
     private _isThrown: boolean;
     private _isGrabbed: boolean;
 
+    private _parent: AbstractMesh;
+
     constructor() {
         this._isThrown = false;
+    }
+
+    public set parent(parent: AbstractMesh) {
+        this._parent = parent;
+    }
+
+    public get parent(): AbstractMesh {
+        return this._parent;
     }
 
     public setPosition(position: Vector3): void {
@@ -49,4 +59,5 @@ export class WeaponModel {
     public update(deltaTime: number): void {
         deltaTime;
     }
+
 }
