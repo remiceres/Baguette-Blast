@@ -1,4 +1,3 @@
-import { Scene } from '@babylonjs/core';
 
 /**
  * Interface for application states in a Babylon.js environment.
@@ -7,10 +6,9 @@ import { Scene } from '@babylonjs/core';
 interface StateInterface {
     /**
      * Initializes the state with the given scene.
-     * @param {Scene} scene - The Babylon.js scene associated with this state.
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
-    init(scene: Scene): Promise<void>;
+    init(): Promise<void>;
 
     /**
      * Disposes of resources or subscriptions the state has created.

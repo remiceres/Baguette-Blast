@@ -1,9 +1,9 @@
-import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3, StandardMaterial } from '@babylonjs/core';
+import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
+import LoadAssets from '../../LoadAssets';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
-import StateInterface from './IState';
-import LoadAssets from '../../LoadAssets';
+import StateInterface from './StateInterface';
 
 /**
  * Represents the second level test state of the application.
@@ -22,18 +22,17 @@ class LevelTest2State implements StateInterface {
      * @param {Scene} scene - The Babylon.js scene where the level elements will be set up.
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
-    public async init(scene: Scene): Promise<void> {
-        this._scene = scene;
-        this._assetManager = new AssetsManager(scene);
-        
-        LoadAssets.initLight(scene);
-        LoadAssets.initModels(scene, this._assetManager);
-        LoadAssets._dictLights.get('light1');
-        LoadAssets._dictModels.get('scene');
+    public async init(): Promise<void> {
+        this._assetManager = new AssetsManager(Game.instance.scene);
 
-        this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, scene);
+        LoadAssets.initLight(Game.instance.scene);
+        LoadAssets.initModels(Game.instance.scene, this._assetManager);
+        LoadAssets._dictLights.get('light1');
+        LoadAssets._dictModels.get('Game.instance.scene');
+
+        this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
-        Buttons.clickable(scene, this._cubeMenu, () => {
+        Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.Menu);
         });
 
