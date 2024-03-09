@@ -2,7 +2,8 @@ import { HemisphericLight, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import Player from '../../player/Player';
-import Ball from '../../weapon/Ball';
+import BallProjectile from '../../projectile/BallProjectile';
+import SimpleBall from '../../weapon/SimpleBall';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 
@@ -17,7 +18,7 @@ class LevelTest1State implements StateInterface {
 
     private _player: Player;
 
-    private _ball: Ball;
+    private _ball: SimpleBall;
 
     /**
      * Initializes the level test state with the given scene.
@@ -31,7 +32,7 @@ class LevelTest1State implements StateInterface {
 
         // Initialize player components
         this._player = new Player();
-        this._ball = new Ball();
+        this._ball = new SimpleBall(new BallProjectile());
         this._player.grapWeapon('right', this._ball);
 
         return Promise.resolve();
