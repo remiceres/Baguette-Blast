@@ -1,4 +1,4 @@
-import { HemisphericLight, Scene, Vector3, AssetsManager, MeshAssetTask, StandardMaterial } from '@babylonjs/core';
+import { HemisphericLight, Scene, Vector3, AssetsManager, MeshAssetTask } from '@babylonjs/core';
 
 /* eslint-disable linebreak-style */
 class LoadAssets {
@@ -14,16 +14,6 @@ class LoadAssets {
 
     public static async initModels(scene : Scene, assetManager : AssetsManager): Promise<void> {
         const meshSceneTask = assetManager.addMeshTask('scene', '', '', 'Scene.obj', '');
-
-        // Callback function when the mesh is loaded
-        meshSceneTask.onSuccess = (task) => {
-            // Create a material
-            const material = new StandardMaterial('Scene.mtl', scene);
-            // Assign the material to the mesh
-            task.loadedMeshes.forEach((mesh) => {
-                mesh.material = material;
-            });
-        };
         
         LoadAssets._dictModels.set('scene', meshSceneTask);
 
