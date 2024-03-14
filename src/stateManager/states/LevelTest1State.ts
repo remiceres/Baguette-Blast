@@ -7,6 +7,9 @@ import AbstractBallProjector from '../../weapon/AbstractBallProjector';
 import HandBall from '../../weapon/HandBall';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import EnemyInitializer from './EnemyInitializer';
+import EnemyModel from '../../enemy/models/EnemyModel';
+import { BaseView } from '../../enemy/views/BaseView';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -21,6 +24,12 @@ class LevelTest1State implements StateInterface {
 
     private _ball: AbstractBallProjector;
 
+    private _enemyInitializer: EnemyInitializer;
+
+    // Arrays to store models and views
+    private _models: EnemyModel[] = [];
+    private _views: BaseView[] = [];
+    
     /**
      * Initializes the level test state with the given scene.
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
@@ -35,6 +44,23 @@ class LevelTest1State implements StateInterface {
         this._player = new Player();
         this._ball = new HandBall(new BallProjectile());
         this._player.grapWeapon('right', this._ball);
+
+        this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
+
+        // Create an enemy
+        const enemy = this._enemyInitializer.createEnemy(new Vector3(2, 0, 0), 100);
+        this._models.push(enemy.model);
+        this._views.push(enemy.view);
+
+        // Create a copper balloon
+        const balloon = this._enemyInitializer.createCopperBalloon(new Vector3(-2, 3, 0), 100);
+        this._models.push(balloon.model);
+        this._views.push(balloon.view);
+
+        // Create a silver balloon
+        const silverBalloon = this._enemyInitializer.createSilverBalloon(new Vector3(0, 3, 2), 100);
+        this._models.push(silverBalloon.model);
+        this._views.push(silverBalloon.view);
 
         return Promise.resolve();
     }
@@ -77,6 +103,17 @@ class LevelTest1State implements StateInterface {
 
         // Update weapon
         this._ball.update(deltaTime);
+
+        // Update all models
+        this._models.forEach(model => {
+            model.update(deltaTime);
+        });
+
+        // Optionally, if your views also need updating
+        this._views.forEach(view => {
+            // Assuming views have an update method, or remove this if not necessary
+            view.update();
+        });
     }
 }
 

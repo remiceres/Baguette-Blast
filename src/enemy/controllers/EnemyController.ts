@@ -1,44 +1,39 @@
-import { EnemyModel } from '../models/EnemyModel';
-import { EnemyView } from '../views/EnemyView';
+import EnemyModel from '../models/EnemyModel';
+import EnemyView from '../views/EnemyView';
 
-/**
- * Controller class for managing the behavior and presentation of an enemy.
- * It links the enemy model and view, updating them appropriately.
- */
 class EnemyController {
-    private _model: EnemyModel;
-    private _view: EnemyView;
+    private _model: EnemyModel; // This could be any model that extends EnemyModel, including CopperBalloonModel
+    private _view: EnemyView; // Corresponding view for the model
 
-    /**
-     * Constructs an EnemyController with a specified model and view.
-     * @param {EnemyModel} model - The model representing the enemy's data and logic.
-     * @param {EnemyView} view - The view representing the enemy's visual representation.
-     */
     constructor(model: EnemyModel, view: EnemyView) {
         this._model = model;
         this._view = view;
+
+        // Example of setting up event listeners
+        this.setupEventListeners();
     }
 
-    /**
-     * Updates the enemy's state and refreshes its view.
-     * @param {number} deltaTime - The time in seconds since the last update.
-     */
-    public animate(deltaTime: number): void {
-        // Update model state based on game logic
-        this._model.update(deltaTime);
-
-        // Update view to reflect model state
-        this._view.update();
+    setupEventListeners(): void {
+        // Listen for user inputs or other events
+        // This is highly dependent on your game's framework and setup
+        // For example: document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
-    /**
-     * Disposes of the resources used by the controller, primarily the view.
-     */
-    public dispose(): void {
-        this._view.dispose();
+    handleKeyDown(event: KeyboardEvent): void {
+        // Update model based on user input
+        // Example: Move the balloon or change its state
+        switch (event.key) {
+            case 'ArrowUp':
+                this._model.position.y += 1;
+                break;
+            // Handle other keys or commands
+        }
+
+        // Update the view to reflect the model's new state
+        this._view.update(); // Assuming your view has an update method to redraw itself
     }
 
-    // Additional methods to respond to various game events, user inputs, etc. can be added here
+    // Additional methods to handle other interactions
 }
 
-export { EnemyController };
+export default EnemyController;
