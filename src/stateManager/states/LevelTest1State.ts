@@ -3,7 +3,8 @@ import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import Player from '../../player/Player';
 import BallProjectile from '../../projectile/BallProjectile';
-import SimpleBall from '../../weapon/SimpleBall';
+import BallProjector from '../../weapon/BallProjector';
+import HandBall from '../../weapon/HandBall';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 import EnemyInitializer from './EnemyInitializer';
@@ -21,7 +22,7 @@ class LevelTest1State implements StateInterface {
 
     private _player: Player;
 
-    private _ball: SimpleBall;
+    private _ball: BallProjector;
 
     private _enemyInitializer: EnemyInitializer;
 
@@ -41,7 +42,7 @@ class LevelTest1State implements StateInterface {
 
         // Initialize player components
         this._player = new Player();
-        this._ball = new SimpleBall(new BallProjectile());
+        this._ball = new HandBall(new BallProjectile());
         this._player.grapWeapon('right', this._ball);
 
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
