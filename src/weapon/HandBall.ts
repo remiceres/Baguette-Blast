@@ -1,8 +1,11 @@
-import { Vector3 } from '@babylonjs/core';
+import { MeshBuilder, Vector3 } from '@babylonjs/core';
 import ProjectileInterface from '../projectile/ProjectileInterface';
-import BallProjector from './BallProjector';
+import AbstractBallProjector from './AbstractBallProjector';
 
-class HandBall extends BallProjector {
+class HandBall extends AbstractBallProjector {
+    
+    protected _durability: number = 1;
+
     private _lastPosition: Vector3;
     private _actualPosition: Vector3;
 
@@ -16,10 +19,14 @@ class HandBall extends BallProjector {
 
         if (this._lastPosition && this._actualPosition) {
             direction = this._actualPosition.subtract(this._lastPosition).normalize();
-            force = this._actualPosition.subtract(this._lastPosition).length() * 10;
+            force = this._actualPosition.subtract(this._lastPosition).length() * this._force;
         }
 
         return { direction, force };
+    }
+
+    protected _loadMesh() {
+        return MeshBuilder.CreateSphere('ballHand', { diameter: 0.25 });
     }
 
     private _timeSinceLastSave = 0;

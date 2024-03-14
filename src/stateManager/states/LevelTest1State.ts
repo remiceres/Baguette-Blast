@@ -3,7 +3,7 @@ import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import Player from '../../player/Player';
 import BallProjectile from '../../projectile/BallProjectile';
-import BallProjector from '../../weapon/BallProjector';
+import AbstractBallProjector from '../../weapon/AbstractBallProjector';
 import HandBall from '../../weapon/HandBall';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
@@ -19,7 +19,7 @@ class LevelTest1State implements StateInterface {
 
     private _player: Player;
 
-    private _ball: BallProjector;
+    private _ball: AbstractBallProjector;
 
     /**
      * Initializes the level test state with the given scene.
