@@ -1,10 +1,10 @@
-import { AbstractMesh } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import ProjectileInterface from '../projectile/ProjectileInterface';
 import WeaponInterface from './WeaponIInterface';
 
-class SimpleBall implements WeaponInterface {
+abstract class BallProjector implements WeaponInterface {
     private _projectile: ProjectileInterface;
-    private _prarent: AbstractMesh;
+    protected _prarent: AbstractMesh;
 
     private _cooldownSecond = 1;
     private _timeSinceLastShot;
@@ -30,9 +30,11 @@ class SimpleBall implements WeaponInterface {
         this._timeSinceLastShot = 0;
         const position = this._prarent.getAbsolutePosition();
         // eloigne du joueur
-        const direction = this._prarent.forward;
-        this._projectile.fire(position, direction);
+        const { direction, force } = this._calculateThrowParameters();
+        this._projectile.fire(position, direction, force);
     }
+
+    protected abstract _calculateThrowParameters(): { direction: Vector3; force: number };
 
     public grap(hand: AbstractMesh): void {
         this._isGraped = true;
@@ -56,4 +58,4 @@ class SimpleBall implements WeaponInterface {
     }
 }
 
-export default SimpleBall;
+export default BallProjector;
