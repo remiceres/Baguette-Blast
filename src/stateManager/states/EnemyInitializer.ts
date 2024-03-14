@@ -1,50 +1,55 @@
-import { Color3, Scene, Vector3 } from '@babylonjs/core';
-import { FlyingBehavior } from '../../enemy/models/Flying/FlyingBehavior';
-import { SeekingBehavior } from '../../enemy/models/Seeking/SeekingBehavior';
-import { WalkingBehavior } from '../../enemy/models/Walking/WalkingBehavior';
-import { EnemyView } from '../../enemy/views/EnemyView';
-import { EnemyController } from '../../enemy/controllers/EnemyController';
-import { EnemyFactory } from '../../enemy/EnemyFactory';
+import { Scene, Vector3, Color3 } from '@babylonjs/core';
+import CopperBalloonModel from '../../enemy/models/CopperBalloonModel';
+import BalloonView from '../../enemy/views/BalloonView';
+import BalloonModel from '../../enemy/models/BalloonModel';
+import EnemyModel from '../../enemy/models/EnemyModel';
+import EnemyView from '../../enemy/views/EnemyView';
+import FloatingBehavior from '../../enemy/behaviors/FloatingBehavior';
+import SilverBalloonModel from '../../enemy/models/SilverBalloonModel';
 
-export class EnemyInitializer {
-    static createEnemies(scene: Scene, playerPosition: Vector3) {
-        // Flying enemy setup
-        const flyingEnemyModel = EnemyFactory.createEnemy(
-            'flying',
-            new Vector3(0, 10, 0),
-            1,
-            100,
-            new FlyingBehavior(playerPosition) // use playerModel
-        );
-        const flyingEnemyView = new EnemyView(flyingEnemyModel, scene, Color3.Blue()); // use scene
-        const flyingEnemyController = new EnemyController(flyingEnemyModel, flyingEnemyView); // local variable
+class EnemyInitializer {
+    private _scene: Scene;
 
-        // Seeking enemy setup
-        const seekingEnemyModel = EnemyFactory.createEnemy(
-            'flying',
-            new Vector3(0, 0, 0),
-            0.5,
-            100,
-            new SeekingBehavior(flyingEnemyModel) // use flyingEnemyModel
-        );
-        const seekingEnemyView = new EnemyView(seekingEnemyModel, scene, Color3.Green()); // use scene
-        const seekingEnemyController = new EnemyController(seekingEnemyModel, seekingEnemyView); // local variable
-
-        // Walking enemy setup
-        const walkingEnemyModel = EnemyFactory.createEnemy(
-            'walking',
-            new Vector3(0, 0, 0),
-            3,
-            100,
-            new WalkingBehavior(playerPosition) // use playerModel
-        );
-        const walkingEnemyView = new EnemyView(walkingEnemyModel, scene, Color3.Red()); // use scene
-        const walkingEnemyController = new EnemyController(walkingEnemyModel, walkingEnemyView); // local variable
-
-        return {
-            flyingEnemyController,
-            seekingEnemyController,
-            walkingEnemyController
-        };
+    constructor(scene: Scene) {
+        this._scene = scene;
     }
+
+    createEnemy(position: Vector3, health: number): { model: EnemyModel, view: EnemyView } {
+        const model = new EnemyModel(position, health);
+        const view = new EnemyView(this._scene, model);
+        return { model, view };
+    }
+
+    createBalloon(position: Vector3, health: number, color: Color3 = new Color3(1, 0, 0)): { 
+        model: BalloonModel, view: BalloonView } {
+        const model = new BalloonModel(position, health, color); // Use CopperBalloonModel for copper balloons
+        const view = new BalloonView(this._scene, model);
+        return { model, view };
+    }
+
+    createCopperBalloon(position: Vector3, health: number): { model: CopperBalloonModel, view: BalloonView } {
+        const model = new CopperBalloonModel(position, health);
+        const view = new BalloonView(this._scene, model);
+
+        // Initialize and assign the FloatingBehavior
+        const floatingBehavior = new FloatingBehavior(0.5, 2);
+        model.behavior = floatingBehavior; // This automatically calls setModel within the behavior
+
+        return { model, view };
+    }
+
+    createSilverBalloon(position: Vector3, health: number): { model: SilverBalloonModel, view: BalloonView } {
+        const model = new SilverBalloonModel(position, health);
+        const view = new BalloonView(this._scene, model);
+
+        // Initialize and assign the FloatingBehavior
+        const floatingBehavior = new FloatingBehavior(0.5, 2);
+        model.behavior = floatingBehavior; // This automatically calls setModel within the behavior
+
+        return { model, view };
+    }
+
+    // Additional methods to create other types of enemies can be added here
 }
+
+export default EnemyInitializer;
