@@ -1,9 +1,9 @@
-import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../Game';
 import ProjectileInterface from './ProjectileInterface';
 
 class BallProjectile implements ProjectileInterface {
-    private _mesh: Mesh;
+    public _mesh: Mesh;
 
     private _instanceCount = 0;
 
@@ -22,6 +22,11 @@ class BallProjectile implements ProjectileInterface {
 
         // Orient the instance to face the direction of the projectile.
         instance.lookAt(origin.add(direction));
+    }
+
+    // getProjectiles return the mesh
+    public getProjectiles(): AbstractMesh[] {
+        return this._mesh.instances;
     }
 
     public update(deltaTime: number): void {

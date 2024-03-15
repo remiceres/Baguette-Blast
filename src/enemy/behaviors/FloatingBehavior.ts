@@ -22,7 +22,6 @@ class FloatingBehavior implements IBehavior {
         this._phase += deltaTime * this._speed;
         const heightOffset = Math.sin(this._phase) * this._amplitude;
         this._model.position.y = this._initialHeight + heightOffset;
-        console.log('FloatingBehavior.update', this._model.position.y);
     }
 }
 

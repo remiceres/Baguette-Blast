@@ -27,6 +27,7 @@ class EnemyModel {
 
     update(deltaTime: number): void {
         deltaTime;
+        // console.log(this.position);
         // Base update logic (if any)
     }
 

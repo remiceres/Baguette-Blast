@@ -1,7 +1,7 @@
 import { Mesh, Scene } from '@babylonjs/core';
 
 abstract class BaseView {
-    protected _mesh: Mesh;
+    public _mesh: Mesh;
     protected _scene: Scene;
 
     constructor(scene: Scene) {

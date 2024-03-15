@@ -4,12 +4,14 @@ import Buttons from '../../menu/buttons';
 import Player from '../../player/Player';
 import BallProjectile from '../../projectile/BallProjectile';
 import AbstractBallProjector from '../../weapon/AbstractBallProjector';
-import HandBall from '../../weapon/HandBall';
+// import HandBall from '../../weapon/HandBall';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 import EnemyInitializer from './EnemyInitializer';
 import EnemyModel from '../../enemy/models/EnemyModel';
 import { BaseView } from '../../enemy/views/BaseView';
+import EnemyView from '../../enemy/views/EnemyView';
+import GunBall from '../../weapon/GunBall';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -29,7 +31,7 @@ class LevelTest1State implements StateInterface {
     // Arrays to store models and views
     private _models: EnemyModel[] = [];
     private _views: BaseView[] = [];
-    
+
     /**
      * Initializes the level test state with the given scene.
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
@@ -42,7 +44,7 @@ class LevelTest1State implements StateInterface {
 
         // Initialize player components
         this._player = new Player();
-        this._ball = new HandBall(new BallProjectile());
+        this._ball = new GunBall(new BallProjectile());
         this._player.grapWeapon('right', this._ball);
 
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
@@ -76,6 +78,20 @@ class LevelTest1State implements StateInterface {
         });
     }
 
+    private _checkForCollisions(): void {
+        this._views.forEach(view => {
+            if (view instanceof EnemyView) {
+                this._ball.getProjectiles().forEach(projectile => {
+                    if (projectile.intersectsMesh(view._mesh, true)) {
+                        // Notify the EnemyController about the collision
+                        // view.controller.notifyCollision(projectile);
+                        console.log('Collision detected');
+                    }
+                });
+            }
+        });
+    }
+
     /**
      * Disposes of resources used by the level test state, including enemies.
      */
@@ -101,17 +117,17 @@ class LevelTest1State implements StateInterface {
         // Update player
         this._player.update(deltaTime);
 
-        // Update weapon
-        this._ball.update(deltaTime);
-
         // Update all models
         this._models.forEach(model => {
             model.update(deltaTime);
         });
 
-        // Optionally, if your views also need updating
+        // Check for collisions
+        this._ball.update(deltaTime); // Assuming this updates the projectile's position
+        this._checkForCollisions();
+
+        // Update views
         this._views.forEach(view => {
-            // Assuming views have an update method, or remove this if not necessary
             view.update();
         });
     }

@@ -36,7 +36,7 @@ class HandBall extends AbstractBallProjector {
 
         // save position all 100ms
         if (this._timeSinceLastSave > 0.1) {
-            this._savePosition(this._prarent.getAbsolutePosition());
+            this._savePosition(this._parent.getAbsolutePosition());
             this._timeSinceLastSave = 0;
         }
         this._timeSinceLastSave += deltaTime;
