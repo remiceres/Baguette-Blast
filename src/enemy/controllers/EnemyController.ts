@@ -1,11 +1,11 @@
 import EnemyModel from '../models/EnemyModel';
-import EnemyView from '../views/EnemyView';
+import { BaseView } from '../views/BaseView';
 
 class EnemyController {
     private _model: EnemyModel; // This could be any model that extends EnemyModel, including CopperBalloonModel
-    private _view: EnemyView; // Corresponding view for the model
+    private _view: BaseView; // Corresponding view for the model
 
-    constructor(model: EnemyModel, view: EnemyView) {
+    constructor(model: EnemyModel, view: BaseView) {
         this._model = model;
         this._view = view;
 
@@ -31,6 +31,23 @@ class EnemyController {
 
         // Update the view to reflect the model's new state
         this._view.update(); // Assuming your view has an update method to redraw itself
+    }
+
+    dispose(): void {
+        this.view.dispose(); // Assuming the view has a dispose method
+    }
+
+    update(deltaTime: number): void {
+        this._model.update(deltaTime);
+        this._view.update();
+    }
+
+    public get model(): EnemyModel {
+        return this._model;
+    }
+
+    public get view(): BaseView {
+        return this._view;
     }
 
     // Additional methods to handle other interactions

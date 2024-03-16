@@ -8,10 +8,10 @@ import AbstractBallProjector from '../../weapon/AbstractBallProjector';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 import EnemyInitializer from './EnemyInitializer';
-import EnemyModel from '../../enemy/models/EnemyModel';
 import { BaseView } from '../../enemy/views/BaseView';
 // import EnemyView from '../../enemy/views/EnemyView';
 import GunBall from '../../weapon/GunBall';
+import EnemyController from '../../enemy/controllers/EnemyController';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -29,8 +29,7 @@ class LevelTest1State implements StateInterface {
     private _enemyInitializer: EnemyInitializer;
 
     // Arrays to store models and views
-    private _models: EnemyModel[] = [];
-    private _views: BaseView[] = [];
+    private _controllers: EnemyController[] = [];
 
     /**
      * Initializes the level test state with the given scene.
@@ -50,19 +49,17 @@ class LevelTest1State implements StateInterface {
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
 
         // Create an enemy
-        const enemy = this._enemyInitializer.createEnemy(new Vector3(2, 0, 0), 100);
-        this._models.push(enemy.model);
-        this._views.push(enemy.view);
+        const enemyController = this._enemyInitializer.createEnemy(new Vector3(2, 0, 0), 100);
 
         // Create a copper balloon
-        const balloon = this._enemyInitializer.createCopperBalloon(new Vector3(-2, 3, 0), 100);
-        this._models.push(balloon.model);
-        this._views.push(balloon.view);
+        const copperBalloonController = this._enemyInitializer.createCopperBalloon(new Vector3(-2, 3, 0), 100);
 
         // Create a silver balloon
-        const silverBalloon = this._enemyInitializer.createSilverBalloon(new Vector3(0, 3, 2), 100);
-        this._models.push(silverBalloon.model);
-        this._views.push(silverBalloon.view);
+        const silverBalloonController = this._enemyInitializer.createSilverBalloon(new Vector3(0, 3, 2), 100);
+
+        this._controllers.push(enemyController);
+        this._controllers.push(copperBalloonController);
+        this._controllers.push(silverBalloonController);
 
         return Promise.resolve();
     }
@@ -79,13 +76,25 @@ class LevelTest1State implements StateInterface {
     }
 
     private _checkForCollisions(): void {
-        this._views.forEach(view => {
-            if (view instanceof BaseView) {
+        // this._views.forEach(view => {
+        this._controllers.forEach(controller => {
+            if (controller.view instanceof BaseView) {
                 this._ball.getProjectiles().forEach(projectile => {
-                    if (projectile.intersectsMesh(view._mesh, true)) {
+                    if (projectile.intersectsMesh(controller.view._mesh, true)) {
                         // Notify the EnemyController about the collision
                         // view.controller.notifyCollision(projectile);
                         console.log('Collision detected');
+                        // Dirty hack to remove the projectile and the enemy
+                        // TODO: Remove the projectile and the enemy properly
+                        // To do so I think we need a class that handles the collision
+                        controller.dispose();
+                        // Remove the controller from the array
+                        const index = this._controllers.indexOf(controller);
+                        if (index > -1) {
+                            this._controllers.splice(index, 1);
+                        }
+                        
+                        projectile.dispose();
                     }
                 });
             }
@@ -117,19 +126,24 @@ class LevelTest1State implements StateInterface {
         // Update player
         this._player.update(deltaTime);
 
-        // Update all models
-        this._models.forEach(model => {
-            model.update(deltaTime);
+        // // Update all models
+        // this._models.forEach(model => {
+        //     model.update(deltaTime);
+        // });
+
+        // Update all controllers
+        this._controllers.forEach(controller => {
+            controller.update(deltaTime);
         });
 
         // Check for collisions
         this._ball.update(deltaTime); // Assuming this updates the projectile's position
         this._checkForCollisions();
 
-        // Update views
-        this._views.forEach(view => {
-            view.update();
-        });
+        // // Update views
+        // this._views.forEach(view => {
+        //     view.update();
+        // });
     }
 }
 
