@@ -1,9 +1,11 @@
+import BonusController from '../../bonus/controllers/BonusController';
 import EnemyModel from '../models/EnemyModel';
 import { BaseView } from '../views/BaseView';
 
 class EnemyController {
     private _model: EnemyModel; // This could be any model that extends EnemyModel, including CopperBalloonModel
     private _view: BaseView; // Corresponding view for the model
+    private _bonusController: BonusController;
 
     constructor(model: EnemyModel, view: BaseView) {
         this._model = model;
@@ -35,6 +37,9 @@ class EnemyController {
 
     dispose(): void {
         this.view.dispose(); // Assuming the view has a dispose method
+        if (this._bonusController) {
+            this._bonusController.dispose();
+        }
     }
 
     update(deltaTime: number): void {
@@ -48,6 +53,12 @@ class EnemyController {
 
     public get view(): BaseView {
         return this._view;
+    }
+
+    public set bonusController(controller: BonusController) {
+        this._bonusController = controller;
+        // set the bonus view for the enemy view
+        this._view.bonusView = controller.view;
     }
 
     // Additional methods to handle other interactions

@@ -7,6 +7,9 @@ import EnemyView from '../../enemy/views/EnemyView';
 import FloatingBehavior from '../../enemy/behaviors/FloatingBehavior';
 import SilverBalloonModel from '../../enemy/models/SilverBalloonModel';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import BonusController from '../../bonus/controllers/BonusController';
+import ScoreBonus from '../../bonus/models/ScoreBonusModel';
+import BonusView from '../../bonus/views/BonusView';
 
 class EnemyInitializer {
     private _scene: Scene;
@@ -38,6 +41,9 @@ class EnemyInitializer {
         model.behavior = floatingBehavior; // This automatically calls setModel within the behavior
 
         const controller = new EnemyController(model, view);
+        controller.bonusController = new BonusController(
+            new ScoreBonus(), new BonusView(this._scene)
+        ); // Assign a bonus controller to the enemy
         return controller;
     }
 
