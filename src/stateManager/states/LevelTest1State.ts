@@ -10,7 +10,7 @@ import StateInterface from './StateInterface';
 import EnemyInitializer from './EnemyInitializer';
 import EnemyModel from '../../enemy/models/EnemyModel';
 import { BaseView } from '../../enemy/views/BaseView';
-import EnemyView from '../../enemy/views/EnemyView';
+// import EnemyView from '../../enemy/views/EnemyView';
 import GunBall from '../../weapon/GunBall';
 
 /**
@@ -80,7 +80,7 @@ class LevelTest1State implements StateInterface {
 
     private _checkForCollisions(): void {
         this._views.forEach(view => {
-            if (view instanceof EnemyView) {
+            if (view instanceof BaseView) {
                 this._ball.getProjectiles().forEach(projectile => {
                     if (projectile.intersectsMesh(view._mesh, true)) {
                         // Notify the EnemyController about the collision
