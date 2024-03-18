@@ -12,6 +12,7 @@ import { BaseView } from '../../enemy/views/BaseView';
 // import EnemyView from '../../enemy/views/EnemyView';
 import GunBall from '../../weapon/GunBall';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import gameLevels from '../../GameLevelConfig';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -36,34 +37,62 @@ class LevelTest1State implements StateInterface {
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
     public async init(): Promise<void> {
-        this._setupMenuCube();
 
+        // Assuming you have a way to determine the current level number
+        const currentLevelNumber = 1; // For demonstration, loading level 1
+        const currentLevelConfig = gameLevels.find(level => level.level === currentLevelNumber);
+
+        this._setupMenuCube();
+    
         // Initialize light
         this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), Game.instance.scene);
-
+    
         // Initialize player components
         this._player = new Player();
-        this._ball = new GunBall(new BallProjectile());
+        // Based on the level, choose the appropriate weapon
+        switch(currentLevelConfig.weapon) {
+            case 'Air Pistol':
+                this._ball = new GunBall(new BallProjectile());
+                break;
+            // Add cases for other weapons as needed
+        }
         this._player.grapWeapon('right', this._ball);
-
+    
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
-
-        // Create an enemy
-        const enemyController = this._enemyInitializer.createEnemy(new Vector3(2, 0, 0), 100);
-
-        // Create a copper balloon
-        const copperBalloonController = this._enemyInitializer.createCopperBalloon(new Vector3(-2, 3, 0), 100);
-
-        // Create a silver balloon
-        const silverBalloonController = this._enemyInitializer.createSilverBalloon(new Vector3(0, 3, 2), 100);
-
-        this._controllers.push(enemyController);
-        this._controllers.push(copperBalloonController);
-        this._controllers.push(silverBalloonController);
-
+    
+        // Dynamically create enemies based on the level configuration
+        currentLevelConfig.enemies.forEach(enemy => {
+            for (let i = 0; i < enemy.quantity; i++) {
+                // Generate a random position 
+                const position = new Vector3(
+                    Math.random() * 10 - 5,
+                    Math.random() * 10 - 5,
+                    Math.random() * 10 - 5
+                );
+    
+                // Initialize the enemy based on its type
+                let controller;
+                switch(enemy.name) {
+                    case 'Copper Balloon':
+                        controller = this._enemyInitializer.createCopperBalloon(position, enemy.points);
+                        break;
+                    case 'Silver Balloon':
+                        controller = this._enemyInitializer.createSilverBalloon(position, enemy.points);
+                        break;
+                    case 'Walking Enemy':
+                        controller = this._enemyInitializer.createEnemy(position, enemy.points);
+                        break;
+                    // Add cases for other enemy types as needed
+                }
+                if(controller) {
+                    this._controllers.push(controller);
+                }
+            }
+        });
+    
         return Promise.resolve();
     }
-
+    
     /**
      * Sets up the interactive menu cube in the scene.
      */
