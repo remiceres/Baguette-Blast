@@ -11,7 +11,7 @@ class GunBall extends AbstractBallProjector {
 
     protected _calculateThrowParameters() {
         return {
-            direction: this._prarent.forward,
+            direction: this._parent.forward,
             force: this._force,
         };
     }

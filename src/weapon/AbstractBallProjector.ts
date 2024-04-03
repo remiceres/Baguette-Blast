@@ -9,12 +9,12 @@ abstract class AbstractBallProjector implements WeaponInterface {
     protected mesh: AbstractMesh;
 
     private _projectile: ProjectileInterface;
-    protected _prarent: AbstractMesh;
+    protected _parent: AbstractMesh;
 
     protected _cooldownSecond = 1;
     private _timeSinceLastShot;
 
-    private _isGraped: boolean;
+    private _isGrabed: boolean;
 
     constructor(projectile: ProjectileInterface) {
         this._projectile = projectile;
@@ -22,8 +22,12 @@ abstract class AbstractBallProjector implements WeaponInterface {
         this.mesh = this._loadMesh();
     }
 
+    public getProjectiles(): AbstractMesh[] {
+        return this._projectile.getProjectiles();
+    }
+
     public fire(): void {
-        if (!this._isGraped) {
+        if (!this._isGrabed) {
             return;
         }
 
@@ -41,7 +45,7 @@ abstract class AbstractBallProjector implements WeaponInterface {
         this._timeSinceLastShot = 0;
         this._durability--;
         console.log(this._durability);
-        const position = this._prarent.getAbsolutePosition();
+        const position = this._parent.getAbsolutePosition();
 
         // eloigne du joueur
         const { direction, force } = this._calculateThrowParameters();
@@ -53,13 +57,13 @@ abstract class AbstractBallProjector implements WeaponInterface {
     protected abstract _loadMesh(): AbstractMesh;
 
     public grap(hand: AbstractMesh): void {
-        this._isGraped = true;
-        this._prarent = hand;
+        this._isGrabed = true;
+        this._parent = hand;
         this.mesh.parent = hand;
     }
 
     public throw(): void {
-        this._isGraped = false;
+        this._isGrabed = false;
         this.mesh.parent = null;
     }
 
@@ -73,7 +77,7 @@ abstract class AbstractBallProjector implements WeaponInterface {
         }
 
         // update projectile if grap
-        if (this._isGraped) {
+        if (this._isGrabed) {
             this._projectile.update(deltaTime);
         }
     }
