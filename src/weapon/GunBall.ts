@@ -2,8 +2,8 @@ import { MeshBuilder, Vector3 } from '@babylonjs/core';
 import AbstractBallProjector from './AbstractBallProjector';
 
 class GunBall extends AbstractBallProjector {
-
     protected _durability: number = 10;
+    protected _force: number = 10;
 
     constructor(projectile) {
         super(projectile);
@@ -22,7 +22,6 @@ class GunBall extends AbstractBallProjector {
         return mesh;
     }
 
-
     public update(deltaTime) {
         super.update(deltaTime);
     }
@@ -30,8 +29,6 @@ class GunBall extends AbstractBallProjector {
     public dispose() {
         this.mesh.dispose();
     }
-
-    
 }
 
 export default GunBall;

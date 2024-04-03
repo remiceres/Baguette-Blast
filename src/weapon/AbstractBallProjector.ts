@@ -3,7 +3,6 @@ import ProjectileInterface from '../projectile/ProjectileInterface';
 import WeaponInterface from './WeaponIInterface';
 
 abstract class AbstractBallProjector implements WeaponInterface {
-    protected _force: number = 10;
 
     protected _durability: number;
 

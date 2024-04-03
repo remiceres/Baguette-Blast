@@ -3,10 +3,10 @@ import ProjectileInterface from '../projectile/ProjectileInterface';
 import AbstractBallProjector from './AbstractBallProjector';
 
 class HandBall extends AbstractBallProjector {
-    
-    protected _durability: number = 1;
+    protected _durability: number = 500;
 
     private _lastPosition: Vector3;
+    private _lastPositionTime: number;
     private _actualPosition: Vector3;
 
     constructor(projectile: ProjectileInterface) {
@@ -19,7 +19,9 @@ class HandBall extends AbstractBallProjector {
 
         if (this._lastPosition && this._actualPosition) {
             direction = this._actualPosition.subtract(this._lastPosition).normalize();
-            force = this._actualPosition.subtract(this._lastPosition).length() * this._force;
+            force =
+                (this._actualPosition.subtract(this._lastPosition).length() * 1000) /
+                (Date.now() - this._lastPositionTime);
         }
 
         return { direction, force };
@@ -44,6 +46,7 @@ class HandBall extends AbstractBallProjector {
 
     private _savePosition(position: Vector3): void {
         this._lastPosition = this._actualPosition;
+        this._lastPositionTime = Date.now();
         this._actualPosition = position.clone();
     }
 }
