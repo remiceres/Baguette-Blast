@@ -5,14 +5,14 @@ import Player from '../../player/Player';
 import BallProjectile from '../../projectile/BallProjectile';
 import AbstractBallProjector from '../../weapon/AbstractBallProjector';
 // import HandBall from '../../weapon/HandBall';
-import State from '../EnumState';
-import StateInterface from './StateInterface';
-import EnemyInitializer from './EnemyInitializer';
 import { BaseView } from '../../enemy/views/BaseView';
+import State from '../EnumState';
+import EnemyInitializer from './EnemyInitializer';
+import StateInterface from './StateInterface';
 // import EnemyView from '../../enemy/views/EnemyView';
-import GunBall from '../../weapon/GunBall';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import gameLevels from '../../GameLevelConfig';
+import GunBall from '../../weapon/GunBall';
 
 /**
  * Represents the first level test state of the application, handling the initialization,
@@ -37,42 +37,37 @@ class LevelTest1State implements StateInterface {
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
     public async init(): Promise<void> {
-
         // Assuming you have a way to determine the current level number
         const currentLevelNumber = 1; // For demonstration, loading level 1
-        const currentLevelConfig = gameLevels.find(level => level.level === currentLevelNumber);
+        const currentLevelConfig = gameLevels.find((level) => level.level === currentLevelNumber);
 
         this._setupMenuCube();
-    
+
         // Initialize light
         this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), Game.instance.scene);
-    
+
         // Initialize player components
         this._player = new Player();
         // Based on the level, choose the appropriate weapon
-        switch(currentLevelConfig.weapon) {
+        switch (currentLevelConfig.weapon) {
             case 'Air Pistol':
                 this._ball = new GunBall(new BallProjectile());
                 break;
             // Add cases for other weapons as needed
         }
         this._player.grapWeapon('right', this._ball);
-    
+
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
-    
+
         // Dynamically create enemies based on the level configuration
-        currentLevelConfig.enemies.forEach(enemy => {
+        currentLevelConfig.enemies.forEach((enemy) => {
             for (let i = 0; i < enemy.quantity; i++) {
-                // Generate a random position 
-                const position = new Vector3(
-                    Math.random() * 10 - 5,
-                    Math.random() * 10 - 5,
-                    Math.random() * 10 - 5
-                );
-    
+                // Generate a random position
+                const position = new Vector3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
+
                 // Initialize the enemy based on its type
                 let controller;
-                switch(enemy.name) {
+                switch (enemy.name) {
                     case 'Copper Balloon':
                         controller = this._enemyInitializer.createCopperBalloon(position, enemy.points);
                         break;
@@ -84,15 +79,15 @@ class LevelTest1State implements StateInterface {
                         break;
                     // Add cases for other enemy types as needed
                 }
-                if(controller) {
+                if (controller) {
                     this._controllers.push(controller);
                 }
             }
         });
-    
+
         return Promise.resolve();
     }
-    
+
     /**
      * Sets up the interactive menu cube in the scene.
      */
@@ -106,9 +101,9 @@ class LevelTest1State implements StateInterface {
 
     private _checkForCollisions(): void {
         // this._views.forEach(view => {
-        this._controllers.forEach(controller => {
+        this._controllers.forEach((controller) => {
             if (controller.view instanceof BaseView) {
-                this._ball.getProjectiles().forEach(projectile => {
+                this._ball.getProjectiles().forEach((projectile) => {
                     if (projectile.intersectsMesh(controller.view._mesh, true)) {
                         // Notify the EnemyController about the collision
                         // view.controller.notifyCollision(projectile);
@@ -122,7 +117,7 @@ class LevelTest1State implements StateInterface {
                         if (index > -1) {
                             this._controllers.splice(index, 1);
                         }
-                        
+
                         projectile.dispose();
                     }
                 });
@@ -147,6 +142,19 @@ class LevelTest1State implements StateInterface {
         this._light1.dispose();
     }
 
+    private _rightSecondaryContinuePressed = false;
+
+    private _toggleTineSlow(): void {
+        const primaryPressed: boolean = Game.instance.inputManager.rightSecondary.pressed;
+        const isSlowPower = Game.instance.timeControl.isSlowPower();
+
+        if (primaryPressed && !this._rightSecondaryContinuePressed) {
+            isSlowPower ? Game.instance.timeControl.disableSlowPower() : Game.instance.timeControl.activeSlowPower(0.2);
+        }
+
+        this._rightSecondaryContinuePressed = primaryPressed;
+    }
+
     /**
      * Animates the level test state elements, including enemies, based on deltaTime.
      * @param {number} deltaTime - The time in seconds since the last frame.
@@ -161,13 +169,15 @@ class LevelTest1State implements StateInterface {
         // });
 
         // Update all controllers
-        this._controllers.forEach(controller => {
+        this._controllers.forEach((controller) => {
             controller.update(deltaTime);
         });
 
         // Check for collisions
         this._ball.update(deltaTime); // Assuming this updates the projectile's position
         this._checkForCollisions();
+
+        this._toggleTineSlow();
 
         // // Update views
         // this._views.forEach(view => {

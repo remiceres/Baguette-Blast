@@ -6,6 +6,7 @@ import KeyboardInput from './inputs/KeyboardInput';
 import QuestInput from './inputs/QuestInput';
 import State from './stateManager/EnumState';
 import StateManager from './stateManager/StateManager';
+import TimeControl from './TimeControl';
 
 /**
  * The Game class is the central class of the application.
@@ -37,6 +38,9 @@ class Game {
     // Manages input from different sources like keyboard or VR controllers.
     private _inputManager: InputManager;
 
+    // Controls the simulation time, allowing pausing, slow motion, etc.
+    private _timeControl: TimeControl;
+
     // A console for displaying debug information.
     private _debugConsole: DebugConsole;
 
@@ -56,6 +60,7 @@ class Game {
                 ? new QuestInput(this._xr, this._scene)
                 : new KeyboardInput(this._scene);
             this._stateManager = new StateManager(this._scene, State.Menu);
+            this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
 
             this._render();
@@ -116,8 +121,10 @@ class Game {
             const deltaTime = (currentTime - lastTime) / 1000.0;
             lastTime = currentTime;
 
+            this.timeControl.update();
+
             if (document.visibilityState === 'visible') {
-                this._stateManager.currentState.animate(deltaTime);
+                this._stateManager.currentState.animate(deltaTime * this._timeControl.getTimeScale());
                 this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
                 this._cameraManager.update();
                 this._scene.render();
@@ -137,6 +144,10 @@ class Game {
 
     public get inputManager(): InputManager {
         return this._inputManager;
+    }
+
+    public get timeControl(): TimeControl {
+        return this._timeControl;
     }
 
     public get cameraManager(): CameraManager {
