@@ -1,9 +1,10 @@
-import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
+import { AssetsManager, Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
 import CameraManager from './CameraManager';
 import DebugConsole from './debug/DebugConsole';
 import InputManager from './inputs/InputManager';
 import KeyboardInput from './inputs/KeyboardInput';
 import QuestInput from './inputs/QuestInput';
+import LoadAssets from './LoadAssets';
 import State from './stateManager/EnumState';
 import StateManager from './stateManager/StateManager';
 import TimeControl from './TimeControl';
@@ -53,6 +54,7 @@ class Game {
         this._engine = new Engine(canvas, true);
         window.addEventListener('resize', () => this._engine.resize());
         this._scene = new Scene(this._engine);
+        this._scene.useRightHandedSystem = true;
 
         this._initializeXR(this._scene).then(() => {
             this._cameraManager = new CameraManager(this._scene, this._supportedVR);
@@ -62,6 +64,7 @@ class Game {
             this._stateManager = new StateManager(this._scene, State.Menu);
             this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
+            this._initAssets();
 
             this._render();
         });
@@ -102,6 +105,17 @@ class Game {
         if (this._supportedVR) {
             this._xr = await scene.createDefaultXRExperienceAsync({});
         }
+    }
+
+    private _initAssets() {
+        const assetManager = new AssetsManager(Game.instance.scene);
+
+        LoadAssets.initLight(Game.instance.scene);
+        LoadAssets.initModels(Game.instance.scene, assetManager);
+        for (let i = 0; i <= 10; i++) {
+            LoadAssets._dictLights.get('light' + i);
+        }
+        LoadAssets._dictModels.get('Game.instance.scene');
     }
 
     /**

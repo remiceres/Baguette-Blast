@@ -1,23 +1,18 @@
 /* eslint-disable linebreak-style */
-import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { HemisphericLight, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { Inspector } from '@babylonjs/inspector';
 import Game from '../../Game';
-import LoadAssets from '../../LoadAssets';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import { Inspector } from '@babylonjs/inspector';
 
 /**
  * Represents the second level test state of the application.
  * It handles the initialization, disposal, and animation of the scene's level test elements.
  */
 class LevelTest2State implements StateInterface {
-    private _scene: Scene;
     private _light1: HemisphericLight;
     private _cubeMenu: Mesh;
-    private _assetManager: AssetsManager;
-    private _material: StandardMaterial;
-    private _mesh: Mesh;
 
     /**
      * Initializes the level test state with the given scene.
@@ -25,15 +20,7 @@ class LevelTest2State implements StateInterface {
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
     public async init(): Promise<void> {
-        this._assetManager = new AssetsManager(Game.instance.scene);
         Inspector.Show(Game.instance.scene, {});
-
-        LoadAssets.initLight(Game.instance.scene);
-        LoadAssets.initModels(Game.instance.scene, this._assetManager);
-        for (let i=0; i <= 10; i++) {
-            LoadAssets._dictLights.get('light'+i);
-        }
-        LoadAssets._dictModels.get('Game.instance.scene');
 
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
