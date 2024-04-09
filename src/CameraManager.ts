@@ -1,4 +1,4 @@
-import { ArcRotateCamera, Camera, Scene, Vector3 } from '@babylonjs/core';
+import { Camera, FreeCamera, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
 import InputManager from './inputs/InputManager';
 
@@ -10,9 +10,9 @@ class CameraManager {
     private _scene: Scene;
     private _vrIsEnabled: boolean;
     private _inputManager: InputManager;
-    private _currentCamera: ArcRotateCamera;
-    private _pcCamera: ArcRotateCamera;
-    private _debugCamera: ArcRotateCamera;
+    private _currentCamera: FreeCamera;
+    private _pcCamera: FreeCamera;
+    private _debugCamera: FreeCamera;
     private _debugModeEnabled: boolean = false;
     private _continuePressed: boolean = false;
 
@@ -27,11 +27,11 @@ class CameraManager {
         this._scene = scene;
         this._vrIsEnabled = vrIsEnabled;
 
-        this._pcCamera = new ArcRotateCamera('pcCamera', Math.PI / 2, Math.PI / 2, 10, Vector3.Zero(), scene);
+        this._pcCamera = new FreeCamera('pcCamera', Vector3.Zero(), scene);
         this._pcCamera.attachControl();
         this._currentCamera = this._pcCamera;
 
-        this._debugCamera = new ArcRotateCamera('debugCamera', Math.PI / 3, Math.PI / 3, 14, Vector3.Zero(), scene);
+        this._debugCamera = new FreeCamera('debugCamera', Vector3.Zero(), scene);
         this._scene.activeCamera = this._currentCamera;
     }
 
@@ -39,9 +39,9 @@ class CameraManager {
      * Switches the active camera to the specified camera.
      * Detaches controls from the current camera and attaches them to the new one.
      *
-     * @param {ArcRotateCamera} newCamera - The camera to switch to.
+     * @param {FreeCamera} newCamera - The camera to switch to.
      */
-    private _switchCamera(newCamera: ArcRotateCamera): void {
+    private _switchCamera(newCamera: FreeCamera): void {
         this._currentCamera.detachControl();
         this._currentCamera = newCamera;
         this._currentCamera.attachControl();
