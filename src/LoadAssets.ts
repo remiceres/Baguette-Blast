@@ -1,4 +1,4 @@
-import { PointLight, Scene, Vector3, AssetsManager, MeshAssetTask, DirectionalLight } from '@babylonjs/core';
+import { PointLight, Scene, Vector3, AssetsManager, MeshAssetTask } from '@babylonjs/core';
 
 /* eslint-disable linebreak-style */
 class LoadAssets {
@@ -24,6 +24,13 @@ class LoadAssets {
 
     public static async initModels(scene : Scene, assetManager : AssetsManager): Promise<void> {
         const meshSceneTask = assetManager.addMeshTask('scene', '', '', 'Scene.obj', '');
+
+        meshSceneTask.onSuccess = function (task) {
+            task.loadedMeshes.forEach(function (loadedMesh) {
+                const meshMaterial = loadedMesh.material;
+                meshMaterial.forceDepthWrite = true;
+            });
+        };
 
         LoadAssets._dictModels.set('scene', meshSceneTask);
 
