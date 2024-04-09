@@ -1,9 +1,11 @@
+/* eslint-disable linebreak-style */
 import { AssetsManager, HemisphericLight, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 import LoadAssets from '../../LoadAssets';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import { Inspector } from '@babylonjs/inspector';
 
 /**
  * Represents the second level test state of the application.
@@ -24,10 +26,13 @@ class LevelTest2State implements StateInterface {
      */
     public async init(): Promise<void> {
         this._assetManager = new AssetsManager(Game.instance.scene);
+        Inspector.Show(Game.instance.scene, {});
 
         LoadAssets.initLight(Game.instance.scene);
         LoadAssets.initModels(Game.instance.scene, this._assetManager);
-        LoadAssets._dictLights.get('light1');
+        for (let i=0; i <= 10; i++) {
+            LoadAssets._dictLights.get('light'+i);
+        }
         LoadAssets._dictModels.get('Game.instance.scene');
 
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
