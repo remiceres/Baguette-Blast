@@ -1,6 +1,5 @@
 import { Camera, FreeCamera, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
-import InputManager from './inputs/InputManager';
 
 /**
  * Manages the cameras within a BabylonJS Scene, including switching
@@ -9,7 +8,6 @@ import InputManager from './inputs/InputManager';
 class CameraManager {
     private _scene: Scene;
     private _vrIsEnabled: boolean;
-    private _inputManager: InputManager;
     private _currentCamera: FreeCamera;
     private _pcCamera: FreeCamera;
     private _debugCamera: FreeCamera;

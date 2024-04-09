@@ -5,6 +5,7 @@ enum State {
     Menu,
     LevelTest1,
     LevelTest2,
+    LevelTest3,
 }
 
 export default State;

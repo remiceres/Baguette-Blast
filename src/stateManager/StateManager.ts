@@ -4,6 +4,7 @@ import LevelTest1State from './states/LevelTest1State';
 import LevelTest2State from './states/LevelTest2State';
 import MenuState from './states/MenuState';
 import StateInterface from './states/StateInterface';
+import LevelTest3State from './states/LevelTest3State';
 
 /**
  * Manages the different states of the application, such as menu, game levels, etc.
@@ -22,6 +23,7 @@ class StateManager {
             [State.Menu, new MenuState()],
             [State.LevelTest1, new LevelTest1State()],
             [State.LevelTest2, new LevelTest2State()],
+            [State.LevelTest3, new LevelTest3State()],
         ]);
         this._currentState = this._states.get(initialState);
         this._currentState.init();

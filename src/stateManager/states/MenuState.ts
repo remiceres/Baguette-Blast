@@ -1,4 +1,4 @@
-import { HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
@@ -9,10 +9,10 @@ import StateInterface from './StateInterface';
  * animation, and disposal of the scene's menu elements.
  */
 class MenuState implements StateInterface {
-    private _light1: HemisphericLight;
     private _sphere: Mesh;
     private _cubelevel1: Mesh;
     private _cubelevel2: Mesh;
+    private _cubelevel3: Mesh;
     private _elapsedTime = 0; // Class-level variable to track elapsed time
 
     /**
@@ -21,7 +21,6 @@ class MenuState implements StateInterface {
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
     public async init(): Promise<void> {
-        this._light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), Game.instance.scene);
         this._sphere = MeshBuilder.CreateSphere('sphere', { diameter: 1 }, Game.instance.scene);
 
         // Setup the interactive cubes
@@ -46,16 +45,22 @@ class MenuState implements StateInterface {
         Buttons.clickable(scene, this._cubelevel2, () => {
             Game.instance.stateManager.changeState(State.LevelTest2);
         });
+
+        this._cubelevel3 = MeshBuilder.CreateBox('cubelevel3', { size: 1 }, scene);
+        this._cubelevel3.position = new Vector3(0, 0, 2);
+        Buttons.clickable(scene, this._cubelevel3, () => {
+            Game.instance.stateManager.changeState(State.LevelTest3);
+        });
     }
 
     /**
      * Disposes of resources used by the menu state.
      */
     public dispose(): void {
-        this._light1.dispose();
         this._sphere.dispose();
         this._cubelevel1.dispose();
         this._cubelevel2.dispose();
+        this._cubelevel3.dispose();
     }
 
     /**
