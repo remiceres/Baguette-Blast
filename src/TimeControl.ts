@@ -44,7 +44,7 @@ class TimeControl {
             console.error('The time scale factor cannot be greater than 1.');
             return false;
         } else if (input === 1) {
-            console.warn('The time scale factor cannot be equal to 1. Use disableSlowDanger() instead.');
+            console.warn('The time scale factor cannot be equal to 1. Use disableSlowPower() instead.');
             return false;
         }
         return true;
