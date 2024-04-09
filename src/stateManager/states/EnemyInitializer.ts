@@ -18,6 +18,35 @@ class EnemyInitializer {
         this._scene = scene;
     }
 
+    initEnemies(currentLevelConfig): EnemyController[]{
+        const controllers: EnemyController[] = [];
+        currentLevelConfig.enemies.forEach((enemy) => {
+            for (let i = 0; i < enemy.quantity; i++) {
+                // Generate a random position
+                const position = new Vector3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
+
+                // Initialize the enemy based on its type
+                let controller;
+                switch (enemy.name) {
+                    case 'Copper Balloon':
+                        controller = this.createCopperBalloon(position, enemy.points);
+                        break;
+                    case 'Silver Balloon':
+                        controller = this.createSilverBalloon(position, enemy.points);
+                        break;
+                    case 'Walking Enemy':
+                        controller = this.createEnemy(position, enemy.points);
+                        break;
+                    // Add cases for other enemy types as needed
+                }
+                if (controller) {
+                    controllers.push(controller);
+                }
+            }
+        });
+        return controllers;
+    }
+
     createEnemy(position: Vector3, health: number): EnemyController {
         const model = new EnemyModel(position, health);
         const view = new EnemyView(this._scene, model);
