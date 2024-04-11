@@ -144,7 +144,7 @@ class LevelTest1State implements StateInterface {
 
     private _rightSecondaryContinuePressed = false;
 
-    private _toggleTineSlow(): void {
+    private _toggleTimeSlow(): void {
         const primaryPressed: boolean = Game.instance.inputManager.rightSecondary.pressed;
         const isSlowPower = Game.instance.timeControl.isSlowPower();
 
@@ -177,7 +177,7 @@ class LevelTest1State implements StateInterface {
         this._ball.update(deltaTime); // Assuming this updates the projectile's position
         this._checkForCollisions();
 
-        this._toggleTineSlow();
+        this._toggleTimeSlow();
 
         // // Update views
         // this._views.forEach(view => {

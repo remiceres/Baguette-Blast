@@ -36,12 +36,14 @@ class PlayerController {
 
 
     public update(deltaTime: number): void {
-        // console.log(Game.instance.cameraManager.playerCamera.position);
-        // console.log(this._view._playerMesh.position);
-        
         deltaTime;
 
         this._fireWeapon();
+        if (this._model.weaponLeft) {
+            this._model.weaponLeft.update(deltaTime);
+        } else {
+            this._model.weaponRight.update(deltaTime);
+        }
     }
 
     private _fireWeapon(): void {
