@@ -61,7 +61,7 @@ class Player {
     // Functions //
     ///////////////
 
-    public grapWeapon(hand: 'left' | 'right', weapon: WeaponInterface): void {
+    public grabWeapon(hand: 'left' | 'right', weapon: WeaponInterface): void {
         if (hand === 'left') {
             this._weaponLeft = weapon;
             this._weaponLeft.grap(this._leftHand);

@@ -45,6 +45,7 @@ class StateManager {
         if (this._currentState) {
             this._currentState.dispose();
         }
+        console.log(`Changing state to: ${State}`);
 
         this._currentState = this._states.get(State);
         this._currentState.init();

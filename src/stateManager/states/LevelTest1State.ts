@@ -55,7 +55,7 @@ class LevelTest1State implements StateInterface {
                 break;
             // Add cases for other weapons as needed
         }
-        this._player.grapWeapon('right', this._ball);
+        this._player.grabWeapon('right', this._ball);
 
         this._enemyInitializer = new EnemyInitializer(Game.instance.scene);
 

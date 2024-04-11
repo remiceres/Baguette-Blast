@@ -6,12 +6,17 @@ import StateInterface from './StateInterface';
 import EnemyInitializer from './EnemyInitializer';
 import gameLevels from '../../GameLevelConfig';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import PlayerInitializer from './PlayerInitializer';
+import PlayerController from '../../player/controllers/PlayerController';
 
 class LevelTest3State implements StateInterface {
     private _cubeMenu: Mesh;
-    
+
     // Arrays to store models and views
-    private _controllers: EnemyController[] = [];
+    private _ennemiesControllers: EnemyController[] = [];
+
+    // Player
+    private _playerController: PlayerController;
 
     /**
      * Initializes the level test state with the given scene.
@@ -26,10 +31,15 @@ class LevelTest3State implements StateInterface {
             Game.instance.stateManager.changeState(State.Menu);
         });
 
-        const currentLevelNumber = 1; 
+        // Get the current level configuration
+        const currentLevelNumber = 1;
         const currentLevelConfig = gameLevels.find((level) => level.level === currentLevelNumber);
 
-        this._controllers = new EnemyInitializer(Game.instance.scene).initEnemies(currentLevelConfig);
+        // Initialize enemies
+        this._ennemiesControllers = new EnemyInitializer(Game.instance.scene).initEnemies(currentLevelConfig);
+
+        // Initialize player components
+        this._playerController = new PlayerInitializer().initPlayer(currentLevelConfig);
 
         return Promise.resolve();
     }
@@ -47,9 +57,13 @@ class LevelTest3State implements StateInterface {
     public animate(deltaTime: number): void {
         deltaTime;
 
-        this._controllers.forEach((controller) => {
-            controller.update(deltaTime);
+        // Update enemies
+        this._ennemiesControllers.forEach((ennemyControllers) => {
+            ennemyControllers.update(deltaTime);
         });
+
+        // Update player
+        this._playerController.update(deltaTime);
     }
 }
 
