@@ -8,6 +8,8 @@ import gameLevels from '../../GameLevelConfig';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import PlayerInitializer from './PlayerInitializer';
 import PlayerController from '../../player/controllers/PlayerController';
+import { BaseView } from '../../enemy/views/BaseView';
+import CollisionManager from './CollisionManager';
 
 class LevelTest3State implements StateInterface {
     private _cubeMenu: Mesh;
@@ -17,6 +19,8 @@ class LevelTest3State implements StateInterface {
 
     // Player
     private _playerController: PlayerController;
+
+    private _collisionManager = new CollisionManager();
 
     /**
      * Initializes the level test state with the given scene.
@@ -38,10 +42,40 @@ class LevelTest3State implements StateInterface {
         // Initialize enemies
         this._ennemiesControllers = new EnemyInitializer(Game.instance.scene).initEnemies(currentLevelConfig);
 
+        this._ennemiesControllers.forEach((enemyController) => {
+            this._collisionManager.addCollider(enemyController);
+        });
+
         // Initialize player components
         this._playerController = new PlayerInitializer().initPlayer(currentLevelConfig);
 
         return Promise.resolve();
+    }
+
+    private _checkForCollisions(): void {
+        // this._views.forEach(view => {
+        this._ennemiesControllers.forEach((enemyController) => {
+            if (enemyController.view instanceof BaseView) {
+                this._playerController.weaponRight.getProjectiles().forEach((projectile) => {
+                    if (projectile.intersectsMesh(enemyController.view._mesh, true)) {
+                        // Notify the EnemyController about the collision
+                        // view.controller.notifyCollision(projectile);
+                        console.log('Collision detected');
+                        // Dirty hack to remove the projectile and the enemy
+                        // TODO: Remove the projectile and the enemy properly
+                        // To do so I think we need a class that handles the collision
+                        enemyController.dispose();
+                        // Remove the controller from the array
+                        const index = this._ennemiesControllers.indexOf(enemyController);
+                        if (index > -1) {
+                            this._ennemiesControllers.splice(index, 1);
+                        }
+
+                        projectile.dispose();
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -64,6 +98,10 @@ class LevelTest3State implements StateInterface {
 
         // Update player
         this._playerController.update(deltaTime);
+
+        // Check for collisions
+        this._checkForCollisions();
+        this._collisionManager.checkCollisions();
     }
 }
 

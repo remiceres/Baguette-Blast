@@ -1,8 +1,9 @@
 import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../Game';
 import ProjectileInterface from './ProjectileInterface';
+import { BaseView } from '../enemy/views/BaseView';
 
-class BallProjectile implements ProjectileInterface {
+class BallProjectile implements ProjectileInterface, ICollider {
     public _mesh: Mesh;
 
     private _instanceCount = 0;
@@ -11,6 +12,18 @@ class BallProjectile implements ProjectileInterface {
         this._mesh = MeshBuilder.CreateSphere('ball_ref', { diameter: 0.25 }, Game.instance.scene);
         this._mesh.isVisible = false;
         this._mesh.isPickable = false;
+    }
+    
+    collidesWith(other: ICollider): boolean {
+        return other instanceof BaseView;
+    }
+
+    onCollision(other: ICollider): void {
+        if (other instanceof BaseView) {
+            console.log('Projectile hit an enemy');
+            this.dispose();
+            other.dispose();
+        }
     }
 
     public fire(origin: Vector3, direction: Vector3, force: number): void {

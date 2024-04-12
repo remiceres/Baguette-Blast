@@ -1,8 +1,9 @@
 import BonusController from '../../bonus/controllers/BonusController';
+import BallProjectile from '../../projectile/BallProjectile';
 import EnemyModel from '../models/EnemyModel';
 import { BaseView } from '../views/BaseView';
 
-class EnemyController {
+class EnemyController implements ICollider{
     private _model: EnemyModel; // This could be any model that extends EnemyModel, including CopperBalloonModel
     private _view: BaseView; // Corresponding view for the model
     private _bonusController: BonusController;
@@ -13,6 +14,16 @@ class EnemyController {
 
         // Example of setting up event listeners
         this.setupEventListeners();
+    }
+    collidesWith(other: ICollider): boolean {
+        if (other instanceof BallProjectile) {
+            console.log('collidesWith');
+            return true;
+        }
+        return;
+    }
+    onCollision(other: ICollider): void {
+        return;
     }
 
     setupEventListeners(): void {

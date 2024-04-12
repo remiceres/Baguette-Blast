@@ -34,6 +34,13 @@ class PlayerController {
         }
     }
 
+    get weaponLeft(): WeaponInterface {
+        return this._model.weaponLeft;
+    }
+
+    get weaponRight(): WeaponInterface {
+        return this._model.weaponRight;
+    }
 
     public update(deltaTime: number): void {
         deltaTime;
