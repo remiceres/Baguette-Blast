@@ -1,19 +1,18 @@
 import { AbstractMesh } from '@babylonjs/core';
+import Game from '../../Game';
+import InputManager from '../../inputs/InputManager';
 import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
-import Game from '../../Game';
-import InputManager from '../../inputs/InputManager';
 
 class PlayerController {
-
     private _model: PlayerModel;
     private _view: PlayerView;
 
     private _inputManager: InputManager;
     private _leftHand: AbstractMesh;
     private _rightHand: AbstractMesh;
-    
+
     constructor(model: PlayerModel, view: PlayerView) {
         this._model = model;
         this._view = view;
@@ -46,9 +45,12 @@ class PlayerController {
         deltaTime;
 
         this._fireWeapon();
+
         if (this._model.weaponLeft) {
             this._model.weaponLeft.update(deltaTime);
-        } else {
+        }
+
+        if (this._model.weaponRight) {
             this._model.weaponRight.update(deltaTime);
         }
     }

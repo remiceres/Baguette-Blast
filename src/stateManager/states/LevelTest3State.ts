@@ -1,15 +1,14 @@
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
-import Buttons from '../../menu/buttons';
-import State from '../EnumState';
-import StateInterface from './StateInterface';
-import EnemyInitializer from './EnemyInitializer';
 import gameLevels from '../../GameLevelConfig';
 import EnemyController from '../../enemy/controllers/EnemyController';
-import PlayerInitializer from './PlayerInitializer';
+import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
-import { BaseView } from '../../enemy/views/BaseView';
+import State from '../EnumState';
 import CollisionManager from './CollisionManager';
+import EnemyInitializer from './EnemyInitializer';
+import PlayerInitializer from './PlayerInitializer';
+import StateInterface from './StateInterface';
 
 class LevelTest3State implements StateInterface {
     private _cubeMenu: Mesh;
@@ -52,32 +51,6 @@ class LevelTest3State implements StateInterface {
         return Promise.resolve();
     }
 
-    private _checkForCollisions(): void {
-        // this._views.forEach(view => {
-        this._ennemiesControllers.forEach((enemyController) => {
-            if (enemyController.view instanceof BaseView) {
-                this._playerController.weaponRight.getProjectiles().forEach((projectile) => {
-                    if (projectile.intersectsMesh(enemyController.view._mesh, true)) {
-                        // Notify the EnemyController about the collision
-                        // view.controller.notifyCollision(projectile);
-                        console.log('Collision detected');
-                        // Dirty hack to remove the projectile and the enemy
-                        // TODO: Remove the projectile and the enemy properly
-                        // To do so I think we need a class that handles the collision
-                        enemyController.dispose();
-                        // Remove the controller from the array
-                        const index = this._ennemiesControllers.indexOf(enemyController);
-                        if (index > -1) {
-                            this._ennemiesControllers.splice(index, 1);
-                        }
-
-                        projectile.dispose();
-                    }
-                });
-            }
-        });
-    }
-
     /**
      * Disposes of resources used by the level test state.
      */
@@ -100,7 +73,6 @@ class LevelTest3State implements StateInterface {
         this._playerController.update(deltaTime);
 
         // Check for collisions
-        this._checkForCollisions();
         this._collisionManager.checkCollisions();
     }
 }

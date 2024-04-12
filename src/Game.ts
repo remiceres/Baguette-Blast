@@ -54,7 +54,6 @@ class Game {
         this._engine = new Engine(canvas, true);
         window.addEventListener('resize', () => this._engine.resize());
         this._scene = new Scene(this._engine);
-        // this._scene.useRightHandedSystem = true;
 
         this._initializeXR(this._scene).then(() => {
             this._cameraManager = new CameraManager(this._scene, this._supportedVR);

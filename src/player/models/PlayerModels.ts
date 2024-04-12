@@ -1,12 +1,10 @@
-
 import WeaponInterface from '../../weapon/WeaponIInterface';
 
 class PlayerModel {
     private _weaponLeft: WeaponInterface;
     private _weaponRight: WeaponInterface;
 
-    constructor() {
-    }
+    constructor() {}
 
     set weaponLeft(weapon: WeaponInterface) {
         this._weaponLeft = weapon;
