@@ -73,7 +73,7 @@ class LevelTest3State implements StateInterface {
         this._playerController.update(deltaTime);
 
         // Check for collisions
-        this._collisionManager.checkCollisions();
+        this._collisionManager.checkForCollisions(this._playerController.weaponRight);
     }
 }
 

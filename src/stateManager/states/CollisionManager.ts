@@ -1,3 +1,5 @@
+import { BaseView } from '../../enemy/views/BaseView';
+
 class CollisionManager {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private _colliders: any[];
@@ -23,6 +25,33 @@ class CollisionManager {
                 }
             }
         }
+    }
+
+    // Temporary method to check for collisions between the ball and the enemies
+    checkForCollisions(ball): void {
+        // this._views.forEach(view => {
+        this._colliders.forEach((controller) => {
+            if (controller.view instanceof BaseView) {
+                ball.getProjectiles().forEach((projectile) => {
+                    if (projectile.intersectsMesh(controller.view._mesh, true)) {
+                        // Notify the EnemyController about the collision
+                        // view.controller.notifyCollision(projectile);
+                        console.log('Collision detected');
+                        // Dirty hack to remove the projectile and the enemy
+                        // TODO: Remove the projectile and the enemy properly
+                        // To do so I think we need a class that handles the collision
+                        controller.dispose();
+                        // Remove the controller from the array
+                        const index = this._colliders.indexOf(controller);
+                        if (index > -1) {
+                            this._colliders.splice(index, 1);
+                        }
+
+                        projectile.dispose();
+                    }
+                });
+            }
+        });
     }
 }
 
