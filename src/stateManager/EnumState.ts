@@ -2,10 +2,10 @@
  * Enum representing the different states or scenes in the game.
  */
 enum State {
-    Menu,
-    LevelTest1,
-    LevelTest2,
-    LevelTest3,
+    MenuHome,
+    test1,
+    test2,
+    Level,
 }
 
 export default State;

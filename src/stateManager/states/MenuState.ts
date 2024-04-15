@@ -37,19 +37,19 @@ class MenuState implements StateInterface {
         this._cubelevel1 = MeshBuilder.CreateBox('cubelevel1', { size: 1 }, scene);
         this._cubelevel1.position = new Vector3(-2, 0, 0);
         Buttons.clickable(scene, this._cubelevel1, () => {
-            Game.instance.stateManager.changeState(State.LevelTest1);
+            Game.instance.stateManager.changeState(State.test1);
         });
 
         this._cubelevel2 = MeshBuilder.CreateBox('cubelevel2', { size: 1 }, scene);
         this._cubelevel2.position = new Vector3(2, 0, 0);
         Buttons.clickable(scene, this._cubelevel2, () => {
-            Game.instance.stateManager.changeState(State.LevelTest2);
+            Game.instance.stateManager.changeState(State.test2);
         });
 
         this._cubelevel3 = MeshBuilder.CreateBox('cubelevel3', { size: 1 }, scene);
         this._cubelevel3.position = new Vector3(0, 0, 2);
         Buttons.clickable(scene, this._cubelevel3, () => {
-            Game.instance.stateManager.changeState(State.LevelTest3);
+            Game.instance.stateManager.changeState(State.Level);
         });
     }
 
