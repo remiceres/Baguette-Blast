@@ -3,7 +3,6 @@ import ProjectileInterface from '../projectile/ProjectileInterface';
 import WeaponInterface from './WeaponIInterface';
 
 abstract class AbstractBallProjector implements WeaponInterface {
-
     protected _durability: number;
 
     protected mesh: AbstractMesh;
@@ -85,7 +84,6 @@ abstract class AbstractBallProjector implements WeaponInterface {
     public dispose(): void {
         this._projectile.dispose();
         this.mesh.dispose();
-
     }
 }
 

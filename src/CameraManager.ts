@@ -27,6 +27,8 @@ class CameraManager {
 
         this._pcCamera = new FreeCamera('pcCamera', Vector3.Zero(), scene);
         this._pcCamera.attachControl();
+        this._pcCamera.position = new Vector3(0, 3, -6);
+        this._pcCamera.setTarget(Vector3.Zero());
         this._currentCamera = this._pcCamera;
 
         this._debugCamera = new FreeCamera('debugCamera', Vector3.Zero(), scene);
