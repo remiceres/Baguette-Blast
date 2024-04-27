@@ -1,10 +1,10 @@
-import { AssetsManager, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
 
 class AssetsLoader {
     private readonly _scene: Scene = Game.instance.scene;
     private readonly _dictLights: Map<string, PointLight> = new Map();
-    private readonly _dictModels: Map<string, MeshAssetTask> = new Map();
+    private readonly _dictModels: Map<string, Mesh> = new Map(); // Changed from AbstractMesh to Mesh
 
     private static readonly _modelPath = 'models/';
     private static readonly _modelExtension = '.obj';
@@ -51,9 +51,16 @@ class AssetsLoader {
                 AssetsLoader._modelPath,
                 `${name}${AssetsLoader._modelExtension}`
             );
-            task.onSuccess = (task) => this._handleMeshLoaded(task, name === 'Scene');
+            task.onSuccess = (task) => {
+                this._handleMeshLoaded(task, name === 'Scene');
+                if (task.loadedMeshes[0] instanceof Mesh) {
+                    // Ensure it is a Mesh
+                    this._dictModels.set(name, task.loadedMeshes[0]);
+                } else {
+                    console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
+                }
+            };
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
-            this._dictModels.set(name.toLowerCase(), task);
         });
 
         return new Promise((resolve, reject) => {
@@ -65,13 +72,16 @@ class AssetsLoader {
 
     private _handleMeshLoaded(task: MeshAssetTask, isScene: boolean): void {
         task.loadedMeshes.forEach((mesh) => {
-            // Fix material issues
-            if (mesh.material) {
-                mesh.material.forceDepthWrite = true;
-            }
+            if (mesh instanceof Mesh) {
+                // Additional check
+                // Fix material issues
+                if (mesh.material) {
+                    mesh.material.forceDepthWrite = true;
+                }
 
-            // Hide the mesh if it's not the scene
-            mesh.isVisible = isScene;
+                // Hide the mesh if it's not the scene
+                mesh.isVisible = isScene;
+            }
         });
     }
 
@@ -87,7 +97,8 @@ class AssetsLoader {
         return this._dictLights;
     }
 
-    public get dictModels(): Map<string, MeshAssetTask> {
+    public get dictModels(): Map<string, Mesh> {
+        // Changed type here
         return this._dictModels;
     }
 }
