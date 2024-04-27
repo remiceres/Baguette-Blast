@@ -3,9 +3,9 @@
  */
 enum State {
     MenuHome,
+    Level,
     test1,
     test2,
-    Level,
 }
 
 export default State;

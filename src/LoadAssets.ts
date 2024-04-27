@@ -29,7 +29,6 @@ class LoadAssets {
             task.loadedMeshes.forEach(function (loadedMesh) {
                 const meshMaterial = loadedMesh.material;
                 meshMaterial.forceDepthWrite = true;
-                loadedMesh.scaling = new Vector3(-1, 1, 1);
             });
         };
         

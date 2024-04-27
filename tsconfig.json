@@ -8,6 +8,7 @@
     "sourceMap": true,
     "preserveConstEnums": true,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "es6"

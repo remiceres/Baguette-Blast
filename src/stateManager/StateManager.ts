@@ -1,7 +1,7 @@
 import State from './EnumState';
 import Test1State from './states/LevelTest1State';
 import Test2State from './states/LevelTest2State';
-import LevelState from './states/LevelTest3State';
+import LevelState from './states/LevelState';
 import MenuHomeState from './states/MenuState';
 import StateInterface from './states/StateInterface';
 
@@ -20,7 +20,7 @@ class StateManager {
     public constructor(initialState: State) {
         this._states = new Map<State, StateInterface>([
             [State.MenuHome, new MenuHomeState()],
-            [State.Level, new LevelState()],
+            [State.Level, new LevelState(1)],
             [State.test1, new Test1State()],
             [State.test2, new Test2State()],
         ]);
@@ -44,7 +44,6 @@ class StateManager {
         if (this._currentState) {
             this._currentState.dispose();
         }
-        console.log(`Changing state to: ${State}`);
 
         this._currentState = this._states.get(State);
         this._currentState.init();
