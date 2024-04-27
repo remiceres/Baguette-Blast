@@ -1,8 +1,12 @@
+import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import level1 from '../../../public/levels/level1.json';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import { LevelData } from '../../game/LevelData';
 import StateInterface from './StateInterface';
+import Game from '../../Game';
+import State from '../EnumState';
+import Buttons from '../../menu/buttons';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -11,6 +15,7 @@ class LevelState implements StateInterface {
     private _levelData?: LevelData;
 
     private _enemiesController: EnemyController[] = [];
+    private _cubeMenu: Mesh;
 
     constructor(levelNumber: number) {
         if (levelNumber <= 0) {
@@ -19,7 +24,17 @@ class LevelState implements StateInterface {
         this._levelNumber = levelNumber;
     }
 
+    private _initInterface(): void {
+        this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
+        this._cubeMenu.position = new Vector3(0, 1, 0);
+        Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
+            Game.instance.stateManager.changeState(State.MenuHome);
+        });
+    }
+
     public async init(): Promise<void> {
+        this._initInterface();
+
         console.log(`Initializing level ${this._levelNumber}...`);
     
         // Assuming level data is already validated to match LevelData interface
@@ -43,7 +58,10 @@ class LevelState implements StateInterface {
         this._levelNumber = levelNumber;
     }
 
-    public dispose(): void {}
+    public dispose(): void {
+        this._cubeMenu.dispose();
+        this._enemiesController.forEach(enemy => enemy.dispose());
+    }
 
     public animate(deltaTime: number): void {
         deltaTime;
