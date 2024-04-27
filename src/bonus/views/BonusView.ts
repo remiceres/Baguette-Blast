@@ -1,8 +1,8 @@
-import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Color3, InstancedMesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 
 
 class BonusView {
-    private _mesh: Mesh;
+    protected _mesh: InstancedMesh;
     private _scene: Scene;
 
     constructor(scene: Scene) {
@@ -11,7 +11,7 @@ class BonusView {
     }
 
     createMesh(): void {
-        this._mesh = MeshBuilder.CreateBox('bonusMesh', { size: 1 }, this._scene);
+        this._mesh = MeshBuilder.CreateBox('bonusMesh', { size: 1 }, this._scene).createInstance('bonusMesh');
         this._mesh.position = Vector3.Zero();
 
         const material = new StandardMaterial('bonusMaterial', this._scene);
@@ -29,7 +29,7 @@ class BonusView {
         // Provide a default update implementation or leave abstract to enforce subclass implementation
     }
 
-    public get mesh(): Mesh {
+    public get mesh(): InstancedMesh {
         return this._mesh;
     }
 }

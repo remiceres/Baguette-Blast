@@ -23,7 +23,6 @@ abstract class BaseView {
     }
 
     public set bonusView(bonusView: BonusView) {
-        console.log('Setting bonus view');
         this._bonusView = bonusView;
         // Add bonus mesh to the enemy mesh, on top of the enemy mesh
         this._bonusView.mesh.parent = this._mesh;

@@ -9,11 +9,13 @@ import SilverBalloonModel from './models/SilverBalloonModel';
 import FloatingBehavior from './behaviors/FloatingBehavior';
 import BonusController from '../bonus/controllers/BonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
-import BonusView from '../bonus/views/BonusView';
+import ScoreBonusView from '../bonus/views/ScoreBonusView';
+import TimeBonusView from '../bonus/views/TimeBonusView';
 
 enum BonusType {
     Speed = 'speed',
-    Score = 'score'
+    Score = 'score',
+    Time = 'time'
 }
 
 enum EnemyType {
@@ -63,8 +65,18 @@ class EnemyFactory {
     // Replace any with a base class for bonuses
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private static _assignBonus(controller: EnemyController, bonusData: any) {
-        if (bonusData && bonusData.type === BonusType.Score) {
-            controller.bonusController = new BonusController(new ScoreBonus(), new BonusView(Game.instance.scene));
+        switch (bonusData.type) {
+            case BonusType.Score:
+                // eslint-disable-next-line max-len
+                controller.bonusController = new BonusController(new ScoreBonus(), new ScoreBonusView(Game.instance.scene));
+                break;
+            case BonusType.Time:
+                // eslint-disable-next-line max-len
+                controller.bonusController = new BonusController(new ScoreBonus(), new TimeBonusView(Game.instance.scene));
+                break;
+            default:
+                throw new Error(`Unsupported behavior type: ${bonusData.type}`);
+                break;
         }
     }
 }

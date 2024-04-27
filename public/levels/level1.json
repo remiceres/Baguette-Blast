@@ -16,7 +16,7 @@
                 "z": 2
             },
             "bonus": {
-                "type": "speed"
+                "type": "time"
             },
             "behavior": {
                 "type": "floating",
@@ -33,7 +33,7 @@
                 "z": 2
             },
             "bonus": {
-                "type": "none"
+                "type": "score"
             },
             "behavior": {
                 "type": "floating",
