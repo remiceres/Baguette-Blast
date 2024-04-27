@@ -17,6 +17,11 @@
             },
             "bonus": {
                 "type": "speed"
+            },
+            "behavior": {
+                "type": "floating",
+                "range": 0.5,
+                "speed": 5
             }
         },
         {
@@ -29,6 +34,11 @@
             },
             "bonus": {
                 "type": "none"
+            },
+            "behavior": {
+                "type": "floating",
+                "range": 0.5,
+                "speed": 2
             }
         },
         {
@@ -40,7 +50,12 @@
                 "z": 3
             },
             "bonus": {
-                "type": "base"
+                "type": "score"
+            },
+            "behavior": {
+                "type": "floating",
+                "range": 2.5,
+                "speed": 0.5
             }
         }
     ]

@@ -22,6 +22,7 @@ class EnemyController implements ICollider{
         }
         return;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollision(other: ICollider): void {
         return;
     }

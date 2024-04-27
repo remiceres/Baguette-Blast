@@ -14,6 +14,16 @@ interface LevelData {
     enemies: EnemyData[];
 }
 
+interface BonusData {
+    type: string;
+}
+
+interface BehaviorData {
+    type: string;
+    range: number;
+    speed: number;
+}
+
 interface EnemyData {
     type: string;
     health: number;
@@ -22,6 +32,9 @@ interface EnemyData {
         y: number;
         z: number;
     };
+    bonus: BonusData; 
+    behavior: BehaviorData;
 }
 
-export { LevelData, EnemyData, ItemData };
+
+export { LevelData, EnemyData, ItemData, BehaviorData };
