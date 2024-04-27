@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { HemisphericLight, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import { Inspector } from '@babylonjs/inspector';
 import Game from '../../Game';
 import Buttons from '../../menu/buttons';
@@ -11,7 +11,6 @@ import StateInterface from './StateInterface';
  * It handles the initialization, disposal, and animation of the scene's level test elements.
  */
 class LevelTest2State implements StateInterface {
-    private _light1: HemisphericLight;
     private _cubeMenu: Mesh;
 
     /**
@@ -22,21 +21,25 @@ class LevelTest2State implements StateInterface {
     public async init(): Promise<void> {
         Inspector.Show(Game.instance.scene, {});
 
+        this._initInterface();
+
+        return Promise.resolve();
+    }
+
+    private _initInterface(): void {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
-        this._cubeMenu.position = new Vector3(0, -2, 0);
+        this._cubeMenu.position = new Vector3(0, 1, 0);
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.MenuHome);
         });
-
-        return Promise.resolve();
     }
 
     /**
      * Disposes of resources used by the level test state.
      */
     public dispose(): void {
-        this._light1.dispose();
         this._cubeMenu.dispose();
+        Inspector.Hide();
     }
 
     private _isRightControllerVisible: boolean = true;
