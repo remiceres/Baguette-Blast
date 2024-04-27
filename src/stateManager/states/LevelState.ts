@@ -1,24 +1,14 @@
 import level1 from '../../../public/levels/level1.json';
+import EnemyController from '../../enemy/controllers/EnemyController';
+import { LevelData } from '../../game/LevelData';
+import EnemyInitializer from './EnemyInitializer';
 import StateInterface from './StateInterface';
-
-// Define interfaces for the JSON structure
-interface Item {
-    item: string;
-    durability: number;
-    power: number;
-}
-
-interface Player {
-    left_hand: Item;
-}
-
-interface LevelData {
-    player: Player;
-}
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
     private _levelData?: LevelData;
+
+    private _enemiesController: EnemyController[] = [];
 
     constructor(levelNumber: number) {
         if (levelNumber <= 0) {
@@ -31,15 +21,19 @@ class LevelState implements StateInterface {
         console.log(`Initializing level ${this._levelNumber}...`);
 
         // Dynamically load the level JSON based on _levelNumber
-        const levels = [level1]; // Ajouter d'autres niveaux si nécessaire
+        const levels = [level1];
         this._levelData = levels[this._levelNumber - 1];
 
-        // Log the loaded data
-        console.log(`Level data loaded: ${JSON.stringify(this._levelData)}`);
-
-        // Example of accessing specific data
+        // Accessing specific data
         if (this._levelData && this._levelData.player) {
             console.log(`Player's left hand item: ${this._levelData.player.left_hand.item}`);
+        }
+
+        // Initialize the ennemies
+        if (this._levelData && this._levelData.enemies) {
+            this._enemiesController = EnemyInitializer.initEnemies(this._levelData.enemies);
+        } else {
+            console.log('No enemies found in the level data.');
         }
     }
 
