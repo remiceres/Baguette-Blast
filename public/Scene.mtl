@@ -280,8 +280,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Clément Quere\\Downloads\\cgshare-book-ground-004.jpg
-map_d C:\\Users\\Clément Quere\\Downloads\\cgshare-book-ground-004.jpg
+map_Kd Images\\cgshare-book-ground-004.jpg
+map_d Images\\cgshare-book-ground-004.jpg
 
 newmtl mat
 Ns 199.999995
@@ -292,4 +292,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd E:\\Clement\\Project\\BaguetteBlast\\Assets\\uploads_files_3217299_arena\\arena\\sourceimages\\texture.jpg
+map_Kd Images\\texture.jpg
