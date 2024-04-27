@@ -25,7 +25,7 @@ class LevelTest2State implements StateInterface {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
         this._cubeMenu.position = new Vector3(0, -2, 0);
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
-            Game.instance.stateManager.changeState(State.Menu);
+            Game.instance.stateManager.changeState(State.MenuHome);
         });
 
         return Promise.resolve();

@@ -24,17 +24,21 @@ class LoadAssets {
 
     public static async initModels(scene : Scene, assetManager : AssetsManager): Promise<void> {
         const meshSceneTask = assetManager.addMeshTask('scene', '', '', 'Scene.obj', '');
+        const meshBonusTimeTask = assetManager.addMeshTask('bonusTime', '', '', 'BonusTime.obj', '');
+        const meshBonusHourglassTask = assetManager.addMeshTask('bonusHourglass', '', '', 'BonusHourglass.obj', '');
+        const meshBonusScoreTask = assetManager.addMeshTask('bonusScore', '', '', 'BonusScore.obj', '');
 
         meshSceneTask.onSuccess = function (task) {
             task.loadedMeshes.forEach(function (loadedMesh) {
                 const meshMaterial = loadedMesh.material;
                 meshMaterial.forceDepthWrite = true;
-                loadedMesh.scaling = new Vector3(-1, 1, 1);
             });
         };
         
-
         LoadAssets._dictModels.set('scene', meshSceneTask);
+        LoadAssets._dictModels.set('bonusTime', meshBonusTimeTask);
+        LoadAssets._dictModels.set('bonusHourglass', meshBonusHourglassTask);
+        LoadAssets._dictModels.set('bonusScore', meshBonusScoreTask);
 
         assetManager.load();
         return Promise.resolve();

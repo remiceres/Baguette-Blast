@@ -60,7 +60,7 @@ class Game {
             this._inputManager = this._supportedVR
                 ? new QuestInput(this._xr, this._scene)
                 : new KeyboardInput(this._scene);
-            this._stateManager = new StateManager(this._scene, State.Menu);
+            this._stateManager = new StateManager(State.MenuHome);
             this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
