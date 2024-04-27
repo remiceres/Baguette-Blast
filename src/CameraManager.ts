@@ -26,6 +26,11 @@ class CameraManager {
         this._vrIsEnabled = vrIsEnabled;
 
         this._pcCamera = new FreeCamera('pcCamera', Vector3.Zero(), scene);
+        // Move with zqsd
+        this._pcCamera.keysUp = [90]; // Z
+        this._pcCamera.keysDown = [83]; // S
+        this._pcCamera.keysLeft = [81]; // Q
+        this._pcCamera.keysRight = [68]; // D
         this._pcCamera.attachControl();
         this._currentCamera = this._pcCamera;
 

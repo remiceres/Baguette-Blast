@@ -56,7 +56,7 @@ class KeyboardInput extends InputManager {
         // Handling Arrow keys for right thumbstick
         x = 0;
         y = 0;
-        if (event.key === 'ArrowUp' || event.key === 'z') y = 1;
+        if (event.key === 'ArrowUp') y = 1;
         if (event.key === 'ArrowDown') y = -1;
         if (event.key === 'ArrowLeft') x = -1;
         if (event.key === 'ArrowRight') x = 1;
