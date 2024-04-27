@@ -32,7 +32,7 @@ class CameraManager {
         this._pcCamera.keysLeft = [81]; // Q
         this._pcCamera.keysRight = [68]; // D
         this._pcCamera.attachControl();
-        this._pcCamera.position = new Vector3(0, 3, -6);
+        this._pcCamera.position = new Vector3(0, 3, -5);
         this._pcCamera.setTarget(Vector3.Zero());
         this._currentCamera = this._pcCamera;
 

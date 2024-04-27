@@ -1,13 +1,14 @@
-import { AssetsManager, Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
+import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
 import CameraManager from './CameraManager';
 import DebugConsole from './debug/DebugConsole';
 import InputManager from './inputs/InputManager';
 import KeyboardInput from './inputs/KeyboardInput';
 import QuestInput from './inputs/QuestInput';
-import LoadAssets from './LoadAssets';
+import AssetManager from './AssetsLoader';
 import State from './stateManager/EnumState';
 import StateManager from './stateManager/StateManager';
 import TimeControl from './TimeControl';
+import AssetsLoader from './AssetsLoader';
 
 /**
  * The Game class is the central class of the application.
@@ -38,6 +39,9 @@ class Game {
 
     // Manages input from different sources like keyboard or VR controllers.
     private _inputManager: InputManager;
+
+    // Manages the loading of assets like models, textures, etc.
+    private _assetManager: AssetManager;
 
     // Controls the simulation time, allowing pausing, slow motion, etc.
     private _timeControl: TimeControl;
@@ -107,14 +111,9 @@ class Game {
     }
 
     private _initAssets() {
-        const assetManager = new AssetsManager(Game.instance.scene);
-
-        LoadAssets.initLight(Game.instance.scene);
-        LoadAssets.initModels(Game.instance.scene, assetManager);
-        for (let i = 0; i <= 10; i++) {
-            LoadAssets._dictLights.get('light' + i);
-        }
-        LoadAssets._dictModels.get('Game.instance.scene');
+        // Initialize the asset manager.
+        this._assetManager = new AssetsLoader();
+        this._assetManager.initialize();
     }
 
     /**
@@ -165,6 +164,10 @@ class Game {
 
     public get cameraManager(): CameraManager {
         return this._cameraManager;
+    }
+
+    public get assetManager(): AssetManager {
+        return this._assetManager;
     }
 
     public get scene(): Scene {
