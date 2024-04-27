@@ -1,48 +1,52 @@
-# Blender 3.5.1 MTL File: 'scene.blend'
-# www.blender.org
+# Blender MTL File: 'scene.blend'
+# Material Count: 26
 
 newmtl Building01_Brown.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Building01c.png
+map_Kd Images\\Building01c.png
 
 newmtl Building02_Video.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Building02a.png
+map_Kd Images\\Building02a.png
 
 newmtl Building03_Blue.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Building03a.png
+map_Kd Images\\Building03a.png
 
 newmtl Building03_Grey.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Building03b.png
+map_Kd Images\\Building03b.png
 
 newmtl Grass.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
 Kd 0.686275 0.862745 0.470588
 Ks 0.500000 0.500000 0.500000
@@ -51,162 +55,241 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Nature.001
-Ns 200.000000
+newmtl Material.001
+Ns 250.000000
 Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Nature_Trees.png
-map_d Images/Nature_Trees.png
+
+newmtl Material.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.539480 0.610496 0.514918
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.539480 0.617207 0.514918
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Nature.001
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Images\\Nature_Trees.png
+map_d Images\\Nature_Trees.png
 
 newmtl Props_Billboard.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Props_Billboard.png
+map_Kd Images\\Props_Billboard.png
 
 newmtl Props_Dumpster.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Props_Dumpster.png
+map_Kd Images\\Props_Dumpster.png
 
 newmtl Props_Street.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Props.png
-map_d Images/Props.png
+map_Kd Images\\Props.png
+map_d Images\\Props.png
 
 newmtl Road.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Road.png
-map_d Images/Road.png
+map_Kd Images\\Road.png
+map_d Images\\Road.png
 
 newmtl SimpleCity_Texture.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/SimpleCity_Texture.png
+map_Kd Images\\SimpleCity_Texture.png
 
 newmtl SimpleTown.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/SimpleTown.png
+map_Kd Images\\SimpleTown.png
 
 newmtl Vehice_Ambulance.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Vehice_Ambulance.png
-map_d Images/Vehice_Ambulance.png
+map_Kd Images\\Vehice_Ambulance.png
+map_d Images\\Vehice_Ambulance.png
 
 newmtl Vehicle_Bus_Brown.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Vehicle_Bus_a.png
-map_d Images/Vehicle_Bus_a.png
+map_Kd Images\\Vehicle_Bus_a.png
+map_d Images\\Vehicle_Bus_a.png
 
 newmtl Vehicle_Car01_Blue.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Vehicle_Car01_a.png
-map_d Images/Vehicle_Car01_a.png
+map_Kd Images\\Vehicle_Car01_a.png
+map_d Images\\Vehicle_Car01_a.png
 
 newmtl Vehicle_Fire_Truck.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Vehicle_Fire_Truck.png
+map_Kd Images\\Vehicle_Fire_Truck.png
 
 newmtl Vehicle_Police.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-illum 2
-map_Kd Images/Vehicle_Police.png
-map_d Images/Vehicle_Police.png
-
-newmtl Vehicle_Taxi.001
-Ns 200.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-illum 2
-map_Kd Images/Vehicle_Taxi.png
-map_d Images/Vehicle_Taxi.png
-
-newmtl Vehicle_Ute_Red.001
-Ns 200.000000
-Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Images/Vehicle_Ute_a.png
+map_Kd Images\\Vehicle_Police.png
+map_d Images\\Vehicle_Police.png
+
+newmtl Vehicle_Taxi.001
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Images\\Vehicle_Taxi.png
+map_d Images\\Vehicle_Taxi.png
+
+newmtl Vehicle_Ute_Red.001
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Images\\Vehicle_Ute_a.png
 
 newmtl Vehicle_Van_Green.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Vehicle_Van_b.png
-map_d Images/Vehicle_Van_b.png
+map_Kd Images\\Vehicle_Van_b.png
+map_d Images\\Vehicle_Van_b.png
 
 newmtl Vehicles_Rubbish_Truck.001
-Ns 200.000000
+Ns 199.999995
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 2
-map_Kd Images/Vehicle_Rubbish_Truck.png
-map_d Images/Vehicle_Rubbish_Truck.png
+map_Kd Images\\Vehicle_Rubbish_Truck.png
+map_d Images\\Vehicle_Rubbish_Truck.png
+
+newmtl cgshare-book-ground-004
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\Clément Quere\\Downloads\\cgshare-book-ground-004.jpg
+map_d C:\\Users\\Clément Quere\\Downloads\\cgshare-book-ground-004.jpg
+
+newmtl mat
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd E:\\Clement\\Project\\BaguetteBlast\\Assets\\uploads_files_3217299_arena\\arena\\sourceimages\\texture.jpg
