@@ -46,7 +46,7 @@ class LevelState implements StateInterface {
 
     public dispose(): void {}
 
-    public animate(deltaTime: number): void {
+    public update(deltaTime: number): void {
         deltaTime;
     }
 }

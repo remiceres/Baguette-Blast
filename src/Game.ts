@@ -137,7 +137,7 @@ class Game {
             this.timeControl.update();
 
             if (document.visibilityState === 'visible') {
-                this._stateManager.currentState.animate(deltaTime * this._timeControl.getTimeScale());
+                this._stateManager.currentState.update(deltaTime * this._timeControl.getTimeScale());
                 this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
                 this._cameraManager.update();
                 this._scene.render();

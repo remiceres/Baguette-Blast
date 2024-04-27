@@ -19,7 +19,7 @@ interface StateInterface {
      * Called on each frame to update and animate the state.
      * @param {number} deltaTime - The time in seconds since the last frame.
      */
-    animate(deltaTime: number): void;
+    update(deltaTime: number): void;
 }
 
 export default StateInterface;

@@ -48,7 +48,7 @@ class LevelTest2State implements StateInterface {
     /**
      * Animates the level test state elements. (Empty implementation if no animation is required)
      */
-    public animate(deltaTime: number): void {
+    public update(deltaTime: number): void {
         // Empty implementation if no animation is required
         deltaTime;
 

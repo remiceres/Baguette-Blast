@@ -76,7 +76,7 @@ class MenuState implements StateInterface {
      * Animates the menu state elements based on the elapsed time.
      * @param {number} deltaTime - The time in seconds since the last frame.
      */
-    public animate(deltaTime: number): void {
+    public update(deltaTime: number): void {
         this._elapsedTime += deltaTime;
         const scale = 0.5 + Math.abs(Math.sin(this._elapsedTime)) * 0.5;
         this._sphere.scaling = new Vector3(scale, scale, scale);

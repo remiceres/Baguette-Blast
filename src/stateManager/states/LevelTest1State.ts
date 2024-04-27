@@ -3,13 +3,20 @@ import Game from '../../Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import PlayerController from '../../player/controllers/PlayerController';
+import PlayerView from '../../player/views/PlayerViews';
+import PlayerModel from '../../player/models/PlayerModels';
+import GunBall from '../../weapon/GunBall';
+import BallProjectile from '../../projectile/BallProjectile';
 
 class LevelTest1State implements StateInterface {
     private _cubeMenu: Mesh;
 
+    private _playerController: PlayerController;
+
     public async init(): Promise<void> {
         this._initInterface();
-
+        this._initPlayerController();
         return Promise.resolve();
     }
 
@@ -21,12 +28,23 @@ class LevelTest1State implements StateInterface {
         });
     }
 
-    dispose(): void {
-        this._cubeMenu.dispose();
+    private _initPlayerController(): void {
+        this._playerController = new PlayerController(new PlayerModel, new PlayerView);
+
+        const projectile = new BallProjectile();
+        const weapon = new GunBall(projectile);
+
+        this._playerController.setWeapon('right', weapon);
+    }
+        
+    update(deltaTime: number): void {
+        this._playerController.update(deltaTime);
+        deltaTime;
     }
 
-    animate(deltaTime: number): void {
-        deltaTime;
+    dispose(): void {
+        this._cubeMenu.dispose();
+        this._playerController.dispose();
     }
 }
 
