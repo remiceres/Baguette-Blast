@@ -1,5 +1,5 @@
 import { AssetsManager, Color3, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
-import Game from './Game';
+import Game from '../Game';
 
 class AssetsLoader {
     private readonly _scene: Scene = Game.instance.scene;
