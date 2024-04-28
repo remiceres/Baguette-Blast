@@ -1,4 +1,4 @@
-import { AssetsManager, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, Color3, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
 
 class AssetsLoader {
@@ -36,6 +36,7 @@ class AssetsLoader {
         ];
         lightPositions.forEach((position, index) => {
             const light = new PointLight(`light${index}`, position, this._scene);
+            light.specular = Color3.Black();
             this._dictLights.set(`light${index}`, light);
         });
     }
