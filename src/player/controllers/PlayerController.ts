@@ -1,4 +1,4 @@
-import { AbstractMesh } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 import InputManager from '../../inputs/InputManager';
 import WeaponInterface from '../../weapon/WeaponIInterface';
@@ -39,6 +39,24 @@ class PlayerController {
 
     get weaponRight(): WeaponInterface {
         return this._model.weaponRight;
+    }
+
+    get health(): number {
+        return this._model.health;
+    }
+
+    set health(health: number) {
+        this._model.health = health;
+    }
+
+    set position(position: Vector3) {
+        position._z = -position._z;
+        this._view.position = position;
+        // this._view.position._z = this._view.position._z-1;
+    }
+
+    get position(): Vector3 {
+        return this._view.position;
     }
 
     public update(deltaTime: number): void {

@@ -9,8 +9,6 @@ class TimeBonusView extends BonusView {
     }
 
     createMesh(): void {
-        console.log('Creating TimeBonusMesh mesh');
-
         // Create an instance of the BonusScore mesh
         this._mesh = Game.instance.assetManager.getBonusTimeMesh();
     }

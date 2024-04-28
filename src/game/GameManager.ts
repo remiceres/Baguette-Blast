@@ -1,4 +1,3 @@
-// GameManager.ts
 import Game from '../Game';
 import EnemyController from '../enemy/controllers/EnemyController';
 import State from '../stateManager/EnumState';
@@ -27,7 +26,7 @@ class GameManager {
 
     public setGameDuration(gameDuration: number): void {
         this._gameDuration = gameDuration;
-        this.resetChrono();  // Optionally reset chrono when game duration is set
+        this.resetChrono();
     }
 
     public resetChrono(): void {
@@ -35,30 +34,28 @@ class GameManager {
         this._isGameOver = false;
     }
 
-    public update(deltaTime: number): void {
+    public update(deltaTime: number, playerHealth: number, enemies: EnemyController[]): void {
         if (this._isGameOver) return;
-
+        
         this._chrono += deltaTime;
-        console.log(`Chrono: ${this._chrono}`);
-        if (this._chrono >= this._gameDuration) {
-            this._endGame();
+        if (this._chrono >= this._gameDuration || playerHealth <= 0 ) {
+            this._endGame('loose');
+        } else if (enemies.length === 0) {
+            this._endGame('win');
         }
     }
 
-    public checkGameOver(enemies: EnemyController[]): void {
-        if (this._isGameOver) return;
-
-        if (enemies.length === 0) {
-            this._endGame();
+    private _endGame(condition): void {
+        if (condition === 'win') {
+            console.log('You win!');
+        } else {
+            console.log('You lose!');
         }
-    }
-
-    private _endGame(): void {
-        console.log('Game over');
-        this._isGameOver = true;
         Game.instance.stateManager.changeState(State.MenuHome);
+        this._isGameOver = true;
     }
 }
+
 
 
 export default GameManager;

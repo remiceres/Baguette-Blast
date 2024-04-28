@@ -7,6 +7,11 @@ interface ItemData {
 
 interface PlayerData {
     left_hand: ItemData;
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
 }
 
 interface BonusData {
@@ -34,7 +39,6 @@ interface EnemyData {
 interface GameData {
     time: number;
     score: number;
-    health: number;
 }
 
 interface LevelData {

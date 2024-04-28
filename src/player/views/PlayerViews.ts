@@ -1,4 +1,4 @@
-import { Color3, Mesh, MeshBuilder, StandardMaterial } from '@babylonjs/core';
+import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs/core';
 import Game from '../../Game';
 
 class PlayerView {
@@ -6,6 +6,15 @@ class PlayerView {
 
     constructor() {
         this._initializePlayerMesh();
+    }
+
+    set position(value: Vector3) {
+        // this._playerMesh.setAbsolutePosition(value);
+        Game.instance.cameraManager.playerCamera.position = value;
+    }
+
+    get position(): Vector3 {
+        return this._playerMesh.position;
     }
 
     private _initializePlayerMesh(): void {
