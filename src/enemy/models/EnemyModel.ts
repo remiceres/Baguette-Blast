@@ -3,11 +3,13 @@ import { Vector3 } from '@babylonjs/core';
 class EnemyModel {
     private _position: Vector3;
     private _health: number;
+    private _score: number;
 
-    constructor(position: Vector3 = new Vector3(0, 0, 0), health: number = 100) {
+    constructor(position: Vector3 = new Vector3(0, 0, 0), health: number = 100, score: number = 1) {
         this._position = position;
         //this.position._z = -this.position._z;
         this._health = health;
+        this._score = score;
     }
 
     get position(): Vector3 {
@@ -24,6 +26,14 @@ class EnemyModel {
 
     set health(value: number) {
         this._health = value;
+    }
+
+    get score(): number {
+        return this._score;
+    }
+
+    set score(value: number) {
+        this._score = value;
     }
 
     update(deltaTime: number): void {

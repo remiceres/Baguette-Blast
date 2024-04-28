@@ -31,7 +31,7 @@ enum BehaviorType {
 class EnemyFactory {
     public static createEnemy(enemyData: EnemyData): EnemyController {
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
-        const model = this._createModel(enemyData.type, position, enemyData.health);
+        const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score);
         const view = new BalloonView(Game.instance.scene, model);
         const controller = new EnemyController(model, view);
 
@@ -41,12 +41,12 @@ class EnemyFactory {
         return controller;
     }
 
-    private static _createModel(type: string, position: Vector3, health: number): BalloonModel {
+    private static _createModel(type: string, position: Vector3, health: number, score: number): BalloonModel {
         switch (type) {
             case EnemyType.Copper:
-                return new CopperBalloonModel(position, health);
+                return new CopperBalloonModel(position, health, score);
             case EnemyType.Silver:
-                return new SilverBalloonModel(position, health);
+                return new SilverBalloonModel(position, health, score);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

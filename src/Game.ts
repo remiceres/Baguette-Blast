@@ -47,7 +47,7 @@ class Game {
     private _timeControl: TimeControl;
 
     // A console for displaying debug information.
-    private _debugConsole: DebugConsole;
+    public _debugConsole: DebugConsole;
 
     /**
      * The constructor is private to ensure the Game class is a singleton.
@@ -95,6 +95,10 @@ class Game {
             throw new Error('Game instance not initialized. Call Game.init() first.');
         }
         return Game._instance;
+    }
+
+    public static set score(score: number) {
+        Game.instance.debugConsole.updateScore(score);
     }
 
     /**

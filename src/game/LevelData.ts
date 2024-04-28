@@ -34,6 +34,7 @@ interface EnemyData {
     };
     bonus: BonusData; 
     behavior: BehaviorData;
+    score: number;
 }
 
 interface GameData {

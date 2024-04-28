@@ -25,6 +25,8 @@ class LevelState implements StateInterface {
     private _playerController: PlayerController;
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
+    private _score: number;
+    private _game: Game;
     musicManager: MusicManager;
 
     constructor(levelNumber: number) {
@@ -56,7 +58,8 @@ class LevelState implements StateInterface {
             levelData?.player?.position.z);
 
         const projectile = new BallProjectile();
-        const weapon = new GunBall(projectile);
+        console.log(levelData?.player);
+        const weapon = new GunBall(projectile, levelData?.player?.left_hand?.power || 10);
 
         this._playerController.setWeapon('right', weapon);
     }
@@ -80,6 +83,9 @@ class LevelState implements StateInterface {
         if (this._levelData?.player) {
             this._initPlayerController(this._levelData); 
         }
+
+        // Init score
+        this._score = 0;
 
         if (this._levelData?.enemies) {
             this._enemiesController = this._levelData.enemies.map(enemy => EnemyFactory.createEnemy(enemy));
@@ -117,10 +123,11 @@ class LevelState implements StateInterface {
         // Check for collisions
         elimination = this._collisionManager.checkForCollisions(this._playerController.weaponRight);
         if (elimination) {
-            console.log(elimination);
             // Remove the enemy from the list
             const index = this._enemiesController.indexOf(elimination);
             if (index > -1) {
+                this._score += this._enemiesController[index].score;
+                Game.score = this._score;
                 this._enemiesController.splice(index, 1);
             }
             elimination.dispose();
