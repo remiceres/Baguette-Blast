@@ -7,6 +7,11 @@ interface ItemData {
 
 interface PlayerData {
     left_hand: ItemData;
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
 }
 
 interface BonusData {
