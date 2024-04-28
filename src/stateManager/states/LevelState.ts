@@ -7,13 +7,21 @@ import StateInterface from './StateInterface';
 import Game from '../../Game';
 import State from '../EnumState';
 import Buttons from '../../menu/buttons';
+import PlayerController from '../../player/controllers/PlayerController';
+import BallProjectile from '../../projectile/BallProjectile';
+import GunBall from '../../weapon/GunBall';
+import PlayerModel from '../../player/models/PlayerModels';
+import PlayerView from '../../player/views/PlayerViews';
+import CollisionManager from './CollisionManager';
 
 const levelData: LevelData = level1 as LevelData;
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
     private _levelData?: LevelData;
+    private _collisionManager: CollisionManager;
 
+    private _playerController: PlayerController;
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
 
@@ -32,8 +40,19 @@ class LevelState implements StateInterface {
         });
     }
 
+    private _initPlayerController(): void {
+        this._playerController = new PlayerController(new PlayerModel, new PlayerView);
+
+        const projectile = new BallProjectile();
+        const weapon = new GunBall(projectile);
+
+        this._playerController.setWeapon('right', weapon);
+    }
+
     public async init(): Promise<void> {
         this._initInterface();
+        this._initPlayerController();
+        this._collisionManager = new CollisionManager();
 
         console.log(`Initializing level ${this._levelNumber}...`);
     
@@ -42,10 +61,14 @@ class LevelState implements StateInterface {
     
         if (this._levelData && this._levelData.player) {
             console.log(`Player's left hand item: ${this._levelData.player.left_hand.item}`);
+            this._initPlayerController();
         }
     
         if (this._levelData && this._levelData.enemies) {
             this._enemiesController = this._levelData.enemies.map(enemy => EnemyFactory.createEnemy(enemy));
+            this._enemiesController.forEach((enemyController) => {
+                this._collisionManager.addCollider(enemyController);
+            });
         } else {
             console.log('No enemies found in the level data.');
         }
@@ -64,8 +87,16 @@ class LevelState implements StateInterface {
     }
 
     public update(deltaTime: number): void {
-        deltaTime;
-        this._enemiesController.forEach(enemy => enemy.update(deltaTime));
+        // Update enemies
+        this._enemiesController.forEach((ennemyControllers) => {
+            ennemyControllers.update(deltaTime);
+        });
+
+        // Update player
+        this._playerController.update(deltaTime);
+
+        // Check for collisions
+        this._collisionManager.checkForCollisions(this._playerController.weaponRight);
     }
 }
 
