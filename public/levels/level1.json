@@ -15,6 +15,7 @@
         {
             "type": "copper",
             "health": 10,
+            "score": 10,
             "position": {
                 "x": -0.623011,
                 "y": 4.82493,
@@ -32,6 +33,7 @@
         {
             "type": "silver",
             "health": 10,
+            "score": 20,
             "position": {
                 "x": -3.40971,
                 "y": 2.068,
@@ -49,6 +51,7 @@
         {
             "type": "copper",
             "health": 10,
+            "score": 10,
             "position": {
                 "x": -21.942,
                 "y": 6.70369,

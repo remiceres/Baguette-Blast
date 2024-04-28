@@ -76,7 +76,6 @@ class PlayerController {
     private _fireWeapon(): void {
         // Fire weapon on right hand
         if (this._inputManager.rightPrimary.pressed && this._model.weaponRight) {
-            console.log(this._inputManager.rightPrimary.pressed);
             this._model.weaponRight.fire();
         }
         // Fire weapon on left hand

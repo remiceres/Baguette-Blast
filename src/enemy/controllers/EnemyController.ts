@@ -67,6 +67,14 @@ class EnemyController implements ICollider{
         return this._view;
     }
 
+    public get score(): number {
+        return this._model.score;
+    }
+
+    public set score(value: number) {
+        this._model.score = value;
+    }
+
     public set bonusController(controller: BonusController) {
         this._bonusController = controller;
         // set the bonus view for the enemy view

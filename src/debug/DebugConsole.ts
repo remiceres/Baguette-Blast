@@ -15,6 +15,7 @@ export default class DebugConsole {
     private _debugPanel: TextBlock;
     private _scene: Scene;
     private _inputManager: InputManager;
+    private _scorePanel: TextBlock;
 
     /**
      * Constructor for the DebugConsole class.
@@ -35,10 +36,10 @@ export default class DebugConsole {
         // Create a plane for the debug panel
         this._plane = MeshBuilder.CreatePlane('debugPanel', { width: 1, height: 0.25 }, this._scene);
         this._plane.isVisible = false;
-
+    
         // Setting up the advanced texture
         const advancedTexture = AdvancedDynamicTexture.CreateForMesh(this._plane, 1024, 256, true);
-
+    
         // Configuring the debug panel's rectangle
         const debugPanel = new Rectangle('debugPanel');
         debugPanel.width = 0.5;
@@ -49,14 +50,28 @@ export default class DebugConsole {
         debugPanel.alpha = 0.5;
         debugPanel.isHitTestVisible = false;
         advancedTexture.addControl(debugPanel);
-
+    
         // Configuring the TextBlock for displaying information
         this._debugPanel = new TextBlock();
         this._debugPanel.color = 'white';
         this._debugPanel.fontSize = 24;
         debugPanel.addControl(this._debugPanel);
+    
+        // Adding a TextBlock for Score
+        this._scorePanel = new TextBlock();
+        this._scorePanel.color = 'yellow'; // Making score color distinct
+        this._scorePanel.fontSize = 24;
+        this._scorePanel.text = 'Score: 0'; // Initial score
+        debugPanel.addControl(this._scorePanel);
     }
-
+    
+    // Method to update score
+    public updateScore(score: number): void {
+        if (this._scorePanel) {
+            this._scorePanel.text = `Score: ${score}`;
+        }
+    }
+    
     /**
      * Returns a string containing the current input state.
      * @returns {string} A string containing the current input state.
