@@ -7,7 +7,7 @@ class EnemyModel {
 
     constructor(position: Vector3 = new Vector3(0, 0, 0), health: number = 100, score: number = 1) {
         this._position = position;
-        this.position._z = -this.position._z;
+        //this.position._z = -this.position._z;
         this._health = health;
         this._score = score;
     }

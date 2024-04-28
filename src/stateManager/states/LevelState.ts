@@ -71,7 +71,7 @@ class LevelState implements StateInterface {
 
     public async init(): Promise<void> {
         this.musicManager = new MusicManager();
-        // this.initMusic();
+        this.initMusic();
         // Assuming level data is already validated to match LevelData interface
         this._levelData = levelData;  // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();

@@ -7,7 +7,6 @@ class GunBall extends AbstractBallProjector {
 
     constructor(projectile, force) {
         super(projectile);
-        console.log(force);
         this._force = force;
     }
 
