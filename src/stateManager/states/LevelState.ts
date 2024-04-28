@@ -58,7 +58,8 @@ class LevelState implements StateInterface {
             levelData?.player?.position.z);
 
         const projectile = new BallProjectile();
-        const weapon = new GunBall(projectile);
+        console.log(levelData?.player);
+        const weapon = new GunBall(projectile, levelData?.player?.left_hand?.power || 10);
 
         this._playerController.setWeapon('right', weapon);
     }
@@ -125,8 +126,6 @@ class LevelState implements StateInterface {
             // Remove the enemy from the list
             const index = this._enemiesController.indexOf(elimination);
             if (index > -1) {
-                console.log('Eliminated enemy:');
-                console.log(elimination);
                 this._score += this._enemiesController[index].score;
                 Game.score = this._score;
                 this._enemiesController.splice(index, 1);

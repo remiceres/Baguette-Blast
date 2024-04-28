@@ -1,5 +1,5 @@
-import BallProjectile from '../../projectile/BallProjectile';
-import GunBall from '../../weapon/GunBall';
+// import BallProjectile from '../../projectile/BallProjectile';
+// import GunBall from '../../weapon/GunBall';
 import AbstractBallProjector from '../../weapon/AbstractBallProjector';
 import PlayerController from '../../player/controllers/PlayerController';
 import PlayerModel from '../../player/models/PlayerModels';
@@ -19,7 +19,7 @@ class EnemyInitializer {
 
         switch (currentLevelConfig.weapon) {
             case 'Air Pistol':
-                this._ball = new GunBall(new BallProjectile());
+                // this._ball = new GunBall(new BallProjectile(10));
                 break;
             // Add cases for other weapons as needed
         }

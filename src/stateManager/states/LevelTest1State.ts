@@ -32,7 +32,7 @@ class LevelTest1State implements StateInterface {
         this._playerController = new PlayerController(new PlayerModel, new PlayerView);
 
         const projectile = new BallProjectile();
-        const weapon = new GunBall(projectile);
+        const weapon = new GunBall(projectile, 10);
 
         this._playerController.setWeapon('right', weapon);
     }

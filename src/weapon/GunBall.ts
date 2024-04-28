@@ -3,10 +3,12 @@ import AbstractBallProjector from './AbstractBallProjector';
 
 class GunBall extends AbstractBallProjector {
     protected _durability: number = 10;
-    protected _force: number = 10;
+    protected _force: number;
 
-    constructor(projectile) {
+    constructor(projectile, force) {
         super(projectile);
+        console.log(force);
+        this._force = force;
     }
 
     protected _calculateThrowParameters() {
