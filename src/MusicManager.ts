@@ -1,3 +1,5 @@
+import Game from './Game';
+
 class MusicManager {
     audioContext;
     currentTrack;
@@ -39,6 +41,11 @@ class MusicManager {
         } else {
             this.play();
         }
+    }
+
+    update() {
+        // Control the music speed
+        this.currentTrack.playbackRate.value = Game.instance.timeControl.getTimeScale();
     }
 }
 export default MusicManager;
