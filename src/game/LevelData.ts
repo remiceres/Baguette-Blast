@@ -9,11 +9,6 @@ interface PlayerData {
     left_hand: ItemData;
 }
 
-interface LevelData {
-    player: PlayerData;
-    enemies: EnemyData[];
-}
-
 interface BonusData {
     type: string;
 }
@@ -36,5 +31,16 @@ interface EnemyData {
     behavior: BehaviorData;
 }
 
+interface GameData {
+    time: number;
+    score: number;
+    health: number;
+}
 
-export { LevelData, EnemyData, ItemData, BehaviorData };
+interface LevelData {
+    player: PlayerData;
+    enemies: EnemyData[];
+    game: GameData;
+}
+
+export { LevelData, EnemyData, ItemData, BehaviorData, BonusData, GameData};
