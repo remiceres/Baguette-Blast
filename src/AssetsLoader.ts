@@ -1,4 +1,4 @@
-import { AssetsManager, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, Color3, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
 import Game from './Game';
 
 class AssetsLoader {
@@ -36,6 +36,7 @@ class AssetsLoader {
         ];
         lightPositions.forEach((position, index) => {
             const light = new PointLight(`light${index}`, position, this._scene);
+            light.specular = Color3.Black();
             this._dictLights.set(`light${index}`, light);
         });
     }
@@ -53,12 +54,14 @@ class AssetsLoader {
             );
             task.onSuccess = (task) => {
                 this._handleMeshLoaded(task, name === 'Scene');
-                if (task.loadedMeshes[0] instanceof Mesh) {
-                    // Ensure it is a Mesh
-                    this._dictModels.set(name, task.loadedMeshes[0]);
-                } else {
-                    console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
-                }
+                task.loadedMeshes.forEach(elem => {
+                    if (elem instanceof Mesh) {
+                        // Ensure it is a Mesh
+                        this._dictModels.set(name, elem);
+                    } else {
+                        console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
+                    }
+                });
             };
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
         });
