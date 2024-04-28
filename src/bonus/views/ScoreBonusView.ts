@@ -9,8 +9,6 @@ class ScoreBonusView extends BonusView {
     }
 
     createMesh(): void {
-        console.log('Creating ScoreBonus mesh');
-
         // Create an instance of the BonusScore mesh
         this._mesh = Game.instance.assetManager.getBonusScoreMesh();
     }

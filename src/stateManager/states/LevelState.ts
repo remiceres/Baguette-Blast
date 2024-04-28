@@ -48,6 +48,10 @@ class LevelState implements StateInterface {
     private _initPlayerController(levelData): void {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
         this._playerController.health = levelData?.player?.health || 100;
+        this._playerController.position = new Vector3(
+            levelData?.player?.position.x, 
+            levelData?.player?.position.y, 
+            levelData?.player?.position.z);
 
         const projectile = new BallProjectile();
         const weapon = new GunBall(projectile);
@@ -60,17 +64,11 @@ class LevelState implements StateInterface {
         this._levelData = levelData;  // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
         this._initInterface();
-        this._initPlayerController(this._levelData);
-
-        console.log(`Initializing level ${this._levelNumber}...`);
-
-
         this._initializeLevelData();
     }    
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
-            console.log(`Player's left hand item: ${this._levelData.player.left_hand.item}`);
             this._initPlayerController(this._levelData); 
         }
 
@@ -87,7 +85,9 @@ class LevelState implements StateInterface {
     public dispose(): void {
         this._cubeMenu.dispose();
         this._enemiesController.forEach(enemy => enemy.dispose());
-        this._enemiesController = [];  // Clear enemy controllers
+        this._enemiesController = [];  
+        this._playerController.weaponRight.getProjectiles().forEach(projectile => projectile.dispose());
+        this._playerController.dispose();
     }
 
     public update(deltaTime: number): void {
