@@ -14,6 +14,7 @@ import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
 import CollisionManager from './CollisionManager';
 import GameManager from '../../game/GameManager';
+import MusicManager from '../../MusicManager';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -24,6 +25,7 @@ class LevelState implements StateInterface {
     private _playerController: PlayerController;
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
+    musicManager: MusicManager;
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
@@ -59,7 +61,14 @@ class LevelState implements StateInterface {
         this._playerController.setWeapon('right', weapon);
     }
 
+    async initMusic() {
+        await this.musicManager.loadTrack('/musics/theme.mp3');
+        this.musicManager.play();
+    }
+
     public async init(): Promise<void> {
+        this.musicManager = new MusicManager();
+        this.initMusic();
         // Assuming level data is already validated to match LevelData interface
         this._levelData = levelData;  // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
