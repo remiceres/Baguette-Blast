@@ -54,12 +54,14 @@ class AssetsLoader {
             );
             task.onSuccess = (task) => {
                 this._handleMeshLoaded(task, name === 'Scene');
-                if (task.loadedMeshes[0] instanceof Mesh) {
-                    // Ensure it is a Mesh
-                    this._dictModels.set(name, task.loadedMeshes[0]);
-                } else {
-                    console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
-                }
+                task.loadedMeshes.forEach(elem => {
+                    if (elem instanceof Mesh) {
+                        // Ensure it is a Mesh
+                        this._dictModels.set(name, elem);
+                    } else {
+                        console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
+                    }
+                });
             };
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
         });
