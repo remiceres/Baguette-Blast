@@ -1,26 +1,22 @@
 import { Vector3 } from '@babylonjs/core';
-import BonusController from '../../bonus/controllers/BonusController';
-import ScoreBonus from '../../bonus/models/ScoreBonusModel';
-import BonusView from '../../bonus/views/BonusView';
 import FloatingBehavior from '../../enemy/behaviors/FloatingBehavior';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import BalloonModel from '../../enemy/models/BalloonModel';
 import CopperBalloonModel from '../../enemy/models/CopperBalloonModel';
 import SilverBalloonModel from '../../enemy/models/SilverBalloonModel';
 import BalloonView from '../../enemy/views/BalloonView';
 import Game from '../../Game';
 import { EnemyData } from '../../game/LevelData';
-import BalloonModel from '../../enemy/models/BalloonModel';
-
 
 enum EnemyType {
     Copper = 'copper',
     Silver = 'silver',
-    Gold = 'gold'
+    Gold = 'gold',
 }
 
 class EnemyInitializer {
     public static initEnemies(enemyData: EnemyData[]): EnemyController[] {
-        return enemyData.map(enemy => this._createEnemy(enemy));
+        return enemyData.map((enemy) => this._createEnemy(enemy));
     }
 
     private static _createEnemy(enemy: EnemyData): EnemyController {
@@ -42,9 +38,9 @@ class EnemyInitializer {
         model.behavior = floatingBehavior;
 
         const controller = new EnemyController(model, view);
-        if (model instanceof CopperBalloonModel) {
-            controller.bonusController = new BonusController(new ScoreBonus(), new BonusView(Game.instance.scene));
-        }
+        // if (model instanceof CopperBalloonModel) {
+        //     controller.bonusController = new BonusController(new ScoreBonus(), new BonusView(Game.instance.scene));
+        // }
 
         return controller;
     }

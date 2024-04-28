@@ -81,6 +81,11 @@ class AssetsLoader {
 
                 // Hide the mesh if it's not the scene
                 mesh.isVisible = isScene;
+
+                // Move the mesh in the ground
+                if (!isScene) {
+                    mesh.position.y = -10;
+                }
             }
         });
     }
@@ -100,6 +105,30 @@ class AssetsLoader {
     public get dictModels(): Map<string, Mesh> {
         // Changed type here
         return this._dictModels;
+    }
+
+    private _bonusTimeCount: number = 0;
+    public getBonusTimeMesh(): Mesh {
+        const mesh = this._dictModels.get('BonusTime').clone(`bonusTime${this._bonusTimeCount}`);
+        mesh.isVisible = true;
+        this._bonusTimeCount++;
+        return mesh;
+    }
+
+    private _bonusHourglassCount: number = 0;
+    public getBonusHourglassMesh(): Mesh {
+        const mesh = this._dictModels.get('BonusHourglass').clone(`bonusHourglass${this._bonusHourglassCount}`);
+        mesh.isVisible = true;
+        this._bonusHourglassCount++;
+        return mesh;
+    }
+
+    private _bonusScoreCount: number = 0;
+    public getBonusScoreMesh(): Mesh {
+        const mesh = this._dictModels.get('BonusScore').clone(`bonusScore${this._bonusScoreCount}`);
+        mesh.isVisible = true;
+        this._bonusScoreCount++;
+        return mesh;
     }
 }
 
