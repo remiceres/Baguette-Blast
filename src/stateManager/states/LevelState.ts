@@ -45,8 +45,9 @@ class LevelState implements StateInterface {
         });
     }
 
-    private _initPlayerController(): void {
+    private _initPlayerController(levelData): void {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
+        this._playerController.health = levelData?.player?.health || 100;
 
         const projectile = new BallProjectile();
         const weapon = new GunBall(projectile);
@@ -55,14 +56,14 @@ class LevelState implements StateInterface {
     }
 
     public async init(): Promise<void> {
-        this._initInterface();
-        this._initPlayerController();
-
-        console.log(`Initializing level ${this._levelNumber}...`);
-
         // Assuming level data is already validated to match LevelData interface
         this._levelData = levelData;  // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
+        this._initInterface();
+        this._initPlayerController(this._levelData);
+
+        console.log(`Initializing level ${this._levelNumber}...`);
+
 
         this._initializeLevelData();
     }    
@@ -70,7 +71,7 @@ class LevelState implements StateInterface {
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
             console.log(`Player's left hand item: ${this._levelData.player.left_hand.item}`);
-            this._initPlayerController(); // Re-initialize if specific player data is necessary
+            this._initPlayerController(this._levelData); 
         }
 
         if (this._levelData?.enemies) {
@@ -90,9 +91,11 @@ class LevelState implements StateInterface {
     }
 
     public update(deltaTime: number): void {
-        GameManager.getInstance().update(deltaTime);
-        GameManager.getInstance().checkGameOver(this._enemiesController);
+        // Assuming playerController has a method to get current health
+        const playerHealth = this._playerController.health;
 
+        GameManager.getInstance().update(deltaTime, playerHealth, this._enemiesController);
+        
         // Update enemies
         this._enemiesController.forEach(enemyController => {
             enemyController.update(deltaTime);
@@ -101,8 +104,18 @@ class LevelState implements StateInterface {
         // Update player
         this._playerController.update(deltaTime);
 
+        let elimination = null;
         // Check for collisions
-        this._collisionManager.checkForCollisions(this._playerController.weaponRight);
+        elimination = this._collisionManager.checkForCollisions(this._playerController.weaponRight);
+        if (elimination) {
+            console.log(elimination);
+            // Remove the enemy from the list
+            const index = this._enemiesController.indexOf(elimination);
+            if (index > -1) {
+                this._enemiesController.splice(index, 1);
+            }
+            elimination.dispose();
+        }
     }
 }
 

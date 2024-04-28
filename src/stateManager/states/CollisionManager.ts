@@ -1,3 +1,4 @@
+import EnemyController from '../../enemy/controllers/EnemyController';
 import { BaseView } from '../../enemy/views/BaseView';
 
 class CollisionManager {
@@ -28,7 +29,8 @@ class CollisionManager {
     }
 
     // Temporary method to check for collisions between the ball and the enemies
-    checkForCollisions(ball): void {
+    checkForCollisions(ball): EnemyController | null{
+        let collided = null;
         // this._views.forEach(view => {
         this._colliders.forEach((controller) => {
             if (controller.view instanceof BaseView) {
@@ -36,11 +38,11 @@ class CollisionManager {
                     if (projectile.intersectsMesh(controller.view._mesh, true)) {
                         // Notify the EnemyController about the collision
                         // view.controller.notifyCollision(projectile);
-                        console.log('Collision detected');
+                        // console.log('Collision detected');
                         // Dirty hack to remove the projectile and the enemy
                         // TODO: Remove the projectile and the enemy properly
                         // To do so I think we need a class that handles the collision
-                        controller.dispose();
+                        // controller.dispose();
                         // Remove the controller from the array
                         const index = this._colliders.indexOf(controller);
                         if (index > -1) {
@@ -48,10 +50,13 @@ class CollisionManager {
                         }
 
                         projectile.dispose();
+                        // Return the collided enemy
+                        collided = controller;
                     }
                 });
             }
         });
+        return collided;
     }
 }
 

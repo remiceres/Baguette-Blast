@@ -34,7 +34,6 @@ interface EnemyData {
 interface GameData {
     time: number;
     score: number;
-    health: number;
 }
 
 interface LevelData {

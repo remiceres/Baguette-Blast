@@ -41,6 +41,14 @@ class PlayerController {
         return this._model.weaponRight;
     }
 
+    get health(): number {
+        return this._model.health;
+    }
+
+    set health(health: number) {
+        this._model.health = health;
+    }
+
     public update(deltaTime: number): void {
         deltaTime;
 
