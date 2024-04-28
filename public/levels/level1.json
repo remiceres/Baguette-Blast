@@ -4,6 +4,11 @@
             "item": "gunBall",
             "durability": 10,
             "power": 10
+        },
+        "position": {
+            "x": -7.52959,
+            "y": 0.0,
+            "z": -3.89444
         }
     },
     "enemies": [
@@ -11,9 +16,9 @@
             "type": "copper",
             "health": 10,
             "position": {
-                "x": 2,
-                "y": 2,
-                "z": 2
+                "x": -0.623011,
+                "y": 4.82493,
+                "z": 0.184164
             },
             "bonus": {
                 "type": "time"
@@ -28,9 +33,9 @@
             "type": "silver",
             "health": 10,
             "position": {
-                "x": 1,
-                "y": 1,
-                "z": 2
+                "x": -3.40971,
+                "y": 2.068,
+                "z": -9.90268
             },
             "bonus": {
                 "type": "score"
@@ -45,9 +50,9 @@
             "type": "copper",
             "health": 10,
             "position": {
-                "x": 4,
-                "y": 0,
-                "z": 3
+                "x": -21.942,
+                "y": 6.70369,
+                "z": -3.10196
             },
             "bonus": {
                 "type": "score"
