@@ -1,5 +1,5 @@
 import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import Game from '../Game';
+import Game from '../game/Game';
 import ProjectileInterface from './ProjectileInterface';
 import BaseEnemyView from '../enemy/views/BaseEnemyView';
 

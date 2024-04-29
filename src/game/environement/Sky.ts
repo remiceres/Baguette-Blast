@@ -1,5 +1,5 @@
 import { Color4 } from '@babylonjs/core';
-import Game from '../../Game';
+import Game from '../Game';
 
 class Sky {
     private _scene = Game.instance.scene;

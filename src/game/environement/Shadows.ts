@@ -1,5 +1,5 @@
 import { DirectionalLight, Mesh, ShadowGenerator } from '@babylonjs/core';
-import Game from '../../Game';
+import Game from '../Game';
 
 class Shadows {
     private _scene = Game.instance.scene;

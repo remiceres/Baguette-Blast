@@ -1,14 +1,15 @@
 import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
-import CameraManager from './CameraManager';
-import DebugConsole from './debug/DebugConsole';
-import { default as AssetManager, default as AssetsLoader } from './game/AssetsLoader';
-import EnvironementControllers from './game/environement/EnvironementControllers';
-import InputManager from './inputs/InputManager';
-import KeyboardInput from './inputs/KeyboardInput';
-import QuestInput from './inputs/QuestInput';
-import State from './stateManager/EnumState';
-import StateManager from './stateManager/StateManager';
-import TimeControl from './TimeControl';
+import CameraManager from './controllers/CameraManager';
+import DebugConsole from '../debug/DebugConsole';
+import InputManager from '../inputs/InputManager';
+import KeyboardInput from '../inputs/KeyboardInput';
+import QuestInput from '../inputs/QuestInput';
+import AssetManager from './controllers/AssetsLoader';
+import State from '../stateManager/EnumState';
+import StateManager from '../stateManager/StateManager';
+import TimeControl from './controllers/TimeControl';
+import AssetsLoader from './controllers/AssetsLoader';
+import EnvironementControllers from './environement/EnvironementControllers';
 
 /**
  * The Game class is the central class of the application.

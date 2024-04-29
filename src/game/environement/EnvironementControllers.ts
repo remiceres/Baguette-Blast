@@ -1,4 +1,4 @@
-import Game from '../../Game';
+import Game from '../Game';
 import AmbiantLight from './AmbiantLight';
 import Shadows from './Shadows';
 import Sky from './Sky';

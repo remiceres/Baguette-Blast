@@ -2,7 +2,7 @@ import { Axis, Mesh, MeshBuilder, Scene, Space, Vector3 } from '@babylonjs/core'
 import { AdvancedDynamicTexture } from '@babylonjs/gui/2D/advancedDynamicTexture';
 import { Rectangle } from '@babylonjs/gui/2D/controls/rectangle';
 import { TextBlock } from '@babylonjs/gui/2D/controls/textBlock';
-import Game from '../Game';
+import Game from '../game/Game';
 import InputManager from '../inputs/InputManager';
 
 /**

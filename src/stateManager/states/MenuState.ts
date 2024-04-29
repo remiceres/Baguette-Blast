@@ -1,5 +1,5 @@
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
-import Game from '../../Game';
+import Game from '../../game/Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';

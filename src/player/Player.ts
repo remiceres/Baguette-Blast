@@ -1,5 +1,5 @@
 import { AbstractMesh, Color3, Mesh, MeshBuilder, StandardMaterial } from '@babylonjs/core';
-import Game from '../Game';
+import Game from '../game/Game';
 import InputManager from '../inputs/InputManager';
 import WeaponInterface from '../weapon/WeaponIInterface';
 

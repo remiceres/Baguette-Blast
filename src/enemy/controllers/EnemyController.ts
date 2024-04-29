@@ -1,4 +1,4 @@
-import BonusController from '../../bonus/controllers/BonusController';
+import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import BallProjectile from '../../projectile/BallProjectile';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
@@ -6,15 +6,13 @@ import BaseEnemyView from '../views/BaseEnemyView';
 class EnemyController implements ICollider{
     private _model: BaseEnemyModel; 
     private _view: BaseEnemyView; 
-    private _bonusController: BonusController;
+    private _bonusController: BaseBonusController;
 
     constructor(model: BaseEnemyModel, view: BaseEnemyView) {
         this._model = model;
         this._view = view;
-
-        // Example of setting up event listeners
-        this.setupEventListeners();
     }
+
     collidesWith(other: ICollider): boolean {
         if (other instanceof BallProjectile) {
             console.log('collidesWith');
@@ -22,36 +20,19 @@ class EnemyController implements ICollider{
         }
         return;
     }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollision(other: ICollider): void {
         return;
     }
 
-    setupEventListeners(): void {
-        // Listen for user inputs or other events
-        // This is highly dependent on your game's framework and setup
-        // For example: document.addEventListener('keydown', this.handleKeyDown.bind(this));
-    }
-
-    handleKeyDown(event: KeyboardEvent): void {
-        // Update model based on user input
-        // Example: Move the balloon or change its state
-        switch (event.key) {
-            case 'ArrowUp':
-                this._model.position.y += 1;
-                break;
-            // Handle other keys or commands
-        }
-
-        // Update the view to reflect the model's new state
-        this._view.update(); // Assuming your view has an update method to redraw itself
-    }
-
     dispose(): void {
-        this.view.dispose(); // Assuming the view has a dispose method
+        this.view.dispose(); 
         if (this._bonusController) {
             this._bonusController.dispose();
         }
+        // Explosion of the view
+        this._view.onKill();
     }
 
     update(deltaTime: number): void {
@@ -75,13 +56,11 @@ class EnemyController implements ICollider{
         this._model.score = value;
     }
 
-    public set bonusController(controller: BonusController) {
+    public set bonusController(controller: BaseBonusController) {
         this._bonusController = controller;
         // set the bonus view for the enemy view
         this._view.bonusView = controller.view;
     }
-
-    // Additional methods to handle other interactions
 }
 
 export default EnemyController;
