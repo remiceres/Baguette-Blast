@@ -1,5 +1,5 @@
 import { Scene, Vector3 } from '@babylonjs/core';
-import Game from '../Game';
+import Game from '../game/Game';
 import InputManager from './InputManager';
 
 /**

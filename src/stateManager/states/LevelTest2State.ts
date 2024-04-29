@@ -1,11 +1,11 @@
 /* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import { Inspector } from '@babylonjs/inspector';
-import Game from '../../Game';
+import Game from '../../game/Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import MusicManager from '../../MusicManager';
+import MusicManager from '../../game/controllers/MusicManager';
 
 /**
  * Represents the second level test state of the application.

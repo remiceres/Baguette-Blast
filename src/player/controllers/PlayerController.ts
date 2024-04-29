@@ -1,5 +1,5 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import Game from '../../Game';
+import Game from '../../game/Game';
 import InputManager from '../../inputs/InputManager';
 import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';

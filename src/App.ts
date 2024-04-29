@@ -1,5 +1,5 @@
 import '@babylonjs/inspector';
-import Game from './Game';
+import Game from './game/Game';
 
 
 /**

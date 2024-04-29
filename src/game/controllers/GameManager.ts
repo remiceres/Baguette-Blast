@@ -1,6 +1,6 @@
 import Game from '../Game';
-import EnemyController from '../enemy/controllers/EnemyController';
-import State from '../stateManager/EnumState';
+import EnemyController from '../../enemy/controllers/EnemyController';
+import State from '../../stateManager/EnumState';
 
 class GameManager {
     private static _instance: GameManager;

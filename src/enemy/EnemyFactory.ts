@@ -2,7 +2,7 @@ import { Vector3 } from '@babylonjs/core';
 import { BehaviorData, EnemyData } from '../game/LevelData';
 import EnemyController from './controllers/EnemyController';
 import BalloonView from './views/BalloonView';
-import Game from '../Game';
+import Game from '../game/Game';
 import BalloonModel from './models/BalloonModel';
 import CopperBalloonModel from './models/CopperBalloonModel';
 import SilverBalloonModel from './models/SilverBalloonModel';

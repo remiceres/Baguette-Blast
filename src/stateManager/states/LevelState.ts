@@ -4,7 +4,7 @@ import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import { LevelData } from '../../game/LevelData';
 import StateInterface from './StateInterface';
-import Game from '../../Game';
+import Game from '../../game/Game';
 import State from '../EnumState';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
@@ -13,8 +13,8 @@ import GunBall from '../../weapon/GunBall';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
 import CollisionManager from './CollisionManager';
-import GameManager from '../../game/GameManager';
-import MusicManager from '../../MusicManager';
+import GameManager from '../../game/controllers/GameManager';
+import MusicManager from '../../game/controllers/MusicManager';
 
 const levelData: LevelData = level1 as LevelData;
 

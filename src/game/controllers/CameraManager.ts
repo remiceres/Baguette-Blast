@@ -1,5 +1,5 @@
 import { Camera, FreeCamera, Scene, Vector3 } from '@babylonjs/core';
-import Game from './Game';
+import Game from '../Game';
 
 /**
  * Manages the cameras within a BabylonJS Scene, including switching

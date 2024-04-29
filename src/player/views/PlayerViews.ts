@@ -1,5 +1,5 @@
 import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs/core';
-import Game from '../../Game';
+import Game from '../../game/Game';
 
 class PlayerView {
     public _playerMesh: Mesh;

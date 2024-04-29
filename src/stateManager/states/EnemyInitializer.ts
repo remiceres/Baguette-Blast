@@ -5,7 +5,7 @@ import BalloonModel from '../../enemy/models/BalloonModel';
 import CopperBalloonModel from '../../enemy/models/CopperBalloonModel';
 import SilverBalloonModel from '../../enemy/models/SilverBalloonModel';
 import BalloonView from '../../enemy/views/BalloonView';
-import Game from '../../Game';
+import Game from '../../game/Game';
 import { EnemyData } from '../../game/LevelData';
 
 enum EnemyType {
