@@ -1,5 +1,5 @@
 import { Vector3 } from '@babylonjs/core';
-import { BehaviorData, EnemyData } from '../game/LevelData';
+import { BehaviorData, EnemyData } from '../game/models/LevelData';
 import EnemyController from './controllers/EnemyController';
 import BalloonView from './views/BalloonView';
 import Game from '../game/Game';

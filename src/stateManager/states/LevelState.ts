@@ -2,7 +2,7 @@ import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import level1 from '../../../public/levels/level1.json';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
-import { LevelData } from '../../game/LevelData';
+import { LevelData } from '../../game/models/LevelData';
 import StateInterface from './StateInterface';
 import Game from '../../game/Game';
 import State from '../EnumState';
@@ -12,7 +12,7 @@ import BallProjectile from '../../projectile/BallProjectile';
 import GunBall from '../../weapon/GunBall';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
-import CollisionManager from './CollisionManager';
+import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
 import MusicManager from '../../game/controllers/MusicManager';
 
