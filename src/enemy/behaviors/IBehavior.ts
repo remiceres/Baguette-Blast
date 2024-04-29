@@ -1,7 +1,7 @@
-import EnemyModel from '../models/EnemyModel';
+import BaseEnemyModel from '../models/BaseEnemyModel';
 
 interface IBehavior {
-    setModel(model: EnemyModel): void;
+    setModel(model: BaseEnemyModel): void;
     update(deltaTime: number): void;
 }
 

@@ -1,7 +1,7 @@
 import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import Game from '../Game';
 import ProjectileInterface from './ProjectileInterface';
-import { BaseView } from '../enemy/views/BaseView';
+import BaseEnemyView from '../enemy/views/BaseEnemyView';
 
 class BallProjectile implements ProjectileInterface, ICollider {
     public _mesh: Mesh;
@@ -15,11 +15,11 @@ class BallProjectile implements ProjectileInterface, ICollider {
     }
     
     collidesWith(other: ICollider): boolean {
-        return other instanceof BaseView;
+        return other instanceof BaseEnemyView;
     }
 
     onCollision(other: ICollider): void {
-        if (other instanceof BaseView) {
+        if (other instanceof BaseEnemyView) {
             console.log('Projectile hit an enemy');
             this.dispose();
             other.dispose();

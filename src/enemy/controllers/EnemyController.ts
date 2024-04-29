@@ -1,14 +1,14 @@
 import BonusController from '../../bonus/controllers/BonusController';
 import BallProjectile from '../../projectile/BallProjectile';
-import EnemyModel from '../models/EnemyModel';
-import { BaseView } from '../views/BaseView';
+import BaseEnemyModel from '../models/BaseEnemyModel';
+import BaseEnemyView from '../views/BaseEnemyView';
 
 class EnemyController implements ICollider{
-    private _model: EnemyModel; // This could be any model that extends EnemyModel, including CopperBalloonModel
-    private _view: BaseView; // Corresponding view for the model
+    private _model: BaseEnemyModel; 
+    private _view: BaseEnemyView; 
     private _bonusController: BonusController;
 
-    constructor(model: EnemyModel, view: BaseView) {
+    constructor(model: BaseEnemyModel, view: BaseEnemyView) {
         this._model = model;
         this._view = view;
 
@@ -59,11 +59,11 @@ class EnemyController implements ICollider{
         this._view.update();
     }
 
-    public get model(): EnemyModel {
+    public get model(): BaseEnemyModel {
         return this._model;
     }
 
-    public get view(): BaseView {
+    public get view(): BaseEnemyView {
         return this._view;
     }
 

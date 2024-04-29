@@ -66,7 +66,7 @@ class LevelState implements StateInterface {
 
     async initMusic() {
         await this.musicManager.loadTrack('/musics/theme.mp3');
-        this.musicManager.play();
+        // this.musicManager.play();
     }
 
     public async init(): Promise<void> {

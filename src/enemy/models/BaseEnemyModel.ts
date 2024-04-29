@@ -1,6 +1,6 @@
 import { Vector3 } from '@babylonjs/core';
 
-class EnemyModel {
+class BaseEnemyModel {
     private _position: Vector3;
     private _health: number;
     private _score: number;
@@ -45,4 +45,4 @@ class EnemyModel {
     // Additional enemy-specific methods can be added here
 }
 
-export default EnemyModel;
+export default BaseEnemyModel;

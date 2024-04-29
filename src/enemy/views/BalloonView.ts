@@ -1,8 +1,8 @@
 import { MeshBuilder, StandardMaterial, Scene } from '@babylonjs/core';
-import { BaseView } from './BaseView';
+import BaseEnemyView from './BaseEnemyView';
 import BalloonModel from '../models/BalloonModel';
 
-class BalloonView extends BaseView {
+class BalloonView extends BaseEnemyView {
     private _model: BalloonModel;
 
     constructor(scene: Scene, model: BalloonModel) {
