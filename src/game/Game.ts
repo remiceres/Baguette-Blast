@@ -9,7 +9,7 @@ import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
 import TimeControl from './controllers/TimeControl';
 import AssetsLoader from './controllers/AssetsLoader';
-import EnvironementControllers from './environement/EnvironementControllers';
+import EnvironmentControllers from '../environment/controllers/EnvironmentControllers';
 
 /**
  * The Game class is the central class of the application.
@@ -45,7 +45,7 @@ class Game {
     private _assetManager: AssetManager;
 
     // Manages the environement, like lights, shadows, etc.
-    private _environementControllers: EnvironementControllers;
+    private _environmentControllers: EnvironmentControllers;
 
     // Controls the simulation time, allowing pausing, slow motion, etc.
     private _timeControl: TimeControl;
@@ -69,7 +69,7 @@ class Game {
                 ? new QuestInput(this._xr, this._scene)
                 : new KeyboardInput(this._scene);
             this._stateManager = new StateManager(State.MenuHome);
-            this._environementControllers = new EnvironementControllers();
+            this._environmentControllers = new EnvironmentControllers();
             this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
@@ -143,7 +143,7 @@ class Game {
             lastTime = currentTime;
 
             this.timeControl.update();
-            this._environementControllers.update(deltaTime);
+            this._environmentControllers.update(deltaTime);
 
             if (document.visibilityState === 'visible') {
                 this._stateManager.currentState.update(deltaTime * this._timeControl.getTimeScale());

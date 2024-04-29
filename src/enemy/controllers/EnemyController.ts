@@ -27,12 +27,11 @@ class EnemyController implements ICollider{
     }
 
     dispose(): void {
+        this._view.onKill();
         this.view.dispose(); 
         if (this._bonusController) {
             this._bonusController.dispose();
         }
-        // Explosion of the view
-        this._view.onKill();
     }
 
     update(deltaTime: number): void {

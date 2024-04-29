@@ -1,5 +1,5 @@
 import { Color3, HemisphericLight, Vector3 } from '@babylonjs/core';
-import Game from '../Game';
+import Game from '../../game/Game';
 
 class AmbiantLight {
     private _scene = Game.instance.scene;

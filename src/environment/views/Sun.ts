@@ -1,5 +1,5 @@
 import { Color3, DirectionalLight, Vector3 } from '@babylonjs/core';
-import Game from '../Game';
+import Game from '../../game/Game';
 
 
 class Sun {

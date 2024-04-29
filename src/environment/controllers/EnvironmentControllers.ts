@@ -1,10 +1,10 @@
-import Game from '../Game';
-import AmbiantLight from './AmbiantLight';
-import Shadows from './Shadows';
-import Sky from './Sky';
-import Sun from './Sun';
+import Game from '../../game/Game';
+import AmbiantLight from '../views/AmbiantLight';
+import Shadows from '../views/Shadows';
+import Sky from '../views/Sky';
+import Sun from '../views/Sun';
 
-class EnvironementControllers {
+class EnvironmentControllers {
     private _scene = Game.instance.scene;
 
     // Day-night cycle
@@ -82,4 +82,4 @@ class EnvironementControllers {
     }
 }
 
-export default EnvironementControllers;
+export default EnvironmentControllers;
