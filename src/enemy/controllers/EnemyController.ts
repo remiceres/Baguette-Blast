@@ -27,10 +27,12 @@ class EnemyController implements ICollider{
     }
 
     dispose(): void {
-        this.view.dispose(); // Assuming the view has a dispose method
+        this.view.dispose(); 
         if (this._bonusController) {
             this._bonusController.dispose();
         }
+        // Explosion of the view
+        this._view.onKill();
     }
 
     update(deltaTime: number): void {
@@ -59,8 +61,6 @@ class EnemyController implements ICollider{
         // set the bonus view for the enemy view
         this._view.bonusView = controller.view;
     }
-
-    // Additional methods to handle other interactions
 }
 
 export default EnemyController;

@@ -12,6 +12,8 @@ abstract class BaseEnemyView {
 
     abstract createMesh(): void;
 
+    abstract onKill(): void;
+
     public update(): void {
         // Provide a default update implementation or leave abstract to enforce subclass implementation
     }

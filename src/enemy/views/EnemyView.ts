@@ -11,6 +11,10 @@ class EnemyView extends BaseEnemyView {
         this.createMesh();
     }
 
+    onKill(): void {
+        // Play a particle effect when the enemy is killed
+    }
+
     createMesh(): void {
         this._mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, this._scene);
         const material = new StandardMaterial('enemyMaterial', this._scene);
