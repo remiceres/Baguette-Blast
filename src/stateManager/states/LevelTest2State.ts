@@ -5,7 +5,6 @@ import Game from '../../game/Game';
 import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import MusicManager from '../../game/controllers/MusicManager';
 
 /**
  * Represents the second level test state of the application.
@@ -13,7 +12,6 @@ import MusicManager from '../../game/controllers/MusicManager';
  */
 class LevelTest2State implements StateInterface {
     private _cubeMenu: Mesh;
-    musicManager: MusicManager;
 
     /**
      * Initializes the level test state with the given scene.
@@ -21,8 +19,6 @@ class LevelTest2State implements StateInterface {
      * @returns {Promise<void>} A promise that resolves when initialization is complete.
      */
     public async init(): Promise<void> {
-        this.musicManager = new MusicManager();
-        await this.initMusic();
         Inspector.Show(Game.instance.scene, {});
 
         this._initInterface();
@@ -36,11 +32,6 @@ class LevelTest2State implements StateInterface {
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.MenuHome);
         });
-    }
-
-    async initMusic() {
-        await this.musicManager.loadTrack('/musics/theme.mp3');
-        this.musicManager.play();
     }
 
     /**
@@ -77,9 +68,6 @@ class LevelTest2State implements StateInterface {
         if (!Game.instance.inputManager.rightSecondary.pressed) {
             this._secondaryButtonPressed = false;
         }
-
-        // Update music manager
-        this.musicManager.update();
     }
 }
 
