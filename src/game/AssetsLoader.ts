@@ -1,9 +1,8 @@
-import { AssetsManager, Color3, Mesh, MeshAssetTask, PointLight, Scene, Vector3 } from '@babylonjs/core';
+import { AssetsManager, Mesh, MeshAssetTask, Scene } from '@babylonjs/core';
 import Game from '../Game';
 
 class AssetsLoader {
     private readonly _scene: Scene = Game.instance.scene;
-    private readonly _dictLights: Map<string, PointLight> = new Map();
     private readonly _dictModels: Map<string, Mesh> = new Map(); // Changed from AbstractMesh to Mesh
 
     private static readonly _modelPath = 'models/';
@@ -11,34 +10,12 @@ class AssetsLoader {
 
     async initialize(): Promise<void> {
         try {
-            this._initializeLights();
             await this._initializeModels();
             this._hideColliderMeshes();
         } catch (error) {
             console.error('Failed to initialize assets:', error);
             throw error;
         }
-    }
-
-    private _initializeLights(): void {
-        const lightPositions = [
-            new Vector3(-6, 7, -9),
-            new Vector3(13, 7, 1),
-            new Vector3(61, 7, 6.7),
-            new Vector3(61, 7, -14.6),
-            new Vector3(129, 7, -14.6),
-            new Vector3(129, 7, 6.7),
-            new Vector3(145, 7, 16.1),
-            new Vector3(128, 7, 44),
-            new Vector3(92, 7, 44),
-            new Vector3(75, 7, -49),
-            new Vector3(140.5, 7, -49),
-        ];
-        lightPositions.forEach((position, index) => {
-            const light = new PointLight(`light${index}`, position, this._scene);
-            light.specular = Color3.Black();
-            this._dictLights.set(`light${index}`, light);
-        });
     }
 
     private async _initializeModels(): Promise<void> {
@@ -54,7 +31,7 @@ class AssetsLoader {
             );
             task.onSuccess = (task) => {
                 this._handleMeshLoaded(task, name === 'Scene');
-                task.loadedMeshes.forEach(elem => {
+                task.loadedMeshes.forEach((elem) => {
                     if (elem instanceof Mesh) {
                         // Ensure it is a Mesh
                         this._dictModels.set(name, elem);
@@ -99,10 +76,6 @@ class AssetsLoader {
                 mesh.isVisible = false;
             }
         });
-    }
-
-    public get dictLights(): Map<string, PointLight> {
-        return this._dictLights;
     }
 
     public get dictModels(): Map<string, Mesh> {

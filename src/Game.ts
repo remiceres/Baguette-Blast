@@ -1,14 +1,14 @@
 import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
 import CameraManager from './CameraManager';
 import DebugConsole from './debug/DebugConsole';
+import { default as AssetManager, default as AssetsLoader } from './game/AssetsLoader';
+import EnvironementControllers from './game/environement/EnvironementControllers';
 import InputManager from './inputs/InputManager';
 import KeyboardInput from './inputs/KeyboardInput';
 import QuestInput from './inputs/QuestInput';
-import AssetManager from './game/AssetsLoader';
 import State from './stateManager/EnumState';
 import StateManager from './stateManager/StateManager';
 import TimeControl from './TimeControl';
-import AssetsLoader from './game/AssetsLoader';
 
 /**
  * The Game class is the central class of the application.
@@ -43,6 +43,9 @@ class Game {
     // Manages the loading of assets like models, textures, etc.
     private _assetManager: AssetManager;
 
+    // Manages the environement, like lights, shadows, etc.
+    private _environementControllers: EnvironementControllers;
+
     // Controls the simulation time, allowing pausing, slow motion, etc.
     private _timeControl: TimeControl;
 
@@ -65,6 +68,7 @@ class Game {
                 ? new QuestInput(this._xr, this._scene)
                 : new KeyboardInput(this._scene);
             this._stateManager = new StateManager(State.MenuHome);
+            this._environementControllers = new EnvironementControllers();
             this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
@@ -138,6 +142,7 @@ class Game {
             lastTime = currentTime;
 
             this.timeControl.update();
+            this._environementControllers.update(deltaTime);
 
             if (document.visibilityState === 'visible') {
                 this._stateManager.currentState.update(deltaTime * this._timeControl.getTimeScale());
