@@ -1,8 +1,8 @@
 import { Vector3, Color3 } from '@babylonjs/core';
-import EnemyModel from './EnemyModel';
+import BaseEnemyModel from './BaseEnemyModel';
 import IBehavior from '../behaviors/IBehavior';
 
-class BalloonModel extends EnemyModel {
+class BalloonModel extends BaseEnemyModel {
     private _behavior?: IBehavior;
     private _color: Color3;
 

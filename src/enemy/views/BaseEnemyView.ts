@@ -1,7 +1,7 @@
 import { Mesh, Scene, Vector3 } from '@babylonjs/core';
 import BonusView from '../../bonus/views/BonusView';
 
-abstract class BaseView {
+abstract class BaseEnemyView {
     public _mesh: Mesh;
     protected _scene: Scene;
     protected _bonusView: BonusView;
@@ -32,4 +32,4 @@ abstract class BaseView {
     }
 }
 
-export { BaseView };
+export default BaseEnemyView;

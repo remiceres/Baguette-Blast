@@ -1,5 +1,5 @@
 import EnemyController from '../../enemy/controllers/EnemyController';
-import { BaseView } from '../../enemy/views/BaseView';
+import BaseEnemyView from '../../enemy/views/BaseEnemyView';
 
 class CollisionManager {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,7 +33,7 @@ class CollisionManager {
         let collided = null;
         // this._views.forEach(view => {
         this._colliders.forEach((controller) => {
-            if (controller.view instanceof BaseView) {
+            if (controller.view instanceof BaseEnemyView) {
                 ball.getProjectiles().forEach((projectile) => {
                     if (projectile.intersectsMesh(controller.view._mesh, true)) {
                         // Notify the EnemyController about the collision

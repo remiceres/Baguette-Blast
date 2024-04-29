@@ -1,8 +1,8 @@
-import EnemyModel from '../models/EnemyModel';
+import BaseEnemyModel from '../models/BaseEnemyModel';
 import IBehavior from './IBehavior';
 
 class FloatingBehavior implements IBehavior {
-    private _model: EnemyModel;
+    private _model: BaseEnemyModel;
     private _amplitude: number;
     private _speed: number;
     private _initialHeight: number;
@@ -13,7 +13,7 @@ class FloatingBehavior implements IBehavior {
         this._speed = speed;
     }
 
-    setModel(model: EnemyModel): void {
+    setModel(model: BaseEnemyModel): void {
         this._model = model;
         this._initialHeight = model.position.y;
     }

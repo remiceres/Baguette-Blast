@@ -1,11 +1,11 @@
 import { MeshBuilder, StandardMaterial, Color3, Scene } from '@babylonjs/core';
-import { BaseView } from './BaseView';
-import EnemyModel from '../models/EnemyModel';
+import BaseEnemyView  from './BaseEnemyView';
+import BaseEnemyModel from '../models/BaseEnemyModel';
 
-class EnemyView extends BaseView {
-    private _model: EnemyModel;
+class EnemyView extends BaseEnemyView {
+    private _model: BaseEnemyModel;
 
-    constructor(scene: Scene, model: EnemyModel) {
+    constructor(scene: Scene, model: BaseEnemyModel) {
         super(scene);
         this._model = model;
         this.createMesh();
