@@ -1,10 +1,10 @@
 import { Mesh, Scene, Vector3 } from '@babylonjs/core';
-import BonusView from '../../bonus/views/BonusView';
+import BaseBonusView from '../../bonus/views/BaseBonusView';
 
 abstract class BaseEnemyView {
     public _mesh: Mesh;
     protected _scene: Scene;
-    protected _bonusView: BonusView;
+    protected _bonusView: BaseBonusView;
 
     constructor(scene: Scene) {
         this._scene = scene;
@@ -22,7 +22,7 @@ abstract class BaseEnemyView {
         }
     }
 
-    public set bonusView(bonusView: BonusView) {
+    public set bonusView(bonusView: BaseBonusView) {
         this._bonusView = bonusView;
         // Add bonus mesh to the enemy mesh, on top of the enemy mesh
         this._bonusView.mesh.parent = this._mesh;

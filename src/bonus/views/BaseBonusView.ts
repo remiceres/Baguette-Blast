@@ -1,6 +1,6 @@
 import { Mesh, Scene } from '@babylonjs/core';
 
-abstract class BonusView {
+abstract class BaseBonusView {
     protected _mesh: Mesh;
     private _scene: Scene;
 
@@ -24,4 +24,4 @@ abstract class BonusView {
     }
 }
 
-export default BonusView;
+export default BaseBonusView;

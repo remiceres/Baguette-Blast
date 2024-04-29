@@ -1,4 +1,4 @@
-class BonusModel {
+class BaseBonusModel {
     public _value: number;
 
     constructor(value = 100) {
@@ -10,4 +10,4 @@ class BonusModel {
     }
 }
 
-export default BonusModel;
+export default BaseBonusModel;

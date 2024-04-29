@@ -1,6 +1,6 @@
-import Bonus from './BonusModel';
+import BaseBonusModel from './BaseBonusModel';
 
-class ScoreBonus extends Bonus {
+class ScoreBonus extends BaseBonusModel {
     constructor(value: number = 200) {
         super(value);
     }

@@ -1,11 +1,11 @@
-import BonusModel from '../models/BonusModel';
-import BonusView from '../views/BonusView';
+import BaseBonusModel from '../models/BaseBonusModel';
+import BaseBonusView from '../views/BaseBonusView';
 
 class BaseBonusController {
-    public model: BonusModel;
-    public view: BonusView;
+    public model: BaseBonusModel;
+    public view: BaseBonusView;
 
-    constructor(model: BonusModel, view: BonusView) {
+    constructor(model: BaseBonusModel, view: BaseBonusView) {
         this.model = model;
         this.view = view;
     }
