@@ -7,7 +7,7 @@ import BalloonModel from './models/BalloonModel';
 import CopperBalloonModel from './models/CopperBalloonModel';
 import SilverBalloonModel from './models/SilverBalloonModel';
 import FloatingBehavior from './behaviors/FloatingBehavior';
-import BonusController from '../bonus/controllers/BonusController';
+import BaseBonusController from '../bonus/controllers/BaseBonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
@@ -68,11 +68,11 @@ class EnemyFactory {
         switch (bonusData.type) {
             case BonusType.Score:
                 // eslint-disable-next-line max-len
-                controller.bonusController = new BonusController(new ScoreBonus(), new ScoreBonusView(Game.instance.scene));
+                controller.bonusController = new BaseBonusController(new ScoreBonus(), new ScoreBonusView(Game.instance.scene));
                 break;
             case BonusType.Time:
                 // eslint-disable-next-line max-len
-                controller.bonusController = new BonusController(new ScoreBonus(), new TimeBonusView(Game.instance.scene));
+                controller.bonusController = new BaseBonusController(new ScoreBonus(), new TimeBonusView(Game.instance.scene));
                 break;
             default:
                 throw new Error(`Unsupported behavior type: ${bonusData.type}`);

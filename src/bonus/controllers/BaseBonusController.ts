@@ -1,7 +1,7 @@
 import BonusModel from '../models/BonusModel';
 import BonusView from '../views/BonusView';
 
-class BonusController {
+class BaseBonusController {
     public model: BonusModel;
     public view: BonusView;
 
@@ -21,4 +21,4 @@ class BonusController {
     }
 }
 
-export default BonusController;
+export default BaseBonusController;
