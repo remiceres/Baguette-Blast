@@ -1,19 +1,14 @@
-import { AbstractMesh, Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import Game from '../game/Game';
-import ProjectileInterface from './ProjectileInterface';
-import BaseEnemyView from '../enemy/views/BaseEnemyView';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import BaseEnemyView from '../../enemy/views/BaseEnemyView';
+import ProjectileView from '../views/ProjectileView';
 
-class Ball implements ProjectileInterface, ICollider {
-    public _mesh: Mesh;
+class ProjectileController implements ICollider {
+    private _view: ProjectileView;
 
-    private _instanceCount = 0;
-
-    constructor() {
-        this._mesh = MeshBuilder.CreateSphere('ball_ref', { diameter: 0.25 }, Game.instance.scene);
-        this._mesh.isVisible = false;
-        this._mesh.isPickable = false;
+    constructor(view: ProjectileView) {
+        this._view = view;
     }
-    
+
     collidesWith(other: ICollider): boolean {
         return other instanceof BaseEnemyView;
     }
@@ -26,8 +21,8 @@ class Ball implements ProjectileInterface, ICollider {
         }
     }
 
-    public fire(origin: Vector3, direction: Vector3, force: number): void {
-        const instance = this._mesh.createInstance('ball ' + this._instanceCount);
+    public fired(origin: Vector3, direction: Vector3, force: number): void {
+        const instance = this._view.mesh.createInstance('projectile_instance');
         instance.position = origin.clone();
 
         // Save force in the instance
@@ -37,13 +32,13 @@ class Ball implements ProjectileInterface, ICollider {
         instance.lookAt(origin.add(direction));
     }
 
-    // Return the mesh
+    // Return the projectiles
     public getProjectiles(): AbstractMesh[] {
-        return this._mesh.instances;
+        return this._view.mesh.instances;
     }
 
     public update(deltaTime: number): void {
-        for (const instance of this._mesh.instances) {
+        for (const instance of this._view.mesh.instances) {
             // Move the instance forward.
             instance.position.addInPlace(instance.forward.scale(instance.metadata.force * deltaTime));
         }
@@ -51,8 +46,7 @@ class Ball implements ProjectileInterface, ICollider {
     }
 
     public dispose(): void {
-        this._mesh.dispose();
+        this._view.dispose();
     }
 }
-
-export default Ball;
+export default ProjectileController;

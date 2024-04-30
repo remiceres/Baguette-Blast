@@ -7,7 +7,8 @@ import PlayerController from '../../player/controllers/PlayerController';
 import PlayerView from '../../player/views/PlayerViews';
 import PlayerModel from '../../player/models/PlayerModels';
 import Gun from '../../weapon/Gun';
-import Ball from '../../projectile/Ball';
+import ProjectileController from '../../projectile/controllers/ProjectileController';
+import ProjectileView from '../../projectile/views/ProjectileView';
 
 class LevelTest1State implements StateInterface {
     private _cubeMenu: Mesh;
@@ -31,7 +32,7 @@ class LevelTest1State implements StateInterface {
     private _initPlayerController(): void {
         this._playerController = new PlayerController(new PlayerModel, new PlayerView);
 
-        const projectile = new Ball();
+        const projectile = new ProjectileController(new ProjectileView());
         const weapon = new Gun(projectile, 10);
 
         this._playerController.setWeapon('right', weapon);

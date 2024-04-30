@@ -8,13 +8,14 @@ import Game from '../../game/Game';
 import State from '../EnumState';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
-import Ball from '../../projectile/Ball';
 import Gun from '../../weapon/Gun';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
 import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
 import MusicManager from '../../game/controllers/MusicManager';
+import ProjectileController from '../../projectile/controllers/ProjectileController';
+import ProjectileView from '../../projectile/views/ProjectileView';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -57,7 +58,7 @@ class LevelState implements StateInterface {
             levelData?.player?.position.y, 
             levelData?.player?.position.z);
 
-        const projectile = new Ball();
+        const projectile = new ProjectileController(new ProjectileView());
         console.log(levelData?.player);
         const weapon = new Gun(projectile, levelData?.player?.left_hand?.power || 10);
 

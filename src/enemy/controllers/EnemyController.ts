@@ -1,5 +1,5 @@
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
-import Ball from '../../projectile/Ball';
+import ProjectileController from '../../projectile/controllers/ProjectileController';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
 
@@ -14,7 +14,7 @@ class EnemyController implements ICollider{
     }
 
     collidesWith(other: ICollider): boolean {
-        if (other instanceof Ball) {
+        if (other instanceof ProjectileController) {
             console.log('collidesWith');
             return true;
         }

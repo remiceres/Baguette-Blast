@@ -50,9 +50,7 @@ class PlayerController {
     }
 
     set position(position: Vector3) {
-        position._z = -position._z;
         this._view.position = position;
-        // this._view.position._z = this._view.position._z-1;
     }
 
     get position(): Vector3 {
