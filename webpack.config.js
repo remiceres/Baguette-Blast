@@ -23,12 +23,7 @@ const devServer = {
     devMiddleware: {
         publicPath: '/',
     },
-    server: process.env.HTTPS
-        ? {
-            key: fs.readFileSync(_resolve(appDirectory, 'key.pem')),
-            cert: fs.readFileSync(_resolve(appDirectory, 'cert.pem')),
-        }
-        : 'https',
+    server: process.env.HTTPS ? 'https' : 'http',
 };
 const moduleRules = {
     rules: [
