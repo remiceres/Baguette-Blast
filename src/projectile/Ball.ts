@@ -37,7 +37,7 @@ class Ball implements ProjectileInterface, ICollider {
         instance.lookAt(origin.add(direction));
     }
 
-    // getProjectiles return the mesh
+    // Return the mesh
     public getProjectiles(): AbstractMesh[] {
         return this._mesh.instances;
     }

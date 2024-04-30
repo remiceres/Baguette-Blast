@@ -27,26 +27,28 @@ abstract class AbstractWeapon implements WeaponInterface {
 
     public fire(): void {
         if (!this._isGrabed) {
+            console.log('weapon is not grabed');
             return;
         }
 
-        // check cooldown
+        // Check cooldown
         if (this._timeSinceLastShot < this._cooldownSecond) {
+            console.log('cooldown');
             return;
         }
 
-        // check durability
+        // Check durability
         if (this._durability == 0) {
+            console.log('weapon is broken');
             return;
         }
 
-        // fire
+        // Fire
         this._timeSinceLastShot = 0;
         this._durability--;
-        console.log(this._durability);
         const position = this._parent.getAbsolutePosition();
 
-        // eloigne du joueur
+        // Eloigne du joueur
         const { direction, force } = this._calculateThrowParameters();
         this._projectile.fire(position, direction, force);
     }
@@ -69,14 +71,9 @@ abstract class AbstractWeapon implements WeaponInterface {
     public update(deltaTime: number): void {
         this._timeSinceLastShot += deltaTime;
 
-        // check durability
-        if (this._durability == 0) {
-            // this.dispose();
-            console.log('weapon is broken');
-        }
-
-        // update projectile if grap
+        // Update projectile if grap
         if (this._isGrabed) {
+            // TODO: To move out of the condition to avoid freeze 
             this._projectile.update(deltaTime);
         }
     }

@@ -36,7 +36,7 @@ class Hand extends AbstractWeapon {
     public update(deltaTime: number): void {
         super.update(deltaTime);
 
-        // save position all 100ms
+        // Save position all 100ms
         if (this._timeSinceLastSave > 0.1) {
             this._savePosition(this._parent.getAbsolutePosition());
             this._timeSinceLastSave = 0;
