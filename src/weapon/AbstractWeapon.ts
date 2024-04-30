@@ -2,7 +2,7 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import ProjectileInterface from '../projectile/ProjectileInterface';
 import WeaponInterface from './WeaponIInterface';
 
-abstract class AbstractBallProjector implements WeaponInterface {
+abstract class AbstractWeapon implements WeaponInterface {
     protected _durability: number;
 
     protected mesh: AbstractMesh;
@@ -55,7 +55,7 @@ abstract class AbstractBallProjector implements WeaponInterface {
 
     protected abstract _loadMesh(): AbstractMesh;
 
-    public grap(hand: AbstractMesh): void {
+    public grab(hand: AbstractMesh): void {
         this._isGrabed = true;
         this._parent = hand;
         this.mesh.parent = hand;
@@ -87,4 +87,4 @@ abstract class AbstractBallProjector implements WeaponInterface {
     }
 }
 
-export default AbstractBallProjector;
+export default AbstractWeapon;

@@ -1,7 +1,7 @@
 import { MeshBuilder, Vector3 } from '@babylonjs/core';
-import AbstractBallProjector from './AbstractBallProjector';
+import AbstractWeapon from './AbstractWeapon';
 
-class GunBall extends AbstractBallProjector {
+class Gun extends AbstractWeapon {
     protected _durability: number = 10;
     protected _force: number;
 
@@ -32,4 +32,4 @@ class GunBall extends AbstractBallProjector {
     }
 }
 
-export default GunBall;
+export default Gun;

@@ -1,8 +1,8 @@
 import { MeshBuilder, Vector3 } from '@babylonjs/core';
 import ProjectileInterface from '../projectile/ProjectileInterface';
-import AbstractBallProjector from './AbstractBallProjector';
+import AbstractWeapon from './AbstractWeapon';
 
-class HandBall extends AbstractBallProjector {
+class Hand extends AbstractWeapon {
     protected _durability: number = 500;
 
     private _lastPosition: Vector3;
@@ -51,4 +51,4 @@ class HandBall extends AbstractBallProjector {
     }
 }
 
-export default HandBall;
+export default Hand;

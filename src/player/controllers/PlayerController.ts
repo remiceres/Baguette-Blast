@@ -26,10 +26,10 @@ class PlayerController {
     setWeapon(hand: 'left' | 'right', weapon: WeaponInterface): void {
         if (hand === 'left') {
             this._model.weaponLeft = weapon;
-            this._model.weaponLeft.grap(this._leftHand);
+            this._model.weaponLeft.grab(this._leftHand);
         } else {
             this._model.weaponRight = weapon;
-            this._model.weaponRight.grap(this._rightHand);
+            this._model.weaponRight.grab(this._rightHand);
         }
     }
 

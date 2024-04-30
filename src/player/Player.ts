@@ -64,10 +64,10 @@ class Player {
     public grabWeapon(hand: 'left' | 'right', weapon: WeaponInterface): void {
         if (hand === 'left') {
             this._weaponLeft = weapon;
-            this._weaponLeft.grap(this._leftHand);
+            this._weaponLeft.grab(this._leftHand);
         } else {
             this._weaponRight = weapon;
-            this._weaponRight.grap(this._rightHand);
+            this._weaponRight.grab(this._rightHand);
         }
     }
 

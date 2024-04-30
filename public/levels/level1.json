@@ -1,7 +1,7 @@
 {
     "player": {
         "left_hand": {
-            "item": "gunBall",
+            "item": "gun",
             "durability": 10,
             "power": 60
         },

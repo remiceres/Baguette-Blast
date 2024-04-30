@@ -3,7 +3,7 @@ import Game from '../game/Game';
 import ProjectileInterface from './ProjectileInterface';
 import BaseEnemyView from '../enemy/views/BaseEnemyView';
 
-class BallProjectile implements ProjectileInterface, ICollider {
+class Ball implements ProjectileInterface, ICollider {
     public _mesh: Mesh;
 
     private _instanceCount = 0;
@@ -55,4 +55,4 @@ class BallProjectile implements ProjectileInterface, ICollider {
     }
 }
 
-export default BallProjectile;
+export default Ball;
