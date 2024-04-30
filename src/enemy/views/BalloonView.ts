@@ -1,4 +1,4 @@
-import { MeshBuilder, StandardMaterial, Scene, Vector3, ParticleSystem, Texture } from '@babylonjs/core';
+import { MeshBuilder, StandardMaterial, Vector3, ParticleSystem, Texture } from '@babylonjs/core';
 import BaseEnemyView from './BaseEnemyView';
 import BalloonModel from '../models/BalloonModel';
 import Game from '../../game/Game';
@@ -6,8 +6,8 @@ import Game from '../../game/Game';
 class BalloonView extends BaseEnemyView {
     private _model: BalloonModel;
 
-    constructor(scene: Scene, model: BalloonModel) {
-        super(scene);
+    constructor(model: BalloonModel) {
+        super(Game.instance.scene);
         this._model = model;
         this.createMesh();
     }

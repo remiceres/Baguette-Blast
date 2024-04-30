@@ -31,8 +31,9 @@ enum BehaviorType {
 class EnemyFactory {
     public static createEnemy(enemyData: EnemyData): EnemyController {
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
+        // TODO: Change the score attribution?
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score);
-        const view = new BalloonView(Game.instance.scene, model);
+        const view = new BalloonView(model);
         const controller = new EnemyController(model, view);
 
         this._assignBehavior(model, enemyData.behavior);
