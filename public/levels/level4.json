@@ -1,0 +1,23 @@
+{
+    "player": {
+        "left_hand": {
+            "item": "gun",
+            "durability": 10,
+            "power": 60
+        },
+        "position": {
+            "x": 80.138,
+            "y": 2.0,
+            "z": -35.328
+        }
+    },
+    "enemies": [
+        
+    {
+    }
+    ],
+    "game": {
+        "time": 60,
+        "score": 0
+    }
+}
