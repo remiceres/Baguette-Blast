@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import AttractEnemy from '../../behaviors/AttractEnemy';
+// import AttractEnemy from '../../behaviors/AttractEnemy';
 import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
 import Friction from '../../behaviors/Friction';
-import Gravity from '../../behaviors/Gravity';
+// import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
@@ -22,6 +22,9 @@ import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import MoveAtoB from '../../behaviors/MoveAtoB';
+import Gravity from '../../behaviors/Gravity';
+import AttractEnemy from '../../behaviors/AttractEnemy';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -101,6 +104,8 @@ class LevelState implements StateInterface {
         behaviors.push(new Gravity(1));
         behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
         behaviors.push(new Friction(5));
+        behaviors.push(new Friction(1));
+        // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
         //////////////////////////////////////////////////////////////////////////////////////
 
         const projectile = new ProjectileController(new ProjectileView(), behaviors);
