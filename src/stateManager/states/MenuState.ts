@@ -25,7 +25,9 @@ class MenuState implements StateInterface {
      */
     public async init(): Promise<void> {
         this._sphere = MeshBuilder.CreateSphere('sphere', { diameter: 1 }, Game.instance.scene);
-
+        const camera = Game.instance.cameraManager.playerCamera;
+        camera.position = new Vector3(0, 3, -5);
+        camera.setTarget(new Vector3(0, 3, 2));
         // Setup the interactive cubes
         this._setupInteractiveCubes(Game.instance.scene);
 
