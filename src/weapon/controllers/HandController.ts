@@ -6,12 +6,12 @@ import HandView from '../views/HandView';
 class HandController extends WeaponController {
     protected _model: HandModel;
     protected _view: HandView;
-    
+
     constructor(model: HandModel, view: HandView) {
         super(model, view);
     }
 
-    protected _calculateThrowParameters(): { direction: Vector3; force: number } {
+    protected _getInitialForce(): Vector3 {
         let direction = new Vector3(0, 0, 0);
         let force = 0;
 
@@ -22,7 +22,7 @@ class HandController extends WeaponController {
                 (Date.now() - this._model.lastPositionTime);
         }
 
-        return { direction, force };
+        return direction.scale(force);
     }
 
     public update(deltaTime: number): void {

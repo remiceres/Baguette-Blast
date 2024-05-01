@@ -1,12 +1,14 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import BaseEnemyView from '../../enemy/views/BaseEnemyView';
 import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+import BaseEnemyView from '../../enemy/views/BaseEnemyView';
 import ProjectileView from '../views/ProjectileView';
 
 class ProjectileController implements ICollider {
     private _view: ProjectileView;
 
     private _behaviors: BehaviorsInterface[];
+
+    private _maxSpeed: number = 60;
 
     /////////////////
     // Constructor //
@@ -17,7 +19,6 @@ class ProjectileController implements ICollider {
         this._behaviors = [];
         this._behaviors = Behaviors;
     }
-
 
     //////////////
     // Collider //
@@ -39,14 +40,13 @@ class ProjectileController implements ICollider {
     // Methods //
     /////////////
 
-    public createNewInstance(origin: Vector3, direction: Vector3, speed: number): void {
+    public createNewInstance(origin: Vector3, initialForce: Vector3): void {
         // Create a new instance of the projectile and set its position and direction.
         const instance = this._view.mesh.createInstance('projectile_instance');
         instance.position = origin.clone();
-        instance.lookAt(origin.add(direction));
 
         // Save the speed vector in the instance metadata
-        instance.metadata = { speedVector: direction.scale(speed) };
+        instance.metadata = { speedVector: initialForce };
     }
 
     /////////////////////
@@ -63,25 +63,23 @@ class ProjectileController implements ICollider {
 
     public update(deltaTime: number): void {
         for (const instance of this._view.mesh.instances) {
-            // Initialize an acceleration vector to zero
-            let accelerationVector = Vector3.Zero();
+            let speedVector = instance.metadata.speedVector.clone();
 
-            // Accumulate the acceleration vectors of all behaviors
+            // Accumulate the forces from all behaviors
             for (const behavior of this._behaviors) {
-                accelerationVector = accelerationVector.add(behavior.updateAccelerationVector());
+                speedVector = speedVector.add(behavior.getForceVector(deltaTime, instance, speedVector));
             }
 
-            // Calculate the new speedVector and position of the instance
-            const speedVector = instance.metadata.speedVector.add(accelerationVector.scale(deltaTime));
-            
-            // Calculate the position vector
-            const positionVector = speedVector.scale(deltaTime);
-            
-            // Move the instance
-            instance.position.addInPlace(positionVector);
-            
-            // Save the speedVector vector in the instance metadata
+            // Limit the speed vector to the maximum speed
+            if (speedVector.length() > this._maxSpeed) {
+                speedVector.normalize().scaleInPlace(this._maxSpeed);
+            }
+
+            // Update the metadata
             instance.metadata.speedVector = speedVector;
+
+            // Update the position of the projectile
+            instance.position.addInPlace(speedVector.scale(deltaTime));
         }
     }
 

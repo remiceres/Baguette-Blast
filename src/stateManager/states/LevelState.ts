@@ -1,7 +1,9 @@
 /* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import AttractEnemy from '../../behaviors/AttractEnemy';
 import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
-import GravityBehaviors from '../../behaviors/GravityBehaviors';
+import Friction from '../../behaviors/Friction';
+import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
@@ -34,30 +36,32 @@ class LevelState implements StateInterface {
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
-        this._returnLevelByNumber(levelNumber).then(levelData => {
-            // Use the level data here
-            this._levelData = levelData;
-        }).catch(error => {
-            // Handle errors here
-            console.error('Cannot load level data:', error);
-        });
+        this._returnLevelByNumber(levelNumber)
+            .then((levelData) => {
+                // Use the level data here
+                this._levelData = levelData;
+            })
+            .catch((error) => {
+                // Handle errors here
+                console.error('Cannot load level data:', error);
+            });
         this._collisionManager = new CollisionManager();
     }
 
     private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
         const url = `../../levels/level${levelNumber}.json`;
         return fetch(url)
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Failed to fetch level ${levelNumber}: ${response.status}`);
                 }
                 return response.json();
             })
-            .then(data => {
+            .then((data) => {
                 // Assuming LevelData is an interface representing your JSON data structure
                 return data as LevelData;
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error loading level data:', error);
                 throw error;
             });
@@ -72,9 +76,11 @@ class LevelState implements StateInterface {
 
     private _initInterface(): void {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
-        const playerPosition = new Vector3(this._levelData?.player?.position.x,
+        const playerPosition = new Vector3(
+            this._levelData?.player?.position.x,
             this._levelData?.player?.position.y,
-            this._levelData?.player?.position.z);
+            this._levelData?.player?.position.z
+        );
         this._cubeMenu.position = playerPosition.add(new Vector3(0, 0, 5));
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.MenuHome);
@@ -85,24 +91,25 @@ class LevelState implements StateInterface {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
         this._playerController.health = this._levelData?.player?.health || 100;
         this._playerController.position = new Vector3(
-            this._levelData?.player?.position.x, 
-            this._levelData?.player?.position.y, 
-            this._levelData?.player?.position.z);
+            this._levelData?.player?.position.x,
+            this._levelData?.player?.position.y,
+            this._levelData?.player?.position.z
+        );
 
         // TODO : Add behavior in json file /////////////////////////////////////////////////
         const behaviors: BehaviorsInterface[] = [];
-        behaviors.push(new GravityBehaviors(9.81));
-        behaviors.push(new GravityBehaviors(9.81));
-        behaviors.push(new GravityBehaviors(9.81));
-        // behaviors.push(new AttractEnemy(this._enemiesController, 10, 100));
+        behaviors.push(new Gravity(1));
+        behaviors.push(new AttractEnemy(this._enemiesController, 5, 30));
+        behaviors.push(new Friction(5));
         //////////////////////////////////////////////////////////////////////////////////////
 
         const projectile = new ProjectileController(new ProjectileView(), behaviors);
+
         const weaponView = new GunView();
         const weaponModel = new GunModel(
-        // const weaponView = new HandView();
-        // const weaponModel = new HandModel(
-            this._levelData?.player?.left_hand?.power || 10,
+            // const weaponView = new HandView();
+            // const weaponModel = new HandModel(
+            this._levelData?.player?.left_hand?.power || 10
         );
         // const weaponController = new HandController(weaponModel, weaponView);
         const weaponController = new GunController(weaponModel, weaponView);
@@ -127,14 +134,15 @@ class LevelState implements StateInterface {
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
-            this._initPlayerController(); 
+            this._initPlayerController();
         }
 
         // Init score
         this._score = 0;
 
         if (this._levelData?.enemies) {
-            this._enemiesController = this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy));
+            this._enemiesController.push(...this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
+            console.log('Enemies found in the level data:', this._enemiesController);
             this._enemiesController.forEach((enemyController) => {
                 this._collisionManager.addCollider(enemyController);
             });

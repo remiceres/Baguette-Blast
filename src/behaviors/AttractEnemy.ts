@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import EnemyController from '../enemy/controllers/EnemyController';
 import BehaviorsInterface from './BehaviorsInterface';
 
@@ -13,25 +13,28 @@ class AttractEnemy implements BehaviorsInterface {
         this._force = force;
     }
 
-    public updateAccelerationVector(): Vector3 {
-        let acceleration = Vector3.Zero();
+    public getForceVector(deltaTime: number, mesh: AbstractMesh): Vector3 {
+        let nearestEnemy: EnemyController | null = null;
+        let minDistance = Infinity;
 
+        // Find the nearest enemy within the detection radius
         for (const enemy of this._enemies) {
-            console.log('AttractEnemy');
-            const distance = enemy.position.subtract(enemy.position).length();
+            const distance = enemy.position.subtract(mesh.position).length();
 
-            // if the enemy is close enough
-            if (distance < this._detectionRadius) {
-                // calculate the direction to the enemy
-                const direction = enemy.position.subtract(enemy.position).normalize();
-
-                // calculate the force to apply in function of the distance and the force
-                const force = direction.scale(this._force / distance);
-                acceleration = acceleration.add(force);
+            if (distance < this._detectionRadius && distance < minDistance) {
+                minDistance = distance;
+                nearestEnemy = enemy;
             }
         }
 
-        return acceleration;
+        // If a nearest enemy is found, apply the force towards it
+        if (nearestEnemy) {
+            const direction = nearestEnemy.position.subtract(mesh.position).normalize();
+            return direction.scale(this._force);
+        }
+
+        // Return zero vector if no enemy is found within detection radius
+        return Vector3.Zero();
     }
 }
 

@@ -1,3 +1,4 @@
+import { Vector3 } from '@babylonjs/core';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import GunModel from '../models/GunModel';
 import GunView from '../views/GunView';
@@ -14,11 +15,8 @@ class GunController extends WeaponController {
     }
 
     // TODO: Make it abstract in WeaponController
-    protected _calculateThrowParameters() {
-        return {
-            direction: this._model.parent.forward,
-            force: this._model.force,
-        };
+    protected _getInitialForce(): Vector3 {
+        return this._model.parent.forward.normalize().scale(this._model.force);
     }
 
     public get projectile() {

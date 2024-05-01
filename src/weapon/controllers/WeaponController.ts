@@ -1,8 +1,8 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import WeaponInterface from '../WeaponIInterface';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
+import WeaponInterface from '../WeaponIInterface';
 
 abstract class WeaponController implements WeaponInterface {
     protected _model: WeaponModel;
@@ -42,11 +42,11 @@ abstract class WeaponController implements WeaponInterface {
         const position = this._model.parent.getAbsolutePosition();
 
         // Eloigne du joueur
-        const { direction, force } = this._calculateThrowParameters();
-        this._model.projectile.createNewInstance(position, direction, force);
+        const initialForceVector = this._getInitialForce();
+        this._model.projectile.createNewInstance(position, initialForceVector);
     }
 
-    protected abstract _calculateThrowParameters(): { direction: Vector3; force: number };
+    protected abstract _getInitialForce(): Vector3;
 
     public grab(hand: AbstractMesh): void {
         this._model.isGrabed = true;
@@ -61,12 +61,12 @@ abstract class WeaponController implements WeaponInterface {
 
     public update(deltaTime: number): void {
         this._model.timeSinceLastShot += deltaTime;
-        
+
         this._view.update(deltaTime);
 
         // Update projectile if grap
         if (this._model.isGrabed) {
-            // TODO: To move out of the condition to avoid freeze 
+            // TODO: To move out of the condition to avoid freeze
             this._model.projectile.update(deltaTime);
         }
     }
@@ -75,6 +75,5 @@ abstract class WeaponController implements WeaponInterface {
         this._model.projectile.dispose();
         this._view.mesh.dispose();
     }
-
 }
 export default WeaponController;

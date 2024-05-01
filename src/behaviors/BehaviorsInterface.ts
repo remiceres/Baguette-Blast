@@ -1,7 +1,7 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 
 interface BehaviorsInterface {
-    updateAccelerationVector(): Vector3;
+    getForceVector(deltaTime: number, mesh: AbstractMesh, currentForce: Vector3): Vector3;
 }
 
 export default BehaviorsInterface;
