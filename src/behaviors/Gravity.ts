@@ -8,8 +8,8 @@ class Gravity implements BehaviorsInterface {
         this._gravity = gravity;
     }
 
-    public getForceVector(): Vector3 {
-        return new Vector3(0, -this._gravity, 0);
+    public getForceVector(deltaTime: number): Vector3 {
+        return new Vector3(0, -this._gravity * deltaTime, 0);
     }
 }
 
