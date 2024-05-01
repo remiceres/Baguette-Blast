@@ -9,6 +9,7 @@ import PlayerModel from '../../player/models/PlayerModels';
 import Gun from '../../weapon/Gun';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import ProjectileView from '../../projectile/views/ProjectileView';
+import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
 
 class LevelTest1State implements StateInterface {
     private _cubeMenu: Mesh;
@@ -30,14 +31,16 @@ class LevelTest1State implements StateInterface {
     }
 
     private _initPlayerController(): void {
-        this._playerController = new PlayerController(new PlayerModel, new PlayerView);
+        this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
 
-        const projectile = new ProjectileController(new ProjectileView());
+        const behaviors: BehaviorsInterface[] = [];
+
+        const projectile = new ProjectileController(new ProjectileView(), behaviors);
         const weapon = new Gun(projectile, 10);
 
         this._playerController.setWeapon('right', weapon);
     }
-        
+
     update(deltaTime: number): void {
         this._playerController.update(deltaTime);
         deltaTime;

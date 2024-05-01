@@ -1,3 +1,4 @@
+import { Vector3 } from '@babylonjs/core';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import BaseEnemyModel from '../models/BaseEnemyModel';
@@ -53,6 +54,10 @@ class EnemyController implements ICollider{
 
     public set score(value: number) {
         this._model.score = value;
+    }
+
+    public get position(): Vector3 {
+        return this._model.position;
     }
 
     public set bonusController(controller: BaseBonusController) {

@@ -1,19 +1,33 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import BaseEnemyView from '../../enemy/views/BaseEnemyView';
+import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
 import ProjectileView from '../views/ProjectileView';
 
 class ProjectileController implements ICollider {
     private _view: ProjectileView;
 
-    constructor(view: ProjectileView) {
+    private _behaviors: BehaviorsInterface[];
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor(view: ProjectileView, Behaviors: BehaviorsInterface[]) {
         this._view = view;
+        this._behaviors = [];
+        this._behaviors = Behaviors;
     }
 
-    collidesWith(other: ICollider): boolean {
+
+    //////////////
+    // Collider //
+    //////////////
+
+    public collidesWith(other: ICollider): boolean {
         return other instanceof BaseEnemyView;
     }
 
-    onCollision(other: ICollider): void {
+    public onCollision(other: ICollider): void {
         if (other instanceof BaseEnemyView) {
             console.log('Projectile hit an enemy');
             this.dispose();
@@ -21,28 +35,54 @@ class ProjectileController implements ICollider {
         }
     }
 
-    public fired(origin: Vector3, direction: Vector3, force: number): void {
+    /////////////
+    // Methods //
+    /////////////
+
+    public createNewInstance(origin: Vector3, direction: Vector3, speed: number): void {
+        // Create a new instance of the projectile and set its position and direction.
         const instance = this._view.mesh.createInstance('projectile_instance');
         instance.position = origin.clone();
-
-        // Save force in the instance
-        instance.metadata = { force: force };
-
-        // Orient the instance to face the direction of the projectile.
         instance.lookAt(origin.add(direction));
+
+        // Save the speed vector in the instance metadata
+        instance.metadata = { speedVector: direction.scale(speed) };
     }
 
-    // Return the projectiles
+    /////////////////////
+    // Getters/Setters //
+    /////////////////////
+
     public getProjectiles(): AbstractMesh[] {
         return this._view.mesh.instances;
     }
 
+    ////////////
+    // Update //
+    ////////////
+
     public update(deltaTime: number): void {
         for (const instance of this._view.mesh.instances) {
-            // Move the instance forward.
-            instance.position.addInPlace(instance.forward.scale(instance.metadata.force * deltaTime));
+            // Initialize an acceleration vector to zero
+            let accelerationVector = Vector3.Zero();
+
+            // Accumulate the acceleration vectors of all behaviors
+            for (const behavior of this._behaviors) {
+                accelerationVector = accelerationVector.add(behavior.updateAccelerationVector());
+            }
+
+            // Calculate the new speedVector and position of the instance
+            const speedVector = instance.metadata.speedVector.add(accelerationVector.scale(deltaTime));
+            
+            // Calculate the position vector
+            const positionVector = speedVector.scale(deltaTime);
+            
+            // Move the instance
+            instance.position.addInPlace(positionVector);
+            
+            // Save the speedVector vector in the instance metadata
+            instance.metadata.speedVector = speedVector;
         }
-        deltaTime;
     }
 
     public dispose(): void {

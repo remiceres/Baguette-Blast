@@ -1,21 +1,24 @@
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import level1 from '../../../public/levels/level1.json';
+import AttractEnemy from '../../behaviors/AttractEnemy';
+import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+import GravityBehaviors from '../../behaviors/GravityBehaviors';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
-import { LevelData } from '../../game/models/LevelData';
-import StateInterface from './StateInterface';
 import Game from '../../game/Game';
-import State from '../EnumState';
-import Buttons from '../../menu/buttons';
-import PlayerController from '../../player/controllers/PlayerController';
-import Gun from '../../weapon/Gun';
-import PlayerModel from '../../player/models/PlayerModels';
-import PlayerView from '../../player/views/PlayerViews';
 import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
 import MusicManager from '../../game/controllers/MusicManager';
+import { LevelData } from '../../game/models/LevelData';
+import Buttons from '../../menu/buttons';
+import PlayerController from '../../player/controllers/PlayerController';
+import PlayerModel from '../../player/models/PlayerModels';
+import PlayerView from '../../player/views/PlayerViews';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import ProjectileView from '../../projectile/views/ProjectileView';
+import Gun from '../../weapon/Gun';
+import State from '../EnumState';
+import StateInterface from './StateInterface';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -54,11 +57,20 @@ class LevelState implements StateInterface {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
         this._playerController.health = levelData?.player?.health || 100;
         this._playerController.position = new Vector3(
-            levelData?.player?.position.x, 
-            levelData?.player?.position.y, 
-            levelData?.player?.position.z);
+            levelData?.player?.position.x,
+            levelData?.player?.position.y,
+            levelData?.player?.position.z
+        );
 
-        const projectile = new ProjectileController(new ProjectileView());
+        // TODO : Add behavior in json file /////////////////////////////////////////////////
+        const behaviors: BehaviorsInterface[] = [];
+        behaviors.push(new GravityBehaviors(9.81));
+        behaviors.push(new GravityBehaviors(9.81));
+        behaviors.push(new GravityBehaviors(9.81));
+        // behaviors.push(new AttractEnemy(this._enemiesController, 10, 100));
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        const projectile = new ProjectileController(new ProjectileView(), behaviors);
         console.log(levelData?.player);
         const weapon = new Gun(projectile, levelData?.player?.left_hand?.power || 10);
 
@@ -74,23 +86,23 @@ class LevelState implements StateInterface {
         this.musicManager = new MusicManager();
         this.initMusic();
         // Assuming level data is already validated to match LevelData interface
-        this._levelData = levelData;  // Make sure levelData is correctly initialized
+        this._levelData = levelData; // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
         this._initInterface();
         this._initializeLevelData();
-    }    
+    }
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
-            this._initPlayerController(this._levelData); 
+            this._initPlayerController(this._levelData);
         }
 
         // Init score
         this._score = 0;
 
         if (this._levelData?.enemies) {
-            this._enemiesController = this._levelData.enemies.map(enemy => EnemyFactory.createEnemy(enemy));
-            this._enemiesController.forEach(enemyController => {
+            this._enemiesController = this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy));
+            this._enemiesController.forEach((enemyController) => {
                 this._collisionManager.addCollider(enemyController);
             });
         } else {
@@ -100,9 +112,9 @@ class LevelState implements StateInterface {
 
     public dispose(): void {
         this._cubeMenu.dispose();
-        this._enemiesController.forEach(enemy => enemy.dispose());
-        this._enemiesController = [];  
-        this._playerController.weaponRight.getProjectiles().forEach(projectile => projectile.dispose());
+        this._enemiesController.forEach((enemy) => enemy.dispose());
+        this._enemiesController = [];
+        this._playerController.weaponRight.getProjectiles().forEach((projectile) => projectile.dispose());
         this._playerController.dispose();
     }
 
@@ -111,9 +123,9 @@ class LevelState implements StateInterface {
         const playerHealth = this._playerController.health;
 
         GameManager.getInstance().update(deltaTime, playerHealth, this._enemiesController);
-        
+
         // Update enemies
-        this._enemiesController.forEach(enemyController => {
+        this._enemiesController.forEach((enemyController) => {
             enemyController.update(deltaTime);
         });
 

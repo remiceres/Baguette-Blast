@@ -50,7 +50,7 @@ abstract class AbstractWeapon implements WeaponInterface {
 
         // Eloigne du joueur
         const { direction, force } = this._calculateThrowParameters();
-        this._projectile.fired(position, direction, force);
+        this._projectile.createNewInstance(position, direction, force);
     }
 
     protected abstract _calculateThrowParameters(): { direction: Vector3; force: number };
@@ -73,7 +73,7 @@ abstract class AbstractWeapon implements WeaponInterface {
 
         // Update projectile if grap
         if (this._isGrabed) {
-            // TODO: To move out of the condition to avoid freeze 
+            // TODO: To move out of the condition to avoid freeze
             this._projectile.update(deltaTime);
         }
     }
