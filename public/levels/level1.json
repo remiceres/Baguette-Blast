@@ -5,6 +5,7 @@
             "durability": 10,
             "power": 60
         },
+        "health": 100,
         "position": {
             "x": -7.52959,
             "y": 2.0,

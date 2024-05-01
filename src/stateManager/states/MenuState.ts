@@ -13,6 +13,9 @@ class MenuState implements StateInterface {
     private _cubelevel1: Mesh;
     private _cubelevel2: Mesh;
     private _cubelevel3: Mesh;
+    private _cubelevel4: Mesh;
+    private _cubelevel5: Mesh;
+    private _cubelevel6: Mesh;
     private _elapsedTime = 0; // Class-level variable to track elapsed time
 
     /**
@@ -35,30 +38,57 @@ class MenuState implements StateInterface {
      */
     private _setupInteractiveCubes(scene: Scene): void {
         this._cubelevel1 = MeshBuilder.CreateBox('cubelevel1', { size: 1 }, scene);
-        this._cubelevel1.position = new Vector3(-2, 1, 0);
+        this._cubelevel1.position = new Vector3(-2, 3, 2);
         const material = new StandardMaterial('cubeMaterial', scene);
         material.diffuseColor = new Color3(1, 0, 0);
         this._cubelevel1.material = material;
         Buttons.clickable(scene, this._cubelevel1, () => {
-            Game.instance.stateManager.changeState(State.test1);
+            Game.instance.stateManager.changeState(State.Level1);
         });
 
         this._cubelevel2 = MeshBuilder.CreateBox('cubelevel2', { size: 1 }, scene);
-        this._cubelevel2.position = new Vector3(2, 1, 0);
+        this._cubelevel2.position = new Vector3(0, 3, 2);
         const material2 = new StandardMaterial('cubeMaterial2', scene);
         material2.diffuseColor = new Color3(0, 1, 0);
         this._cubelevel2.material = material2;
         Buttons.clickable(scene, this._cubelevel2, () => {
-            Game.instance.stateManager.changeState(State.test2);
+            Game.instance.stateManager.changeState(State.Level2);
         });
 
         this._cubelevel3 = MeshBuilder.CreateBox('cubelevel3', { size: 1 }, scene);
-        this._cubelevel3.position = new Vector3(0, 1, 2);
+        this._cubelevel3.position = new Vector3(2, 3, 2);
         const material3 = new StandardMaterial('cubeMaterial3', scene);
         material3.diffuseColor = new Color3(0, 0, 1);
         this._cubelevel3.material = material3;
         Buttons.clickable(scene, this._cubelevel3, () => {
-            Game.instance.stateManager.changeState(State.Level);
+            Game.instance.stateManager.changeState(State.Level3);
+        });
+
+        this._cubelevel4 = MeshBuilder.CreateBox('cubelevel4', { size: 1 }, scene);
+        this._cubelevel4.position = new Vector3(-2, 1, 2);
+        const material4 = new StandardMaterial('cubeMaterial4', scene);
+        material4.diffuseColor = new Color3(1, 1, 0);
+        this._cubelevel4.material = material4;
+        Buttons.clickable(scene, this._cubelevel4, () => {
+            Game.instance.stateManager.changeState(State.Level4);
+        });
+
+        this._cubelevel5 = MeshBuilder.CreateBox('cubelevel5', { size: 1 }, scene);
+        this._cubelevel5.position = new Vector3(0, 1, 2);
+        const material5 = new StandardMaterial('cubeMaterial5', scene);
+        material5.diffuseColor = new Color3(1, 0, 1);
+        this._cubelevel5.material = material5;
+        Buttons.clickable(scene, this._cubelevel5, () => {
+            Game.instance.stateManager.changeState(State.Level5);
+        });
+
+        this._cubelevel6 = MeshBuilder.CreateBox('cubelevel6', { size: 1 }, scene);
+        this._cubelevel6.position = new Vector3(2, 1, 2);
+        const material6 = new StandardMaterial('cubeMaterial6', scene);
+        material6.diffuseColor = new Color3(0, 1, 1);
+        this._cubelevel6.material = material6;
+        Buttons.clickable(scene, this._cubelevel6, () => {
+            Game.instance.stateManager.changeState(State.Level6);
         });
     }
 
@@ -70,6 +100,9 @@ class MenuState implements StateInterface {
         this._cubelevel1.dispose();
         this._cubelevel2.dispose();
         this._cubelevel3.dispose();
+        this._cubelevel4.dispose();
+        this._cubelevel5.dispose();
+        this._cubelevel6.dispose();
     }
 
     /**
