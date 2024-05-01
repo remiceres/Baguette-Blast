@@ -8,7 +8,6 @@ import Game from '../../game/Game';
 import State from '../EnumState';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
-import Gun from '../../weapon/Gun';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
 import CollisionManager from '../../game/controllers/CollisionManager';
@@ -16,6 +15,12 @@ import GameManager from '../../game/controllers/GameManager';
 import MusicManager from '../../game/controllers/MusicManager';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import ProjectileView from '../../projectile/views/ProjectileView';
+// import HandController from '../../weapon/controllers/HandController';
+// import HandView from '../../weapon/views/HandView';
+// import HandModel from '../../weapon/models/HandModel';
+import GunView from '../../weapon/views/GunView';
+import GunModel from '../../weapon/models/GunModel';
+import GunController from '../../weapon/controllers/GunController';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -59,10 +64,17 @@ class LevelState implements StateInterface {
             levelData?.player?.position.z);
 
         const projectile = new ProjectileController(new ProjectileView());
-        console.log(levelData?.player);
-        const weapon = new Gun(projectile, levelData?.player?.left_hand?.power || 10);
+        const weaponView = new GunView();
+        const weaponModel = new GunModel(
+        // const weaponView = new HandView();
+        // const weaponModel = new HandModel(
+            levelData?.player?.left_hand?.power || 10,
+        );
+        // const weaponController = new HandController(weaponModel, weaponView);
+        const weaponController = new GunController(weaponModel, weaponView);
+        weaponController.projectile = projectile;
 
-        this._playerController.setWeapon('right', weapon);
+        this._playerController.setWeapon('right', weaponController);
     }
 
     async initMusic() {
