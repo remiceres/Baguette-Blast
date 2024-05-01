@@ -1,4 +1,4 @@
-import { Camera, FreeCamera, Scene, Vector3 } from '@babylonjs/core';
+import { FreeCamera, Scene, TargetCamera, Vector3, WebXRDefaultExperience } from '@babylonjs/core';
 import Game from '../Game';
 
 /**
@@ -7,6 +7,7 @@ import Game from '../Game';
  */
 class CameraManager {
     private _scene: Scene;
+    private _xr: WebXRDefaultExperience;
     private _vrIsEnabled: boolean;
     private _currentCamera: FreeCamera;
     private _pcCamera: FreeCamera;
@@ -21,11 +22,12 @@ class CameraManager {
      * @param {Scene} scene - The BabylonJS scene.
      * @param {boolean} vrIsEnabled - Flag to indicate if VR is enabled.
      */
-    public constructor(scene: Scene, vrIsEnabled: boolean) {
-        this._scene = scene;
+    public constructor(xr: WebXRDefaultExperience, vrIsEnabled: boolean) {
+        this._scene = Game.instance.scene;
+        this._xr = xr;
         this._vrIsEnabled = vrIsEnabled;
 
-        this._pcCamera = new FreeCamera('pcCamera', Vector3.Zero(), scene);
+        this._pcCamera = new FreeCamera('pcCamera', Vector3.Zero(), this._scene);
         // Move with zqsd
         this._pcCamera.keysUp = [90]; // Z
         this._pcCamera.keysDown = [83]; // S
@@ -36,7 +38,7 @@ class CameraManager {
         this._pcCamera.setTarget(Vector3.Zero());
         this._currentCamera = this._pcCamera;
 
-        this._debugCamera = new FreeCamera('debugCamera', Vector3.Zero(), scene);
+        this._debugCamera = new FreeCamera('debugCamera', Vector3.Zero(), this._scene);
         this._scene.activeCamera = this._currentCamera;
     }
 
@@ -76,8 +78,8 @@ class CameraManager {
      * Gets the active camera, which is the VR camera if VR is enabled, or the PC camera otherwise (no debug camera).
      * @returns {Camera} The active camera, no debug camera.
      */
-    public get playerCamera(): Camera {
-        return this._vrIsEnabled ? this._scene.activeCamera : this._pcCamera;
+    public get playerCamera(): TargetCamera {
+        return this._vrIsEnabled ? this._xr.baseExperience.camera : this._pcCamera;
     }
 }
 
