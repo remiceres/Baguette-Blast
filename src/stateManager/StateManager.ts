@@ -1,6 +1,4 @@
 import State from './EnumState';
-import Test1State from './states/LevelTest1State';
-import Test2State from './states/LevelTest2State';
 import LevelState from './states/LevelState';
 import MenuHomeState from './states/MenuState';
 import StateInterface from './states/StateInterface';
@@ -20,9 +18,12 @@ class StateManager {
     public constructor(initialState: State) {
         this._states = new Map<State, StateInterface>([
             [State.MenuHome, new MenuHomeState()],
-            [State.Level, new LevelState(1)],
-            [State.test1, new Test1State()],
-            [State.test2, new Test2State()],
+            [State.Level1, new LevelState(1)],
+            [State.Level2, new LevelState(2)],
+            [State.Level3, new LevelState(3)],
+            [State.Level4, new LevelState(4)],
+            [State.Level5, new LevelState(5)],
+            [State.Level6, new LevelState(6)],
         ]);
         this._currentState = this._states.get(initialState);
         this._currentState.init();

@@ -7,6 +7,7 @@ interface ItemData {
 
 interface PlayerData {
     left_hand: ItemData;
+    health: number;
     position: {
         x: number;
         y: number;

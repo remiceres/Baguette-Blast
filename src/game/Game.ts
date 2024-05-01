@@ -10,6 +10,7 @@ import StateManager from '../stateManager/StateManager';
 import TimeControl from './controllers/TimeControl';
 import AssetsLoader from './controllers/AssetsLoader';
 import EnvironmentControllers from '../environment/controllers/EnvironmentControllers';
+import UserInterfaceManager from '../ui/UserInterfaceManager';
 
 /**
  * The Game class is the central class of the application.
@@ -50,6 +51,9 @@ class Game {
     // Controls the simulation time, allowing pausing, slow motion, etc.
     private _timeControl: TimeControl;
 
+    // Manages the user interface elements like menus, HUD, etc.
+    private _userInterfaceManager: UserInterfaceManager;
+
     // A console for displaying debug information.
     public _debugConsole: DebugConsole;
 
@@ -73,6 +77,8 @@ class Game {
             this._timeControl = new TimeControl();
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
+
+            this._userInterfaceManager = new UserInterfaceManager(canvas);
 
             this._render();
         });

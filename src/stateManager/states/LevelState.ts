@@ -1,5 +1,4 @@
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import level1 from '../../../public/levels/level1.json';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import { LevelData } from '../../game/models/LevelData';
@@ -17,8 +16,6 @@ import MusicManager from '../../game/controllers/MusicManager';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import ProjectileView from '../../projectile/views/ProjectileView';
 
-const levelData: LevelData = level1 as LevelData;
-
 class LevelState implements StateInterface {
     private _levelNumber: number;
     private _levelData?: LevelData;
@@ -32,7 +29,33 @@ class LevelState implements StateInterface {
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
+        this._returnLevelByNumber(levelNumber).then(levelData => {
+            // Use the level data here
+            this._levelData = levelData;
+        }).catch(error => {
+            // Handle errors here
+            console.error('Cannot load level data:', error);
+        });
         this._collisionManager = new CollisionManager();
+    }
+
+    private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
+        const url = `../../levels/level${levelNumber}.json`;
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch level ${levelNumber}: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Assuming LevelData is an interface representing your JSON data structure
+                return data as LevelData;
+            })
+            .catch(error => {
+                console.error('Error loading level data:', error);
+                throw error;
+            });
     }
 
     private _setLevelNumber(levelNumber: number): void {
@@ -44,23 +67,26 @@ class LevelState implements StateInterface {
 
     private _initInterface(): void {
         this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
-        this._cubeMenu.position = new Vector3(0, 1, 0);
+        const playerPosition = new Vector3(this._levelData?.player?.position.x,
+            this._levelData?.player?.position.y,
+            this._levelData?.player?.position.z);
+        this._cubeMenu.position = playerPosition.add(new Vector3(0, 0, 5));
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.MenuHome);
         });
     }
 
-    private _initPlayerController(levelData): void {
+    private _initPlayerController(): void {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
-        this._playerController.health = levelData?.player?.health || 100;
+        this._playerController.health = this._levelData?.player?.health || 100;
         this._playerController.position = new Vector3(
-            levelData?.player?.position.x, 
-            levelData?.player?.position.y, 
-            levelData?.player?.position.z);
+            this._levelData?.player?.position.x, 
+            this._levelData?.player?.position.y, 
+            this._levelData?.player?.position.z);
 
         const projectile = new ProjectileController(new ProjectileView());
-        console.log(levelData?.player);
-        const weapon = new Gun(projectile, levelData?.player?.left_hand?.power || 10);
+        console.log(this._levelData?.player);
+        const weapon = new Gun(projectile, this._levelData?.player?.left_hand?.power || 10);
 
         this._playerController.setWeapon('right', weapon);
     }
@@ -74,7 +100,6 @@ class LevelState implements StateInterface {
         this.musicManager = new MusicManager();
         this.initMusic();
         // Assuming level data is already validated to match LevelData interface
-        this._levelData = levelData;  // Make sure levelData is correctly initialized
         GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
         this._initInterface();
         this._initializeLevelData();
@@ -82,7 +107,7 @@ class LevelState implements StateInterface {
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
-            this._initPlayerController(this._levelData); 
+            this._initPlayerController(); 
         }
 
         // Init score
