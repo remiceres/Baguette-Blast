@@ -3,7 +3,7 @@
         "left_hand": {
             "item": "gun",
             "durability": 10,
-            "power": 10
+            "power": 60
         },
         "health": 100,
         "position": {
