@@ -4,6 +4,7 @@ import InputManager from '../../inputs/InputManager';
 import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
+import WeaponController from '../../weapon/controllers/WeaponController';
 
 class PlayerController {
     private _model: PlayerModel;
@@ -23,7 +24,7 @@ class PlayerController {
     }
 
     // TODO: Redondance avec les if a voir si on peut pas faire autrement
-    setWeapon(hand: 'left' | 'right', weapon: WeaponInterface): void {
+    setWeapon(hand: 'left' | 'right', weapon: WeaponController): void {
         if (hand === 'left') {
             this._model.weaponLeft = weapon;
             this._model.weaponLeft.grab(this._leftHand);
@@ -62,10 +63,11 @@ class PlayerController {
 
         this._fireWeapon();
 
+        
         if (this._model.weaponLeft) {
             this._model.weaponLeft.update(deltaTime);
         }
-
+        
         if (this._model.weaponRight) {
             this._model.weaponRight.update(deltaTime);
         }

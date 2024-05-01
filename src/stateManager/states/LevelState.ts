@@ -1,24 +1,25 @@
-import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import level1 from '../../../public/levels/level1.json';
-import AttractEnemy from '../../behaviors/AttractEnemy';
-import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
-import GravityBehaviors from '../../behaviors/GravityBehaviors';
-import EnemyFactory from '../../enemy/EnemyFactory';
-import EnemyController from '../../enemy/controllers/EnemyController';
-import Game from '../../game/Game';
-import CollisionManager from '../../game/controllers/CollisionManager';
-import GameManager from '../../game/controllers/GameManager';
-import MusicManager from '../../game/controllers/MusicManager';
-import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
+import State from '../EnumState';
+import level1 from '../../../public/levels/level1.json';
+import CollisionManager from '../../game/controllers/CollisionManager';
+import GameManager from '../../game/controllers/GameManager';
+import MusicManager from '../../game/controllers/MusicManager';
+import { LevelData } from '../../game/models/LevelData';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import ProjectileView from '../../projectile/views/ProjectileView';
-import Gun from '../../weapon/Gun';
-import State from '../EnumState';
+import GunController from '../../weapon/controllers/GunController';
+import GunModel from '../../weapon/models/GunModel';
+import GunView from '../../weapon/views/GunView';
 import StateInterface from './StateInterface';
+import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import EnemyController from '../../enemy/controllers/EnemyController';
+import Game from '../../game/Game';
+import GravityBehaviors from '../../behaviors/GravityBehaviors';
+import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+import EnemyFactory from '../../enemy/EnemyFactory';
 
 const levelData: LevelData = level1 as LevelData;
 
@@ -71,10 +72,17 @@ class LevelState implements StateInterface {
         //////////////////////////////////////////////////////////////////////////////////////
 
         const projectile = new ProjectileController(new ProjectileView(), behaviors);
-        console.log(levelData?.player);
-        const weapon = new Gun(projectile, levelData?.player?.left_hand?.power || 10);
+        const weaponView = new GunView();
+        const weaponModel = new GunModel(
+            // const weaponView = new HandView();
+            // const weaponModel = new HandModel(
+            levelData?.player?.left_hand?.power || 10
+        );
+        // const weaponController = new HandController(weaponModel, weaponView);
+        const weaponController = new GunController(weaponModel, weaponView);
+        weaponController.projectile = projectile;
 
-        this._playerController.setWeapon('right', weapon);
+        this._playerController.setWeapon('right', weaponController);
     }
 
     async initMusic() {

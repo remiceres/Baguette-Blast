@@ -4,12 +4,11 @@ import Buttons from '../../menu/buttons';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 import PlayerController from '../../player/controllers/PlayerController';
-import PlayerView from '../../player/views/PlayerViews';
-import PlayerModel from '../../player/models/PlayerModels';
-import Gun from '../../weapon/Gun';
-import ProjectileController from '../../projectile/controllers/ProjectileController';
-import ProjectileView from '../../projectile/views/ProjectileView';
-import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+// import PlayerView from '../../player/views/PlayerViews';
+// import PlayerModel from '../../player/models/PlayerModels';
+// import Gun from '../../weapon/Gun';
+// import ProjectileController from '../../projectile/controllers/ProjectileController';
+// import ProjectileView from '../../projectile/views/ProjectileView';
 
 class LevelTest1State implements StateInterface {
     private _cubeMenu: Mesh;
@@ -31,14 +30,12 @@ class LevelTest1State implements StateInterface {
     }
 
     private _initPlayerController(): void {
-        this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
+        // this._playerController = new PlayerController(new PlayerModel, new PlayerView);
 
-        const behaviors: BehaviorsInterface[] = [];
+        // const projectile = new ProjectileController(new ProjectileView());
+        // const weapon = new Gun(projectile, 10);
 
-        const projectile = new ProjectileController(new ProjectileView(), behaviors);
-        const weapon = new Gun(projectile, 10);
-
-        this._playerController.setWeapon('right', weapon);
+        // this._playerController.setWeapon('right', weapon);
     }
 
     update(deltaTime: number): void {

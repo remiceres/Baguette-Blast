@@ -1,23 +1,23 @@
-import WeaponInterface from '../../weapon/WeaponIInterface';
+import WeaponController from '../../weapon/controllers/WeaponController';
 
 class PlayerModel {
-    private _weaponLeft: WeaponInterface;
-    private _weaponRight: WeaponInterface;
+    private _weaponLeft: WeaponController;
+    private _weaponRight: WeaponController;
     private _health: number;
 
-    set weaponLeft(weapon: WeaponInterface) {
+    set weaponLeft(weapon: WeaponController) {
         this._weaponLeft = weapon;
     }
 
-    get weaponLeft(): WeaponInterface {
+    get weaponLeft(): WeaponController {
         return this._weaponLeft;
     }
 
-    set weaponRight(weapon: WeaponInterface) {
+    set weaponRight(weapon: WeaponController) {
         this._weaponRight = weapon;
     }
 
-    get weaponRight(): WeaponInterface {
+    get weaponRight(): WeaponController {
         return this._weaponRight;
     }
 
