@@ -1,17 +1,18 @@
 import { Vector3, Color3 } from '@babylonjs/core';
 import BaseEnemyModel from './BaseEnemyModel';
-import IBehavior from '../behaviors/IBehavior';
+import IBehaviour from '../../behaviors/IBehaviour';
 
 class BalloonModel extends BaseEnemyModel {
-    private _behavior?: IBehavior;
     private _color: Color3;
 
     constructor(
         position: Vector3 = new Vector3(0, 0, 0), 
         health: number = 100, 
         color: Color3 = new Color3(1, 0, 0), 
-        score: number = 1) {
-        super(position, health, score);
+        score: number = 1,
+        behaviour?: IBehaviour[]
+    ) {
+        super(position, health, score, behaviour);
         this._color = color;
     }
 
@@ -23,21 +24,9 @@ class BalloonModel extends BaseEnemyModel {
         this._color = value;
     }
 
-    set behavior(behavior: IBehavior) {
-        this._behavior = behavior;
-        if (behavior.setModel) {
-            behavior.setModel(this); // Ensure the behavior has a reference to the model
-        }
-    }
-
     update(deltaTime: number): void {
-        super.update(deltaTime); // Call the base update method if necessary
-
-        // Specific update logic for the balloon
-        this._behavior?.update(deltaTime);
+        super.update(deltaTime); 
     }
-
-    // Balloon-specific methods can be added here
 }
 
 export default BalloonModel;

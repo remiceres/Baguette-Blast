@@ -1,7 +1,7 @@
 import { Vector3 } from '@babylonjs/core';
-import BehaviorsInterface from './BehaviorsInterface';
+import IBehaviour from './IBehaviour';
 
-class Gravity implements BehaviorsInterface {
+class Gravity implements IBehaviour {
     private _gravity: number;
 
     constructor(gravity: number) {

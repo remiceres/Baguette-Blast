@@ -1,7 +1,7 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import BehaviorsInterface from './BehaviorsInterface';
+import IBehaviour from './IBehaviour';
 
-class Friction implements BehaviorsInterface {
+class Friction implements IBehaviour {
     private _friction: number;
 
     constructor(friction: number) {

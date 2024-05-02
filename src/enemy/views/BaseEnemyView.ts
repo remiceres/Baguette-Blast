@@ -1,8 +1,8 @@
-import { Mesh, Scene, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Scene, Vector3 } from '@babylonjs/core';
 import BaseBonusView from '../../bonus/views/BaseBonusView';
 
 abstract class BaseEnemyView {
-    public _mesh: Mesh;
+    public _mesh: AbstractMesh;
     protected _scene: Scene;
     protected _bonusView: BaseBonusView;
 
@@ -15,7 +15,6 @@ abstract class BaseEnemyView {
     abstract onKill(): void;
 
     public update(): void {
-        // Provide a default update implementation or leave abstract to enforce subclass implementation
     }
 
     public dispose(): void {

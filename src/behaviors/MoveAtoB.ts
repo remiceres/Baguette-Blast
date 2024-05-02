@@ -1,7 +1,7 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import BehaviorsInterface from './BehaviorsInterface';
+import IBehaviour from './IBehaviour';
 
-class MoveAtoB implements BehaviorsInterface {
+class MoveAtoB implements IBehaviour {
     private _positionA: Vector3;
     private _positionB: Vector3;
     private _speed: number;
@@ -17,6 +17,7 @@ class MoveAtoB implements BehaviorsInterface {
     getForceVector(deltaTime: number, mesh: AbstractMesh, currentForce: Vector3): Vector3 {
         currentForce;
         // Go to A then to B then to A then to B 
+        // If the mesh has no target, set the target to A
         if (!mesh.metadata.target){
             mesh.metadata.target = this._positionA;
         }
@@ -34,8 +35,9 @@ class MoveAtoB implements BehaviorsInterface {
         const direction = mesh.metadata.target.subtract(mesh.position);
         direction.normalize();
 
-        // Calculate the force vector
-        const force = direction.scale(this._speed * deltaTime);
+        // Calculate the force vector proportional to the distance to the target (close = slow, far = fast)
+        const distance = mesh.position.subtract(mesh.metadata.target).length();
+        const force = direction.scale(this._speed * deltaTime * (distance / 100));
         return force;
     }
 }

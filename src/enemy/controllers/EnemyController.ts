@@ -38,6 +38,20 @@ class EnemyController implements ICollider{
     update(deltaTime: number): void {
         this._model.update(deltaTime);
         this._view.update();
+
+        // Accumulate the forces from all behaviors
+        for (const behaviour of this._model.behaviours) {
+            this._model.movementVector = this._model.movementVector.add(
+                behaviour.getForceVector(deltaTime, this._view._mesh, this._model.movementVector));
+        }
+
+        // Limit the speed vector to the maximum speed
+        if (this._model.movementVector.length() > this._model.maxSpeed) {
+            this._model.movementVector.normalize().scaleInPlace(this._model.maxSpeed);
+        }
+
+        // Update the position of the projectile
+        this._view._mesh.position.addInPlace(this._model.movementVector.scale(deltaTime));
     }
 
     public get model(): BaseEnemyModel {

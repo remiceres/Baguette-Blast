@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 // import AttractEnemy from '../../behaviors/AttractEnemy';
-import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+import IBehaviour from '../../behaviors/IBehaviour';
 import Friction from '../../behaviors/Friction';
 // import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
@@ -22,7 +22,7 @@ import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import MoveAtoB from '../../behaviors/MoveAtoB';
+// import MoveAtoB from '../../behaviors/MoveAtoB';
 import Gravity from '../../behaviors/Gravity';
 import AttractEnemy from '../../behaviors/AttractEnemy';
 
@@ -100,7 +100,7 @@ class LevelState implements StateInterface {
         );
 
         // TODO : Add behavior in json file /////////////////////////////////////////////////
-        const behaviors: BehaviorsInterface[] = [];
+        const behaviors: IBehaviour[] = [];
         behaviors.push(new Gravity(1));
         behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
         behaviors.push(new Friction(5));
@@ -147,7 +147,6 @@ class LevelState implements StateInterface {
 
         if (this._levelData?.enemies) {
             this._enemiesController.push(...this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
-            console.log('Enemies found in the level data:', this._enemiesController);
             this._enemiesController.forEach((enemyController) => {
                 this._collisionManager.addCollider(enemyController);
             });

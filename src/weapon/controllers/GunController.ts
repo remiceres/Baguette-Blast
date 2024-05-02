@@ -25,7 +25,6 @@ class GunController extends WeaponController {
 
     public set projectile(projectile: ProjectileController) {
         this._model.projectile = projectile;
-        console.log(this._model.projectile);
     }
 }
 export default GunController;

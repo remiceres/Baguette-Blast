@@ -76,6 +76,7 @@ class BalloonView extends BaseEnemyView {
         material.diffuseColor = this._model.color; // Use color from the model
         this._mesh.material = material;
         this._mesh.position = this._model.position; // Use position from the model
+        this._mesh.metadata = {};
     }
 }
 

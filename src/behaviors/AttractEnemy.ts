@@ -1,8 +1,8 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import EnemyController from '../enemy/controllers/EnemyController';
-import BehaviorsInterface from './BehaviorsInterface';
+import IBehaviour from './IBehaviour';
 
-class AttractEnemy implements BehaviorsInterface {
+class AttractEnemy implements IBehaviour {
     private _enemies: EnemyController[];
     private _detectionRadius: number;
     private _force: number;

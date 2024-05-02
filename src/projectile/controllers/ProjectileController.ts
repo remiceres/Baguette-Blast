@@ -1,12 +1,12 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import BehaviorsInterface from '../../behaviors/BehaviorsInterface';
+import IBehaviour from '../../behaviors/IBehaviour';
 import BaseEnemyView from '../../enemy/views/BaseEnemyView';
 import ProjectileView from '../views/ProjectileView';
 
 class ProjectileController implements ICollider {
     private _view: ProjectileView;
 
-    private _behaviors: BehaviorsInterface[];
+    private _behaviors: IBehaviour[];
 
     private _maxSpeed: number = 60;
 
@@ -14,7 +14,7 @@ class ProjectileController implements ICollider {
     // Constructor //
     /////////////////
 
-    public constructor(view: ProjectileView, Behaviors: BehaviorsInterface[]) {
+    public constructor(view: ProjectileView, Behaviors: IBehaviour[]) {
         this._view = view;
         this._behaviors = [];
         this._behaviors = Behaviors;
