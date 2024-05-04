@@ -12,7 +12,6 @@ class BaseBonusController {
 
     dispose(): void {
         this.view.dispose();
-        console.log(this.model._value);
     }
 
     update(deltaTime: number): void {

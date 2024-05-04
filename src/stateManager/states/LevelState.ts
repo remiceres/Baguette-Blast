@@ -1,9 +1,6 @@
-/* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-// import AttractEnemy from '../../behaviors/AttractEnemy';
 import IBehaviour from '../../behaviors/IBehaviour';
 import Friction from '../../behaviors/Friction';
-// import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
@@ -21,10 +18,7 @@ import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-// import MoveAtoB from '../../behaviors/MoveAtoB';
 import Gravity from '../../behaviors/Gravity';
-// import AttractEnemy from '../../behaviors/AttractEnemy';
-import AudioManager from '../../game/controllers/AudioManager';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -34,8 +28,6 @@ class LevelState implements StateInterface {
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
     private _score: number;
-    private _game: Game;
-    private _audioManager: AudioManager;
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
@@ -49,7 +41,6 @@ class LevelState implements StateInterface {
                 console.error('Cannot load level data:', error);
             });
         this._collisionManager = new CollisionManager();
-        this._audioManager = new AudioManager();
     }
 
     private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
@@ -129,14 +120,11 @@ class LevelState implements StateInterface {
             GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
             this._initInterface();
             this._initializeLevelData();
-            await this._audioManager.initMusic(); // Load music
-            this._audioManager.playMusic('theme'); // Play theme music after it's loaded
-
+            Game.instance.audioManager.switchTrackSmoothly('level1');
         } catch (error) {
             console.error('Error during game initialization:', error);
         }
     }
-
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
@@ -162,6 +150,7 @@ class LevelState implements StateInterface {
         this._enemiesController = [];
         this._playerController.weaponRight.getProjectiles().forEach((projectile) => projectile.dispose());
         this._playerController.dispose();
+        Game.instance.audioManager.switchTrackSmoothly('theme');
     }
 
     public update(deltaTime: number): void {

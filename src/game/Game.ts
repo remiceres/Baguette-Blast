@@ -65,6 +65,7 @@ class Game {
         this._engine = new Engine(canvas, true);
         window.addEventListener('resize', () => this._engine.resize());
         this._scene = new Scene(this._engine);
+        this._initAudio();
 
         this._initializeXR(this._scene).then(() => {
             this._cameraManager = new CameraManager(this._xr, this._supportedVR);
@@ -119,6 +120,13 @@ class Game {
         if (this._supportedVR) {
             this._xr = await scene.createDefaultXRExperienceAsync({});
         }
+    }
+
+    private async _initAudio() {
+        // this.audioManager._debug = true;
+        this._audioManager = new AudioManager();
+        await this._audioManager.initAudio();
+        this._audioManager.playMusic('theme');
     }
 
     private _initAssets() {
@@ -188,6 +196,10 @@ class Game {
 
     public get scene(): Scene {
         return this._scene;
+    }
+
+    public set audioManager(audioManager: AudioManager) {
+        this._audioManager = audioManager;
     }
 }
 

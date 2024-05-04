@@ -68,6 +68,8 @@ class BalloonView extends BaseEnemyView {
     
         // Optionally dispose the mesh
         this._mesh.dispose();
+
+        Game.instance.audioManager.playSoundEffect('explosion');
     }    
 
     createMesh(): void {

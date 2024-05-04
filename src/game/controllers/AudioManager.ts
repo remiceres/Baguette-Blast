@@ -6,52 +6,57 @@ interface Track {
 class AudioManager {
     private _audioContext: AudioContext;
     private _currentTrack: Track | null;
-    private _musicTracks: Record<string, AudioBuffer>;
-    private _soundEffects: Record<string, AudioBuffer>;
+    private _audioBuffers: Record<string, AudioBuffer>;
     private _musicVolume: number;
     private _effectsVolume: number;
+    public _debug: boolean;
 
     constructor() {
         this._audioContext = new AudioContext();
         this._currentTrack = null;
-        this._musicTracks = {};
-        this._soundEffects = {};
-        this._musicVolume = 0.3;
+        this._audioBuffers = {};
+        this._musicVolume = 0.2;
         this._effectsVolume = 0.3;
+        if (this._debug) {
+            this._musicVolume = 0;
+            this._effectsVolume = 0;
+        }
     }
 
-    async initMusic(): Promise<void> {
-        const musicUrls = {
-            theme: '/musics/theme.mp3'
+    async initAudio(): Promise<void> {
+        const audioUrls = {
+            // Music tracks
+            theme: '/musics/theme.mp3',
+            level1: '/musics/levels/Baguette Blast - Level 1.mp3',
+            // Sound effects
+            explosion: '/sounds/pop/pop.mp3',
         };
 
-        const trackKeys = Object.keys(musicUrls);
+        const trackKeys = Object.keys(audioUrls);
         await Promise.all(trackKeys.map(async (key) => {
-            const response = await fetch(musicUrls[key]);
+            const response = await fetch(audioUrls[key]);
             const arrayBuffer = await response.arrayBuffer();
-            this._musicTracks[key] = await this._audioContext.decodeAudioData(arrayBuffer);
+            this._audioBuffers[key] = await this._audioContext.decodeAudioData(arrayBuffer);
         }));
     }
 
-    loadMusic(name, url) {
-        fetch(url)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => this._audioContext.decodeAudioData(arrayBuffer))
-            .then(audioBuffer => {
-                this._musicTracks[name] = audioBuffer;
-            })
-            .catch(error => console.error('Error loading music track:', error));
+    playMusic(name: string): void {
+        this._playAudio(name, true, this._musicVolume);
     }
 
-    playMusic(name: string): void {
-        const audioBuffer = this._musicTracks[name];
+    playSoundEffect(name: string): void {
+        this._playAudio(name, false, this._effectsVolume);
+    }
+
+    private _playAudio(name: string, loop: boolean, volume: number): void {
+        const audioBuffer = this._audioBuffers[name];
         if (!audioBuffer) {
-            console.error('Music track not found:', name);
+            console.error('Audio track not found:', name);
             return;
         }
 
-        // Stop current track if playing
-        if (this._currentTrack) {
+        // Stop current music track if playing and it's a music track
+        if (loop && this._currentTrack) {
             this._currentTrack.source.stop();
             this._currentTrack.source.disconnect();
             this._currentTrack.gainNode.disconnect();
@@ -60,65 +65,75 @@ class AudioManager {
         const source = this._audioContext.createBufferSource();
         source.buffer = audioBuffer;
         const gainNode = this._audioContext.createGain();
-        gainNode.gain.value = this._musicVolume;
-        
-        // Connect the source to the gain node and then to the destination
+        gainNode.gain.value = volume;
+
         source.connect(gainNode);
         gainNode.connect(this._audioContext.destination);
-
-        source.loop = true;
+        source.loop = loop;
         source.start(0);
 
-        this._currentTrack = { source, gainNode };  // Store the source and gain node
-    }
-
-
-    loadSoundEffect(name, url) {
-        fetch(url)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => this._audioContext.decodeAudioData(arrayBuffer))
-            .then(audioBuffer => {
-                this._soundEffects[name] = audioBuffer;
-            })
-            .catch(error => console.error('Error loading sound effect:', error));
-    }
-
-    playSoundEffect(name) {
-        if (this._soundEffects[name]) {
-            const source = this._audioContext.createBufferSource();
-            source.buffer = this._soundEffects[name];
-            const gainNode = this._audioContext.createGain();
-            gainNode.gain.value = this._effectsVolume;
-
-            source.connect(gainNode);
-            gainNode.connect(this._audioContext.destination);
-
-            source.start(0);
+        if (loop) {
+            this._currentTrack = { source, gainNode };  // Store the source and gain node for music tracks only
         }
-    }
+    }    
 
-    switchTrackSmoothly(newTrackName) {
-        if (!this._musicTracks[newTrackName]) return;
+    async switchTrackSmoothly(newTrackName: string) {
+        // Ensure the audio context is active
+        if (this._audioContext.state === 'suspended') {
+            await this._audioContext.resume();
+        }
+
+        // Check if the new track is available
+        if (!this._audioBuffers[newTrackName]) {
+            console.error('Track not found:', newTrackName);
+            return;
+        }
 
         const newSource = this._audioContext.createBufferSource();
-        newSource.buffer = this._musicTracks[newTrackName];
+        newSource.buffer = this._audioBuffers[newTrackName];
         const newGainNode = this._audioContext.createGain();
-        newGainNode.gain.value = 0;
+        newGainNode.gain.value = 0; // Start with no volume to fade in
         newSource.connect(newGainNode);
         newGainNode.connect(this._audioContext.destination);
-        newSource.start(0);
 
-        const fadeOutDuration = 2; // seconds
-        const fadeInDuration = 2; // seconds
+        // Set the new track to loop
+        newSource.loop = true;
+
+        const fadeOutDuration = 0.5; // seconds for fading out the current track
+        const fadeInDuration = 0.5; // seconds for fading in the new track
+
+        // Fade out the current track if it exists
         if (this._currentTrack && this._currentTrack.gainNode) {
             this._currentTrack.gainNode.gain.linearRampToValueAtTime(
                 0, this._audioContext.currentTime + fadeOutDuration
             );
-            setTimeout(() => this._currentTrack.source.stop(), fadeOutDuration * 1000);
-        }
-        newGainNode.gain.linearRampToValueAtTime(this._musicVolume, this._audioContext.currentTime + fadeInDuration);
 
-        this._currentTrack = { source: newSource, gainNode: newGainNode };
+            // Disconnect the old track after the fade out completes
+            setTimeout(() => {
+                if (this._currentTrack) {
+                    this._currentTrack.source.stop();
+                    this._currentTrack.source.disconnect();
+                    this._currentTrack.gainNode.disconnect();
+                    this._currentTrack = null;  // Clear the current track to ensure clean state
+                }
+
+                // Fade in the new track
+                this._startNewTrack(newSource, newGainNode, fadeInDuration);
+            }, fadeOutDuration * 1000);
+        } else {
+            // Start the new track immediately if there is no current track
+            this._startNewTrack(newSource, newGainNode, fadeInDuration);
+        }
+    }
+
+    private _startNewTrack(source: AudioBufferSourceNode, gainNode: GainNode, fadeInDuration: number) {
+        gainNode.gain.setValueAtTime(0, this._audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(
+            this._musicVolume, this._audioContext.currentTime + fadeInDuration
+        );
+
+        source.start(this._audioContext.currentTime);
+        this._currentTrack = { source, gainNode };  // Set the new track as the current track
     }
 
     set_musicVolume(volume) {
