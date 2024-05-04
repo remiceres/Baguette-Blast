@@ -32,8 +32,12 @@ class AssetsLoader {
             );
             task.onSuccess = (task) => {
                 this._handleMeshLoaded(task, name === 'Scene');
-                this._dictModels.set(name, task.loadedMeshes[0]);
-            };
+                if (task.loadedMeshes[0] instanceof Mesh) {
+                    this._dictModels.set(name, task.loadedMeshes[0]);
+                } else {
+                    console.error(`Loaded mesh is not of type 'Mesh': ${name}`);
+                }
+            };            
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
         });
 
