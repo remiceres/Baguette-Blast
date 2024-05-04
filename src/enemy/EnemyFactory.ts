@@ -11,6 +11,8 @@ import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
 import MoveAtoB from '../behaviors/MoveAtoB';
+import CopperBalloonView from './views/CopperBalloonView';
+import SilverBalloonView from './views/SilverBalloonView';
 
 enum BonusType {
     Speed = 'speed',
@@ -41,7 +43,7 @@ class EnemyFactory {
             )
         ];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, behaviours);
-        const view = new BalloonView(model);
+        const view = this._createView(enemyData.type, model);
         const controller = new EnemyController(model, view);
 
         // this._assignBehavior(model, enemyData.behavior);
@@ -58,6 +60,17 @@ class EnemyFactory {
                 return new CopperBalloonModel(position, health, score, behaviours);
             case EnemyType.Silver:
                 return new SilverBalloonModel(position, health, score, behaviours);
+            default:
+                throw new Error(`Unsupported enemy type: ${type}`);
+        }
+    }
+
+    private static _createView(type: string, model: BalloonModel): BalloonView {
+        switch (type) {
+            case EnemyType.Copper:
+                return new CopperBalloonView(model);
+            case EnemyType.Silver:
+                return new SilverBalloonView(model);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

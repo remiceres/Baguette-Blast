@@ -28,6 +28,11 @@ class AudioManager {
             // Music tracks
             theme: '/musics/theme.mp3',
             level1: '/musics/levels/Baguette Blast - Level 1.mp3',
+            level2: '/musics/levels/Baguette Blast - Level 2.mp3',
+            level3: '/musics/levels/Baguette Blast - Level 3.mp3',
+            level4: '/musics/levels/Baguette Blast - Level 4.mp3',
+            level5: '/musics/levels/Baguette Blast - Level 5.mp3',
+            level6: '/musics/levels/Baguette Blast - Level 6.mp3',
             // Sound effects
             explosion: '/sounds/pop/pop.mp3',
         };

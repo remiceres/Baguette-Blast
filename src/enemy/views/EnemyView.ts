@@ -24,8 +24,7 @@ class EnemyView extends BaseEnemyView {
     public update(): void {
         // Update the mesh to reflect the model's current state
         if (this._mesh) {
-            this._mesh.position = this._model.position; // Update position
-            // Additional updates, such as changing colors or animations, can go here
+            this._mesh.position = this._model.position; 
         }
     }
 }
