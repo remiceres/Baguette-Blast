@@ -13,18 +13,18 @@ class MoveAtoB implements IBehaviour {
         this._speed = speed;
         this._distance = distance;
     }
-    
+
     getForceVector(deltaTime: number, mesh: AbstractMesh, currentForce: Vector3): Vector3 {
         currentForce;
-        // Go to A then to B then to A then to B 
+        // Go to A then to B then to A then to B
         // If the mesh has no target, set the target to A
-        if (!mesh.metadata.target){
+        if (!mesh.metadata.target) {
             mesh.metadata.target = this._positionA;
         }
 
         // If the mesh is close to the target, change the target
-        if (mesh.position.subtract(mesh.metadata.target).length() < this._distance){
-            if (mesh.metadata.target.equals(this._positionA)){
+        if (mesh.position.subtract(mesh.metadata.target).length() < this._distance) {
+            if (mesh.metadata.target.equals(this._positionA)) {
                 mesh.metadata.target = this._positionB;
             } else {
                 mesh.metadata.target = this._positionA;
@@ -37,7 +37,7 @@ class MoveAtoB implements IBehaviour {
 
         // Calculate the force vector proportional to the distance to the target (close = slow, far = fast)
         const distance = mesh.position.subtract(mesh.metadata.target).length();
-        const force = direction.scale(this._speed * deltaTime * (distance / 100));
+        const force = direction.scale(this._speed * (distance / 100));
         return force;
     }
 }

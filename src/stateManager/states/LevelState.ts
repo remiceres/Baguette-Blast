@@ -2,7 +2,6 @@
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 // import AttractEnemy from '../../behaviors/AttractEnemy';
 import IBehaviour from '../../behaviors/IBehaviour';
-import Friction from '../../behaviors/Friction';
 // import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
@@ -23,8 +22,8 @@ import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 // import MoveAtoB from '../../behaviors/MoveAtoB';
-import Gravity from '../../behaviors/Gravity';
 import AttractEnemy from '../../behaviors/AttractEnemy';
+import Gravity from '../../behaviors/Gravity';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -101,10 +100,8 @@ class LevelState implements StateInterface {
 
         // TODO : Add behavior in json file /////////////////////////////////////////////////
         const behaviors: IBehaviour[] = [];
-        behaviors.push(new Gravity(1));
+        behaviors.push(new Gravity(25));
         behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
-        behaviors.push(new Friction(5));
-        behaviors.push(new Friction(1));
         // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
         //////////////////////////////////////////////////////////////////////////////////////
 

@@ -6,13 +6,13 @@ class BaseEnemyModel {
     private _health: number;
     private _score: number;
     private _movementVector: Vector3 = new Vector3(0, 0, 0);
-    private _maxSpeed: number = 60;
+    private _maxSpeed: number = 20;
     private _behaviours: IBehaviour[];
 
     constructor(
-        position: Vector3 = new Vector3(0, 0, 0), 
-        health: number = 100, 
-        score: number = 1, 
+        position: Vector3 = new Vector3(0, 0, 0),
+        health: number = 100,
+        score: number = 1,
         behaviours: IBehaviour[]
     ) {
         this._position = position;
@@ -29,7 +29,7 @@ class BaseEnemyModel {
     get health(): number {
         return this._health;
     }
-    
+
     get score(): number {
         return this._score;
     }

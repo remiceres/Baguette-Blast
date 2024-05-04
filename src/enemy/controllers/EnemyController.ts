@@ -4,9 +4,9 @@ import ProjectileController from '../../projectile/controllers/ProjectileControl
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
 
-class EnemyController implements ICollider{
-    private _model: BaseEnemyModel; 
-    private _view: BaseEnemyView; 
+class EnemyController implements ICollider {
+    private _model: BaseEnemyModel;
+    private _view: BaseEnemyView;
     private _bonusController: BaseBonusController;
 
     constructor(model: BaseEnemyModel, view: BaseEnemyView) {
@@ -29,7 +29,7 @@ class EnemyController implements ICollider{
 
     dispose(): void {
         this._view.onKill();
-        this.view.dispose(); 
+        this.view.dispose();
         if (this._bonusController) {
             this._bonusController.dispose();
         }
@@ -39,18 +39,22 @@ class EnemyController implements ICollider{
         this._model.update(deltaTime);
         this._view.update();
 
-        // Accumulate the forces from all behaviors
+        // Appliquer un damping initial pour simuler la friction et l'air résistance
+        const dampingFactor = 0.98;
+        this._model.movementVector.scaleInPlace(dampingFactor);
+
+        // Accumuler les forces de tous les comportements
         for (const behaviour of this._model.behaviours) {
-            this._model.movementVector = this._model.movementVector.add(
-                behaviour.getForceVector(deltaTime, this._view._mesh, this._model.movementVector));
+            const force = behaviour.getForceVector(deltaTime, this._view._mesh, this._model.movementVector);
+            this._model.movementVector.addInPlace(force);
         }
 
-        // Limit the speed vector to the maximum speed
+        // Limiter le vecteur de vitesse à la vitesse maximale
         if (this._model.movementVector.length() > this._model.maxSpeed) {
             this._model.movementVector.normalize().scaleInPlace(this._model.maxSpeed);
         }
 
-        // Update the position of the projectile
+        // Mettre à jour la position du maillage
         this._view._mesh.position.addInPlace(this._model.movementVector.scale(deltaTime));
     }
 

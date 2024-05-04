@@ -1,34 +1,35 @@
 import { Vector3 } from '@babylonjs/core';
-import { EnemyData } from '../game/models/LevelData';
-import EnemyController from './controllers/EnemyController';
-import BalloonView from './views/BalloonView';
-import Game from '../game/Game';
-import BalloonModel from './models/BalloonModel';
-import CopperBalloonModel from './models/CopperBalloonModel';
-import SilverBalloonModel from './models/SilverBalloonModel';
+import AvoidColliders from '../behaviors/AvoidMeshs';
+import MoveAtoB from '../behaviors/MoveAtoB';
 import BaseBonusController from '../bonus/controllers/BaseBonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
-import MoveAtoB from '../behaviors/MoveAtoB';
+import Game from '../game/Game';
+import { EnemyData } from '../game/models/LevelData';
+import EnemyController from './controllers/EnemyController';
+import BalloonModel from './models/BalloonModel';
+import CopperBalloonModel from './models/CopperBalloonModel';
+import SilverBalloonModel from './models/SilverBalloonModel';
+import BalloonView from './views/BalloonView';
 
 enum BonusType {
     Speed = 'speed',
     Score = 'score',
-    Time = 'time'
+    Time = 'time',
 }
 
 enum EnemyType {
     Copper = 'copper',
     Silver = 'silver',
-    Gold = 'gold'
+    Gold = 'gold',
 }
 
 class EnemyFactory {
     public static createEnemy(enemyData: EnemyData): EnemyController {
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
         // TODO: Change the score attribution?
-        const behaviours = [new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 1000), 50)];
+        const behaviours = [new MoveAtoB(1, new Vector3(0, 4, 5), new Vector3(34, 1, 5), 1), new AvoidColliders(3, 2)];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, behaviours);
         const view = new BalloonView(model);
         const controller = new EnemyController(model, view);
@@ -40,7 +41,11 @@ class EnemyFactory {
     }
 
     private static _createModel(
-        type: string, position: Vector3, health: number, score: number, behaviours
+        type: string,
+        position: Vector3,
+        health: number,
+        score: number,
+        behaviours
     ): BalloonModel {
         switch (type) {
             case EnemyType.Copper:
@@ -58,11 +63,17 @@ class EnemyFactory {
         switch (bonusData.type) {
             case BonusType.Score:
                 // eslint-disable-next-line max-len
-                controller.bonusController = new BaseBonusController(new ScoreBonus(), new ScoreBonusView(Game.instance.scene));
+                controller.bonusController = new BaseBonusController(
+                    new ScoreBonus(),
+                    new ScoreBonusView(Game.instance.scene)
+                );
                 break;
             case BonusType.Time:
                 // eslint-disable-next-line max-len
-                controller.bonusController = new BaseBonusController(new ScoreBonus(), new TimeBonusView(Game.instance.scene));
+                controller.bonusController = new BaseBonusController(
+                    new ScoreBonus(),
+                    new TimeBonusView(Game.instance.scene)
+                );
                 break;
             default:
                 throw new Error(`Unsupported behavior type: ${bonusData.type}`);
