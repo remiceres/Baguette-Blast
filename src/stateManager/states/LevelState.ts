@@ -25,6 +25,7 @@ import StateInterface from './StateInterface';
 import Gravity from '../../behaviors/Gravity';
 // import AttractEnemy from '../../behaviors/AttractEnemy';
 import AudioManager from '../../game/controllers/AudioManager';
+import { Inspector } from '@babylonjs/inspector';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -38,6 +39,7 @@ class LevelState implements StateInterface {
     private _audioManager: AudioManager;
 
     constructor(levelNumber: number) {
+        Inspector.Show(Game.instance.scene, {});
         this._setLevelNumber(levelNumber);
         this._returnLevelByNumber(levelNumber)
             .then((levelData) => {

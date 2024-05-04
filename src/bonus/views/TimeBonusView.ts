@@ -11,6 +11,7 @@ class TimeBonusView extends BaseBonusView {
     createMesh(): void {
         // Create an instance of the BonusScore mesh
         this._mesh = Game.instance.assetManager.getBonusTimeMesh();
+        this._mesh.setEnabled(true);
     }
 }
 export default TimeBonusView;

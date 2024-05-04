@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { AssetsManager, Mesh, MeshAssetTask, Scene } from '@babylonjs/core';
 import Game from '../Game';
 
@@ -20,7 +21,7 @@ class AssetsLoader {
 
     private async _initializeModels(): Promise<void> {
         const assetManager = new AssetsManager(this._scene);
-        const modelNames = ['Scene', 'BonusTime', 'BonusHourglass', 'BonusScore'];
+        const modelNames = ['Scene', 'BonusTime', 'BonusHourglass', 'BonusScore', 'BallonBronze', 'BallonSilver', 'BallonGold'];
 
         modelNames.forEach((name) => {
             const task = assetManager.addMeshTask(
@@ -31,14 +32,7 @@ class AssetsLoader {
             );
             task.onSuccess = (task) => {
                 this._handleMeshLoaded(task, name === 'Scene');
-                task.loadedMeshes.forEach((elem) => {
-                    if (elem instanceof Mesh) {
-                        // Ensure it is a Mesh
-                        this._dictModels.set(name, elem);
-                    } else {
-                        console.error(`Loaded mesh for ${name} is not a standard Mesh.`);
-                    }
-                });
+                this._dictModels.set(name, task.loadedMeshes[0]);
             };
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
         });
@@ -58,16 +52,11 @@ class AssetsLoader {
                 if (mesh.material) {
                     mesh.material.forceDepthWrite = true;
                 }
-
-                // Hide the mesh if it's not the scene
-                mesh.isVisible = isScene;
-
-                // Move the mesh in the ground
-                if (!isScene) {
-                    mesh.position.y = -10;
-                }
             }
         });
+        if (!isScene) {
+            task.loadedMeshes[0].setEnabled(false);
+        }
     }
 
     private _hideColliderMeshes(): void {
@@ -104,6 +93,30 @@ class AssetsLoader {
         const mesh = this._dictModels.get('BonusScore').clone(`bonusScore${this._bonusScoreCount}`);
         mesh.isVisible = true;
         this._bonusScoreCount++;
+        return mesh;
+    }
+
+    private _ballonBronzeCount: number = 0;
+    public getBallonBronzeMesh(): Mesh {
+        const mesh = this._dictModels.get('BallonBronze').clone(`ballonBronze${this._ballonBronzeCount}`);
+        mesh.isVisible = true;
+        this._ballonBronzeCount++;
+        return mesh;
+    }
+
+    private _ballonSilverCount: number = 0;
+    public getBallonSilverMesh(): Mesh {
+        const mesh = this._dictModels.get('BallonSilver').clone(`ballonSilver${this._ballonSilverCount}`);
+        mesh.isVisible = true;
+        this._ballonSilverCount++;
+        return mesh;
+    }
+
+    private _ballonGoldCount: number = 0;
+    public getBallonGoldMesh(): Mesh {
+        const mesh = this._dictModels.get('BallonGold').clone(`ballonGold${this._ballonGoldCount}`);
+        mesh.isVisible = true;
+        this._ballonGoldCount++;
         return mesh;
     }
 }
