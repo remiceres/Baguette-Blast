@@ -9,7 +9,6 @@ import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
-import MusicManager from '../../game/controllers/MusicManager';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
@@ -24,7 +23,8 @@ import State from '../EnumState';
 import StateInterface from './StateInterface';
 // import MoveAtoB from '../../behaviors/MoveAtoB';
 import Gravity from '../../behaviors/Gravity';
-import AttractEnemy from '../../behaviors/AttractEnemy';
+// import AttractEnemy from '../../behaviors/AttractEnemy';
+import AudioManager from '../../game/controllers/AudioManager';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -35,7 +35,7 @@ class LevelState implements StateInterface {
     private _cubeMenu: Mesh;
     private _score: number;
     private _game: Game;
-    musicManager: MusicManager;
+    private _audioManager: AudioManager;
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
@@ -49,6 +49,7 @@ class LevelState implements StateInterface {
                 console.error('Cannot load level data:', error);
             });
         this._collisionManager = new CollisionManager();
+        this._audioManager = new AudioManager();
     }
 
     private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
@@ -102,7 +103,7 @@ class LevelState implements StateInterface {
         // TODO : Add behavior in json file /////////////////////////////////////////////////
         const behaviors: IBehaviour[] = [];
         behaviors.push(new Gravity(1));
-        behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
+        // behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
         behaviors.push(new Friction(5));
         behaviors.push(new Friction(1));
         // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
@@ -123,19 +124,19 @@ class LevelState implements StateInterface {
         this._playerController.setWeapon('right', weaponController);
     }
 
-    async initMusic() {
-        await this.musicManager.loadTrack('/musics/theme.mp3');
-        // this.musicManager.play();
+    public async init(): Promise<void> {
+        try {
+            GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
+            this._initInterface();
+            this._initializeLevelData();
+            await this._audioManager.initMusic(); // Load music
+            this._audioManager.playMusic('theme'); // Play theme music after it's loaded
+
+        } catch (error) {
+            console.error('Error during game initialization:', error);
+        }
     }
 
-    public async init(): Promise<void> {
-        this.musicManager = new MusicManager();
-        this.initMusic();
-        // Assuming level data is already validated to match LevelData interface
-        GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
-        this._initInterface();
-        this._initializeLevelData();
-    }
 
     private _initializeLevelData(): void {
         if (this._levelData?.player) {

@@ -28,7 +28,18 @@ class EnemyFactory {
     public static createEnemy(enemyData: EnemyData): EnemyController {
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
         // TODO: Change the score attribution?
-        const behaviours = [new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 1000), 50)];
+        const behaviours = [
+            new MoveAtoB(
+                0.1, 
+                position,
+                new Vector3(
+                    enemyData.position.x, 
+                    enemyData.position.y + 
+                    enemyData.behavior.range, 
+                    enemyData.position.z), 
+                enemyData.behavior.speed
+            )
+        ];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, behaviours);
         const view = new BalloonView(model);
         const controller = new EnemyController(model, view);
