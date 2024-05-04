@@ -1,4 +1,4 @@
-import { MeshBuilder, StandardMaterial, Vector3, ParticleSystem, Texture } from '@babylonjs/core';
+import { Vector3, ParticleSystem, Texture } from '@babylonjs/core';
 import BaseEnemyView from './BaseEnemyView';
 import BalloonModel from '../models/BalloonModel';
 import Game from '../../game/Game';
@@ -73,10 +73,8 @@ class BalloonView extends BaseEnemyView {
     }    
 
     createMesh(): void {
-        this._mesh = MeshBuilder.CreateSphere('balloonMesh', { diameter: 1 }, this._scene);
-        const material = new StandardMaterial('balloonMaterial', this._scene);
-        material.diffuseColor = this._model.color; // Use color from the model
-        this._mesh.material = material;
+        this._mesh = Game.instance.assetManager.getBallonBronzeMesh();
+        this._mesh.setEnabled(true);
         this._mesh.position = this._model.position; // Use position from the model
         this._mesh.metadata = {};
     }

@@ -19,6 +19,7 @@ import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 import Gravity from '../../behaviors/Gravity';
+import { Inspector } from '@babylonjs/inspector';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -30,6 +31,7 @@ class LevelState implements StateInterface {
     private _score: number;
 
     constructor(levelNumber: number) {
+        Inspector.Show(Game.instance.scene, {});
         this._setLevelNumber(levelNumber);
         this._returnLevelByNumber(levelNumber)
             .then((levelData) => {
