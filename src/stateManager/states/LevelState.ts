@@ -119,7 +119,7 @@ class LevelState implements StateInterface {
             GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
             this._initInterface();
             this._initializeLevelData();
-            Game.instance.audioManager.switchTrackSmoothly('level1');
+            Game.instance.audioManager.switchTrackSmoothly('level' + this._levelNumber);
         } catch (error) {
             console.error('Error during game initialization:', error);
         }
