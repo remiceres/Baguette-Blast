@@ -95,7 +95,7 @@ class LevelState implements StateInterface {
         // TODO : Add behavior in json file /////////////////////////////////////////////////
         const behaviors: IBehaviour[] = [];
         behaviors.push(new Gravity(25));
-        behaviors.push(new AttractEnemy(this._enemiesController, 5, 1000));
+        behaviors.push(new AttractEnemy(this._enemiesController, 5, 10));
         // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
         //////////////////////////////////////////////////////////////////////////////////////
 
