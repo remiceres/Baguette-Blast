@@ -63,23 +63,22 @@ class ProjectileController implements ICollider {
 
     public update(deltaTime: number): void {
         for (const instance of this._view.mesh.instances) {
-            let speedVector = instance.metadata.speedVector.clone();
+            const dampingFactor = 1;
+            instance.metadata.speedVector.scaleInPlace(dampingFactor);
 
-            // Accumulate the forces from all behaviors
+            // Accumuler les forces de tous les comportements
             for (const behavior of this._behaviors) {
-                speedVector = speedVector.add(behavior.getForceVector(deltaTime, instance, speedVector));
+                const force = behavior.getForceVector(deltaTime, instance, instance.metadata.speedVector);
+                instance.metadata.speedVector.addInPlace(force);
             }
 
-            // Limit the speed vector to the maximum speed
-            if (speedVector.length() > this._maxSpeed) {
-                speedVector.normalize().scaleInPlace(this._maxSpeed);
+            // Limiter le vecteur de vitesse à la vitesse maximale
+            if (instance.metadata.speedVector.length() > this._maxSpeed) {
+                instance.metadata.speedVector.normalize().scaleInPlace(this._maxSpeed);
             }
 
-            // Update the metadata
-            instance.metadata.speedVector = speedVector;
-
-            // Update the position of the projectile
-            instance.position.addInPlace(speedVector.scale(deltaTime));
+            // Mettre à jour la position du maillage
+            instance.position.addInPlace(instance.metadata.speedVector.scale(deltaTime));
         }
     }
 
