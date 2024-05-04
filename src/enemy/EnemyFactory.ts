@@ -1,5 +1,4 @@
 import { Vector3 } from '@babylonjs/core';
-import AvoidColliders from '../behaviors/AvoidMeshs';
 import MoveAtoB from '../behaviors/MoveAtoB';
 import BaseBonusController from '../bonus/controllers/BaseBonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
@@ -29,7 +28,25 @@ class EnemyFactory {
     public static createEnemy(enemyData: EnemyData): EnemyController {
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
         // TODO: Change the score attribution?
-        const behaviours = [new MoveAtoB(1, new Vector3(0, 4, 5), new Vector3(34, 1, 5), 1), new AvoidColliders(3, 2)];
+        // const behaviours = [
+        //     new MoveAtoB(1,
+        //     new Vector3(0, 4, 5),
+        //     new Vector3(34, 1, 5), 1),
+        //     new AvoidColliders(3, 2)
+        // ];
+
+        const behaviours = [
+            new MoveAtoB(
+                0.1,
+                position,
+                new Vector3(
+                    enemyData.position.x,
+                    enemyData.position.y + enemyData.behavior.range,
+                    enemyData.position.z
+                ),
+                enemyData.behavior.speed
+            ),
+        ];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, behaviours);
         const view = new BalloonView(model);
         const controller = new EnemyController(model, view);

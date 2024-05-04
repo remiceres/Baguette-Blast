@@ -1,6 +1,4 @@
-/* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-// import AttractEnemy from '../../behaviors/AttractEnemy';
 import IBehaviour from '../../behaviors/IBehaviour';
 // import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
@@ -8,7 +6,6 @@ import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
-import MusicManager from '../../game/controllers/MusicManager';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
@@ -21,9 +18,8 @@ import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-// import MoveAtoB from '../../behaviors/MoveAtoB';
-import AttractEnemy from '../../behaviors/AttractEnemy';
 import Gravity from '../../behaviors/Gravity';
+import AttractEnemy from '../../behaviors/AttractEnemy';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -33,8 +29,6 @@ class LevelState implements StateInterface {
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
     private _score: number;
-    private _game: Game;
-    musicManager: MusicManager;
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
@@ -120,18 +114,15 @@ class LevelState implements StateInterface {
         this._playerController.setWeapon('right', weaponController);
     }
 
-    async initMusic() {
-        await this.musicManager.loadTrack('/musics/theme.mp3');
-        // this.musicManager.play();
-    }
-
     public async init(): Promise<void> {
-        this.musicManager = new MusicManager();
-        this.initMusic();
-        // Assuming level data is already validated to match LevelData interface
-        GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
-        this._initInterface();
-        this._initializeLevelData();
+        try {
+            GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
+            this._initInterface();
+            this._initializeLevelData();
+            Game.instance.audioManager.switchTrackSmoothly('level1');
+        } catch (error) {
+            console.error('Error during game initialization:', error);
+        }
     }
 
     private _initializeLevelData(): void {
@@ -158,6 +149,7 @@ class LevelState implements StateInterface {
         this._enemiesController = [];
         this._playerController.weaponRight.getProjectiles().forEach((projectile) => projectile.dispose());
         this._playerController.dispose();
+        Game.instance.audioManager.switchTrackSmoothly('theme');
     }
 
     public update(deltaTime: number): void {

@@ -9,6 +9,7 @@ import StateManager from '../stateManager/StateManager';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
 import CameraManager from './controllers/CameraManager';
 import TimeControl from './controllers/TimeControl';
+import AudioManager from './controllers/AudioManager';
 
 /**
  * The Game class is the central class of the application.
@@ -43,6 +44,9 @@ class Game {
     // Manages the loading of assets like models, textures, etc.
     private _assetManager: AssetManager;
 
+    // Manages the sound effects and music.
+    private _audioManager: AudioManager;
+
     // Manages the environement, like lights, shadows, etc.
     private _environmentControllers: EnvironmentControllers;
 
@@ -61,6 +65,7 @@ class Game {
         this._engine = new Engine(canvas, true);
         window.addEventListener('resize', () => this._engine.resize());
         this._scene = new Scene(this._engine);
+        this._initAudio();
 
         this._initializeXR(this._scene).then(() => {
             this._cameraManager = new CameraManager(this._xr, this._supportedVR);
@@ -115,6 +120,13 @@ class Game {
         if (this._supportedVR) {
             this._xr = await scene.createDefaultXRExperienceAsync({});
         }
+    }
+
+    private async _initAudio() {
+        // this.audioManager._debug = true;
+        this._audioManager = new AudioManager();
+        await this._audioManager.initAudio();
+        this._audioManager.playMusic('theme');
     }
 
     private _initAssets() {
@@ -178,8 +190,16 @@ class Game {
         return this._assetManager;
     }
 
+    public get audioManager(): AudioManager {
+        return this._audioManager;
+    }
+
     public get scene(): Scene {
         return this._scene;
+    }
+
+    public set audioManager(audioManager: AudioManager) {
+        this._audioManager = audioManager;
     }
 }
 

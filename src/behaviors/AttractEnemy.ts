@@ -30,7 +30,7 @@ class AttractEnemy implements IBehaviour {
         // If a nearest enemy is found, apply the force towards it
         if (nearestEnemy) {
             const direction = nearestEnemy.position.subtract(mesh.position).normalize();
-            return direction.scale(this._force * deltaTime);
+            return direction.scale(this._force);
         }
 
         // Return zero vector if no enemy is found within detection radius

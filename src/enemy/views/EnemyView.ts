@@ -12,7 +12,6 @@ class EnemyView extends BaseEnemyView {
     }
 
     onKill(): void {
-        // Play a particle effect when the enemy is killed
     }
 
     createMesh(): void {
