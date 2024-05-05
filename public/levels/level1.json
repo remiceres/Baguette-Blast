@@ -117,7 +117,7 @@
         }
     },
     {
-        "type": "copper",
+        "type": "pigeon",
         "health": 10,
         "position": {
             "x": 13.269,

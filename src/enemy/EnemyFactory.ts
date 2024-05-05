@@ -12,6 +12,10 @@ import SilverBalloonModel from './models/SilverBalloonModel';
 import BalloonView from './views/BalloonView';
 import CopperBalloonView from './views/CopperBalloonView';
 import SilverBalloonView from './views/SilverBalloonView';
+import GoldBalloonView from './views/GoldBalloonView';
+import GoldBalloonModel from './models/GoldBalloonModel';
+import PigeonModel from './models/PigeonModel';
+import PigeonView from './views/PigeonView';
 
 enum BonusType {
     Speed = 'speed',
@@ -23,6 +27,7 @@ enum EnemyType {
     Copper = 'copper',
     Silver = 'silver',
     Gold = 'gold',
+    Pigeon = 'pigeon',
 }
 
 class EnemyFactory {
@@ -70,6 +75,10 @@ class EnemyFactory {
                 return new CopperBalloonModel(position, health, score, behaviours);
             case EnemyType.Silver:
                 return new SilverBalloonModel(position, health, score, behaviours);
+            case EnemyType.Gold:
+                return new GoldBalloonModel(position, health, score, behaviours);
+            case EnemyType.Pigeon:
+                return new PigeonModel(position, health, score, behaviours);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }
@@ -81,6 +90,10 @@ class EnemyFactory {
                 return new CopperBalloonView(model);
             case EnemyType.Silver:
                 return new SilverBalloonView(model);
+            case EnemyType.Gold:
+                return new GoldBalloonView(model);
+            case EnemyType.Pigeon:
+                return new PigeonView(model);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

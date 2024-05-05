@@ -19,6 +19,8 @@ class EnemyView extends BaseEnemyView {
         const material = new StandardMaterial('enemyMaterial', this._scene);
         material.diffuseColor = new Color3(1, 0, 0); // Red color for the enemy
         this._mesh.material = material;
+
+        this._mesh.metadata = {};
     }
 
     public update(): void {
