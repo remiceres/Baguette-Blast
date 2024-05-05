@@ -26,6 +26,9 @@ class PlayerView {
         const material = new StandardMaterial('playerMaterial', Game.instance.scene);
         material.diffuseColor = new Color3(1, 0, 0); // Red color
         this._playerMesh.material = material;
+
+        // Set visibile
+        this._playerMesh.isVisible = true;
     }
 
     public dispose(): void {

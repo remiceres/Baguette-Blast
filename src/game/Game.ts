@@ -10,6 +10,7 @@ import { default as AssetManager, default as AssetsLoader } from './controllers/
 import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import TimeControl from './controllers/TimeControl';
+import PlayerController from '../player/controllers/PlayerController';
 // import { Inspector } from '@babylonjs/inspector';
 
 /**
@@ -56,6 +57,8 @@ class Game {
 
     // A console for displaying debug information.
     public _debugConsole: DebugConsole;
+
+    public _player: PlayerController;
 
     /**
      * The constructor is private to ensure the Game class is a singleton.
@@ -200,8 +203,16 @@ class Game {
         return this._scene;
     }
 
+    public get player(): PlayerController {
+        return this._player;
+    }
+
     public set audioManager(audioManager: AudioManager) {
         this._audioManager = audioManager;
+    }
+
+    public set player(player: PlayerController) {
+        this._player = player;
     }
 }
 

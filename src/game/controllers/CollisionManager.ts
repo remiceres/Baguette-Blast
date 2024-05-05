@@ -1,5 +1,6 @@
 import EnemyController from '../../enemy/controllers/EnemyController';
 import BaseEnemyView from '../../enemy/views/BaseEnemyView';
+import PlayerController from '../../player/controllers/PlayerController';
 
 class CollisionManager {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,6 +12,7 @@ class CollisionManager {
 
     addCollider(collider) {
         this._colliders.push(collider);
+        console.log(this._colliders);
     }
 
     removeCollider(collider) {
@@ -29,7 +31,7 @@ class CollisionManager {
     }
 
     // Temporary method to check for collisions between the ball and the enemies
-    checkForCollisions(ball): EnemyController | null{
+    checkForCollisions(ball): EnemyController | PlayerController | null{
         let collided = null;
         // this._views.forEach(view => {
         this._colliders.forEach((controller) => {
@@ -54,10 +56,9 @@ class CollisionManager {
                         collided = controller;
                     }
                 });
-            }
+            } 
         });
         return collided;
     }
 }
-
 export default CollisionManager;

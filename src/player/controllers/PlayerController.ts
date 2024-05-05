@@ -5,8 +5,9 @@ import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
 import WeaponController from '../../weapon/controllers/WeaponController';
+import EnemyController from '../../enemy/controllers/EnemyController';
 
-class PlayerController {
+class PlayerController implements ICollider{
     private _model: PlayerModel;
     private _view: PlayerView;
 
@@ -23,6 +24,27 @@ class PlayerController {
         this._rightHand = Game.instance.inputManager.rightAnchor;
     }
 
+    collidesWith(other: ICollider): boolean {
+        if (other instanceof EnemyController) {
+            if (other.model.hitbox.intersectsMesh(this._view._playerMesh)) {
+                console.log('Player hit by enemy');
+                return true;
+            }
+        }
+        return false;
+    }
+
+    onCollision(other: ICollider): void {
+        // console.log('onCollision');
+        if (other instanceof EnemyController) {
+            console.log('Player hit by enemy');
+            this._model.health -= 1;
+            console.log('Player health:', this._model.health);
+            Game.instance.inputManager.vibrateController('left', 0.5, 0.5, 100);
+        }
+        return;
+    }
+
     // TODO: Redondance avec les if a voir si on peut pas faire autrement
     setWeapon(hand: 'left' | 'right', weapon: WeaponController): void {
         if (hand === 'left') {
@@ -32,6 +54,10 @@ class PlayerController {
             this._model.weaponRight = weapon;
             this._model.weaponRight.grab(this._rightHand);
         }
+    }
+
+    get view(): PlayerView {
+        return this._view;
     }
 
     get weaponLeft(): WeaponInterface {

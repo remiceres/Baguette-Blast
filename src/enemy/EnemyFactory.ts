@@ -1,5 +1,4 @@
 import { Vector3 } from '@babylonjs/core';
-import MoveAtoB from '../behaviors/MoveAtoB';
 import BaseBonusController from '../bonus/controllers/BaseBonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
@@ -16,6 +15,7 @@ import GoldBalloonView from './views/GoldBalloonView';
 import GoldBalloonModel from './models/GoldBalloonModel';
 import PigeonModel from './models/PigeonModel';
 import PigeonView from './views/PigeonView';
+import Game from '../game/Game';
 
 enum BonusType {
     Speed = 'speed',
@@ -40,20 +40,7 @@ class EnemyFactory {
         //     new Vector3(34, 1, 5), 1),
         //     new AvoidColliders(3, 2)
         // ];
-
-        const behaviours = [
-            new MoveAtoB(
-                0.1,
-                position,
-                new Vector3(
-                    enemyData.position.x,
-                    enemyData.position.y + enemyData.behavior.range,
-                    enemyData.position.z
-                ),
-                enemyData.behavior.speed
-            ),
-        ];
-        const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, behaviours);
+        const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, enemyData);
         const view = this._createView(enemyData.type, model);
         const controller = new EnemyController(model, view);
 
@@ -68,17 +55,17 @@ class EnemyFactory {
         position: Vector3,
         health: number,
         score: number,
-        behaviours
+        enemyData
     ): BalloonModel {
         switch (type) {
             case EnemyType.Copper:
-                return new CopperBalloonModel(position, health, score, behaviours);
+                return new CopperBalloonModel(position, health, score, enemyData);
             case EnemyType.Silver:
-                return new SilverBalloonModel(position, health, score, behaviours);
+                return new SilverBalloonModel(position, health, score, enemyData);
             case EnemyType.Gold:
-                return new GoldBalloonModel(position, health, score, behaviours);
+                return new GoldBalloonModel(position, health, score, enemyData);
             case EnemyType.Pigeon:
-                return new PigeonModel(position, health, score, behaviours);
+                return new PigeonModel(position, health, score, enemyData, Game.instance.player.position);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

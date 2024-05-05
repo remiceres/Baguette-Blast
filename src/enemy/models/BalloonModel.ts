@@ -1,6 +1,5 @@
 import { Vector3 } from '@babylonjs/core';
 import BaseEnemyModel from './BaseEnemyModel';
-import IBehaviour from '../../behaviors/IBehaviour';
 
 class BalloonModel extends BaseEnemyModel {
 
@@ -8,9 +7,8 @@ class BalloonModel extends BaseEnemyModel {
         position: Vector3 = new Vector3(0, 0, 0), 
         health: number = 100,
         score: number = 1,
-        behaviour?: IBehaviour[]
     ) {
-        super(position, health, score, behaviour);
+        super(position, health, score);
     }
 
     update(deltaTime: number): void {

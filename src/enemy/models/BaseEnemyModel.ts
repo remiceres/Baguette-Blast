@@ -7,19 +7,17 @@ class BaseEnemyModel {
     private _score: number;
     private _movementVector: Vector3 = new Vector3(0, 0, 0);
     private _maxSpeed: number = 20;
-    private _behaviours: IBehaviour[];
     private _hitbox: Mesh;
+    protected _behaviours: IBehaviour[] = [];
 
     constructor(
         position: Vector3 = new Vector3(0, 0, 0),
         health: number = 100,
         score: number = 1,
-        behaviours: IBehaviour[]
     ) {
         this._position = position;
         this._health = health;
         this._score = score;
-        this._behaviours = behaviours;
     }
 
     // Getters
@@ -43,12 +41,12 @@ class BaseEnemyModel {
         return this._maxSpeed;
     }
 
-    get behaviours(): IBehaviour[] {
-        return this._behaviours;
-    }
-
     get hitbox(): Mesh {
         return this._hitbox;
+    }
+
+    get behaviours(): IBehaviour[] {
+        return this._behaviours;
     }
 
     // Setters
@@ -70,10 +68,6 @@ class BaseEnemyModel {
 
     set maxSpeed(value: number) {
         this._maxSpeed = value;
-    }
-
-    set behaviours(value: IBehaviour[]) {
-        this._behaviours = value;
     }
 
     set hitbox(hitbox: Mesh) {

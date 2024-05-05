@@ -128,6 +128,8 @@ class LevelState implements StateInterface {
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
             this._initPlayerController();
+            this._collisionManager.addCollider(this._playerController);
+            Game.instance.player = this._playerController;
         }
 
         // Init score
@@ -150,6 +152,7 @@ class LevelState implements StateInterface {
         this._playerController.weaponRight.getProjectiles().forEach((projectile) => projectile.dispose());
         this._playerController.dispose();
         Game.instance.audioManager.switchTrackSmoothly('theme');
+        Game.instance.player = null;
     }
 
     public update(deltaTime: number): void {
@@ -166,19 +169,20 @@ class LevelState implements StateInterface {
         // Update player
         this._playerController.update(deltaTime);
 
-        let elimination = null;
+        // let elimination = null;
         // Check for collisions
-        elimination = this._collisionManager.checkForCollisions(this._playerController.weaponRight);
-        if (elimination) {
-            // Remove the enemy from the list
-            const index = this._enemiesController.indexOf(elimination);
-            if (index > -1) {
-                this._score += this._enemiesController[index].score;
-                Game.score = this._score;
-                this._enemiesController.splice(index, 1);
-            }
-            elimination.dispose();
-        }
+        // elimination = this._collisionManager.checkForCollisions(this._playerController.weaponRight);
+        // if (elimination) {
+        //     // Remove the enemy from the list
+        //     const index = this._enemiesController.indexOf(elimination);
+        //     if (index > -1) {
+        //         this._score += this._enemiesController[index].score;
+        //         Game.score = this._score;
+        //         this._enemiesController.splice(index, 1);
+        //     }
+        //     elimination.dispose();
+        // }
+        this._collisionManager.checkCollisions();
     }
 }
 
