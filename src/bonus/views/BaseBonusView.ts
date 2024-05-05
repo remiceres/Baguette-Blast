@@ -8,9 +8,7 @@ abstract class BaseBonusView {
     createMesh(): void {}
 
     public dispose(): void {
-        if (this._mesh) {
-            this._mesh.dispose();
-        }
+        this._mesh.dispose();
     }
 
     public update(): void {}

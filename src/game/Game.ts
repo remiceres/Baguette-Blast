@@ -10,6 +10,7 @@ import { default as AssetManager, default as AssetsLoader } from './controllers/
 import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import TimeControl from './controllers/TimeControl';
+// import { Inspector } from '@babylonjs/inspector';
 
 /**
  * The Game class is the central class of the application.

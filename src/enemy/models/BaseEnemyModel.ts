@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { Mesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
 
 class BaseEnemyModel {
@@ -8,6 +8,7 @@ class BaseEnemyModel {
     private _movementVector: Vector3 = new Vector3(0, 0, 0);
     private _maxSpeed: number = 20;
     private _behaviours: IBehaviour[];
+    private _hitbox: Mesh;
 
     constructor(
         position: Vector3 = new Vector3(0, 0, 0),
@@ -46,6 +47,10 @@ class BaseEnemyModel {
         return this._behaviours;
     }
 
+    get hitbox(): Mesh {
+        return this._hitbox;
+    }
+
     // Setters
     set position(value: Vector3) {
         this._position = value;
@@ -69,6 +74,10 @@ class BaseEnemyModel {
 
     set behaviours(value: IBehaviour[]) {
         this._behaviours = value;
+    }
+
+    set hitbox(hitbox: Mesh) {
+        this._hitbox = hitbox;
     }
 
     update(deltaTime: number): void {

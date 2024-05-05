@@ -35,7 +35,7 @@ class CollisionManager {
         this._colliders.forEach((controller) => {
             if (controller.view instanceof BaseEnemyView) {
                 ball.getProjectiles().forEach((projectile) => {
-                    if (projectile.intersectsMesh(controller.view._mesh, true)) {
+                    if (projectile.intersectsMesh(controller.model.hitbox, true)) {
                         // Notify the EnemyController about the collision
                         // view.controller.notifyCollision(projectile);
                         // console.log('Collision detected');

@@ -1,8 +1,9 @@
-import { Vector3 } from '@babylonjs/core';
+import { MeshBuilder, Vector3 } from '@babylonjs/core';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
+import Game from '../../game/Game';
 
 class EnemyController implements ICollider {
     private _model: BaseEnemyModel;
@@ -12,6 +13,7 @@ class EnemyController implements ICollider {
     constructor(model: BaseEnemyModel, view: BaseEnemyView) {
         this._model = model;
         this._view = view;
+        this.createHitbox();
     }
 
     collidesWith(other: ICollider): boolean {
@@ -25,6 +27,34 @@ class EnemyController implements ICollider {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollision(other: ICollider): void {
         return;
+    }
+
+    createHitbox(): void {
+        // Get the bounding box of the mesh
+        const boundingBox = this._view._mesh.getBoundingInfo().boundingBox;
+        // Create a box mesh to represent the hitbox
+        const hitbox = MeshBuilder.CreateBox(
+            'hitbox', 
+            { 
+                width: boundingBox.maximum.x - boundingBox.minimum.x - 0.1, 
+                height: boundingBox.maximum.y - boundingBox.minimum.y - 0.1, 
+                depth: boundingBox.maximum.z - boundingBox.minimum.z - 0.1 
+            }, 
+            Game.instance.scene
+        );
+        hitbox.showBoundingBox = true;
+        // Position the hitbox at the center of the bounding box
+        hitbox.position = boundingBox.center;
+        hitbox.parent = this._view._mesh;
+        
+        // Make it red for debug
+        // hitbox.material = new StandardMaterial('hitboxMaterial', Game.instance.scene);
+        // (hitbox.material as StandardMaterial).diffuseColor = new Color3(1, 0, 0);
+
+        // Make it invisible
+        hitbox.isVisible = false;
+
+        this._model.hitbox = hitbox;
     }
 
     dispose(): void {
