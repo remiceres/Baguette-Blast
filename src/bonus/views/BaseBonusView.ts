@@ -1,13 +1,9 @@
-import { Mesh, Scene } from '@babylonjs/core';
+import { InstancedMesh } from '@babylonjs/core';
 
 abstract class BaseBonusView {
-    protected _mesh: Mesh;
-    private _scene: Scene;
+    protected _mesh: InstancedMesh;
 
-    constructor(scene: Scene) {
-        this._scene = scene;
-        this.createMesh();
-    }
+    constructor() {}
 
     createMesh(): void {}
 
@@ -19,7 +15,7 @@ abstract class BaseBonusView {
 
     public update(): void {}
 
-    public get mesh(): Mesh {
+    public get mesh(): InstancedMesh {
         return this._mesh;
     }
 }

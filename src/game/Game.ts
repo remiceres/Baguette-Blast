@@ -7,9 +7,9 @@ import QuestInput from '../inputs/QuestInput';
 import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
+import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import TimeControl from './controllers/TimeControl';
-import AudioManager from './controllers/AudioManager';
 
 /**
  * The Game class is the central class of the application.
@@ -78,6 +78,7 @@ class Game {
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
             this._render();
+            // Inspector.Show(Game.instance.scene, {});
         });
     }
 

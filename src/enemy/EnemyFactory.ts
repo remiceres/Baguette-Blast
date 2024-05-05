@@ -4,8 +4,7 @@ import BaseBonusController from '../bonus/controllers/BaseBonusController';
 import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
-import Game from '../game/Game';
-import { EnemyData } from '../game/models/LevelData';
+import { BonusData, EnemyData } from '../game/models/LevelData';
 import EnemyController from './controllers/EnemyController';
 import BalloonModel from './models/BalloonModel';
 import CopperBalloonModel from './models/CopperBalloonModel';
@@ -88,22 +87,13 @@ class EnemyFactory {
     }
 
     // Replace any with a base class for bonuses
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private static _assignBonus(controller: EnemyController, bonusData: any) {
+    private static _assignBonus(controller: EnemyController, bonusData: BonusData) {
         switch (bonusData.type) {
             case BonusType.Score:
-                // eslint-disable-next-line max-len
-                controller.bonusController = new BaseBonusController(
-                    new ScoreBonus(),
-                    new ScoreBonusView(Game.instance.scene)
-                );
+                controller.bonusController = new BaseBonusController(new ScoreBonus(), new ScoreBonusView());
                 break;
             case BonusType.Time:
-                // eslint-disable-next-line max-len
-                controller.bonusController = new BaseBonusController(
-                    new ScoreBonus(),
-                    new TimeBonusView(Game.instance.scene)
-                );
+                controller.bonusController = new BaseBonusController(new ScoreBonus(), new TimeBonusView());
                 break;
             default:
                 throw new Error(`Unsupported behavior type: ${bonusData.type}`);

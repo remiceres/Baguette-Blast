@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import { Inspector } from '@babylonjs/inspector';
 import Game from '../../game/Game';

@@ -9,11 +9,11 @@ class EnvironmentControllers {
 
     // Day-night cycle
     private _cycleDuration: number = 60;
-    private _timeElapsed: number = 0;
+    private _timeElapsed: number = 0 + 15;
 
     // Sun
     private _sun: Sun;
-    private _sunUpdate: boolean = true;
+    private _sunUpdate: boolean = false;
 
     // Shadow
     private _shadowsManager: Shadows;

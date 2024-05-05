@@ -4,7 +4,7 @@ import BalloonView from './BalloonView';
 
 class GoldBalloonView extends BalloonView {
     private _model: BalloonModel;
-    
+
     constructor(model: BalloonModel) {
         super();
         this._model = model;
@@ -12,7 +12,7 @@ class GoldBalloonView extends BalloonView {
     }
 
     createMesh(): void {
-        this._mesh = Game.instance.assetManager.getBallonGoldMesh();
+        this._mesh = Game.instance.assetManager.getBalloonGoldMesh();
         this._mesh.setEnabled(true);
         this._mesh.position = this._model.position;
         this._mesh.metadata = {};

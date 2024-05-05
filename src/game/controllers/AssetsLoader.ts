@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import { AssetsManager, Mesh, MeshAssetTask, Scene } from '@babylonjs/core';
+import { AssetsManager, InstancedMesh, Mesh, MeshAssetTask, Scene, Vector3 } from '@babylonjs/core';
 import Game from '../Game';
 
 class AssetsLoader {
@@ -21,7 +20,15 @@ class AssetsLoader {
 
     private async _initializeModels(): Promise<void> {
         const assetManager = new AssetsManager(this._scene);
-        const modelNames = ['Scene', 'BonusTime', 'BonusHourglass', 'BonusScore', 'BallonBronze', 'BallonSilver', 'BallonGold'];
+        const modelNames = [
+            'Scene',
+            'BonusTime',
+            'BonusHourglass',
+            'BonusScore',
+            'BallonBronze',
+            'BallonSilver',
+            'BallonGold',
+        ];
 
         modelNames.forEach((name) => {
             const task = assetManager.addMeshTask(
@@ -31,13 +38,13 @@ class AssetsLoader {
                 `${name}${AssetsLoader._modelExtension}`
             );
             task.onSuccess = (task) => {
-                this._handleMeshLoaded(task, name === 'Scene');
+                this._handleMeshLoaded(task, name);
                 if (task.loadedMeshes[0] instanceof Mesh) {
                     this._dictModels.set(name, task.loadedMeshes[0]);
                 } else {
                     console.error(`Loaded mesh is not of type 'Mesh': ${name}`);
                 }
-            };            
+            };
             task.onError = (task, message, exception) => console.error(`Failed to load ${name}: ${message}`, exception);
         });
 
@@ -48,17 +55,25 @@ class AssetsLoader {
         });
     }
 
-    private _handleMeshLoaded(task: MeshAssetTask, isScene: boolean): void {
+    private _handleMeshLoaded(task: MeshAssetTask, name: string): void {
+        // Fix bug with scene material
         task.loadedMeshes.forEach((mesh) => {
             if (mesh instanceof Mesh) {
                 // Additional check
+
                 // Fix material issues
                 if (mesh.material) {
                     mesh.material.forceDepthWrite = true;
                 }
+
+                if (name.startsWith('Bonus')) {
+                    mesh.scaling = new Vector3(0.5, 0.5, 0.5);
+                }
             }
         });
-        if (!isScene) {
+
+        // Hide scene mesh
+        if (name !== 'Scene') {
             task.loadedMeshes[0].setEnabled(false);
         }
     }
@@ -77,51 +92,87 @@ class AssetsLoader {
     }
 
     private _bonusTimeCount: number = 0;
-    public getBonusTimeMesh(): Mesh {
-        const mesh = this._dictModels.get('BonusTime').clone(`bonusTime${this._bonusTimeCount}`);
-        mesh.isVisible = true;
+    public getBonusTimeMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('BonusTime'),
+            'bonusTime',
+            this._bonusTimeCount
+        );
+        instance.isVisible = true;
         this._bonusTimeCount++;
-        return mesh;
+        return instance;
     }
 
     private _bonusHourglassCount: number = 0;
-    public getBonusHourglassMesh(): Mesh {
-        const mesh = this._dictModels.get('BonusHourglass').clone(`bonusHourglass${this._bonusHourglassCount}`);
-        mesh.isVisible = true;
+    public getBonusHourglassMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('BonusHourglass'),
+            'bonusHourglass',
+            this._bonusHourglassCount
+        );
+        instance.isVisible = true;
         this._bonusHourglassCount++;
-        return mesh;
+        return instance;
     }
 
     private _bonusScoreCount: number = 0;
-    public getBonusScoreMesh(): Mesh {
-        const mesh = this._dictModels.get('BonusScore').clone(`bonusScore${this._bonusScoreCount}`);
-        mesh.isVisible = true;
+    public getBonusScoreMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('BonusScore'),
+            'bonusScore',
+            this._bonusScoreCount
+        );
+        instance.isVisible = true;
         this._bonusScoreCount++;
-        return mesh;
+        return instance;
     }
 
     private _ballonBronzeCount: number = 0;
-    public getBallonBronzeMesh(): Mesh {
-        const mesh = this._dictModels.get('BallonBronze').clone(`ballonBronze${this._ballonBronzeCount}`);
-        mesh.isVisible = true;
+    public getBalloonBronzeMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('BallonBronze'),
+            'ballonBronze',
+            this._ballonBronzeCount
+        );
+        instance.isVisible = true;
         this._ballonBronzeCount++;
-        return mesh;
+        return instance;
     }
 
     private _ballonSilverCount: number = 0;
-    public getBallonSilverMesh(): Mesh {
-        const mesh = this._dictModels.get('BallonSilver').clone(`ballonSilver${this._ballonSilverCount}`);
-        mesh.isVisible = true;
+    public getBalloonSilverMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('BallonSilver'),
+            'ballonSilver',
+            this._ballonSilverCount
+        );
+        instance.isVisible = true;
         this._ballonSilverCount++;
-        return mesh;
+        return instance;
     }
 
     private _ballonGoldCount: number = 0;
-    public getBallonGoldMesh(): Mesh {
-        const mesh = this._dictModels.get('BallonGold').clone(`ballonGold${this._ballonGoldCount}`);
+    public getBalloonGoldMesh(): InstancedMesh {
+        const mesh = this._createInstanceRecursive(
+            this._dictModels.get('BallonGold'),
+            'ballonGold',
+            this._ballonGoldCount
+        );
         mesh.isVisible = true;
         this._ballonGoldCount++;
         return mesh;
+    }
+
+    private _createInstanceRecursive(mesh: Mesh, name: string, count: number, parent?: InstancedMesh): InstancedMesh {
+        const instance = mesh.createInstance(`${name}${count}`);
+        instance.isVisible = true;
+        instance.parent = parent;
+        mesh.getChildMeshes().forEach((child) => {
+            if (child instanceof Mesh) {
+                this._createInstanceRecursive(child, name + 'Child', count, instance);
+            }
+        });
+        return instance;
     }
 }
 

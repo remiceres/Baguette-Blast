@@ -1,10 +1,9 @@
-import { Scene } from '@babylonjs/core';
 import Game from '../../game/Game';
 import BaseBonusView from './BaseBonusView';
 
 class ScoreBonusView extends BaseBonusView {
-    constructor(scene: Scene) {
-        super(scene);
+    public constructor() {
+        super();
         this.createMesh();
     }
 

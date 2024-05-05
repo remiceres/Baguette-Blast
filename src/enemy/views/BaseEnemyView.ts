@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Scene } from '@babylonjs/core';
 import BaseBonusView from '../../bonus/views/BaseBonusView';
 
 abstract class BaseEnemyView {
@@ -14,8 +14,7 @@ abstract class BaseEnemyView {
 
     abstract onKill(): void;
 
-    public update(): void {
-    }
+    public update(): void {}
 
     public dispose(): void {
         if (this._mesh) {
@@ -28,8 +27,6 @@ abstract class BaseEnemyView {
         // Add bonus mesh to the enemy mesh, on top of the enemy mesh
         this._bonusView.mesh.parent = this._mesh;
         this._bonusView.mesh.position.y = 1;
-        // Smaller
-        this._bonusView.mesh.scaling = new Vector3(0.5, 0.5, 0.5);
     }
 }
 
