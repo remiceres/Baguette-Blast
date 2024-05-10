@@ -7,15 +7,14 @@ import { BonusData, EnemyData } from '../game/models/LevelData';
 import EnemyController from './controllers/EnemyController';
 import BalloonModel from './models/BalloonModel';
 import CopperBalloonModel from './models/CopperBalloonModel';
+import GoldBalloonModel from './models/GoldBalloonModel';
+import PigeonModel from './models/PigeonModel';
 import SilverBalloonModel from './models/SilverBalloonModel';
 import BalloonView from './views/BalloonView';
 import CopperBalloonView from './views/CopperBalloonView';
-import SilverBalloonView from './views/SilverBalloonView';
 import GoldBalloonView from './views/GoldBalloonView';
-import GoldBalloonModel from './models/GoldBalloonModel';
-import PigeonModel from './models/PigeonModel';
 import PigeonView from './views/PigeonView';
-import Game from '../game/Game';
+import SilverBalloonView from './views/SilverBalloonView';
 
 enum BonusType {
     Speed = 'speed',
@@ -65,7 +64,7 @@ class EnemyFactory {
             case EnemyType.Gold:
                 return new GoldBalloonModel(position, health, score, enemyData);
             case EnemyType.Pigeon:
-                return new PigeonModel(position, health, score, enemyData, Game.instance.player.position);
+                return new PigeonModel(position, health, score);
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

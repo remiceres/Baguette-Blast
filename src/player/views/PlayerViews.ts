@@ -1,38 +1,93 @@
-import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Quaternion, TargetCamera, Vector3 } from '@babylonjs/core';
 import Game from '../../game/Game';
 
 class PlayerView {
-    public _playerMesh: Mesh;
+    private _headHitbox: Mesh;
+    private _bodyHitbox: Mesh;
 
-    constructor() {
+    private _playerCamera: TargetCamera;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor() {
+        this._playerCamera = Game.instance.cameraManager.playerCamera;
         this._initializePlayerMesh();
     }
 
-    set position(value: Vector3) {
-        // this._playerMesh.setAbsolutePosition(value);
-        Game.instance.cameraManager.playerCamera.position = value;
-    }
-
-    get position(): Vector3 {
-        return this._playerMesh.position;
-    }
-
     private _initializePlayerMesh(): void {
-        // Create a simple box to represent the player
-        this._playerMesh = MeshBuilder.CreateBox('player', { size: 1 }, Game.instance.scene);
-        this._playerMesh.parent = Game.instance.cameraManager.playerCamera;
+        // Create head mesh
+        this._headHitbox = MeshBuilder.CreateBox(
+            'player_head_HitBox',
+            { width: 0.4, height: 0.4, depth: 0.025 },
+            Game.instance.scene
+        );
 
-        // Applying a basic color to the player mesh
-        const material = new StandardMaterial('playerMaterial', Game.instance.scene);
-        material.diffuseColor = new Color3(1, 0, 0); // Red color
-        this._playerMesh.material = material;
+        // Create body mesh
+        this._bodyHitbox = MeshBuilder.CreateBox(
+            'player_body_HitBox',
+            { width: 0.55, height: 0.6, depth: 0.3 },
+            Game.instance.scene
+        );
+
+        // Set position
+        this._headHitbox.parent = this._playerCamera;
+
+        const bodyOffset = new Vector3(0, -0.42, -0.1);
+        this._bodyHitbox.position = bodyOffset;
 
         // Set visibile
-        this._playerMesh.isVisible = true;
+        this._headHitbox.isVisible = true;
     }
 
+    /////////////////////
+    // Getters/Setters //
+    /////////////////////
+
+    public set position(value: Vector3) {
+        this._playerCamera.position = value;
+    }
+
+    public get position(): Vector3 {
+        return this._headHitbox.position;
+    }
+
+    public get headHitbox(): Mesh {
+        return this._headHitbox;
+    }
+
+    public get bodyHitbox(): Mesh {
+        return this._bodyHitbox;
+    }
+
+    ////////////
+    // Update //
+    ////////////
+
+    public update(): void {
+        // Down of body always parallel to the ground
+        const headRotationQuaternion = Quaternion.FromRotationMatrix(this._headHitbox.getWorldMatrix());
+        const headYaw = headRotationQuaternion.toEulerAngles().y;
+        const bodyRotation = Quaternion.FromEulerAngles(0, headYaw, 0);
+        this._bodyHitbox.rotationQuaternion = bodyRotation;
+
+        const bodyOffset = new Vector3(0, -0.42, -0.1);
+        const rotatedBodyOffset = bodyOffset.rotateByQuaternionAroundPointToRef(
+            headRotationQuaternion,
+            Vector3.Zero(),
+            new Vector3()
+        );
+
+        this._bodyHitbox.setAbsolutePosition(this._headHitbox.getAbsolutePosition().add(rotatedBodyOffset));
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
+
     public dispose(): void {
-        this._playerMesh.dispose();
+        this._headHitbox.dispose();
     }
 }
 

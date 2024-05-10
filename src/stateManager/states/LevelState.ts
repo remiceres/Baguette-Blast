@@ -1,6 +1,8 @@
 import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
 // import Gravity from '../../behaviors/Gravity';
+import AttractEnemy from '../../behaviors/AttractEnemy';
+import Gravity from '../../behaviors/Gravity';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
@@ -18,8 +20,6 @@ import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import Gravity from '../../behaviors/Gravity';
-import AttractEnemy from '../../behaviors/AttractEnemy';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
@@ -85,11 +85,13 @@ class LevelState implements StateInterface {
 
     private _initPlayerController(): void {
         this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
-        this._playerController.health = this._levelData?.player?.health || 100;
-        this._playerController.position = new Vector3(
-            this._levelData?.player?.position.x,
-            this._levelData?.player?.position.y,
-            this._levelData?.player?.position.z
+        this._playerController.resetHealth(this._levelData?.player?.health || 100);
+        this._playerController.teleport(
+            new Vector3(
+                this._levelData?.player?.position.x,
+                this._levelData?.player?.position.y,
+                this._levelData?.player?.position.z
+            )
         );
 
         // TODO : Add behavior in json file /////////////////////////////////////////////////
@@ -111,7 +113,7 @@ class LevelState implements StateInterface {
         const weaponController = new GunController(weaponModel, weaponView);
         weaponController.projectile = projectile;
 
-        this._playerController.setWeapon('right', weaponController);
+        this._playerController.giveWeapon('right', weaponController);
     }
 
     public async init(): Promise<void> {

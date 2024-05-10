@@ -1,19 +1,26 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import InputManager from '../../inputs/InputManager';
+import ProjectileController from '../../projectile/controllers/ProjectileController';
+import WeaponController from '../../weapon/controllers/WeaponController';
 import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
-import WeaponController from '../../weapon/controllers/WeaponController';
-import EnemyController from '../../enemy/controllers/EnemyController';
 
-class PlayerController implements ICollider{
+class PlayerController implements ICollider {
+    // Mvc
     private _model: PlayerModel;
     private _view: PlayerView;
 
+    // Inputs
     private _inputManager: InputManager;
     private _leftHand: AbstractMesh;
     private _rightHand: AbstractMesh;
+
+    /////////////////
+    // Constructor //
+    /////////////////
 
     constructor(model: PlayerModel, view: PlayerView) {
         this._model = model;
@@ -24,40 +31,52 @@ class PlayerController implements ICollider{
         this._rightHand = Game.instance.inputManager.rightAnchor;
     }
 
-    collidesWith(other: ICollider): boolean {
+    ///////////////
+    // Collision //
+    ///////////////
+
+    public collidesWith(other: ICollider): boolean {
+        // Check if player is hit by enemy
         if (other instanceof EnemyController) {
-            if (other.model.hitbox.intersectsMesh(this._view._playerMesh)) {
-                console.log('Player hit by enemy');
+            // Head hitbox
+            if (other.model.hitbox.intersectsMesh(this._view.headHitbox)) {
+                return true;
+            }
+
+            // Body hitbox
+            if (other.model.hitbox.intersectsMesh(this._view.bodyHitbox)) {
                 return true;
             }
         }
+
+        // Check if player is hit by projectile
+        // TODO: Implement projectile collision
+
         return false;
     }
 
-    onCollision(other: ICollider): void {
-        // console.log('onCollision');
+    public onCollision(other: ICollider): void {
         if (other instanceof EnemyController) {
-            console.log('Player hit by enemy');
-            this._model.health -= 1;
-            console.log('Player health:', this._model.health);
-            Game.instance.inputManager.vibrateController('left', 0.5, 0.5, 100);
+            // TODO: Define what happens when player is hit by enemy
+        } else if (other instanceof ProjectileController) {
+            // TODO: Define what happens when player is hit by projectile
         }
+
         return;
     }
 
-    // TODO: Redondance avec les if a voir si on peut pas faire autrement
-    setWeapon(hand: 'left' | 'right', weapon: WeaponController): void {
-        if (hand === 'left') {
-            this._model.weaponLeft = weapon;
-            this._model.weaponLeft.grab(this._leftHand);
-        } else {
-            this._model.weaponRight = weapon;
-            this._model.weaponRight.grab(this._rightHand);
-        }
-    }
+    //////////////////
+    // Weapon Logic //
+    //////////////////
 
-    get view(): PlayerView {
-        return this._view;
+    public giveWeapon(hand: 'left' | 'right', weapon: WeaponController): void {
+        // Determine which weapon and hand to use
+        const key = hand === 'left' ? 'weaponLeft' : 'weaponRight';
+        const handObject = hand === 'left' ? this._leftHand : this._rightHand;
+
+        // Assign the weapon and grab it with the appropriate hand
+        this._model[key] = weapon;
+        this._model[key].grab(handObject);
     }
 
     get weaponLeft(): WeaponInterface {
@@ -68,38 +87,54 @@ class PlayerController implements ICollider{
         return this._model.weaponRight;
     }
 
-    get health(): number {
-        return this._model.health;
-    }
+    //////////////
+    // Teleport //
+    //////////////
 
-    set health(health: number) {
-        this._model.health = health;
-    }
-
-    set position(position: Vector3) {
+    public teleport(position: Vector3): void {
         this._view.position = position;
     }
 
-    get position(): Vector3 {
-        return this._view.position;
+    ////////////
+    // health //
+    ////////////
+
+    public get health(): number {
+        return this._model.health;
     }
+
+    public resetHealth(value: number) {
+        this._model.health = value;
+    }
+
+    //////////////
+    // Hitboxes //
+    //////////////
+
+    public get headHitbox(): AbstractMesh {
+        return this._view.headHitbox;
+    }
+
+    public get bodyHitbox(): AbstractMesh {
+        return this._view.bodyHitbox;
+    }
+
+    ////////////
+    // Update //
+    ////////////
 
     public update(deltaTime: number): void {
-        deltaTime;
+        // Check conditions and fire weapons if necessary
+        this._triggerWeapons();
 
-        this._fireWeapon();
+        // Update weapons
+        this._updateWeapons(deltaTime);
 
-        
-        if (this._model.weaponLeft) {
-            this._model.weaponLeft.update(deltaTime);
-        }
-        
-        if (this._model.weaponRight) {
-            this._model.weaponRight.update(deltaTime);
-        }
+        // Update player view
+        this._view.update();
     }
 
-    private _fireWeapon(): void {
+    private _triggerWeapons(): void {
         // Fire weapon on right hand
         if (this._inputManager.rightPrimary.pressed && this._model.weaponRight) {
             this._model.weaponRight.fire();
@@ -109,6 +144,20 @@ class PlayerController implements ICollider{
             this._model.weaponLeft.fire();
         }
     }
+
+    private _updateWeapons(deltaTime: number): void {
+        if (this._model.weaponLeft) {
+            this._model.weaponLeft.update(deltaTime);
+        }
+
+        if (this._model.weaponRight) {
+            this._model.weaponRight.update(deltaTime);
+        }
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
 
     public dispose(): void {
         this._view.dispose();
