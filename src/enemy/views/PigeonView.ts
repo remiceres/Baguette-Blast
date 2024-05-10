@@ -14,10 +14,9 @@ class PigeonView extends BalloonView {
     createMesh(): void {
         this._mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, this._scene);
         const material = new StandardMaterial('enemyMaterial', this._scene);
-        material.diffuseColor = new Color3(1, 0, 0); // Red color for the enemy
+        material.diffuseColor = new Color3(1, 0, 0); 
         this._mesh.material = material;
-
-        this._mesh.metadata = {};
+        this._mesh.position = this._model.position;
     }
 }
 export default PigeonView;

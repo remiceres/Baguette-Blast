@@ -134,7 +134,6 @@ class Game {
     }
 
     private async _initAudio() {
-        // this.audioManager._debug = true;
         this._audioManager = new AudioManager();
         await this._audioManager.initAudio();
         this._audioManager.playMusic('theme');

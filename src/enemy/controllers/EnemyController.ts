@@ -16,6 +16,9 @@ class EnemyController implements ICollider {
     }
 
     collidesWith(other: ICollider): boolean {
+        if (other instanceof EnemyController) {
+            return ;
+        }
         // console.log('Enemy collides with', other, this);
         return;
     }
@@ -45,10 +48,6 @@ class EnemyController implements ICollider {
         // Position the hitbox at the center of the bounding box
         hitbox.position = boundingBox.center;
         hitbox.parent = this._view._mesh;
-        
-        // Make it red for debug
-        // hitbox.material = new StandardMaterial('hitboxMaterial', Game.instance.scene);
-        // (hitbox.material as StandardMaterial).diffuseColor = new Color3(1, 0, 0);
 
         // Make it invisible
         hitbox.isVisible = false;

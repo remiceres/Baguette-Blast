@@ -15,12 +15,8 @@ class AudioManager {
         this._audioContext = new AudioContext();
         this._currentTrack = null;
         this._audioBuffers = {};
-        this._musicVolume = 0.2;
-        this._effectsVolume = 0.3;
-        if (this._debug) {
-            this._musicVolume = 0;
-            this._effectsVolume = 0;
-        }
+        this._musicVolume = 0;
+        this._effectsVolume = 0;
     }
 
     async initAudio(): Promise<void> {

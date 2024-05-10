@@ -139,15 +139,6 @@ class LevelState implements StateInterface {
 
         // Initialize enemies wave
         this._initWave();
-
-        // if (this._levelData?.enemies) {
-        //     this._enemiesController.push(...this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
-        //     this._enemiesController.forEach((enemyController) => {
-        //         this._collisionManager.addCollider(enemyController);
-        //     });
-        // } else {
-        //     console.log('No enemies found in the level data.');
-        // }
     }
 
     private _initWave(): void {
@@ -165,11 +156,11 @@ class LevelState implements StateInterface {
             this._enemiesController.push(...currentWave.enemies.map(enemy => EnemyFactory.createEnemy(enemy)));
             this._enemiesController.forEach(enemyController => {
                 Game.instance.collisionManager.addCollider(enemyController);
-                console.log('Enemy added:', enemyController);
             });
     
             // Update the global count of enemies left
             Game.instance.enemiesLeft = this._enemiesController.length;
+            console.log('Enemies left:', Game.instance.enemiesLeft);
         } else {
             console.log('No more waves found or wave index out of bounds.');
         }
@@ -181,6 +172,7 @@ class LevelState implements StateInterface {
             this._initWave();
         } else {
             console.log('No more waves to advance to.');
+            this.dispose();
         }
     }
     
@@ -221,6 +213,11 @@ class LevelState implements StateInterface {
         //     elimination.dispose();
         // }
         Game.instance.collisionManager.checkCollisions();
+
+        // Check if all enemies are dead
+        if (Game.instance.enemiesLeft === 0) {
+            this._advanceToNextWave();
+        }
     }
 }
 
