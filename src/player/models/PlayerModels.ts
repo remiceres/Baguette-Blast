@@ -28,10 +28,6 @@ class PlayerModel {
     get health(): number {
         return this._health;
     }
-
-    update(deltaTime: number): void {
-        deltaTime;
-    }
 }
 
 export default PlayerModel;
