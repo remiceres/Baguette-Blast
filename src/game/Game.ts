@@ -11,6 +11,7 @@ import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import TimeControl from './controllers/TimeControl';
 import PlayerController from '../player/controllers/PlayerController';
+import CollisionManager from './controllers/CollisionManager';
 // import { Inspector } from '@babylonjs/inspector';
 
 /**
@@ -60,6 +61,10 @@ class Game {
 
     public _player: PlayerController;
 
+    private _enemiesLeft: number;
+
+    private _collisionManager: CollisionManager;
+
     /**
      * The constructor is private to ensure the Game class is a singleton.
      * It initializes the engine, scene, state manager, input systems, and other necessary components.
@@ -82,6 +87,7 @@ class Game {
             this._debugConsole = new DebugConsole(this._scene);
             this._initAssets();
             this._render();
+            this._collisionManager = new CollisionManager();
             // Inspector.Show(Game.instance.scene, {});
         });
     }
@@ -207,12 +213,29 @@ class Game {
         return this._player;
     }
 
+    public get enemiesLeft(): number {
+        return this._enemiesLeft;
+    }
+
+    public get collisionManager(): CollisionManager {
+        return this._collisionManager;
+    }
+
+    // Setters
     public set audioManager(audioManager: AudioManager) {
         this._audioManager = audioManager;
     }
 
     public set player(player: PlayerController) {
         this._player = player;
+    }
+
+    public set enemiesLeft(enemiesLeft: number) {
+        this._enemiesLeft = enemiesLeft;
+    }
+
+    public set collisionManager(collisionManager: CollisionManager) {
+        this._collisionManager = collisionManager;
     }
 }
 

@@ -3,10 +3,17 @@ import ProjectileController from '../../projectile/controllers/ProjectileControl
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
 import WeaponInterface from '../WeaponIInterface';
+import ProjectileView from '../../projectile/views/ProjectileView';
+import ProjectileModel from '../../projectile/models/ProjectileModel';
+import IBehaviour from '../../behaviors/IBehaviour';
+import Gravity from '../../behaviors/Gravity';
+import Game from '../../game/Game';
 
 abstract class WeaponController implements WeaponInterface {
     protected _model: WeaponModel;
     protected _view: WeaponView;
+    private _behaviours: IBehaviour[] = [];
+    private _projectiles: ProjectileController[] = [];
 
     constructor(model: WeaponModel, view: WeaponView) {
         this._model = model;
@@ -15,10 +22,6 @@ abstract class WeaponController implements WeaponInterface {
 
     public set projectile(projectile: ProjectileController) {
         this._model.projectile = projectile;
-    }
-
-    public getProjectiles(): AbstractMesh[] {
-        return this._model.projectile.getProjectiles();
     }
 
     public fire(): void {
@@ -39,11 +42,24 @@ abstract class WeaponController implements WeaponInterface {
         // Fire
         this._model.timeSinceLastShot = 0;
         this._model.durability--;
-        const position = this._model.parent.getAbsolutePosition();
+        const position = this._model.parent.getAbsolutePosition().clone();
 
         // Eloigne du joueur
-        const initialForceVector = this._getInitialForce();
-        this._model.projectile.createNewInstance(position, initialForceVector);
+        const speedVector = this._getInitialForce();
+
+        this._behaviours = [];
+        this._behaviours.push(new Gravity(25));
+
+        // Create a new projectile
+        const projectileModel = new ProjectileModel(position, speedVector);
+        const projectileView = new ProjectileView();
+        const projectileController = new ProjectileController(projectileView, projectileModel, this._behaviours);
+        
+        // Add to projectile list
+        this._projectiles.push(projectileController);
+
+        // Add to collider
+        Game.instance.collisionManager.addCollider(projectileController);
     }
 
     protected abstract _getInitialForce(): Vector3;
@@ -66,8 +82,9 @@ abstract class WeaponController implements WeaponInterface {
 
         // Update projectile if grap
         if (this._model.isGrabed) {
-            // TODO: To move out of the condition to avoid freeze
-            this._model.projectile.update(deltaTime);
+            this._projectiles.forEach((projectile) => {
+                projectile.update(deltaTime);
+            });
         }
     }
 

@@ -28,6 +28,7 @@ class AssetsLoader {
             'BallonBronze',
             'BallonSilver',
             'BallonGold',
+            'Bullet',
         ];
 
         modelNames.forEach((name) => {
@@ -161,6 +162,27 @@ class AssetsLoader {
         mesh.isVisible = true;
         this._ballonGoldCount++;
         return mesh;
+    }
+
+    // Bulet
+    private _bulletCount: number = 0;
+    public getBulletMesh(): InstancedMesh {
+        const instance = this._createInstanceRecursive(
+            this._dictModels.get('Bullet'),
+            'bullet',
+            this._bulletCount
+        );
+        // Small
+        instance.scaling = new Vector3(0.1, 0.1, 0.1);
+
+        this._bulletCount++;
+        
+        // Create a new instance of the projectile and set its position and direction.
+        // const instance = this._view.mesh.createInstance('projectile_instance');
+        // instance.position = origin.clone();
+        instance.isVisible = true;
+        
+        return instance;
     }
 
     private _createInstanceRecursive(mesh: Mesh, name: string, count: number, parent?: InstancedMesh): InstancedMesh {

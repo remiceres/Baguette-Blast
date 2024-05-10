@@ -79,6 +79,11 @@ class BaseEnemyModel {
         // console.log(this.position);
         // Base update logic (if any)
     }
+
+    dispose(): void {
+        // if behaviours have a dispose method, call it
+        this._behaviours = [];
+    }
 }
 
 export default BaseEnemyModel;

@@ -1,29 +1,30 @@
-import { Mesh, MeshBuilder } from '@babylonjs/core';
+import { InstancedMesh } from '@babylonjs/core';
 import Game from '../../game/Game';
 
 class ProjectileView {
-    private _mesh: Mesh;
+    private _mesh: InstancedMesh;
 
     constructor() {
         this._init();
+        this._mesh = Game.instance.assetManager.getBulletMesh();
     }
 
     private _init(): void {
-        this._mesh = MeshBuilder.CreateSphere('ball_ref', { diameter: 0.25 }, Game.instance.scene);
-        this._mesh.isVisible = false;
-        this._mesh.isPickable = false;
     }
 
-    public get mesh(): Mesh {
+    public get mesh(): InstancedMesh {
         return this._mesh;
     }
 
-    public set mesh(mesh: Mesh) {
+    public set mesh(mesh: InstancedMesh) {
         this._mesh = mesh;
     }
 
     public dispose(): void {
         this._mesh.dispose();
+    }
+
+    public update(): void {
     }
 }
 export default ProjectileView;

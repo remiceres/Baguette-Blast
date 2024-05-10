@@ -1,7 +1,3 @@
-import EnemyController from '../../enemy/controllers/EnemyController';
-import BaseEnemyView from '../../enemy/views/BaseEnemyView';
-import PlayerController from '../../player/controllers/PlayerController';
-
 class CollisionManager {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private _colliders: any[];
@@ -12,7 +8,6 @@ class CollisionManager {
 
     addCollider(collider) {
         this._colliders.push(collider);
-        console.log(this._colliders);
     }
 
     removeCollider(collider) {
@@ -21,7 +16,7 @@ class CollisionManager {
 
     checkCollisions() {
         for (let i = 0; i < this._colliders.length; i++) {
-            for (let j = i + 1; j < this._colliders.length; j++) {
+            for (let j = 0; j < this._colliders.length; j++) {
                 if (this._colliders[i].collidesWith(this._colliders[j])) {
                     this._colliders[i].onCollision(this._colliders[j]);
                     this._colliders[j].onCollision(this._colliders[i]);
@@ -30,35 +25,12 @@ class CollisionManager {
         }
     }
 
-    // Temporary method to check for collisions between the ball and the enemies
-    checkForCollisions(ball): EnemyController | PlayerController | null{
-        let collided = null;
-        // this._views.forEach(view => {
-        this._colliders.forEach((controller) => {
-            if (controller.view instanceof BaseEnemyView) {
-                ball.getProjectiles().forEach((projectile) => {
-                    if (projectile.intersectsMesh(controller.model.hitbox, true)) {
-                        // Notify the EnemyController about the collision
-                        // view.controller.notifyCollision(projectile);
-                        // console.log('Collision detected');
-                        // Dirty hack to remove the projectile and the enemy
-                        // TODO: Remove the projectile and the enemy properly
-                        // To do so I think we need a class that handles the collision
-                        // controller.dispose();
-                        // Remove the controller from the array
-                        const index = this._colliders.indexOf(controller);
-                        if (index > -1) {
-                            this._colliders.splice(index, 1);
-                        }
+    get colliders() {
+        return this._colliders;
+    }
 
-                        projectile.dispose();
-                        // Return the collided enemy
-                        collided = controller;
-                    }
-                });
-            } 
-        });
-        return collided;
+    set colliders(colliders) {
+        this._colliders = colliders;
     }
 }
 export default CollisionManager;

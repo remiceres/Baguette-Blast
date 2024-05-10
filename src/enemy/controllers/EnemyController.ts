@@ -1,6 +1,5 @@
 import { MeshBuilder, Vector3 } from '@babylonjs/core';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
-import ProjectileController from '../../projectile/controllers/ProjectileController';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
 import Game from '../../game/Game';
@@ -17,16 +16,16 @@ class EnemyController implements ICollider {
     }
 
     collidesWith(other: ICollider): boolean {
-        if (other instanceof ProjectileController) {
-            console.log('collidesWith');
-            return true;
-        }
+        // console.log('Enemy collides with', other, this);
         return;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollision(other: ICollider): void {
-        return;
+        // if (other instanceof ProjectileController) {
+        //     // dispose
+        //     other.dispose();
+        // }
     }
 
     createHitbox(): void {
@@ -60,9 +59,11 @@ class EnemyController implements ICollider {
     dispose(): void {
         this._view.onKill();
         this.view.dispose();
+        this._model.dispose();
         if (this._bonusController) {
             this._bonusController.dispose();
         }
+        Game.instance.enemiesLeft--;
     }
 
     update(deltaTime: number): void {

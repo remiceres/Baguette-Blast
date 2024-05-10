@@ -4,15 +4,14 @@ import IBehaviour from '../../behaviors/IBehaviour';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
-import CollisionManager from '../../game/controllers/CollisionManager';
 import GameManager from '../../game/controllers/GameManager';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
 import PlayerModel from '../../player/models/PlayerModels';
 import PlayerView from '../../player/views/PlayerViews';
-import ProjectileController from '../../projectile/controllers/ProjectileController';
-import ProjectileView from '../../projectile/views/ProjectileView';
+// import ProjectileController from '../../projectile/controllers/ProjectileController';
+// import ProjectileView from '../../projectile/views/ProjectileView';
 import GunController from '../../weapon/controllers/GunController';
 import GunModel from '../../weapon/models/GunModel';
 import GunView from '../../weapon/views/GunView';
@@ -20,15 +19,17 @@ import State from '../EnumState';
 import StateInterface from './StateInterface';
 import Gravity from '../../behaviors/Gravity';
 import AttractEnemy from '../../behaviors/AttractEnemy';
+// import ProjectileModel from '../../projectile/models/ProjectileModel';
 
 class LevelState implements StateInterface {
     private _levelNumber: number;
     private _levelData?: LevelData;
-    private _collisionManager: CollisionManager;
+    // private _collisionManager: CollisionManager;
     private _playerController: PlayerController;
     private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
     private _score: number;
+    private _currentWaveIndex: number = 0;
 
     constructor(levelNumber: number) {
         this._setLevelNumber(levelNumber);
@@ -41,7 +42,7 @@ class LevelState implements StateInterface {
                 // Handle errors here
                 console.error('Cannot load level data:', error);
             });
-        this._collisionManager = new CollisionManager();
+        // this._collisionManager = new CollisionManager();
     }
 
     private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
@@ -99,7 +100,7 @@ class LevelState implements StateInterface {
         // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
         //////////////////////////////////////////////////////////////////////////////////////
 
-        const projectile = new ProjectileController(new ProjectileView(), behaviors);
+        // const projectile = new ProjectileController(new ProjectileView(), new ProjectileModel(), behaviors);
 
         const weaponView = new GunView();
         const weaponModel = new GunModel(
@@ -109,7 +110,7 @@ class LevelState implements StateInterface {
         );
         // const weaponController = new HandController(weaponModel, weaponView);
         const weaponController = new GunController(weaponModel, weaponView);
-        weaponController.projectile = projectile;
+        // weaponController.projectile = projectile;
 
         this._playerController.setWeapon('right', weaponController);
     }
@@ -128,28 +129,64 @@ class LevelState implements StateInterface {
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
             this._initPlayerController();
-            this._collisionManager.addCollider(this._playerController);
+            Game.instance.collisionManager.addCollider(this._playerController);
             Game.instance.player = this._playerController;
         }
 
         // Init score
         this._score = 0;
 
-        if (this._levelData?.enemies) {
-            this._enemiesController.push(...this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
-            this._enemiesController.forEach((enemyController) => {
-                this._collisionManager.addCollider(enemyController);
-            });
-        } else {
-            console.log('No enemies found in the level data.');
-        }
+        // Initialize enemies wave
+        this._initWave();
+
+        // if (this._levelData?.enemies) {
+        //     this._enemiesController.push(...this._levelData.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
+        //     this._enemiesController.forEach((enemyController) => {
+        //         this._collisionManager.addCollider(enemyController);
+        //     });
+        // } else {
+        //     console.log('No enemies found in the level data.');
+        // }
     }
 
+    private _initWave(): void {
+        if (this._levelData?.waves && this._levelData.waves.length > this._currentWaveIndex) {
+            const currentWave = this._levelData.waves[this._currentWaveIndex];
+    
+            // Clear existing enemies from the previous wave
+            this._enemiesController.forEach(enemyController => {
+                Game.instance.collisionManager.removeCollider(enemyController);
+                enemyController.dispose(); // Assuming destroy cleans up properly
+            });
+            this._enemiesController = []; // Reset the enemies controller list
+    
+            // Create and add new enemies for the current wave
+            this._enemiesController.push(...currentWave.enemies.map(enemy => EnemyFactory.createEnemy(enemy)));
+            this._enemiesController.forEach(enemyController => {
+                Game.instance.collisionManager.addCollider(enemyController);
+                console.log('Enemy added:', enemyController);
+            });
+    
+            // Update the global count of enemies left
+            Game.instance.enemiesLeft = this._enemiesController.length;
+        } else {
+            console.log('No more waves found or wave index out of bounds.');
+        }
+    }
+    
+    private _advanceToNextWave(): void {
+        if (this._currentWaveIndex < this._levelData.waves.length - 1) {
+            this._currentWaveIndex++;
+            this._initWave();
+        } else {
+            console.log('No more waves to advance to.');
+        }
+    }
+    
     public dispose(): void {
         this._cubeMenu.dispose();
         this._enemiesController.forEach((enemy) => enemy.dispose());
         this._enemiesController = [];
-        this._playerController.weaponRight.getProjectiles().forEach((projectile) => projectile.dispose());
         this._playerController.dispose();
         Game.instance.audioManager.switchTrackSmoothly('theme');
         Game.instance.player = null;
@@ -182,7 +219,7 @@ class LevelState implements StateInterface {
         //     }
         //     elimination.dispose();
         // }
-        this._collisionManager.checkCollisions();
+        Game.instance.collisionManager.checkCollisions();
     }
 }
 

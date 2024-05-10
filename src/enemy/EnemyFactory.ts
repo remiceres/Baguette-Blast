@@ -96,7 +96,8 @@ class EnemyFactory {
                 controller.bonusController = new BaseBonusController(new ScoreBonus(), new TimeBonusView());
                 break;
             default:
-                throw new Error(`Unsupported behavior type: ${bonusData.type}`);
+                console.log(`Unsupported behavior type: ${bonusData.type}`);
+                // throw new Error(`Unsupported behavior type: ${bonusData.type}`);
                 break;
         }
     }

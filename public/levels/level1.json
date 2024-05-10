@@ -12,178 +12,187 @@
             "z": 3.89444
         }
     },
-    "enemies": [
-        
-    {
-        "type": "copper",
-        "health": 10,
-        "position": {
-            "x": -15.724,
-            "y": 4.235,
-            "z": -4.398
+    "waves": [
+        {
+            "wave": 1,
+            "enemies": [
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": -15.724,
+                        "y": 4.235,
+                        "z": -4.398
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2,
+                        "speed": 10
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": -29.413,
+                        "y": 8.111,
+                        "z": 3.768
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 4,
+                        "speed": 20
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 8.921,
+                        "y": 4.482,
+                        "z": 10.125
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2,
+                        "speed": 15
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": -34.272,
+                        "y": 5.557,
+                        "z": -2.079
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2,
+                        "speed": 10
+                    }
+                },
+                {
+                    "type": "silver",
+                    "health": 10,
+                    "position": {
+                        "x": 24.609,
+                        "y": 7.113,
+                        "z": 4.365
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 5,
+                        "speed": 30
+                    }
+                }
+            ]
         },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2,
-            "speed": 10
+        {
+            "wave": 2,
+            "enemies": [
+                {
+                    "type": "copper",
+                    "health": 10,
+                    "position": {
+                        "x": -8.974,
+                        "y": 10.001,
+                        "z": 9.563
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2.9,
+                        "speed": 10
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 13.269,
+                        "y": 3.757,
+                        "z": -1.793
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2,
+                        "speed": 10
+                    }
+                },
+                {
+                    "type": "silver",
+                    "health": 10,
+                    "position": {
+                        "x": -23.998,
+                        "y": 9.42,
+                        "z": 7.227
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 4,
+                        "speed": 30
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 18.167,
+                        "y": 5.891,
+                        "z": -3.119
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2.5,
+                        "speed": 10
+                    }
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": -39.121,
+                        "y": 7.312,
+                        "z": 6.447
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behavior": {
+                        "type": "floating",
+                        "range": 2,
+                        "speed": 20
+                    }
+                }
+            ]
         }
-    },
-    {
-        "type": "silver",
-        "health": 10,
-        "position": {
-            "x": -29.413,
-            "y": 8.111,
-            "z": 3.768
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 4,
-            "speed": 20
-        }
-    },
-    {
-        "type": "copper",
-        "health": 10,
-        "position": {
-            "x": 8.921,
-            "y": 4.482,
-            "z": 10.125
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2,
-            "speed": 15
-        }
-    },
-    {
-        "type": "copper",
-        "health": 10,
-        "position": {
-            "x": -34.272,
-            "y": 5.557,
-            "z": -2.079
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2,
-            "speed": 10
-        }
-    },
-    {
-        "type": "silver",
-        "health": 10,
-        "position": {
-            "x": 24.609,
-            "y": 7.113,
-            "z": 4.365
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 5,
-            "speed": 30
-        }
-    },
-    {
-        "type": "copper",
-        "health": 10,
-        "position": {
-            "x": -8.974,
-            "y": 10.001,
-            "z": 9.563
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2.9,
-            "speed": 10
-        }
-    },
-    {
-        "type": "pigeon",
-        "health": 10,
-        "position": {
-            "x": 13.269,
-            "y": 3.757,
-            "z": -1.793
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2,
-            "speed": 10
-        }
-    },
-    {
-        "type": "silver",
-        "health": 10,
-        "position": {
-            "x": -23.998,
-            "y": 9.42,
-            "z": 7.227
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 4,
-            "speed": 30
-        }
-    },
-    {
-        "type": "copper",
-        "health": 10,
-        "position": {
-            "x": 18.167,
-            "y": 5.891,
-            "z": -3.119
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2.5,
-            "speed": 10
-        }
-    },
-    {
-        "type": "silver",
-        "health": 10,
-        "position": {
-            "x": -39.121,
-            "y": 7.312,
-            "z": 6.447
-        },
-        "bonus": {
-            "type": "score"
-        },
-        "behavior": {
-            "type": "floating",
-            "range": 2,
-            "speed": 20
-        }
-    }
     ],
     "game": {
         "time": 60,

@@ -43,9 +43,14 @@ interface GameData {
     score: number;
 }
 
+interface Wave {
+    waveNumber: number;  // Optionally added for clearer wave tracking
+    enemies: EnemyData[];
+}
+
 interface LevelData {
     player: PlayerData;
-    enemies: EnemyData[];
+    waves: Wave[];
     game: GameData;
 }
 
