@@ -55,7 +55,6 @@ class EnemyController implements ICollider {
         if (this._bonusController) {
             this._bonusController.dispose();
         }
-        Game.instance.enemiesLeft--;
     }
 
     update(deltaTime: number): void {

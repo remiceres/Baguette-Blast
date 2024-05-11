@@ -12,7 +12,7 @@ class CopperBalloonView extends BalloonView {
     }
 
     createMesh(): void {
-        this._mesh = Game.instance.assetManager.getBalloonBronzeMesh();
+        this._mesh = Game.instance.assetManager.getBalloonBronzeInstance();
         this._mesh.setEnabled(true);
         this._mesh.position = this._model.position;
         this._mesh.metadata = {};

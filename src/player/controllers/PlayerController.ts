@@ -87,6 +87,19 @@ class PlayerController implements ICollider {
         return this._model.weaponRight;
     }
 
+    ///////////
+    // Reset //
+    ///////////
+
+    public reset(): void {
+        // Reset player health
+        this._model.health = 100;
+
+        // Reset player weapons
+        this._model.weaponLeft = null;
+        this._model.weaponRight = null;
+    }
+
     //////////////
     // Teleport //
     //////////////
@@ -103,7 +116,7 @@ class PlayerController implements ICollider {
         return this._model.health;
     }
 
-    public resetHealth(value: number) {
+    public set health(value: number) {
         this._model.health = value;
     }
 

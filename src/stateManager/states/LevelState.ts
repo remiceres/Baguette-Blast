@@ -10,8 +10,6 @@ import GameManager from '../../game/controllers/GameManager';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
-import PlayerModel from '../../player/models/PlayerModels';
-import PlayerView from '../../player/views/PlayerViews';
 // import ProjectileController from '../../projectile/controllers/ProjectileController';
 // import ProjectileView from '../../projectile/views/ProjectileView';
 import GunController from '../../weapon/controllers/GunController';
@@ -84,9 +82,9 @@ class LevelState implements StateInterface {
     }
 
     private _initPlayerController(): void {
-        this._playerController = new PlayerController(new PlayerModel(), new PlayerView());
-        this._playerController.resetHealth(this._levelData?.player?.health || 100);
-        this._playerController.teleport(
+        Game.instance.player.reset();
+        Game.instance.player.health = this._levelData?.player?.health || 100;
+        Game.instance.player.teleport(
             new Vector3(
                 this._levelData?.player?.position.x,
                 this._levelData?.player?.position.y,
@@ -113,7 +111,7 @@ class LevelState implements StateInterface {
         const weaponController = new GunController(weaponModel, weaponView);
         // weaponController.projectile = projectile;
 
-        this._playerController.giveWeapon('right', weaponController);
+        Game.instance.player.giveWeapon('right', weaponController);
     }
 
     public async init(): Promise<void> {
@@ -130,8 +128,7 @@ class LevelState implements StateInterface {
     private _initializeLevelData(): void {
         if (this._levelData?.player) {
             this._initPlayerController();
-            Game.instance.collisionManager.addCollider(this._playerController);
-            Game.instance.player = this._playerController;
+            Game.instance.collisionManager.addCollider(Game.instance.player);
         }
 
         // Init score
@@ -159,8 +156,8 @@ class LevelState implements StateInterface {
             });
     
             // Update the global count of enemies left
-            Game.instance.enemiesLeft = this._enemiesController.length;
-            console.log('Enemies left:', Game.instance.enemiesLeft);
+            // Game.instance.enemiesLeft = this._enemiesController.length;
+            // console.log('Enemies left:', Game.instance.enemiesLeft);
         } else {
             console.log('No more waves found or wave index out of bounds.');
         }
@@ -180,14 +177,14 @@ class LevelState implements StateInterface {
         this._cubeMenu.dispose();
         this._enemiesController.forEach((enemy) => enemy.dispose());
         this._enemiesController = [];
-        this._playerController.dispose();
+        Game.instance.player.dispose();
         Game.instance.audioManager.switchTrackSmoothly('theme');
-        Game.instance.player = null;
+        Game.instance.player.dispose();
     }
 
     public update(deltaTime: number): void {
         // Assuming playerController has a method to get current health
-        const playerHealth = this._playerController.health;
+        const playerHealth = Game.instance.player.health;
 
         GameManager.getInstance().update(deltaTime, playerHealth, this._enemiesController);
 
@@ -197,11 +194,11 @@ class LevelState implements StateInterface {
         });
 
         // Update player
-        this._playerController.update(deltaTime);
+        Game.instance.player.update(deltaTime);
 
         // let elimination = null;
         // Check for collisions
-        // elimination = this._collisionManager.checkForCollisions(this._playerController.weaponRight);
+        // elimination = this._collisionManager.checkForCollisions(Game.instance.player.weaponRight);
         // if (elimination) {
         //     // Remove the enemy from the list
         //     const index = this._enemiesController.indexOf(elimination);
@@ -215,9 +212,9 @@ class LevelState implements StateInterface {
         Game.instance.collisionManager.checkCollisions();
 
         // Check if all enemies are dead
-        if (Game.instance.enemiesLeft === 0) {
-            this._advanceToNextWave();
-        }
+        // if (Game.instance.enemiesLeft === 0) {
+        // this._advanceToNextWave();
+        // }
     }
 }
 

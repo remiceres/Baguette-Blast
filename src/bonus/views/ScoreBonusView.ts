@@ -9,7 +9,7 @@ class ScoreBonusView extends BaseBonusView {
 
     createMesh(): void {
         // Create an instance of the BonusScore mesh
-        this._mesh = Game.instance.assetManager.getBonusScoreMesh();
+        this._mesh = Game.instance.assetManager.getBonusScoreInstance();
         this._mesh.setEnabled(true);
     }
 }

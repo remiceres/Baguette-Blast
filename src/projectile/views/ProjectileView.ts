@@ -6,7 +6,7 @@ class ProjectileView {
 
     constructor() {
         this._init();
-        this._mesh = Game.instance.assetManager.getBulletMesh();
+        this._mesh = Game.instance.assetManager.getBulletInstance();
     }
 
     private _init(): void {

@@ -1,18 +1,20 @@
 import { Engine, Scene, WebXRDefaultExperience, WebXRSessionManager } from '@babylonjs/core';
+import { Inspector } from '@babylonjs/inspector';
 import DebugConsole from '../debug/DebugConsole';
 import EnvironmentControllers from '../environment/controllers/EnvironmentControllers';
 import InputManager from '../inputs/InputManager';
 import KeyboardInput from '../inputs/KeyboardInput';
 import QuestInput from '../inputs/QuestInput';
+import PlayerController from '../player/controllers/PlayerController';
+import PlayerModel from '../player/models/PlayerModels';
+import PlayerView from '../player/views/PlayerViews';
 import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
 import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
-import TimeControl from './controllers/TimeControl';
-import PlayerController from '../player/controllers/PlayerController';
 import CollisionManager from './controllers/CollisionManager';
-// import { Inspector } from '@babylonjs/inspector';
+import TimeControl from './controllers/TimeControl';
 
 /**
  * The Game class is the central class of the application.
@@ -22,6 +24,9 @@ import CollisionManager from './controllers/CollisionManager';
  */
 class Game {
     private static _instance: Game;
+
+    // Activate or deactivate debug mode.
+    private _debug = false;
 
     // The Babylon.js engine used for rendering.
     private _engine: Engine;
@@ -57,47 +62,72 @@ class Game {
     private _timeControl: TimeControl;
 
     // A console for displaying debug information.
-    public _debugConsole: DebugConsole;
+    private _debugConsole: DebugConsole;
 
-    public _player: PlayerController;
+    // The player controller.
+    private _player: PlayerController;
 
-    private _enemiesLeft: number;
-
+    // Collision manager.
     private _collisionManager: CollisionManager;
 
-    /**
-     * The constructor is private to ensure the Game class is a singleton.
-     * It initializes the engine, scene, state manager, input systems, and other necessary components.
-     * @param canvas The HTML canvas element to render the game on.
-     */
+    /////////////////
+    // Constructor //
+    /////////////////
+
     private constructor(canvas: HTMLCanvasElement) {
+        // Create the Babylon.js engine.
         this._engine = new Engine(canvas, true);
         window.addEventListener('resize', () => this._engine.resize());
-        this._scene = new Scene(this._engine);
-        this._initAudio();
 
-        this._initializeXR(this._scene).then(() => {
-            this._cameraManager = new CameraManager(this._xr, this._supportedVR);
-            this._inputManager = this._supportedVR
-                ? new QuestInput(this._xr, this._scene)
-                : new KeyboardInput(this._scene);
-            this._stateManager = new StateManager(State.MenuHome);
-            this._environmentControllers = new EnvironmentControllers();
-            this._timeControl = new TimeControl();
-            this._debugConsole = new DebugConsole(this._scene);
-            this._initAssets();
-            this._render();
-            this._collisionManager = new CollisionManager();
-            // Inspector.Show(Game.instance.scene, {});
-        });
+        // Initialize the game components and start the rendering loop.
+        this._init().then(() => this._render());
     }
 
+    private async _init(): Promise<void> {
+        // Create the Babylon.js scene.
+        this._scene = new Scene(this._engine);
+
+        // Initialize the XR experience for VR support.
+        this._supportedVR = await WebXRSessionManager.IsSessionSupportedAsync('immersive-vr');
+
+        if (this._supportedVR) {
+            this._xr = await this._scene.createDefaultXRExperienceAsync({});
+        }
+
+        // Initialize the audio manager.
+        this._audioManager = new AudioManager();
+        await this._audioManager.initialize();
+
+        // Load assets using the asset manager.
+        this._assetManager = new AssetsLoader();
+        await this._assetManager.initialize();
+
+        // Initialize other components of the game.
+        this._cameraManager = new CameraManager(this._xr, this._supportedVR);
+        this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput(this._scene);
+        this._stateManager = new StateManager(State.MenuHome);
+        this._environmentControllers = new EnvironmentControllers();
+        this._timeControl = new TimeControl();
+        this._debugConsole = new DebugConsole();
+        this._collisionManager = new CollisionManager();
+        this._player = new PlayerController(new PlayerModel(), new PlayerView());
+
+        // Debug mode
+        if (this._debug) {
+            Inspector.Show(this._scene, {});
+        }
+    }
+
+    ///////////////
+    // Singleton //
+    ///////////////
+
     /**
-     * Initializes the Game instance. It follows the singleton pattern.
-     * @param canvas The HTML canvas element.
+     * Initializes the Game singleton instance.
+     * @param canvas - The HTML canvas element where the game will be rendered.
      * @returns The Game instance.
      */
-    public static init(canvas: HTMLCanvasElement): Game {
+    public static buildInstance(canvas: HTMLCanvasElement): Game {
         if (!Game._instance) {
             Game._instance = new Game(canvas);
         }
@@ -120,30 +150,9 @@ class Game {
         Game.instance.debugConsole.updateScore(score);
     }
 
-    /**
-     * Initializes the XR experience for VR support.
-     * @param scene The Babylon.js scene.
-     * @returns A promise that resolves when the XR experience is initialized.
-     */
-    private async _initializeXR(scene: Scene): Promise<void> {
-        this._supportedVR = await WebXRSessionManager.IsSessionSupportedAsync('immersive-vr');
-
-        if (this._supportedVR) {
-            this._xr = await scene.createDefaultXRExperienceAsync({});
-        }
-    }
-
-    private async _initAudio() {
-        this._audioManager = new AudioManager();
-        await this._audioManager.initAudio();
-        this._audioManager.playMusic('theme');
-    }
-
-    private _initAssets() {
-        // Initialize the asset manager.
-        this._assetManager = new AssetsLoader();
-        this._assetManager.initialize();
-    }
+    /////////////////
+    // Render loop //
+    /////////////////
 
     /**
      * Renders the scene and manages the game loop.
@@ -159,14 +168,13 @@ class Game {
 
         this._engine.runRenderLoop(() => {
             const currentTime = window.performance.now();
-            const deltaTime = (currentTime - lastTime) / 1000.0;
+            this._timeControl.update();
+            const deltaTime = ((currentTime - lastTime) / 1000.0) * this._timeControl.getTimeScale();
             lastTime = currentTime;
 
-            this.timeControl.update();
-            this._environmentControllers.update(deltaTime);
-
             if (document.visibilityState === 'visible') {
-                this._stateManager.currentState.update(deltaTime * this._timeControl.getTimeScale());
+                this._stateManager.currentState.update(deltaTime);
+                this._environmentControllers.update(deltaTime);
                 this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
                 this._cameraManager.update();
                 this._scene.render();
@@ -174,7 +182,9 @@ class Game {
         });
     }
 
-    // Getters for various components of the game for easy access.
+    /////////////
+    // Getters //
+    /////////////
 
     public get stateManager(): StateManager {
         return this._stateManager;
@@ -212,29 +222,8 @@ class Game {
         return this._player;
     }
 
-    public get enemiesLeft(): number {
-        return this._enemiesLeft;
-    }
-
     public get collisionManager(): CollisionManager {
         return this._collisionManager;
-    }
-
-    // Setters
-    public set audioManager(audioManager: AudioManager) {
-        this._audioManager = audioManager;
-    }
-
-    public set player(player: PlayerController) {
-        this._player = player;
-    }
-
-    public set enemiesLeft(enemiesLeft: number) {
-        this._enemiesLeft = enemiesLeft;
-    }
-
-    public set collisionManager(collisionManager: CollisionManager) {
-        this._collisionManager = collisionManager;
     }
 }
 

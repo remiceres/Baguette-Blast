@@ -1,11 +1,16 @@
 import IBehaviour from '../../behaviors/IBehaviour';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import PlayerController from '../../player/controllers/PlayerController';
 import ProjectileModel from '../models/ProjectileModel';
 import ProjectileView from '../views/ProjectileView';
 
 class ProjectileController implements ICollider {
+
+    // MVC
     private _view: ProjectileView;
     private _model: ProjectileModel;
+
+    // Behaviors
     private _behaviors: IBehaviour[];
 
     /////////////////
@@ -13,10 +18,11 @@ class ProjectileController implements ICollider {
     /////////////////
 
     public constructor(view: ProjectileView, model: ProjectileModel, Behaviors: IBehaviour[]) {
+        // MVC
         this._view = view;
         this._model = model;
-        this.view.mesh.position = this._model.position;
-        this._behaviors = [];
+
+        // Behaviors
         this._behaviors = Behaviors;
     }
 
@@ -25,14 +31,26 @@ class ProjectileController implements ICollider {
     //////////////
 
     public collidesWith(other: ICollider): boolean {
-        // console.log('Projectile collides with', other, this);
+
+        // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
-            // console.log('Other', other);
-            // Check if the projectile is colliding with an enemy
             if (other.view._mesh.intersectsMesh(this.view.mesh)) {
                 return true;
             }
         }
+
+        // Check if the projectile collides with the player
+        else if (other instanceof PlayerController) {
+            if (other.headHitbox.intersectsMesh(this.view.mesh)) {
+                return true;
+            }
+            else if (other.bodyHitbox.intersectsMesh(this.view.mesh)) {
+                return true;
+            }
+        }
+            
+
+        // Otherwise, return false
         return false;
     }
 

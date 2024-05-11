@@ -12,7 +12,7 @@ class SilverBalloonView extends BalloonView {
     }
 
     createMesh(): void {
-        this._mesh = Game.instance.assetManager.getBalloonSilverMesh();
+        this._mesh = Game.instance.assetManager.getBalloonSilverInstance();
         this._mesh.setEnabled(true);
         this._mesh.position = this._model.position;
         this._mesh.metadata = {};

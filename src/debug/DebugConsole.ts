@@ -21,8 +21,8 @@ export default class DebugConsole {
      * Constructor for the DebugConsole class.
      * @param {Scene} scene - The Babylon.js scene where the debug console will be displayed.
      */
-    constructor(scene: Scene) {
-        this._scene = scene;
+    constructor() {
+        this._scene = Game.instance.scene;
         this._log = '';
         this._initializeDebugPanel();
         this._inputManager = Game.instance.inputManager;

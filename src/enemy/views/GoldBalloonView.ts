@@ -12,7 +12,7 @@ class GoldBalloonView extends BalloonView {
     }
 
     createMesh(): void {
-        this._mesh = Game.instance.assetManager.getBalloonGoldMesh();
+        this._mesh = Game.instance.assetManager.getBalloonGoldInstance();
         this._mesh.setEnabled(true);
         this._mesh.position = this._model.position;
         this._mesh.metadata = {};

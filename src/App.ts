@@ -16,4 +16,4 @@ function _initCanvas(): HTMLCanvasElement {
 }
 
 // Initialize the game
-Game.init(_initCanvas());
+Game.buildInstance(_initCanvas());

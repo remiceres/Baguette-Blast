@@ -19,7 +19,7 @@ class AudioManager {
         this._effectsVolume = 0;
     }
 
-    async initAudio(): Promise<void> {
+    async initialize(): Promise<void> {
         const audioUrls = {
             // Music tracks
             theme: '/musics/theme.mp3',
