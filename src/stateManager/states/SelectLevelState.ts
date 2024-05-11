@@ -8,7 +8,7 @@ import StateInterface from './StateInterface';
  * Represents the menu state of the application, handling the initialization,
  * animation, and disposal of the scene's menu elements.
  */
-class MenuState implements StateInterface {
+class SelectLevelState implements StateInterface {
     private _sphere: Mesh;
     private _cubelevel1: Mesh;
     private _cubelevel2: Mesh;
@@ -118,4 +118,4 @@ class MenuState implements StateInterface {
     }
 }
 
-export default MenuState;
+export default SelectLevelState;

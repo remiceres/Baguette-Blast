@@ -2,7 +2,8 @@
  * Enum representing the different states or scenes in the game.
  */
 enum State {
-    MenuHome,
+    Home,
+    SelectLevel,
     Level1,
     Level2,
     Level3,

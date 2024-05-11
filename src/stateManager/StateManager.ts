@@ -1,6 +1,6 @@
 import State from './EnumState';
 import LevelState from './states/LevelState';
-import MenuHomeState from './states/MenuState';
+import PanelState from './states/PanelState';
 import StateInterface from './states/StateInterface';
 
 /**
@@ -17,7 +17,13 @@ class StateManager {
      */
     public constructor(initialState: State) {
         this._states = new Map<State, StateInterface>([
-            [State.MenuHome, new MenuHomeState()],
+            [State.Home, new PanelState(1, 3, 
+                [State.SelectLevel, State.SelectLevel, State.SelectLevel], 
+                ['Select Level', 'Settings', 'Credit'])],
+            [State.SelectLevel, new PanelState(2, 3, 
+                [State.Level4, State.Level5, State.Level6, State.Level1, State.Level2, State.Level3], 
+                ['Level 4', 'Level 5', 'Level 6', 'Level 1', 'Level 2', 'Level 3'])],
+            // [State.SelectLevel, new SelectLevelState()],
             [State.Level1, new LevelState(1)],
             [State.Level2, new LevelState(2)],
             [State.Level3, new LevelState(3)],

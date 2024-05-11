@@ -141,7 +141,6 @@ class AssetsLoader {
         const instance = mesh.createInstance(`${name}$`);
         instance.isVisible = true;
         instance.parent = parent;
-        console.log('instance', instance);
         mesh.getChildMeshes().forEach((child) => {
             if (child instanceof Mesh) {
                 this._createInstanceRecursive(child, name + '_child', instance);
