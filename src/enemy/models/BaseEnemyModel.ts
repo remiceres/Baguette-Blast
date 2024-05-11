@@ -1,5 +1,6 @@
 import { Mesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
+import Game from '../../game/Game';
 
 class BaseEnemyModel {
     private _position: Vector3;
@@ -83,6 +84,13 @@ class BaseEnemyModel {
     dispose(): void {
         // if behaviours have a dispose method, call it
         this._behaviours = [];
+        
+        // Remove the hitbox
+        this._hitbox.dispose();
+
+        // Remove collision detection
+        Game.instance.collisionManager.removeCollider(this);
+
     }
 }
 

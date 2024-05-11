@@ -16,19 +16,12 @@ class EnemyController implements ICollider {
     }
 
     collidesWith(other: ICollider): boolean {
-        if (other instanceof EnemyController) {
-            return ;
-        }
-        // console.log('Enemy collides with', other, this);
-        return;
+        other;
+        return false;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollision(other: ICollider): void {
-        // if (other instanceof ProjectileController) {
-        //     // dispose
-        //     other.dispose();
-        // }
+        other;
     }
 
     createHitbox(): void {
