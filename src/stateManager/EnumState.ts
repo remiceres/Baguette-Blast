@@ -4,6 +4,8 @@
 enum State {
     Home,
     SelectLevel,
+    Settings,
+    Credit,
     Level1,
     Level2,
     Level3,
