@@ -51,11 +51,8 @@ class GameManager {
         } else {
             console.log('You lose!');
         }
-        Game.instance.stateManager.changeState(State.MenuHome);
+        Game.instance.stateManager.changeState(State.SelectLevel);
         this._isGameOver = true;
     }
 }
-
-
-
 export default GameManager;

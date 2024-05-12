@@ -77,7 +77,7 @@ class LevelState implements StateInterface {
         );
         this._cubeMenu.position = playerPosition.add(new Vector3(0, 0, 5));
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
-            Game.instance.stateManager.changeState(State.MenuHome);
+            Game.instance.stateManager.changeState(State.SelectLevel);
         });
     }
 
