@@ -35,30 +35,16 @@ class PlayerController implements ICollider {
     // Collision //
     ///////////////
 
-    public collidesWith(other: ICollider): boolean {
-        // Check if player is hit by enemy
-        if (other instanceof EnemyController) {
-            // Head hitbox
-            if (other.model.hitbox.intersectsMesh(this._view.headHitbox)) {
-                return true;
-            }
-
-            // Body hitbox
-            if (other.model.hitbox.intersectsMesh(this._view.bodyHitbox)) {
-                return true;
-            }
-        }
-
-        // Check if player is hit by projectile
-        // TODO: Implement projectile collision
-
+    public collidesWith(): boolean {
         return false;
     }
 
     public onCollision(other: ICollider): void {
         if (other instanceof EnemyController) {
+            console.log('Player hit by enemy');
             // TODO: Define what happens when player is hit by enemy
         } else if (other instanceof ProjectileController) {
+            console.log('Player hit by projectile');
             // TODO: Define what happens when player is hit by projectile
         }
 
