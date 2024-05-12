@@ -2,6 +2,7 @@ import Game from '../../game/Game';
 import BaseState from './BaseState';
 import CustomUI from '../../UI/CustomUI';
 import State from '../EnumState';
+import { Vector3 } from '@babylonjs/core';
 
 class LevelSelectState extends BaseState {
 
@@ -13,9 +14,9 @@ class LevelSelectState extends BaseState {
     }
 
     private _setupCamera(): void {
-        // const camera = Game.instance.cameraManager.playerCamera;
-        // camera.position = new Vector3(-1.5, 3, 4);
-        // camera.setTarget(new Vector3(-1.5, 3, 5));
+        const camera = Game.instance.cameraManager.playerCamera;
+        camera.position = new Vector3(-1.5, 3, 4);
+        camera.setTarget(new Vector3(-1.5, 3, 5));
     }
 
     private _setupGUI(): void {
