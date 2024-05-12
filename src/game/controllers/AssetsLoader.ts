@@ -39,6 +39,11 @@ class AssetsLoader {
     }
 
     public async initialize(): Promise<void> {
+        await this._loadAssets();
+        this._generateColliders();
+    }
+
+    private async _loadAssets(): Promise<void> {
         // Create an asset manager to handle the loading of the models
         const assetManager = new AssetsManager(this._scene);
 
@@ -72,7 +77,7 @@ class AssetsLoader {
 
         // Re-scale bullet mesh
         if (name === 'Bullet') {
-            mesh.scaling.scaleInPlace(0.08);
+            mesh.scaling.scaleInPlace(0.05);
         }
 
         // Hide all meshes except the scene
@@ -81,16 +86,20 @@ class AssetsLoader {
             mesh.setEnabled(false);
         }
 
-        // Hide collider meshes and add them to the collision manager
-        if (name.toLowerCase().includes('collider')) {
-            mesh.isVisible = false;
-
-            const wallController = new WallController(new WallView(), new WallModel(mesh));
-            Game.instance.collisionManager.addCollider(wallController);
-        }
-
         // Add the mesh to the mesh dictionary
         this._dictModels.set(name, mesh);
+    }
+
+    private _generateColliders(): void {
+        Game.instance.scene.meshes.forEach((mesh) => {
+            console.log(mesh.name);
+            if (mesh.name.toLowerCase().includes('collider')) {
+                mesh.isVisible = false;
+
+                const wallController = new WallController(new WallView(), new WallModel(mesh));
+                Game.instance.collisionManager.addCollider(wallController);
+            }
+        });
     }
 
     ///////////////

@@ -1,4 +1,4 @@
-import { Mesh } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 import WallModel from '../models/WallModel';
 import WallView from '../view/WallView';
 
@@ -30,8 +30,8 @@ class WallController implements ICollider {
     ///////////////
     // Accessors //
     ///////////////
-    
-    public get hitbox(): Mesh {
+
+    public get hitbox(): AbstractMesh {
         return this._model.hitbox;
     }
 }

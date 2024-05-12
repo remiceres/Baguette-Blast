@@ -1,13 +1,13 @@
-import { Mesh } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 
 class WallModel {
-    private _hitbox: Mesh;
+    private _hitbox: AbstractMesh;
 
     /////////////////
     // Constructor //
     /////////////////
 
-    public constructor(hitbox: Mesh) {
+    public constructor(hitbox: AbstractMesh) {
         this._hitbox = hitbox;
     }
 
@@ -15,7 +15,7 @@ class WallModel {
     // Accessors //
     ///////////////
 
-    public get hitbox(): Mesh {
+    public get hitbox(): AbstractMesh {
         return this._hitbox;
     }
 }
