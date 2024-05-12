@@ -1,7 +1,8 @@
 import { GUI3DManager, HolographicButton, PlanePanel } from 'babylonjs-gui';
 import State from '../stateManager/EnumState';
 import Game from '../game/Game';
-import { DynamicTexture, Mesh, MeshBuilder, StandardMaterial, TransformNode, Vector3 } from '@babylonjs/core';
+import { DynamicTexture, Mesh, 
+    MeshBuilder, StandardMaterial, Texture, TransformNode, Vector3 } from '@babylonjs/core';
 
 class CustomUI {
     public static buttons: HolographicButton[] = [];
@@ -59,6 +60,18 @@ class CustomUI {
             dynamicTexture.drawText(text[i], null, y, 'bold 22px Arial', 'white', 'transparent', true);
         }
         this.textZones.push(dynamicTexture);
+        this.planes.push(plane);
+    }
+
+    public static createImageZone(
+        position: Vector3, width: number, height: number, imageUrl: string
+    ): void {
+        const plane = MeshBuilder.CreatePlane('imagePlane', { width, height }, Game.instance.scene);
+        plane.position = position;
+        const material = new StandardMaterial('imageMat', Game.instance.scene);
+        const imageTexture = new Texture(imageUrl, Game.instance.scene, true, false);
+        material.diffuseTexture = imageTexture;
+        plane.material = material;
         this.planes.push(plane);
     }
 
