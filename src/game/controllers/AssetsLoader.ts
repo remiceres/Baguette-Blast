@@ -1,4 +1,7 @@
 import { AssetsManager, InstancedMesh, Mesh, Scene, Vector3 } from '@babylonjs/core';
+import WallController from '../../wall/controllers/WallController';
+import WallModel from '../../wall/models/WallModel';
+import WallView from '../../wall/view/WallView';
 import Game from '../Game';
 
 class AssetsLoader {
@@ -7,7 +10,6 @@ class AssetsLoader {
 
     // Dictionaries of meshes
     private readonly _dictModels: Map<string, Mesh>;
-    private readonly _dictColliders: Map<string, Mesh>;
 
     // Instance counters
     private _instancesCounters: Map<string, number>;
@@ -33,7 +35,6 @@ class AssetsLoader {
     public constructor() {
         this._scene = Game.instance.scene;
         this._dictModels = new Map();
-        this._dictColliders = new Map();
         this._instancesCounters = new Map();
     }
 
@@ -80,10 +81,12 @@ class AssetsLoader {
             mesh.setEnabled(false);
         }
 
-        // Hide collider meshes and add them to the collider dictionary
-        if (mesh.name.toLowerCase().includes('collider')) {
+        // Hide collider meshes and add them to the collision manager
+        if (name.toLowerCase().includes('collider')) {
             mesh.isVisible = false;
-            this._dictColliders.set(name, mesh);
+
+            const wallController = new WallController(new WallView(), new WallModel(mesh));
+            Game.instance.collisionManager.addCollider(wallController);
         }
 
         // Add the mesh to the mesh dictionary
@@ -141,7 +144,6 @@ class AssetsLoader {
         const instance = mesh.createInstance(`${name}$`);
         instance.isVisible = true;
         instance.parent = parent;
-        console.log('instance', instance);
         mesh.getChildMeshes().forEach((child) => {
             if (child instanceof Mesh) {
                 this._createInstanceRecursive(child, name + '_child', instance);

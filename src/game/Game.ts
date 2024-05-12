@@ -98,6 +98,9 @@ class Game {
         this._audioManager = new AudioManager();
         await this._audioManager.initialize();
 
+        // Initialize the collision manager.
+        this._collisionManager = new CollisionManager();
+
         // Load assets using the asset manager.
         this._assetManager = new AssetsLoader();
         await this._assetManager.initialize();
@@ -109,7 +112,6 @@ class Game {
         this._environmentControllers = new EnvironmentControllers();
         this._timeControl = new TimeControl();
         this._debugConsole = new DebugConsole();
-        this._collisionManager = new CollisionManager();
         this._player = new PlayerController(new PlayerModel(), new PlayerView());
 
         // Debug mode
@@ -182,9 +184,9 @@ class Game {
         });
     }
 
-    /////////////
-    // Getters //
-    /////////////
+    ///////////////
+    // Accessors //
+    ///////////////
 
     public get stateManager(): StateManager {
         return this._stateManager;

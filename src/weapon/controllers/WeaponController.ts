@@ -76,6 +76,12 @@ abstract class WeaponController implements WeaponInterface {
     }
 
     public update(deltaTime: number): void {
+
+        // Clear disposed projectiles
+        this._projectiles = this._projectiles.filter((projectile) => {
+            return !projectile.isDisposed;
+        });
+
         this._model.timeSinceLastShot += deltaTime;
 
         this._view.update(deltaTime);
