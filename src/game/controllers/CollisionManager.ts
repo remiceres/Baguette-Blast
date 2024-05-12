@@ -37,7 +37,7 @@ class CollisionManager {
     /**
      * Check for collisions between all colliders
      */
-    public checkCollisions() {
+    public update() {
         const collidersSnapshot = [...this._colliders]; // Creates a copy of the list of colliders
         for (let i = 0; i < collidersSnapshot.length; i++) {
             for (let j = 0; j < collidersSnapshot.length; j++) {
