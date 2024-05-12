@@ -25,7 +25,7 @@ class SettingsState extends BaseState {
         }
 
         const panel = CustomUI.addPanel(1, 1);
-        CustomUI.createTextZone('Settings', CustomUI.panelTextCenter, 6, 2);
+        CustomUI.createTextZone(['Settings'], CustomUI.panelTextCenter, 6, 2);
         CustomUI.addButton('Back', State.Home, panel, true);
     }
 

@@ -34,7 +34,7 @@ class DialogueState extends BaseState {
         }
 
         const panel = CustomUI.addPanel(1, 1);
-        CustomUI.createTextZone(this._text, CustomUI.panelTextTopRight, 2, 1);
+        CustomUI.createTextZone([this._text], CustomUI.panelTextTopRight, 2, 1);
         CustomUI.addButton('Back', this._backState, panel);
     }
 

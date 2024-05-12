@@ -45,7 +45,7 @@ class CustomUI {
         return button;
     }    
 
-    public static createTextZone(text: string, position: Vector3, width: number, height: number): void {
+    public static createTextZone(text: string[], position: Vector3, width: number, height: number): void {
         // Dynamic Texture for text
         const plane = MeshBuilder.CreatePlane('textPlane', { width: width, height: height }, Game.instance.scene);
         plane.position.set(position.x, position.y, position.z);
@@ -54,7 +54,10 @@ class CustomUI {
         const material = new StandardMaterial('textMat', Game.instance.scene);
         material.diffuseTexture = dynamicTexture;
         plane.material = material;
-        dynamicTexture.drawText(text, null, 200, 'bold 44px Arial', 'white', 'transparent', true);
+        for (let i = 0; i < text.length; i++) {
+            const y = i * 30 + 25;
+            dynamicTexture.drawText(text[i], null, y, 'bold 22px Arial', 'white', 'transparent', true);
+        }
         this.textZones.push(dynamicTexture);
         this.planes.push(plane);
     }

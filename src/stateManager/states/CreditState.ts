@@ -25,7 +25,16 @@ class CreditState extends BaseState {
         }
 
         const panel = CustomUI.addPanel(1, 1);
-        CustomUI.createTextZone('Credit', CustomUI.panelTextCenter, 6, 2);
+        CustomUI.createTextZone([
+            'Credit, team Baguette Blast:', 
+            'Made by Clément Q., Rémi C., Benjamin M.',
+            'Games on Web 2024 - Sophia Antipolis',
+            '', 
+            'Thanks for playing!',
+            '', 
+            'Special thanks to our teachers and sponsors!',
+            'CGI, Univ. Côte d\'Azur, Aix-Marseille, Toulon',
+        ], CustomUI.panelTextCenter, 6, 2);
         CustomUI.addButton('Back', State.Home, panel, true);
     }
 

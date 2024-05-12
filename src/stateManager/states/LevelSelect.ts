@@ -15,8 +15,8 @@ class LevelSelectState extends BaseState {
 
     private _setupCamera(): void {
         const camera = Game.instance.cameraManager.playerCamera;
-        camera.position = new Vector3(-1.5, 3, 4);
-        camera.setTarget(new Vector3(-1.5, 3, 5));
+        camera.position = new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 4);
+        camera.setTarget(new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 5));
     }
 
     private _setupGUI(): void {
