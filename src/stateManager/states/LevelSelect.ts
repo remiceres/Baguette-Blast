@@ -1,9 +1,9 @@
 import Game from '../../game/Game';
-import State from '../EnumState';
 import BaseState from './BaseState';
 import CustomUI from '../../UI/CustomUI';
+import State from '../EnumState';
 
-class SettingsState extends BaseState {
+class LevelSelectState extends BaseState {
 
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
@@ -24,12 +24,20 @@ class SettingsState extends BaseState {
             return;
         }
 
-        const panel = CustomUI.addPanel(1, 1);
-        CustomUI.createTextZone('Settings', CustomUI.panelTextCenter, 6, 2);
-        CustomUI.addButton('Back', State.Home, panel, true);
+        const panel = CustomUI.addPanel(3, 3);
+
+        // Level 1 to 6 + Home
+        CustomUI.addButton('Level 4', State.Level4, panel);
+        CustomUI.addButton('Level 5', State.Level5, panel);
+        CustomUI.addButton('Level 6', State.Level6, panel);
+        CustomUI.addButton('Level 1', State.Level1, panel);
+        CustomUI.addButton('Level 2', State.Level2, panel);
+        CustomUI.addButton('Level 3', State.Level3, panel);
+        CustomUI.addButton('Home', State.Home, panel);
+
     }
 
     public update(deltaTime: number): void { deltaTime; }
 }
 
-export default SettingsState;
+export default LevelSelectState;
