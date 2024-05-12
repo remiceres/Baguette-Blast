@@ -31,9 +31,9 @@ class Sun {
         return light;
     }
 
-    /////////////////////
-    // Getters/Setters //
-    /////////////////////
+    ///////////////
+    // Accessors //
+    ///////////////
 
     public get sunLight(): DirectionalLight {
         return this._sunLight;

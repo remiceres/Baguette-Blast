@@ -41,9 +41,9 @@ class PlayerView {
         this._headHitbox.isVisible = true;
     }
 
-    /////////////////////
-    // Getters/Setters //
-    /////////////////////
+    ///////////////
+    // Accessors //
+    ///////////////
 
     public set position(value: Vector3) {
         this._playerCamera.position = value;
