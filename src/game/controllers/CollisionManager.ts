@@ -1,36 +1,51 @@
 class CollisionManager {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private _colliders: any[];
+    private _colliders: ICollider[];
 
-    constructor() {
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor() {
         this._colliders = [];
     }
 
-    addCollider(collider) {
+    ////////////////
+    // public API //
+    ////////////////
+
+    /**
+     * Add a collider to the list of colliders
+     *
+     * @param collider The collider to add
+     */
+    public addCollider(collider) {
         this._colliders.push(collider);
     }
 
-    removeCollider(collider) {
-        this._colliders = this._colliders.filter(c => c !== collider);
-    }
-
-    checkCollisions() {
-        for (let i = 0; i < this._colliders.length; i++) {
-            for (let j = 0; j < this._colliders.length; j++) {
-                if (this._colliders[i].collidesWith(this._colliders[j])) {
-                    this._colliders[i].onCollision(this._colliders[j]);
-                    this._colliders[j].onCollision(this._colliders[i]);
-                }
-            }
+    /**
+     * Remove a collider from the list of colliders
+     *
+     * @param collider The collider to remove
+     */
+    public removeCollider(collider) {
+        const index = this._colliders.indexOf(collider);
+        if (index > -1) {
+            this._colliders.splice(index, 1);
         }
     }
 
-    get colliders() {
-        return this._colliders;
-    }
-
-    set colliders(colliders) {
-        this._colliders = colliders;
+    /**
+     * Check for collisions between all colliders
+     */
+    public update() {
+        const collidersSnapshot = [...this._colliders]; // Creates a copy of the list of colliders
+        for (let i = 0; i < collidersSnapshot.length; i++) {
+            for (let j = 0; j < collidersSnapshot.length; j++) {
+                if (i !== j && collidersSnapshot[i].collidesWith(collidersSnapshot[j])) {
+                    collidersSnapshot[i].onCollision(collidersSnapshot[j]);
+                }
+            }
+        }
     }
 }
 export default CollisionManager;

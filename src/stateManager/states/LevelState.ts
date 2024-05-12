@@ -209,7 +209,7 @@ class LevelState implements StateInterface {
         //     }
         //     elimination.dispose();
         // }
-        Game.instance.collisionManager.checkCollisions();
+        Game.instance.collisionManager.update();
 
         // Check if all enemies are dead
         // if (Game.instance.enemiesLeft === 0) {
