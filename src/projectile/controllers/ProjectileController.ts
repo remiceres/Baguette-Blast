@@ -1,5 +1,6 @@
 import IBehaviour from '../../behaviors/IBehaviour';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import Game from '../../game/Game';
 import PlayerController from '../../player/controllers/PlayerController';
 import WallController from '../../wall/controllers/WallController';
 import ProjectileModel from '../models/ProjectileModel';
@@ -32,6 +33,9 @@ class ProjectileController implements ICollider {
 
         // Time of life
         this._timeOfLife = 0;
+
+        // Create the hitbox
+        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, 1);
     }
 
     //////////////
@@ -41,23 +45,23 @@ class ProjectileController implements ICollider {
     public collidesWith(other: ICollider): boolean {
         // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
-            if (other.view._mesh.intersectsMesh(this._view.mesh)) {
+            if (other.view._mesh.intersectsMesh(this._model.hitbox)) {
                 return true;
             }
         }
 
         // Check if the projectile collides with the player
         else if (other instanceof PlayerController) {
-            if (other.headHitbox.intersectsMesh(this._view.mesh)) {
+            if (other.headHitbox.intersectsMesh(this._model.hitbox)) {
                 return true;
-            } else if (other.bodyHitbox.intersectsMesh(this._view.mesh)) {
+            } else if (other.bodyHitbox.intersectsMesh(this._model.hitbox)) {
                 return true;
             }
         }
 
         // Check if the projectile collides colliders
         else if (other instanceof WallController) {
-            if (other.hitbox.intersectsMesh(this._view.mesh)) {
+            if (other.hitbox.intersectsMesh(this._model.hitbox)) {
                 return true;
             }
         }

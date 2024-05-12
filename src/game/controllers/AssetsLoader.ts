@@ -1,4 +1,4 @@
-import { AssetsManager, InstancedMesh, Mesh, Scene, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, AssetsManager, InstancedMesh, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import WallController from '../../wall/controllers/WallController';
 import WallModel from '../../wall/models/WallModel';
 import WallView from '../../wall/view/WallView';
@@ -123,6 +123,32 @@ class AssetsLoader {
 
     public getBulletInstance(): InstancedMesh {
         return this._createInstance('Bullet');
+    }
+
+    /////////////////
+    // Hitbox API //
+    /////////////////
+
+    public createHitbox(mesh: AbstractMesh, padding: number): AbstractMesh {
+        // Get the bounding box of the mesh
+        const boundingBox = mesh.getBoundingInfo().boundingBox;
+
+        // Create a box mesh to represent the hitbox
+        const hitbox = MeshBuilder.CreateBox(
+            'hitbox',
+            {
+                width: boundingBox.maximum.x - boundingBox.minimum.x - padding,
+                height: boundingBox.maximum.y - boundingBox.minimum.y - padding,
+                depth: boundingBox.maximum.z - boundingBox.minimum.z - padding,
+            },
+            Game.instance.scene
+        );
+        hitbox.position = boundingBox.center;
+        hitbox.parent = mesh;
+        hitbox.showBoundingBox = true;
+        hitbox.isVisible = false;
+
+        return hitbox;
     }
 
     /////////////////

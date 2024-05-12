@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 
 class ProjectileModel {
     // Constants
@@ -7,6 +7,8 @@ class ProjectileModel {
 
     private _speedVector: Vector3;
     private _position: Vector3;
+
+    private _hitbox: AbstractMesh;
 
     /////////////////
     // Constructor //
@@ -35,6 +37,14 @@ class ProjectileModel {
 
     public set position(position: Vector3) {
         this._position = position;
+    }
+
+    public get hitbox(): AbstractMesh {
+        return this._hitbox;
+    }
+
+    public set hitbox(hitbox: AbstractMesh) {
+        this._hitbox = hitbox;
     }
 
     public get maxSpeed(): number {
