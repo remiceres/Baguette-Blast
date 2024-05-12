@@ -36,6 +36,9 @@ class ProjectileController implements ICollider {
 
         // Create the hitbox
         this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, 1);
+
+        // Add to collider
+        Game.instance.collisionManager.addCollider(this);
     }
 
     //////////////
@@ -46,6 +49,7 @@ class ProjectileController implements ICollider {
         // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
             if (other.view._mesh.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit enemy');
                 return true;
             }
         }
@@ -53,8 +57,10 @@ class ProjectileController implements ICollider {
         // Check if the projectile collides with the player
         else if (other instanceof PlayerController) {
             if (other.headHitbox.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit player');
                 return true;
             } else if (other.bodyHitbox.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit player');
                 return true;
             }
         }
@@ -62,6 +68,7 @@ class ProjectileController implements ICollider {
         // Check if the projectile collides colliders
         else if (other instanceof WallController) {
             if (other.hitbox.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit wall');
                 return true;
             }
         }
@@ -91,12 +98,14 @@ class ProjectileController implements ICollider {
 
     private _checkDisposalConditions(): void {
         // if the projectile is under the ground, dispose
-        if (this._model.position.y < -1) {
+        if (this._model.position.y < 0) {
+            // console.log('Projectile under the ground');
             this.dispose();
         }
 
         // if time of life is over, dispose
         else if (this._timeOfLife > this._model.maxTimeOfLife) {
+            // console.log('Projectile time of life over');
             this.dispose();
         }
     }
@@ -135,6 +144,7 @@ class ProjectileController implements ICollider {
 
     public dispose(): void {
         this._isDisposed = true;
+        Game.instance.collisionManager.removeCollider(this);
         this._view.dispose();
     }
 }

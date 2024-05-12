@@ -1,13 +1,12 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import Gravity from '../../behaviors/Gravity';
+import IBehaviour from '../../behaviors/IBehaviour';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
+import ProjectileModel from '../../projectile/models/ProjectileModel';
+import ProjectileView from '../../projectile/views/ProjectileView';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
 import WeaponInterface from '../WeaponIInterface';
-import ProjectileView from '../../projectile/views/ProjectileView';
-import ProjectileModel from '../../projectile/models/ProjectileModel';
-import IBehaviour from '../../behaviors/IBehaviour';
-import Gravity from '../../behaviors/Gravity';
-import Game from '../../game/Game';
 
 abstract class WeaponController implements WeaponInterface {
     protected _model: WeaponModel;
@@ -54,12 +53,9 @@ abstract class WeaponController implements WeaponInterface {
         const projectileModel = new ProjectileModel(position, speedVector);
         const projectileView = new ProjectileView();
         const projectileController = new ProjectileController(projectileView, projectileModel, this._behaviours);
-        
+
         // Add to projectile list
         this._projectiles.push(projectileController);
-
-        // Add to collider
-        Game.instance.collisionManager.addCollider(projectileController);
     }
 
     protected abstract _getInitialForce(): Vector3;
@@ -76,7 +72,6 @@ abstract class WeaponController implements WeaponInterface {
     }
 
     public update(deltaTime: number): void {
-
         // Clear disposed projectiles
         this._projectiles = this._projectiles.filter((projectile) => {
             return !projectile.isDisposed;

@@ -1,6 +1,5 @@
 class CollisionManager {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private _colliders: any[];
+    private _colliders: ICollider[];
 
     constructor() {
         this._colliders = [];
@@ -11,15 +10,18 @@ class CollisionManager {
     }
 
     removeCollider(collider) {
-        this._colliders = this._colliders.filter(c => c !== collider);
+        const index = this._colliders.indexOf(collider);
+        if (index > -1) {
+            this._colliders.splice(index, 1);
+        }
     }
 
     checkCollisions() {
-        for (let i = 0; i < this._colliders.length; i++) {
-            for (let j = 0; j < this._colliders.length; j++) {
-                if (this._colliders[i].collidesWith(this._colliders[j])) {
-                    this._colliders[i].onCollision(this._colliders[j]);
-                    this._colliders[j].onCollision(this._colliders[i]);
+        const collidersSnapshot = [...this._colliders]; // Crée une copie de la liste des colliders
+        for (let i = 0; i < collidersSnapshot.length; i++) {
+            for (let j = 0; j < collidersSnapshot.length; j++) {
+                if (i !== j && collidersSnapshot[i].collidesWith(collidersSnapshot[j])) {
+                    collidersSnapshot[i].onCollision(collidersSnapshot[j]);
                 }
             }
         }

@@ -92,7 +92,6 @@ class AssetsLoader {
 
     private _generateColliders(): void {
         Game.instance.scene.meshes.forEach((mesh) => {
-            console.log(mesh.name);
             if (mesh.name.toLowerCase().includes('collider')) {
                 mesh.isVisible = false;
 
