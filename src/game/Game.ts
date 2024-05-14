@@ -15,6 +15,7 @@ import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import CollisionManager from './controllers/CollisionManager';
 import TimeControl from './controllers/TimeControl';
+import CustomUI from '../UI/CustomUI';
 
 /**
  * The Game class is the central class of the application.
@@ -118,6 +119,15 @@ class Game {
         if (this._debug) {
             Inspector.Show(this._scene, {});
         }
+
+
+        // Get the position of mesh boundaries of the "Panneau" mesh in the Nodes.
+        const panneau = this._scene.getMeshByName('Panneau');
+        if (panneau) {
+            console.log('Panneau position:', panneau.getAbsolutePosition());
+            console.log('Panneau bounding box:', panneau.getBoundingInfo().boundingBox);
+        }
+        CustomUI.addPanelTest();
     }
 
     ///////////////

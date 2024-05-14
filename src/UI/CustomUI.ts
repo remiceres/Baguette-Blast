@@ -1,6 +1,7 @@
 import { GUI3DManager, HolographicButton, PlanePanel } from 'babylonjs-gui';
 import State from '../stateManager/EnumState';
 import Game from '../game/Game';
+import { AdvancedDynamicTexture } from '@babylonjs/gui';
 import { DynamicTexture, Mesh, 
     MeshBuilder, StandardMaterial, Texture, TransformNode, Vector3 } from '@babylonjs/core';
 
@@ -94,6 +95,34 @@ class CustomUI {
         }
         return panel;
     }
-    
+
+    public static async addPanelTest(): Promise<void> {
+        const scene = Game.instance.scene;
+        // Create a simple box
+        const box = MeshBuilder.CreateBox('box', {height: 2, width: 2, depth: 0.1}, scene);
+        box.position = new Vector3(0, 2, 6); // Position it wherever needed
+
+        const url = 'assets/textures/Frame 1.json';
+        const uiTexture = AdvancedDynamicTexture.CreateForMesh(
+            box,
+            2000,
+            1000,
+            false
+        );
+        uiTexture.background = 'transparent';
+        uiTexture
+            .parseFromURLAsync(url)
+            .then(() => {
+                const material = new StandardMaterial('mat', Game.instance.scene);
+                material.diffuseTexture = uiTexture;
+                // this._grabElement();
+                // Find the controll "hello-bjs" from scene
+                const button = uiTexture.getControlByName('hello-bjs');
+                button.onPointerClickObservable.add(() => {
+                    // Level 1
+                    Game.instance.stateManager.changeState(State.Level1);
+                });
+            });
+    }
 }
 export default CustomUI;
