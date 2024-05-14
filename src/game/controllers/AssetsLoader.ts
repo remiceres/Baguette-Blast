@@ -26,6 +26,7 @@ class AssetsLoader {
         'BallonSilver',
         'BallonGold',
         'Bullet',
+        'Laser',
     ];
 
     /////////////////
@@ -80,6 +81,11 @@ class AssetsLoader {
             mesh.scaling.scaleInPlace(0.05);
         }
 
+        // Re-scale laser mesh
+        if (name === 'Laser') {
+            mesh.scaling.scaleInPlace(0.1);
+        }
+
         // Hide all meshes except the scene
         if (name !== 'Scene') {
             mesh.setAbsolutePosition(new Vector3(0, -20, 0));
@@ -131,6 +137,10 @@ class AssetsLoader {
 
     public getBulletInstance(): InstancedMesh {
         return this._createInstance('Bullet');
+    }
+
+    public getLaserInstance(): InstancedMesh {
+        return this._createInstance('Laser');
     }
 
     /////////////////
