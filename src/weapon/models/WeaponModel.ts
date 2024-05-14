@@ -2,14 +2,17 @@ import { AbstractMesh } from '@babylonjs/core';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 
 abstract class WeaponModel {
-    protected _durability: number;
+
+    // Constants
     private _projectile: ProjectileController;
+    private _durability: number = 100;
+    private _cooldownSecond : number = 1;
+    
+    // Internal
     protected _parent: AbstractMesh;
-
-    protected _cooldownSecond = 1;
-    private _timeSinceLastShot;
-
+    private _timeSinceLastShot : number = 0;
     private _isGrabed: boolean;
+
 
     constructor() {
     }

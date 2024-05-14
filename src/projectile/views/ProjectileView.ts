@@ -1,16 +1,22 @@
 import { InstancedMesh } from '@babylonjs/core';
-import Game from '../../game/Game';
 
-class ProjectileView {
+abstract class ProjectileView {
     private _mesh: InstancedMesh;
 
     /////////////////
     // Constructor //
     /////////////////
 
-    constructor() {
-        this._mesh = Game.instance.assetManager.getBulletInstance();
+    public constructor() {
+        this._mesh = this._createMesh();
     }
+
+    /**
+     * Create the mesh of the projectile
+     *
+     * @returns The mesh of the projectile
+     */
+    protected abstract _createMesh(): InstancedMesh;
 
     //////////////
     // Accessor //
