@@ -1,4 +1,3 @@
-import IBehaviour from '../../behaviors/IBehaviour';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import PlayerController from '../../player/controllers/PlayerController';
@@ -6,36 +5,25 @@ import WallController from '../../wall/controllers/WallController';
 import ProjectileModel from '../models/ProjectileModel';
 import ProjectileView from '../views/ProjectileView';
 
-class ProjectileController implements ICollider {
+abstract class ProjectileController implements ICollider {
     // MVC
     private _view: ProjectileView;
     private _model: ProjectileModel;
-
-    // Behaviors
-    private _behaviors: IBehaviour[];
-
-    // Time of life
-    private _timeOfLife: number;
-
-    private _isDisposed: boolean = false;
 
     /////////////////
     // Constructor //
     /////////////////
 
-    public constructor(view: ProjectileView, model: ProjectileModel, Behaviors: IBehaviour[]) {
+    public constructor(view: ProjectileView, model: ProjectileModel) {
         // MVC
         this._view = view;
         this._model = model;
 
-        // Behaviors
-        this._behaviors = Behaviors;
-
-        // Time of life
-        this._timeOfLife = 0;
-
         // Create the hitbox
-        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, 1);
+        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, this._model.hitboxPadding);
+
+        // Orient the projectile
+        this._view.mesh.lookAt(this._view.mesh.position.add(this._model.speedVector));
 
         // Add to collider
         Game.instance.collisionManager.addCollider(this);
@@ -87,7 +75,7 @@ class ProjectileController implements ICollider {
 
     public update(deltaTime: number): void {
         // Increment the time of life
-        this._timeOfLife += deltaTime;
+        this._model.timeOfLife += deltaTime;
 
         // Update the position of the projectile
         this._updatePosition(deltaTime);
@@ -104,18 +92,18 @@ class ProjectileController implements ICollider {
         }
 
         // if time of life is over, dispose
-        else if (this._timeOfLife > this._model.maxTimeOfLife) {
+        else if (this._model.timeOfLife > this._model.maxTimeOfLife) {
             // console.log('Projectile time of life over');
             this.dispose();
         }
     }
 
     private _updatePosition(deltaTime: number): void {
-        const dampingFactor = 0.99;
+        const dampingFactor = this._model.dampingFactor;
         this._model.speedVector.scaleInPlace(dampingFactor);
 
         // Accumulate the forces from all behaviors
-        for (const behavior of this._behaviors) {
+        for (const behavior of this._model.behaviors) {
             const force = behavior.getForceVector(deltaTime, this._view.mesh, this._model.speedVector);
             this._model.speedVector.addInPlace(force);
         }
@@ -135,7 +123,7 @@ class ProjectileController implements ICollider {
     //////////////
 
     public get isDisposed(): boolean {
-        return this._isDisposed;
+        return this._model.isDisposed;
     }
 
     /////////////
@@ -143,7 +131,7 @@ class ProjectileController implements ICollider {
     /////////////
 
     public dispose(): void {
-        this._isDisposed = true;
+        this._model.isDisposed = true;
         Game.instance.collisionManager.removeCollider(this);
         this._view.dispose();
     }
