@@ -3,6 +3,7 @@ import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
 import Game from '../../game/Game';
+import ProjectileController from '../../projectile/controllers/ProjectileController';
 
 class EnemyController implements ICollider {
     private _model: BaseEnemyModel;
@@ -16,11 +17,17 @@ class EnemyController implements ICollider {
     }
 
     collidesWith(other: ICollider): boolean {
-        other;
+        if (other instanceof ProjectileController) {
+            this.dispose();
+            return true;
+        }
         return false;
     }
 
     onCollision(other: ICollider): void {
+        if (other instanceof ProjectileController) {
+            this.dispose();
+        }
         other;
     }
 

@@ -1,8 +1,7 @@
-import { TransformNode, Vector3 } from '@babylonjs/core';
-import { GUI3DManager, HolographicButton, PlanePanel } from 'babylonjs-gui';
 import Game from '../../game/Game';
 import State from '../EnumState';
 import BaseState from './BaseState';
+import CustomUI from '../../UI/CustomUI';
 
 class SettingsState extends BaseState {
 
@@ -14,9 +13,9 @@ class SettingsState extends BaseState {
     }
 
     private _setupCamera(): void {
-        const camera = Game.instance.cameraManager.playerCamera;
-        camera.position = new Vector3(-1.5, 3, 4);
-        camera.setTarget(new Vector3(-1.5, 3, 5));
+        // const camera = Game.instance.cameraManager.playerCamera;
+        // camera.position = new Vector3(-1.5, 3, 4);
+        // camera.setTarget(new Vector3(-1.5, 3, 5));
     }
 
     private _setupGUI(): void {
@@ -25,37 +24,9 @@ class SettingsState extends BaseState {
             return;
         }
 
-        const manager = new GUI3DManager(this._scene);
-        const panel = new PlanePanel();
-        panel.margin = 0.2;
-        panel.columns = 3;
-
-        const anchor = new TransformNode('');
-        manager.addControl(panel);
-        panel.linkToTransformNode(anchor);
-        panel.position.set(-1.35, 3, 11.5);
-        panel.blockLayout = true;
-
-        this._addText('Fire', panel);
-        this._addText('...', panel);
-        this._addButton('Back', State.Home, panel);
-    }
-
-    private _addButton(name: string, state: State, panel: PlanePanel): HolographicButton {
-        const button = new HolographicButton('orientation');
-        panel.addControl(button);
-        this._buttons.push(button);
-        button.text = name;
-        button.onPointerClickObservable.add(() => Game.instance.stateManager.changeState(state));
-        return button;
-    }
-
-    private _addText(name: string, panel: PlanePanel): HolographicButton {
-        const button = new HolographicButton('orientation');
-        panel.addControl(button);
-        this._buttons.push(button);
-        button.text = name;
-        return button;
+        const panel = CustomUI.addPanel(1, 1);
+        CustomUI.createTextZone(['Settings'], CustomUI.panelTextCenter, 6, 2);
+        CustomUI.addButton('Back', State.Home, panel, true);
     }
 
     public update(deltaTime: number): void { deltaTime; }

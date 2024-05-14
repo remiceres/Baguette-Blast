@@ -1,24 +1,15 @@
 import Game from '../../game/Game';
-import State from '../EnumState';
 import BaseState from './BaseState';
 import CustomUI from '../../UI/CustomUI';
+import State from '../EnumState';
 import { Vector3 } from '@babylonjs/core';
 
-class DialogueState extends BaseState {
-    private _text: string;
-    private _backState: State;
-
-    constructor(text: string, backState: State) {
-        super();
-        this._text = text;
-        this._backState = backState;
-    }
+class HomeState extends BaseState {
 
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
         this._setupCamera();
         this._setupGUI();
-        return Promise.resolve();
     }
 
     private _setupCamera(): void {
@@ -33,12 +24,16 @@ class DialogueState extends BaseState {
             return;
         }
 
-        const panel = CustomUI.addPanel(1, 1);
-        CustomUI.createTextZone([this._text], CustomUI.panelTextTopRight, 2, 1);
-        CustomUI.addButton('Back', this._backState, panel);
+        const panel = CustomUI.addPanel(1, 3);
+
+        CustomUI.createTextZone(['Baguette Blast'], new Vector3(1.5, 4.8, 11.5), 2, 1);
+
+        CustomUI.addButton('Select Level', State.SelectLevel, panel);
+        CustomUI.addButton('Settings', State.Settings, panel);
+        CustomUI.addButton('Credit', State.Credit, panel);
     }
 
     public update(deltaTime: number): void { deltaTime; }
 }
 
-export default DialogueState;
+export default HomeState;
