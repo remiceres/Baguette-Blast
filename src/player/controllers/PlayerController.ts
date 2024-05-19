@@ -4,7 +4,6 @@ import Game from '../../game/Game';
 import InputManager from '../../inputs/InputManager';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import WeaponController from '../../weapon/controllers/WeaponController';
-import WeaponInterface from '../../weapon/WeaponIInterface';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
 
@@ -65,11 +64,11 @@ class PlayerController implements ICollider {
         this._model[key].grab(handObject);
     }
 
-    get weaponLeft(): WeaponInterface {
+    get weaponLeft(): WeaponController {
         return this._model.weaponLeft;
     }
 
-    get weaponRight(): WeaponInterface {
+    get weaponRight(): WeaponController {
         return this._model.weaponRight;
     }
 

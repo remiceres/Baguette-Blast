@@ -122,8 +122,8 @@ abstract class ProjectileController implements ICollider {
     // Accessor //
     //////////////
 
-    public get isDisposed(): boolean {
-        return this._model.isDisposed;
+    public get canBeDisposed(): boolean {
+        return this._model.canBeDisposed;
     }
 
     /////////////
@@ -131,7 +131,7 @@ abstract class ProjectileController implements ICollider {
     /////////////
 
     public dispose(): void {
-        this._model.isDisposed = true;
+        this._model.canBeDisposed = true;
         Game.instance.collisionManager.removeCollider(this);
         this._view.dispose();
     }

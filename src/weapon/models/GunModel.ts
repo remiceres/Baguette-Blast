@@ -1,19 +1,13 @@
+import { ProjectileType } from '../../projectile/ProjectileFactory';
 import WeaponModel from './WeaponModel';
 
-class GunModel extends WeaponModel{
-    private _force: number;
+class GunModel extends WeaponModel {
+    /////////////////
+    // Constructor //
+    /////////////////
 
-    constructor(force: number) {
-        super();
-        this._force = force;
-    }
-
-    public get force() {
-        return this._force;
-    }
-    
-    public set force(value: number) {
-        this._force = value;
+    constructor(projectileType: ProjectileType, force: number, durability: number, cooldownSecond: number) {
+        super(projectileType, force, durability, cooldownSecond);
     }
 }
 export default GunModel;

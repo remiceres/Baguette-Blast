@@ -12,9 +12,7 @@ import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
 // import ProjectileController from '../../projectile/controllers/ProjectileController';
 // import ProjectileView from '../../projectile/views/ProjectileView';
-import GunController from '../../weapon/controllers/GunController';
-import GunModel from '../../weapon/models/GunModel';
-import GunView from '../../weapon/views/GunView';
+import { WeaponFactory, weaponType } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 
@@ -101,15 +99,7 @@ class LevelState implements StateInterface {
 
         // const projectile = new ProjectileController(new ProjectileView(), new ProjectileModel(), behaviors);
 
-        const weaponView = new GunView();
-        const weaponModel = new GunModel(
-            // const weaponView = new HandView();
-            // const weaponModel = new HandModel(
-            this._levelData?.player?.left_hand?.power || 10
-        );
-        // const weaponController = new HandController(weaponModel, weaponView);
-        const weaponController = new GunController(weaponModel, weaponView);
-        // weaponController.projectile = projectile;
+        const weaponController = WeaponFactory.createWeapon(weaponType.laserGun, { durability: 100 });
 
         Game.instance.player.giveWeapon('right', weaponController);
     }
@@ -141,20 +131,20 @@ class LevelState implements StateInterface {
     private _initWave(): void {
         if (this._levelData?.waves && this._levelData.waves.length > this._currentWaveIndex) {
             const currentWave = this._levelData.waves[this._currentWaveIndex];
-    
+
             // Clear existing enemies from the previous wave
-            this._enemiesController.forEach(enemyController => {
+            this._enemiesController.forEach((enemyController) => {
                 Game.instance.collisionManager.removeCollider(enemyController);
                 enemyController.dispose(); // Assuming destroy cleans up properly
             });
             this._enemiesController = []; // Reset the enemies controller list
-    
+
             // Create and add new enemies for the current wave
-            this._enemiesController.push(...currentWave.enemies.map(enemy => EnemyFactory.createEnemy(enemy)));
-            this._enemiesController.forEach(enemyController => {
+            this._enemiesController.push(...currentWave.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
+            this._enemiesController.forEach((enemyController) => {
                 Game.instance.collisionManager.addCollider(enemyController);
             });
-    
+
             // Update the global count of enemies left
             // Game.instance.enemiesLeft = this._enemiesController.length;
             // console.log('Enemies left:', Game.instance.enemiesLeft);
@@ -162,7 +152,7 @@ class LevelState implements StateInterface {
             console.log('No more waves found or wave index out of bounds.');
         }
     }
-    
+
     private _advanceToNextWave(): void {
         if (this._currentWaveIndex < this._levelData.waves.length - 1) {
             this._currentWaveIndex++;
@@ -172,7 +162,7 @@ class LevelState implements StateInterface {
             this.dispose();
         }
     }
-    
+
     public dispose(): void {
         this._cubeMenu.dispose();
         this._enemiesController.forEach((enemy) => enemy.dispose());

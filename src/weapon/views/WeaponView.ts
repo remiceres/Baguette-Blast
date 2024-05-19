@@ -1,31 +1,36 @@
-import { AbstractMesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 
 abstract class WeaponView {
     private _mesh: AbstractMesh;
 
+    /////////////////
+    // Constructor //
+    /////////////////
+
     constructor() {
-        this._mesh = this._loadMesh();
+        this._mesh = this._createMesh();
     }
 
-    protected _loadMesh() {
-        const mesh = MeshBuilder.CreateBox('weapon', { size: 0.5 });
-        mesh.scaling = new Vector3(0.1, 0.1, 0.5);
-        return mesh;
-    }
+    /**
+     * Create the mesh of the weapon
+     *
+     * @returns The mesh of the weapon
+     */
+    protected abstract _createMesh(): AbstractMesh;
 
-    public get mesh() {
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get mesh(): AbstractMesh {
         return this._mesh;
     }
 
-    public set mesh(mesh: AbstractMesh) {
-        this._mesh = mesh;
-    }
+    /////////////
+    // Dispose //
+    /////////////
 
-    public update(deltaTime) {
-        deltaTime;
-    }
-
-    public dispose() {
+    public dispose(): void {
         this._mesh.dispose();
     }
 }

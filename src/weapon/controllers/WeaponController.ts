@@ -1,36 +1,21 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import IBehaviour from '../../behaviors/IBehaviour';
-import BallController from '../../projectile/controllers/BallController';
-import ProjectileController from '../../projectile/controllers/ProjectileController';
-import BallModel from '../../projectile/models/BallModels';
-import BallView from '../../projectile/views/BallView';
+import { ProjectileFactory } from '../../projectile/ProjectileFactory';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
-import WeaponInterface from '../WeaponIInterface';
 
-abstract class WeaponController implements WeaponInterface {
+abstract class WeaponController {
     // MVC
     protected _model: WeaponModel;
     protected _view: WeaponView;
-
-    // Projectile behaviours
-    private _behaviours: IBehaviour[];
-    private _projectiles: ProjectileController[];
 
     /////////////////
     // Constructor //
     /////////////////
 
-    public constructor(model: WeaponModel, view: WeaponView) {
+    public constructor(view: WeaponView, model: WeaponModel) {
         // MVC
-        this._model = model;
         this._view = view;
-
-        // Projectile list
-        this._projectiles = [];
-
-        // Behaviors list
-        this._behaviours = [];
+        this._model = model;
     }
 
     //////////
@@ -50,18 +35,25 @@ abstract class WeaponController implements WeaponInterface {
         // Get the position and speed vector
         const position = this._model.parent.getAbsolutePosition().clone();
         const speedVector = this._getInitialForce();
-        const orientation = this._getInitialForce().normalize();
+        const orientation = this._getInitialOrientation(speedVector);
 
         // Create a new projectile
-        const projectile = new BallController(new BallView(), new BallModel(position, orientation, speedVector));
+        const projectile = ProjectileFactory.createProjectile(this._model.projectileType, {
+            initialPosition: position,
+            initialSpeedVector: speedVector,
+            initialOrientation: orientation,
+        });
 
         // Add to projectile list
-        this._projectiles.push(projectile);
-        console.log(this._projectiles.length);
+        this._model.projectiles.push(projectile);
     }
 
-    private _canFire(): boolean {
-
+    /**
+     * Check if the weapon can fire
+     *
+     * @returns True if the weapon can fire
+     */
+    protected _canFire(): boolean {
         return (
             this._model.isGrabed &&
             this._model.timeSinceLastShot > this._model.cooldownSecond &&
@@ -77,16 +69,54 @@ abstract class WeaponController implements WeaponInterface {
     protected abstract _getInitialForce(): Vector3;
 
     /**
-     * Build a new projectile
+     * Get the initial orientation of the projectile
+     * Default to the normalized speed vector
      *
-     * @param position initial position of the projectile
-     * @param speedVector initial speed vector of the projectile
+     * @param speedVector The initial speed vector of the projectile
+     * @returns The initial orientation of the projectile
+     *
      */
-    // protected abstract _buildProjectile(position: Vector3, speedVector: Vector3): ProjectileController;
+    protected _getInitialOrientation(speedVector: Vector3): Vector3 {
+        return speedVector.clone().normalize();
+    }
 
-    ////////////////////
-    // Grab and throw //
-    ////////////////////
+    ////////////
+    // Update //
+    ////////////
+
+    public update(deltaTime: number): void {
+        // Update time since last shot
+        this._model.timeSinceLastShot += deltaTime;
+
+        // Clear disposed projectiles
+        this._model.projectiles = this._model.projectiles.filter((projectile) => {
+            return !projectile.canBeDisposed;
+        });
+
+        // Update projectiles
+        this._model.projectiles.forEach((projectile) => {
+            projectile.update(deltaTime);
+        });
+
+        // Check if the weapon must be disposed
+        if (this._checkDisposalConditions()) {
+            this.dispose();
+        }
+
+        // Check if the weapon can be disposed
+        if (this._model.isDisposed && this._model.projectiles.length === 0) {
+            this._model.canBeDisposed = true;
+        }
+    }
+
+    private _checkDisposalConditions(): boolean {
+        // if the weapon is out of durability, dispose
+        return this._model.durability <= 0;
+    }
+
+    //////////
+    // Grab //
+    //////////
 
     public grab(hand: AbstractMesh): void {
         this._model.isGrabed = true;
@@ -99,26 +129,12 @@ abstract class WeaponController implements WeaponInterface {
         this._view.mesh.parent = null;
     }
 
-    ////////////
-    // Update //
-    ////////////
+    //////////////
+    // Accessor //
+    //////////////
 
-    public update(deltaTime: number): void {
-        // Update time since last shot
-        this._model.timeSinceLastShot += deltaTime;
-
-        // Clear disposed projectiles
-        this._projectiles = this._projectiles.filter((projectile) => {
-            return !projectile.isDisposed;
-        });
-
-        // Update projectiles
-        this._projectiles.forEach((projectile) => {
-            projectile.update(deltaTime);
-        });
-
-        // Update the weapon view
-        this._view.update(deltaTime);
+    public get canBeDisposed(): boolean {
+        return this._model.canBeDisposed;
     }
 
     /////////////
@@ -126,7 +142,15 @@ abstract class WeaponController implements WeaponInterface {
     /////////////
 
     public dispose(): void {
+        this._model.isDisposed = true;
+
         this._view.mesh.dispose();
+
+        // Not disposing the projectiles here, they will be auto disposed
+        // The goal is to avoid projectiles to be disposed if the weapon is disposed
+        // (e.g. when the player change weapon)
+
+        // Continue to update the projectiles until they are all disposed
     }
 }
 export default WeaponController;

@@ -15,7 +15,7 @@ abstract class ProjectileModel {
     private _timeOfLife: number;
     private _hitbox: AbstractMesh;
     private _hitboxPadding: number;
-    private _isDisposed;
+    private _canBeDisposed;
 
     /////////////////
     // Constructor //
@@ -47,7 +47,7 @@ abstract class ProjectileModel {
         this._behaviors = behavior;
 
         // Initialize dispose
-        this._isDisposed = false;
+        this._canBeDisposed = false;
 
         // Initialize time of life
         this._timeOfLife = 0;
@@ -106,12 +106,12 @@ abstract class ProjectileModel {
     }
 
     // Dispose
-    public get isDisposed(): boolean {
-        return this._isDisposed;
+    public get canBeDisposed(): boolean {
+        return this._canBeDisposed;
     }
 
-    public set isDisposed(isDisposed: boolean) {
-        this._isDisposed = isDisposed;
+    public set canBeDisposed(isDisposed: boolean) {
+        this._canBeDisposed = isDisposed;
     }
 
     // Hitbox padding

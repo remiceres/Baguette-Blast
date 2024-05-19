@@ -1,14 +1,17 @@
-import { MeshBuilder, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, MeshBuilder } from '@babylonjs/core';
 import WeaponView from './WeaponView';
 
 class HandView extends WeaponView {
+    /////////////////
+    // Constructor //
+    /////////////////
+
     constructor() {
         super();
     }
 
-    _loadMesh() {
-        const mesh = MeshBuilder.CreateBox('weapon', { size: 1.5 });
-        mesh.scaling = new Vector3(0.1, 0.1, 0.5);
+    protected _createMesh(): AbstractMesh {
+        const mesh = MeshBuilder.CreateBox('hand', { size: 1.5 });
         return mesh;
     }
 }

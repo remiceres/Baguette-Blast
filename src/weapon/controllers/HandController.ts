@@ -7,23 +7,35 @@ class HandController extends WeaponController {
     protected _model: HandModel;
     protected _view: HandView;
 
-    constructor(model: HandModel, view: HandView) {
-        super(model, view);
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    constructor(view: HandView, model: HandModel) {
+        super(view, model);
     }
+
+    //////////
+    // Fire //
+    //////////
 
     protected _getInitialForce(): Vector3 {
         let direction = new Vector3(0, 0, 0);
         let force = 0;
 
-        if (this._model.lastPosition && this._model.actualPosition) {
-            direction = this._model.actualPosition.subtract(this._model.lastPosition).normalize();
+        if (this._model.savPosition && this._model.actualPosition) {
+            direction = this._model.actualPosition.subtract(this._model.savPosition).normalize();
             force =
-                (this._model.actualPosition.subtract(this._model.lastPosition).length() * 1000) /
-                (Date.now() - this._model.lastPositionTime);
+                (this._model.actualPosition.subtract(this._model.savPosition).length() * 1000) /
+                (Date.now() - this._model.savPositionTime);
         }
 
         return direction.scale(force);
     }
+
+    ////////////
+    // Update //
+    ////////////
 
     public update(deltaTime: number): void {
         super.update(deltaTime);
@@ -37,17 +49,9 @@ class HandController extends WeaponController {
     }
 
     private _savePosition(position: Vector3): void {
-        this._model.lastPosition = this._model.actualPosition;
-        this._model.lastPositionTime = Date.now();
+        this._model.savPosition = this._model.actualPosition;
+        this._model.savPositionTime = Date.now();
         this._model.actualPosition = position.clone();
-    }
-
-    public get projectile() {
-        return this._model.projectile;
-    }
-
-    public set projectile(projectile) {
-        this._model.projectile = projectile;
     }
 }
 export default HandController;
