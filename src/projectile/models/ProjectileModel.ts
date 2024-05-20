@@ -2,26 +2,30 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
 
 abstract class ProjectileModel {
-    // Constants
+    // Mouvement
     private readonly _maxSpeed: number;
-    private readonly _maxTimeOfLife: number;
     private _behaviors: IBehaviour[];
     private _dampingFactor: number;
-
-    // Internal variables
     private _speedVector: Vector3;
     private _position: Vector3;
     private _orientation: Vector3;
+
+    // Time of life
+    private readonly _maxTimeOfLife: number;
     private _timeOfLife: number;
+
+    // Hitbox
     private _hitbox: AbstractMesh;
     private _hitboxPadding: number;
+
+    // Dispose
     private _canBeDisposed;
 
     /////////////////
     // Constructor //
     /////////////////
 
-    constructor(
+    public constructor(
         initialPosition: Vector3,
         intialOrientation: Vector3,
         initialSpeedVector: Vector3,
@@ -137,6 +141,14 @@ abstract class ProjectileModel {
     // Damping factor
     public get dampingFactor(): number {
         return this._dampingFactor;
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
+
+    public dispose(): void {
+        this._hitbox.dispose();
     }
 }
 export default ProjectileModel;

@@ -43,6 +43,7 @@ class CollisionManager {
             for (let j = 0; j < collidersSnapshot.length; j++) {
                 if (i !== j && collidersSnapshot[i].collidesWith(collidersSnapshot[j])) {
                     collidersSnapshot[i].onCollision(collidersSnapshot[j]);
+                    collidersSnapshot[j].onCollision(collidersSnapshot[i]);
                 }
             }
         }

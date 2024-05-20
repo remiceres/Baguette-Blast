@@ -15,6 +15,12 @@ class MoveAtoB implements IBehaviour {
     }
 
     getForceVector(deltaTime: number, mesh: AbstractMesh, currentForce: Vector3): Vector3 {
+        // if metadata is not defined, set it to an empty object
+        if (!mesh.metadata) {
+            mesh.metadata = {};
+        }
+
+        // TODO check if all enemies are destroyed properly, do a log here to test
         currentForce;
         // Go to A then to B then to A then to B
         // If the mesh has no target, set the target to A

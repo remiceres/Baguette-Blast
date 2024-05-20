@@ -141,9 +141,9 @@ class LevelState implements StateInterface {
 
             // Create and add new enemies for the current wave
             this._enemiesController.push(...currentWave.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
-            this._enemiesController.forEach((enemyController) => {
-                Game.instance.collisionManager.addCollider(enemyController);
-            });
+            // this._enemiesController.forEach((enemyController) => {
+            //     Game.instance.collisionManager.addCollider(enemyController);
+            // });
 
             // Update the global count of enemies left
             // Game.instance.enemiesLeft = this._enemiesController.length;

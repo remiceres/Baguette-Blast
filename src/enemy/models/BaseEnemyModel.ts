@@ -1,96 +1,153 @@
-import { Mesh, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
-import Game from '../../game/Game';
+import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 
 class BaseEnemyModel {
+    // Mouvement
+    private readonly _maxSpeed: number;
+    private _dampingFactor: number;
+    private _behaviours: IBehaviour[];
+    private _speedVector: Vector3;
     private _position: Vector3;
+
+    // Hitbox
+    private _hitbox: AbstractMesh;
+    private _hitboxPadding: number;
+
+    // Bonus
+    private _bonusController: BaseBonusController;
+
+    // Stats
     private _health: number;
     private _score: number;
-    private _movementVector: Vector3 = new Vector3(0, 0, 0);
-    private _maxSpeed: number = 20;
-    private _hitbox: Mesh;
-    protected _behaviours: IBehaviour[] = [];
 
-    constructor(
-        position: Vector3 = new Vector3(0, 0, 0),
-        health: number = 100,
-        score: number = 1,
+    // Dispose
+    private _canBeDisposed: boolean;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor(
+        position,
+        health,
+        score,
+        behavior: IBehaviour[],
+        maxSpeed = 20,
+        dampingFactor = 0.98,
+        hitboxPadding = 0.1
     ) {
+        // Mouvement
+        this._maxSpeed = maxSpeed;
+        this._dampingFactor = dampingFactor;
+        this._behaviours = behavior;
+        this._speedVector = Vector3.Zero();
         this._position = position;
+
+        // Hitbox
+        this._hitboxPadding = hitboxPadding;
+
+        // Stats
         this._health = health;
         this._score = score;
+
+        // Dispose
+        this._canBeDisposed = false;
     }
 
-    // Getters
-    get position(): Vector3 {
-        return this._position;
-    }
+    //////////////
+    // Accessor //
+    //////////////
 
-    get health(): number {
-        return this._health;
-    }
-
-    get score(): number {
-        return this._score;
-    }
-
-    get movementVector(): Vector3 {
-        return this._movementVector;
-    }
-
-    get maxSpeed(): number {
+    // Max speed
+    public get maxSpeed(): number {
         return this._maxSpeed;
     }
 
-    get hitbox(): Mesh {
-        return this._hitbox;
+    // Damping factor
+    public get dampingFactor(): number {
+        return this._dampingFactor;
     }
 
-    get behaviours(): IBehaviour[] {
+    // Behaviors
+    public get behaviors(): IBehaviour[] {
         return this._behaviours;
     }
 
-    // Setters
-    set position(value: Vector3) {
-        this._position = value;
+    // Speed vector
+    public get speedVector(): Vector3 {
+        return this._speedVector;
     }
 
-    set health(value: number) {
-        this._health = value;
+    public set speedVector(speedVector: Vector3) {
+        this._speedVector = speedVector;
     }
 
-    set score(value: number) {
-        this._score = value;
+    // Position
+    public get position(): Vector3 {
+        return this._position;
     }
 
-    set movementVector(value: Vector3) {
-        this._movementVector = value;
+    public set position(position: Vector3) {
+        this._position = position;
     }
 
-    set maxSpeed(value: number) {
-        this._maxSpeed = value;
+    // Hitbox
+    public get hitbox(): AbstractMesh {
+        return this._hitbox;
     }
 
-    set hitbox(hitbox: Mesh) {
+    public set hitbox(hitbox: AbstractMesh) {
         this._hitbox = hitbox;
     }
 
-    update(deltaTime: number): void {
-        deltaTime;
-        // console.log(this.position);
-        // Base update logic (if any)
+    // Hitbox padding
+    public get hitboxPadding(): number {
+        return this._hitboxPadding;
     }
 
-    dispose(): void {
-        // if behaviours have a dispose method, call it
-        this._behaviours = [];
-        
-        // Remove the hitbox
-        this._hitbox.dispose();
+    // Bonus controller
+    public get bonusController(): BaseBonusController {
+        return this._bonusController;
+    }
 
-        // Remove collision detection
-        Game.instance.collisionManager.removeCollider(this);
+    public set bonusController(bonusController: BaseBonusController) {
+        this._bonusController = bonusController;
+    }
 
+    // Health
+    public get health(): number {
+        return this._health;
+    }
+
+    public set health(health: number) {
+        this._health = health;
+    }
+
+    // Score
+    public get score(): number {
+        return this._score;
+    }
+
+    public set score(score: number) {
+        this._score = score;
+    }
+
+    // Dispose
+    public get canBeDisposed(): boolean {
+        return this._canBeDisposed;
+    }
+
+    public set canBeDisposed(isDisposed: boolean) {
+        this._canBeDisposed = isDisposed;
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
+
+    public dispose(): void {
+        this.hitbox.dispose();
     }
 }
 

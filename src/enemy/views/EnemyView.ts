@@ -1,32 +1,31 @@
-import { MeshBuilder, StandardMaterial, Color3, Scene } from '@babylonjs/core';
-import BaseEnemyView  from './BaseEnemyView';
+import { AbstractMesh, Color3, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
+import Game from '../../game/Game';
 import BaseEnemyModel from '../models/BaseEnemyModel';
+import BaseEnemyView from './BaseEnemyView';
 
 class EnemyView extends BaseEnemyView {
     private _model: BaseEnemyModel;
 
     constructor(scene: Scene, model: BaseEnemyModel) {
-        super(scene);
+        super();
         this._model = model;
-        this.createMesh();
     }
 
-    onKill(): void {
-    }
+    onKill(): void {}
 
-    createMesh(): void {
-        this._mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, this._scene);
-        const material = new StandardMaterial('enemyMaterial', this._scene);
+    protected _createMesh(): AbstractMesh {
+        const mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, Game.instance.scene);
+        const material = new StandardMaterial('enemyMaterial', Game.instance.scene);
         material.diffuseColor = new Color3(1, 0, 0); // Red color for the enemy
-        this._mesh.material = material;
+        mesh.material = material;
 
-        this._mesh.metadata = {};
+        return mesh;
     }
 
     public update(): void {
         // Update the mesh to reflect the model's current state
-        if (this._mesh) {
-            this._mesh.position = this._model.position; 
+        if (this.mesh) {
+            this.mesh.position = this._model.position;
         }
     }
 }

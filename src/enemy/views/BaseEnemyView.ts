@@ -1,32 +1,47 @@
-import { AbstractMesh, Scene } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 import BaseBonusView from '../../bonus/views/BaseBonusView';
 
 abstract class BaseEnemyView {
-    public _mesh: AbstractMesh;
-    protected _scene: Scene;
-    protected _bonusView: BaseBonusView;
+    private _mesh: AbstractMesh;
 
-    constructor(scene: Scene) {
-        this._scene = scene;
+    // Bonus view
+    private _bonusView: BaseBonusView;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor() {
+        this._mesh = this._createMesh();
     }
 
-    abstract createMesh(): void;
+    /**
+     * Create the mesh of the projectile
+     *
+     * @returns The mesh of the projectile
+     */
+    protected abstract _createMesh(): AbstractMesh;
 
-    abstract onKill(): void;
+    //////////////
+    // Accessor //
+    //////////////
 
-    public update(): void {}
-
-    public dispose(): void {
-        if (this._mesh) {
-            this._mesh.dispose();
-        }
+    public get mesh(): AbstractMesh {
+        return this._mesh;
     }
 
     public set bonusView(bonusView: BaseBonusView) {
         this._bonusView = bonusView;
-        // Add bonus mesh to the enemy mesh, on top of the enemy mesh
         this._bonusView.mesh.parent = this._mesh;
         this._bonusView.mesh.position.y = 1;
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
+
+    public dispose(): void {
+        this._mesh.dispose();
     }
 }
 

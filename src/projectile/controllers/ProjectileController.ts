@@ -36,7 +36,7 @@ abstract class ProjectileController implements ICollider {
     public collidesWith(other: ICollider): boolean {
         // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
-            if (other.view._mesh.intersectsMesh(this._model.hitbox)) {
+            if (other.hitbox.intersectsMesh(this._model.hitbox)) {
                 // console.log('Projectile hit enemy');
                 return true;
             }
@@ -99,6 +99,7 @@ abstract class ProjectileController implements ICollider {
     }
 
     private _updatePosition(deltaTime: number): void {
+        // Apply initial damping to simulate friction and air resistance
         const dampingFactor = this._model.dampingFactor;
         this._model.speedVector.scaleInPlace(dampingFactor);
 
@@ -134,6 +135,7 @@ abstract class ProjectileController implements ICollider {
         this._model.canBeDisposed = true;
         Game.instance.collisionManager.removeCollider(this);
         this._view.dispose();
+        this._model.dispose();
     }
 }
 export default ProjectileController;

@@ -1,4 +1,5 @@
-import { Color3, MeshBuilder, StandardMaterial } from '@babylonjs/core';
+import { AbstractMesh, Color3, MeshBuilder, StandardMaterial } from '@babylonjs/core';
+import Game from '../../game/Game';
 import BalloonModel from '../models/BalloonModel';
 import BalloonView from './BalloonView';
 
@@ -8,15 +9,17 @@ class PigeonView extends BalloonView {
     constructor(model: BalloonModel) {
         super();
         this._model = model;
-        this.createMesh();
     }
 
-    createMesh(): void {
-        this._mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, this._scene);
-        const material = new StandardMaterial('enemyMaterial', this._scene);
+    protected _createMesh(): AbstractMesh {
+        const mesh = MeshBuilder.CreateBox('enemyMesh', { size: 1 }, Game.instance.scene);
+        const material = new StandardMaterial('enemyMaterial', Game.instance.scene);
         material.diffuseColor = new Color3(1, 0, 0); 
-        this._mesh.material = material;
-        this._mesh.position = this._model.position;
+        mesh.material = material;
+        // mesh.position = this._model.position;
+
+        return mesh;
+
     }
 }
 export default PigeonView;
