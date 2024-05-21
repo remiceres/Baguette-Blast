@@ -2,7 +2,7 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 
-class BaseEnemyModel {
+abstract class BaseEnemyModel {
     // Mouvement
     private readonly _maxSpeed: number;
     private _dampingFactor: number;
@@ -29,10 +29,10 @@ class BaseEnemyModel {
     /////////////////
 
     public constructor(
-        position,
-        health,
-        score,
-        behavior: IBehaviour[],
+        position: Vector3,
+        health: number,
+        score: number,
+        behaviors: IBehaviour[] = [],
         maxSpeed = 20,
         dampingFactor = 0.98,
         hitboxPadding = 0.1
@@ -40,7 +40,7 @@ class BaseEnemyModel {
         // Mouvement
         this._maxSpeed = maxSpeed;
         this._dampingFactor = dampingFactor;
-        this._behaviours = behavior;
+        this._behaviours = behaviors;
         this._speedVector = Vector3.Zero();
         this._position = position;
 
@@ -72,6 +72,13 @@ class BaseEnemyModel {
     // Behaviors
     public get behaviors(): IBehaviour[] {
         return this._behaviours;
+    }
+
+    protected addBehavior(behavior: IBehaviour): void {
+        if (!Array.isArray(this._behaviours)) {
+            this._behaviours = [];
+        }
+        this._behaviours.push(behavior);
     }
 
     // Speed vector
@@ -147,7 +154,9 @@ class BaseEnemyModel {
     /////////////
 
     public dispose(): void {
-        this.hitbox.dispose();
+        if (this._hitbox) {
+            this._hitbox.dispose();
+        }
     }
 }
 

@@ -1,9 +1,26 @@
-import { Vector3 } from '@babylonjs/core';
+import Floating from '../../behaviors/Floating';
+import IBehaviour from '../../behaviors/IBehaviour';
 import BaseEnemyModel from './BaseEnemyModel';
 
 class BalloonModel extends BaseEnemyModel {
-    constructor(position: Vector3 = new Vector3(0, 0, 0), health: number = 100, score: number = 1, behaviors) {
-        super(position, health, score, behaviors);
+    // Default behavior
+    private _defaultBehavior: IBehaviour = new Floating();
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor(
+        position,
+        health,
+        score,
+        behavior: IBehaviour[],
+        maxSpeed = 20,
+        dampingFactor = 0.98,
+        hitboxPadding = 0.1
+    ) {
+        super(position, health, score, behavior, maxSpeed, dampingFactor, hitboxPadding);
+        this.addBehavior(this._defaultBehavior);
     }
 }
 

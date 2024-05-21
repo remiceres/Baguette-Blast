@@ -6,10 +6,8 @@ import TimeBonusView from '../bonus/views/TimeBonusView';
 import { BonusData, EnemyData } from '../game/models/LevelData';
 import EnemyController from './controllers/EnemyController';
 import BalloonModel from './models/BalloonModel';
-import CopperBalloonModel from './models/CopperBalloonModel';
-import GoldBalloonModel from './models/GoldBalloonModel';
+import BaseEnemyModel from './models/BaseEnemyModel';
 import PigeonModel from './models/PigeonModel';
-import SilverBalloonModel from './models/SilverBalloonModel';
 import BalloonView from './views/BalloonView';
 import CopperBalloonView from './views/CopperBalloonView';
 import GoldBalloonView from './views/GoldBalloonView';
@@ -40,7 +38,7 @@ class EnemyFactory {
         //     new AvoidColliders(3, 2)
         // ];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, enemyData);
-        const view = this._createView(enemyData.type, model);
+        const view = this._createView(enemyData.type);
         const controller = new EnemyController(model, view);
 
         // this._assignBehavior(model, enemyData.behavior);
@@ -55,14 +53,14 @@ class EnemyFactory {
         health: number,
         score: number,
         enemyData
-    ): BalloonModel {
+    ): BaseEnemyModel {
         switch (type) {
             case EnemyType.Copper:
-                return new CopperBalloonModel(position, health, score, enemyData);
+                return new BalloonModel(position, health, score, enemyData);
             case EnemyType.Silver:
-                return new SilverBalloonModel(position, health, score, enemyData);
+                return new BalloonModel(position, health, score, enemyData);
             case EnemyType.Gold:
-                return new GoldBalloonModel(position, health, score, enemyData);
+                return new BalloonModel(position, health, score, enemyData);
             case EnemyType.Pigeon:
                 return new PigeonModel(position, health, score);
             default:
@@ -70,16 +68,16 @@ class EnemyFactory {
         }
     }
 
-    private static _createView(type: string, model: BalloonModel): BalloonView {
+    private static _createView(type: string): BalloonView {
         switch (type) {
             case EnemyType.Copper:
-                return new CopperBalloonView(model);
+                return new CopperBalloonView();
             case EnemyType.Silver:
-                return new SilverBalloonView(model);
+                return new SilverBalloonView();
             case EnemyType.Gold:
-                return new GoldBalloonView(model);
+                return new GoldBalloonView();
             case EnemyType.Pigeon:
-                return new PigeonView(model);
+                return new PigeonView();
             default:
                 throw new Error(`Unsupported enemy type: ${type}`);
         }

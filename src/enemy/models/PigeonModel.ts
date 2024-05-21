@@ -1,9 +1,12 @@
 import { Vector3 } from '@babylonjs/core';
-import BalloonModel from './BalloonModel';
+import BaseEnemyModel from './BaseEnemyModel';
 
-class PigeonModel extends BalloonModel {
-    constructor(position: Vector3 = new Vector3(0, 0, 0), health: number = 100, score: number = 10) {
-        // Silver color could be defined here
+class PigeonModel extends BaseEnemyModel {
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor(position: Vector3, health: number, score: number) {
         super(position, health, score, []);
     }
 }
