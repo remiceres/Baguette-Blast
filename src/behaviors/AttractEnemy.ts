@@ -7,7 +7,7 @@ class AttractEnemy implements IBehaviour {
     private _detectionRadius: number;
     private _force: number;
 
-    constructor(enemies: EnemyController[], detectionRadius: number, force: number) {
+    public constructor(enemies: EnemyController[], detectionRadius: number, force: number) {
         this._enemies = enemies;
         this._detectionRadius = detectionRadius;
         this._force = force;
