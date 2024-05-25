@@ -4,11 +4,13 @@ import ScoreBonus from '../bonus/models/ScoreBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
 import { BonusData, EnemyData } from '../game/models/LevelData';
+import BalloonController from './controllers/BalloonControllers';
 import EnemyController from './controllers/EnemyController';
+import PigeonController from './controllers/PigeonControllers';
 import BalloonModel from './models/BalloonModel';
 import BaseEnemyModel from './models/BaseEnemyModel';
 import PigeonModel from './models/PigeonModel';
-import BalloonView from './views/BalloonView';
+import BaseEnemyView from './views/BaseEnemyView';
 import CopperBalloonView from './views/CopperBalloonView';
 import GoldBalloonView from './views/GoldBalloonView';
 import PigeonView from './views/PigeonView';
@@ -39,7 +41,14 @@ class EnemyFactory {
         // ];
         const model = this._createModel(enemyData.type, position, enemyData.health, enemyData.score, enemyData);
         const view = this._createView(enemyData.type);
-        const controller = new EnemyController(model, view);
+
+        let controller = undefined;
+
+        if (enemyData.type === EnemyType.Pigeon) {
+            controller = new PigeonController(model, view);
+        } else {
+            controller = new BalloonController(model, view);
+        }
 
         // this._assignBehavior(model, enemyData.behavior);
         this._assignBonus(controller, enemyData.bonus);
@@ -68,7 +77,7 @@ class EnemyFactory {
         }
     }
 
-    private static _createView(type: string): BalloonView {
+    private static _createView(type: string): BaseEnemyView {
         switch (type) {
             case EnemyType.Copper:
                 return new CopperBalloonView();

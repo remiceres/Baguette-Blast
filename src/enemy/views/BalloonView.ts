@@ -7,7 +7,7 @@ abstract class BalloonView extends BaseEnemyView {
         super();
     }
 
-    onKill(): void {
+    protected _killAnimation(): void {
         // Create a particle system
         const particleSystem = new ParticleSystem('particles', 1000, Game.instance.scene);
 

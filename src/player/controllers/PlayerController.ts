@@ -117,6 +117,18 @@ class PlayerController implements ICollider {
         return this._view.bodyHitbox;
     }
 
+    //////////////
+    // Position //
+    //////////////
+
+    public get positionHead(): Vector3 {
+        return this._view.headHitbox.getAbsolutePosition();
+    }
+
+    public get positionBody(): Vector3 {
+        return this._view.bodyHitbox.getAbsolutePosition();
+    }
+
     ////////////
     // Update //
     ////////////

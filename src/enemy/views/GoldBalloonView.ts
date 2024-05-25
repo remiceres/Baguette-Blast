@@ -10,5 +10,7 @@ class GoldBalloonView extends BalloonView {
     protected _createMesh(): AbstractMesh {
         return Game.instance.assetManager.getBalloonGoldInstance();
     }
+
+    public update(): void {}
 }
 export default GoldBalloonView;

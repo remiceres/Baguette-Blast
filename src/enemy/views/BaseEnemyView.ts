@@ -36,11 +36,20 @@ abstract class BaseEnemyView {
         this._bonusView.mesh.position.y = 1;
     }
 
+    ////////////
+    // Update //
+    ////////////
+
+    public abstract update(deltaTime: number): void;
+
     /////////////
     // Dispose //
     /////////////
 
+    protected abstract _killAnimation(): void;
+
     public dispose(): void {
+        this._killAnimation();
         this._mesh.dispose();
     }
 }

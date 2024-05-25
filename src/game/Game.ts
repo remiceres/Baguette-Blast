@@ -10,12 +10,13 @@ import PlayerModel from '../player/models/PlayerModels';
 import PlayerView from '../player/views/PlayerViews';
 import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
+import CustomUI from '../UI/CustomUI';
+import { AnimationController } from './controllers/AnimationController';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
 import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import CollisionManager from './controllers/CollisionManager';
 import TimeControl from './controllers/TimeControl';
-import CustomUI from '../UI/CustomUI';
 
 /**
  * The Game class is the central class of the application.
@@ -71,6 +72,9 @@ class Game {
     // Collision manager.
     private _collisionManager: CollisionManager;
 
+    // Annimation manager.
+    private _animationManager: AnimationController;
+
     /////////////////
     // Constructor //
     /////////////////
@@ -114,12 +118,12 @@ class Game {
         this._timeControl = new TimeControl();
         this._debugConsole = new DebugConsole();
         this._player = new PlayerController(new PlayerModel(), new PlayerView());
+        this._animationManager = new AnimationController();
 
         // Debug mode
         if (this._debug) {
             Inspector.Show(this._scene, {});
         }
-
 
         // Get the position of mesh boundaries of the "Panneau" mesh in the Nodes.
         const panneau = this._scene.getMeshByName('Panneau');
@@ -236,6 +240,10 @@ class Game {
 
     public get collisionManager(): CollisionManager {
         return this._collisionManager;
+    }
+
+    public get animationManager(): AnimationController {
+        return this._animationManager;
     }
 }
 

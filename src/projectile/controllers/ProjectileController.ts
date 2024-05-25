@@ -20,7 +20,7 @@ abstract class ProjectileController implements ICollider {
         this._model = model;
 
         // Create the hitbox
-        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, this._model.hitboxPadding);
+        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, '', this._model.hitboxPadding);
 
         // Orient the projectile
         this._view.mesh.lookAt(this._view.mesh.position.add(this._model.speedVector));

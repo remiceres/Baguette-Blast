@@ -1,9 +1,18 @@
-import { AbstractMesh, AssetsManager, InstancedMesh, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import {
+    AbstractMesh,
+    AssetsManager,
+    InstancedMesh,
+    Mesh,
+    MeshBuilder,
+    Scene,
+    TransformNode,
+    Vector3,
+} from '@babylonjs/core';
+import { Inspector } from '@babylonjs/inspector';
 import WallController from '../../wall/controllers/WallController';
 import WallModel from '../../wall/models/WallModel';
 import WallView from '../../wall/view/WallView';
 import Game from '../Game';
-import { Inspector } from '@babylonjs/inspector';
 
 class AssetsLoader {
     // Scene
@@ -17,17 +26,17 @@ class AssetsLoader {
 
     // Constants
     private readonly _modelPathRepertory = 'models/'; // from public folder
-    private readonly _modelExtension = '.obj';
     private readonly _modelNames = [
-        'Scene',
-        'BonusTime',
-        'BonusHourglass',
-        'BonusScore',
-        'BallonBronze',
-        'BallonSilver',
-        'BallonGold',
-        'Bullet',
-        'Laser',
+        ['Scene', '.obj'],
+        ['BonusTime', '.obj'],
+        ['BonusHourglass', '.obj'],
+        ['BonusScore', '.obj'],
+        ['BallonBronze', '.obj'],
+        ['BallonSilver', '.obj'],
+        ['BallonGold', '.obj'],
+        ['Bullet', '.obj'],
+        ['Laser', '.obj'],
+        ['FlyingPigeon', '.glb'],
     ];
 
     /////////////////
@@ -51,9 +60,9 @@ class AssetsLoader {
         const assetManager = new AssetsManager(this._scene);
 
         // For each model, define a task to load it
-        this._modelNames.forEach((name) => {
+        this._modelNames.forEach(([name, extension]) => {
             // Define the task to load the mesh
-            const task = assetManager.addMeshTask(name, '', this._modelPathRepertory, `${name}${this._modelExtension}`);
+            const task = assetManager.addMeshTask(name, '', this._modelPathRepertory, `${name}${extension}`);
 
             // Define the callback for when the mesh is loaded successfully
             task.onSuccess = (task) => {
@@ -86,6 +95,11 @@ class AssetsLoader {
         // Re-scale laser mesh
         if (name === 'Laser') {
             mesh.scaling.scaleInPlace(0.1);
+        }
+
+        // Re-scale flying pigeon mesh
+        if (name === 'FlyingPigeon') {
+            mesh.scaling.scaleInPlace(10);
         }
 
         // Hide all meshes except the scene
@@ -145,17 +159,38 @@ class AssetsLoader {
         return this._createInstance('Laser');
     }
 
+    public getFlyingPigeonInstance(): InstancedMesh {
+        return this._createInstance('FlyingPigeon');
+    }
+
     /////////////////
     // Hitbox API //
     /////////////////
 
-    public createHitbox(mesh: AbstractMesh, padding: number): AbstractMesh {
-        // Get the bounding box of the mesh
+    public createHitbox(rootMesh: AbstractMesh, partName: string, padding: number): AbstractMesh {
+        // Function to find the first mesh that matches the partName
+        const findMeshByNamePart = (mesh: AbstractMesh, namePart: string): AbstractMesh => {
+            if (mesh.name.includes(namePart)) {
+                return mesh;
+            }
+            for (const child of mesh.getChildMeshes()) {
+                const result = findMeshByNamePart(child, namePart);
+                if (result) {
+                    return result;
+                }
+            }
+            throw new Error('No mesh found matching the name part: ' + namePart);
+        };
+
+        // Find the first matching mesh
+        const mesh = findMeshByNamePart(rootMesh, partName);
+
+        // Get the bounding box of the found mesh
         const boundingBox = mesh.getBoundingInfo().boundingBox;
 
         // Create a box mesh to represent the hitbox
         const hitbox = MeshBuilder.CreateBox(
-            'hitbox',
+            'hitbox-' + mesh.name,
             {
                 width: boundingBox.maximum.x - boundingBox.minimum.x - padding,
                 height: boundingBox.maximum.y - boundingBox.minimum.y - padding,
@@ -186,16 +221,26 @@ class AssetsLoader {
         return this._createInstanceRecursive(mesh, instanceName);
     }
 
-    private _createInstanceRecursive(mesh: Mesh, name: string, parent?: InstancedMesh): InstancedMesh {
-        const instance = mesh.createInstance(`${name}$`);
-        instance.isVisible = true;
-        instance.parent = parent;
-        mesh.getChildMeshes().forEach((child) => {
-            if (child instanceof Mesh) {
-                this._createInstanceRecursive(child, name + '_child', instance);
-            }
+    private _createInstanceRecursive(mesh, newInstanceName: string): InstancedMesh {
+        let newInstance = null;
+
+        if (mesh instanceof Mesh) {
+            newInstance = mesh.createInstance(newInstanceName);
+        } else if (mesh instanceof TransformNode) {
+            newInstance = mesh.clone(newInstanceName, null, true);
+            newInstance.animations = mesh.animations;
+        } else {
+            console.error('Unsupported mesh type');
+            return;
+        }
+
+        mesh.getChildren().forEach((child) => {
+            // Recursively create instances for the children
+            const childInstance = this._createInstanceRecursive(child, `${newInstanceName}_${child.name}`);
+            childInstance.parent = newInstance;
         });
-        return instance;
+
+        return newInstance;
     }
 
     private _getInstancesCount(name: string): number {

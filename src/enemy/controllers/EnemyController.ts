@@ -4,10 +4,10 @@ import Game from '../../game/Game';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
 
-class EnemyController implements ICollider {
+abstract class EnemyController implements ICollider {
     // MVC
-    private _model: BaseEnemyModel;
-    private _view: BaseEnemyView;
+    protected _model: BaseEnemyModel;
+    protected _view: BaseEnemyView;
 
     /////////////////
     // Constructor //
@@ -19,11 +19,13 @@ class EnemyController implements ICollider {
         this._view = view;
 
         // Initialize the hitbox
-        this._model.hitbox = Game.instance.assetManager.createHitbox(this._view.mesh, this._model.hitboxPadding);
+        this._model.hitbox = this.createHitbox();
 
         // Add to collider
         Game.instance.collisionManager.addCollider(this);
     }
+
+    public abstract createHitbox(): AbstractMesh;
 
     //////////////
     // Collider //
@@ -45,6 +47,9 @@ class EnemyController implements ICollider {
     public update(deltaTime: number): void {
         // Update the position of the enemy
         this._updatePosition(deltaTime);
+
+        // Update the view
+        this._view.update(deltaTime);
     }
 
     private _updatePosition(deltaTime: number): void {
