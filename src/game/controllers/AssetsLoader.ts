@@ -3,6 +3,7 @@ import WallController from '../../wall/controllers/WallController';
 import WallModel from '../../wall/models/WallModel';
 import WallView from '../../wall/view/WallView';
 import Game from '../Game';
+import { Inspector } from '@babylonjs/inspector';
 
 class AssetsLoader {
     // Scene
@@ -37,6 +38,7 @@ class AssetsLoader {
         this._scene = Game.instance.scene;
         this._dictModels = new Map();
         this._instancesCounters = new Map();
+        Inspector.Show(this._scene, {});
     }
 
     public async initialize(): Promise<void> {
