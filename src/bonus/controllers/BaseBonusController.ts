@@ -15,8 +15,8 @@ class BaseBonusController {
     }
 
     update(deltaTime: number): void {
-        this.model.update(deltaTime);
-        this.view.update();
+        // Slowly rotate the bonus
+        this.view.mesh.rotation.y += deltaTime;
     }
 }
 

@@ -1,12 +1,23 @@
 import BaseBonusModel from './BaseBonusModel';
 
 class ScoreBonus extends BaseBonusModel {
-    constructor(value: number = 200) {
-        super(value);
+    private _score: number;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    constructor(score: number) {
+        super();
+        this._score = score;
     }
 
-    update(deltaTime: number): void {
-        deltaTime;
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get score(): number {
+        return this._score;
     }
 }
 

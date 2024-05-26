@@ -96,10 +96,10 @@ class EnemyFactory {
     private static _assignBonus(controller: EnemyController, bonusData: BonusData) {
         switch (bonusData.type) {
             case BonusType.Score:
-                controller.attachBonus = new BaseBonusController(new ScoreBonus(), new ScoreBonusView());
+                controller.attachBonus = new BaseBonusController(new ScoreBonus(10), new ScoreBonusView());
                 break;
             case BonusType.Time:
-                controller.attachBonus = new BaseBonusController(new ScoreBonus(), new TimeBonusView());
+                controller.attachBonus = new BaseBonusController(new ScoreBonus(10), new TimeBonusView());
                 break;
             default:
                 console.log(`Unsupported behavior type: ${bonusData.type}`);

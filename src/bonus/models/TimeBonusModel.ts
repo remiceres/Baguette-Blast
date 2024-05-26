@@ -1,12 +1,23 @@
 import BaseBonusModel from './BaseBonusModel';
 
 class TimeBonusModel extends BaseBonusModel {
-    constructor(value: number = 20) {
-        super(value);
+    private _duration: number;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    constructor(duration: number) {
+        super();
+        this._duration = duration;
     }
 
-    update(deltaTime: number): void {
-        deltaTime;
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get duration(): number {
+        return this._duration;
     }
 }
 
