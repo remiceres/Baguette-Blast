@@ -47,23 +47,6 @@ class CustomUI {
         return button;
     }    
 
-    public static createTextZone(text: string[], position: Vector3, width: number, height: number): void {
-        // Dynamic Texture for text
-        const plane = MeshBuilder.CreatePlane('textPlane', { width: width, height: height }, Game.instance.scene);
-        plane.position.set(position.x, position.y, position.z);
-        const dynamicTexture = new DynamicTexture('DynamicTexture', 
-            { width: 512, height: 256 }, Game.instance.scene, false);
-        const material = new StandardMaterial('textMat', Game.instance.scene);
-        material.diffuseTexture = dynamicTexture;
-        plane.material = material;
-        for (let i = 0; i < text.length; i++) {
-            const y = i * 30 + 25;
-            dynamicTexture.drawText(text[i], null, y, 'bold 22px Arial', 'white', 'transparent', true);
-        }
-        this.textZones.push(dynamicTexture);
-        this.planes.push(plane);
-    }
-
     public static createImageZone(
         position: Vector3, width: number, height: number, imageUrl: string
     ): void {
@@ -96,17 +79,70 @@ class CustomUI {
         return panel;
     }
 
+    // Take a string and return a list of strings that fit in the width
+    public static async addTextPanel(text: string): Promise<AdvancedDynamicTexture> {
+        const scene = Game.instance.scene;
+        const box = MeshBuilder.CreateBox('box', {height: 9, width: 16, depth: 0.1}, scene);
+        box.scaling = new Vector3(0.4, 0.4, 0.4);
+        box.position = new Vector3(-0.5, 3.6, 11.5);
+    
+        const url = 'assets/frames/text-panel/Frame 1.json';
+        const uiTexture = AdvancedDynamicTexture.CreateForMesh(box, 2048, 1024, false);
+    
+        try {
+            await uiTexture.parseFromURLAsync(url);
+            const material = new StandardMaterial('mat', Game.instance.scene);
+            material.diffuseTexture = uiTexture;
+    
+            const button_home = uiTexture.getControlByName('btn1-bjs');
+            if (button_home) {
+                button_home.onPointerClickObservable.add(() => {
+                    // Dispose and change state
+                    uiTexture.dispose();
+                    Game.instance.stateManager.changeState(State.Home);
+                });
+            }
+    
+            const button_settings = uiTexture.getControlByName('btn2-bjs');
+            if (button_settings) {
+                button_settings.onPointerClickObservable.add(() => {
+                    // Dispose and change state
+                    uiTexture.dispose();
+                    Game.instance.stateManager.changeState(State.Settings);
+                });
+            }
+    
+            const retrievedTextBlock = uiTexture.getControlByName('home-txt') as unknown as BABYLON.GUI.TextBlock;
+            if (retrievedTextBlock) {
+                retrievedTextBlock.text = text;
+                // // Font is Press Start 2P
+                // retrievedTextBlock.fontFamily = 'Press Start 2P';
+                // // Bold
+                // retrievedTextBlock.fontWeight = 'bold';
+                // // Fs 38
+                // retrievedTextBlock.fontSize = '38px';
+            }
+        } catch (error) {
+            console.error('Error loading UI texture:', error);
+        }
+        return uiTexture;
+    }    
+
+    // eslint-disable-next-line max-len
+    // Image https://pixabay.com/fr/illustrations/la-t%C3%A9l%C3%A9-t%C3%A9l%C3%A9vision-t%C3%A9l%C3%A9viser-vid%C3%A9o-8760958/
     public static async addPanelTest(): Promise<void> {
         const scene = Game.instance.scene;
         // Create a simple box
-        const box = MeshBuilder.CreateBox('box', {height: 2, width: 2, depth: 0.1}, scene);
-        box.position = new Vector3(0, 2, 6); // Position it wherever needed
+        const box = MeshBuilder.CreateBox('box', {height: 9, width: 16, depth: 0.1}, scene);
+        // Scale it to the right size
+        box.scaling = new Vector3(0.4, 0.4, 0.4);
+        box.position = new Vector3(-0.5, 3.6, 11.5); // Position it wherever needed
 
-        const url = 'assets/textures/Frame 1.json';
+        const url = 'assets/frames/test.json';
         const uiTexture = AdvancedDynamicTexture.CreateForMesh(
             box,
-            2000,
-            1000,
+            2048,
+            1024,
             false
         );
         uiTexture.background = 'transparent';
@@ -122,6 +158,14 @@ class CustomUI {
                     // Level 1
                     Game.instance.stateManager.changeState(State.Level1);
                 });
+                // Find the text "line-txt" from scene
+                const retrievedTextBlock = uiTexture.getControlByName('line-txt') as unknown as BABYLON.GUI.TextBlock;
+                if (retrievedTextBlock) {
+                    retrievedTextBlock.text = `test
+                    test
+                    test
+                    test`;
+                }
             });
     }
 }
