@@ -33,7 +33,7 @@ abstract class BaseEnemyView {
     public set bonusView(bonusView: BaseBonusView) {
         this._bonusView = bonusView;
         this._bonusView.mesh.parent = this._mesh;
-        this._bonusView.mesh.position.y = 1;
+        this._bonusView.mesh.position.y = -2.5;
     }
 
     ////////////

@@ -1,20 +1,37 @@
-import { InstancedMesh } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 
 abstract class BaseBonusView {
-    protected _mesh: InstancedMesh;
+    protected _mesh: AbstractMesh;
 
-    constructor() {}
+    /////////////////
+    // Constructor //
+    /////////////////
 
-    createMesh(): void {}
+    public constructor() {
+        this._mesh = this._createMesh();
+    }
+
+    /**
+     * Create the mesh of the bonus
+     *
+     * @returns The mesh of the bonus
+     */
+    protected abstract _createMesh(): AbstractMesh;
+
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get mesh(): AbstractMesh {
+        return this._mesh;
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
 
     public dispose(): void {
         this._mesh.dispose();
-    }
-
-    public update(): void {}
-
-    public get mesh(): InstancedMesh {
-        return this._mesh;
     }
 }
 

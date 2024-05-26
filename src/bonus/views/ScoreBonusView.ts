@@ -1,16 +1,10 @@
+import { AbstractMesh } from '@babylonjs/core';
 import Game from '../../game/Game';
 import BaseBonusView from './BaseBonusView';
 
 class ScoreBonusView extends BaseBonusView {
-    public constructor() {
-        super();
-        this.createMesh();
-    }
-
-    createMesh(): void {
-        // Create an instance of the BonusScore mesh
-        this._mesh = Game.instance.assetManager.getBonusScoreInstance();
-        this._mesh.setEnabled(true);
+    protected _createMesh(): AbstractMesh {
+        return Game.instance.assetManager.getBonusScoreInstance();
     }
 }
 export default ScoreBonusView;

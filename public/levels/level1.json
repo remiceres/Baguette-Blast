@@ -93,7 +93,7 @@
                         "z": 4.365
                     },
                     "bonus": {
-                        "type": "none"
+                        "type": "time"
                     },
                     "behavior": {
                         "type": "floating",

@@ -84,7 +84,7 @@ class AssetsLoader {
     private _postProcessMesh(name: string, mesh: Mesh): void {
         // Re-scale bonus meshes
         if (name.startsWith('Bonus')) {
-            mesh.scaling.scaleInPlace(0.5);
+            mesh.scaling.scaleInPlace(0.7);
         }
 
         // Re-scale bullet mesh
