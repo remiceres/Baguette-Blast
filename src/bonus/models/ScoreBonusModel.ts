@@ -1,6 +1,6 @@
 import BaseBonusModel from './BaseBonusModel';
 
-class ScoreBonus extends BaseBonusModel {
+class ScoreBonusModel extends BaseBonusModel {
     private _score: number;
 
     /////////////////
@@ -21,4 +21,4 @@ class ScoreBonus extends BaseBonusModel {
     }
 }
 
-export default ScoreBonus;
+export default ScoreBonusModel;

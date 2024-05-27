@@ -1,3 +1,4 @@
+import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import PlayerController from '../../player/controllers/PlayerController';
@@ -38,6 +39,14 @@ abstract class ProjectileController implements ICollider {
         if (other instanceof EnemyController) {
             if (other.hitbox.intersectsMesh(this._model.hitbox)) {
                 // console.log('Projectile hit enemy');
+                return true;
+            }
+        }
+
+        // Check if the projectile collides with a bonus
+        else if (other instanceof BaseBonusController) {
+            if (other.hitbox.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit bonus');
                 return true;
             }
         }

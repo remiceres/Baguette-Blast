@@ -1,6 +1,5 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
-import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 
 abstract class BaseEnemyModel {
     // Mouvement
@@ -13,9 +12,6 @@ abstract class BaseEnemyModel {
     // Hitbox
     private _hitbox: AbstractMesh;
     private _hitboxPadding: number;
-
-    // Bonus
-    private _bonusController: BaseBonusController;
 
     // Stats
     private _health: number;
@@ -111,15 +107,6 @@ abstract class BaseEnemyModel {
     // Hitbox padding
     public get hitboxPadding(): number {
         return this._hitboxPadding;
-    }
-
-    // Bonus controller
-    public get bonusController(): BaseBonusController {
-        return this._bonusController;
-    }
-
-    public set bonusController(bonusController: BaseBonusController) {
-        this._bonusController = bonusController;
     }
 
     // Health

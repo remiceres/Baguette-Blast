@@ -1,6 +1,8 @@
 import { Vector3 } from '@babylonjs/core';
-import BaseBonusController from '../bonus/controllers/BaseBonusController';
-import ScoreBonus from '../bonus/models/ScoreBonusModel';
+import ScoreBonusController from '../bonus/controllers/ScoreBonusController';
+import TimeBonusController from '../bonus/controllers/TimeBonusController';
+import ScoreBonusModel from '../bonus/models/ScoreBonusModel';
+import TimeBonusModel from '../bonus/models/TimeBonusModel';
 import ScoreBonusView from '../bonus/views/ScoreBonusView';
 import TimeBonusView from '../bonus/views/TimeBonusView';
 import { BonusData, EnemyData } from '../game/models/LevelData';
@@ -10,6 +12,7 @@ import PigeonController from './controllers/PigeonControllers';
 import BalloonModel from './models/BalloonModel';
 import BaseEnemyModel from './models/BaseEnemyModel';
 import PigeonModel from './models/PigeonModel';
+import BalloonView from './views/BalloonView';
 import BaseEnemyView from './views/BaseEnemyView';
 import CopperBalloonView from './views/CopperBalloonView';
 import GoldBalloonView from './views/GoldBalloonView';
@@ -45,9 +48,9 @@ class EnemyFactory {
         let controller = undefined;
 
         if (enemyData.type === EnemyType.Pigeon) {
-            controller = new PigeonController(model, view);
+            controller = new PigeonController(model as PigeonModel, view as PigeonView);
         } else {
-            controller = new BalloonController(model, view);
+            controller = new BalloonController(model as BalloonModel, view as BalloonView);
         }
 
         // this._assignBehavior(model, enemyData.behavior);
@@ -92,14 +95,14 @@ class EnemyFactory {
         }
     }
 
-    // Replace any with a base class for bonuses
-    private static _assignBonus(controller: EnemyController, bonusData: BonusData) {
+    // Replace any with a base class for bonus
+    private static _assignBonus(controller: BalloonController, bonusData: BonusData) {
         switch (bonusData.type) {
             case BonusType.Score:
-                controller.attachBonus = new BaseBonusController(new ScoreBonus(10), new ScoreBonusView());
+                controller.attachBonus = new ScoreBonusController(new ScoreBonusModel(10), new ScoreBonusView());
                 break;
             case BonusType.Time:
-                controller.attachBonus = new BaseBonusController(new ScoreBonus(10), new TimeBonusView());
+                controller.attachBonus = new TimeBonusController(new TimeBonusModel(10), new TimeBonusView());
                 break;
             default:
                 console.log(`Unsupported behavior type: ${bonusData.type}`);
