@@ -26,11 +26,18 @@ class HomeState extends BaseState {
 
         const panel = CustomUI.addPanel(1, 3);
 
-        CustomUI.createTextZone(['Baguette Blast'], new Vector3(1.5, 4.8, 11.5), 2, 1);
+        // CustomUI.createTextZone(['Baguette Blast'], new Vector3(1.5, 4.8, 11.5), 2, 1);
 
         CustomUI.addButton('Select Level', State.SelectLevel, panel);
         CustomUI.addButton('Settings', State.Settings, panel);
         CustomUI.addButton('Credit', State.Credit, panel);
+        const testText = `
+        Toto
+        Test
+            
+        Test
+        `;
+        CustomUI.addTextPanel(testText);
     }
 
     public update(deltaTime: number): void { deltaTime; }
