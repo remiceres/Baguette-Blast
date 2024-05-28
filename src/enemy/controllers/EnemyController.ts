@@ -1,5 +1,4 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
-import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import Game from '../../game/Game';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
@@ -32,7 +31,7 @@ abstract class EnemyController implements ICollider {
     //////////////
 
     public collidesWith(): boolean {
-        // No collision check in this class, all collision checks are done in the projectile controller 9
+        // No collision check in this class, all collision checks are done in the projectile controller
         return false;
     }
 
@@ -47,9 +46,6 @@ abstract class EnemyController implements ICollider {
     public update(deltaTime: number): void {
         // Update the position of the enemy
         this._updatePosition(deltaTime);
-
-        // Update the view
-        this._view.update(deltaTime);
     }
 
     private _updatePosition(deltaTime: number): void {
@@ -85,18 +81,9 @@ abstract class EnemyController implements ICollider {
         return this._model.position;
     }
 
-    ///////////
-    // Bonus //
-    ///////////
-
-    public set attachBonus(controller: BaseBonusController) {
-        this._model.bonusController = controller;
-        this._view.bonusView = controller.view;
-    }
-
-    //////////////
-    // Accessor //
-    //////////////
+    /////////////
+    // Dispose //
+    /////////////
 
     public dispose(): void {
         this._model.canBeDisposed = true;

@@ -1,4 +1,4 @@
-import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import { AbstractMesh } from '@babylonjs/core';
 import { AnimationName } from '../../game/controllers/AnimationController';
 import Game from '../../game/Game';
 import BaseEnemyView from './BaseEnemyView';
@@ -22,9 +22,6 @@ class PigeonView extends BaseEnemyView {
 
     protected _killAnimation(): void {}
 
-    public update(): void {
-        this.mesh.lookAt(Game.instance.player.positionHead);
-        this.mesh.rotate(Vector3.Up(), Math.PI);
-    }
+    public update(): void {}
 }
 export default PigeonView;

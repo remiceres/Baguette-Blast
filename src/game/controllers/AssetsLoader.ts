@@ -99,7 +99,7 @@ class AssetsLoader {
 
         // Re-scale flying pigeon mesh
         if (name === 'FlyingPigeon') {
-            mesh.scaling.scaleInPlace(10);
+            mesh.scaling.scaleInPlace(15);
         }
 
         // Hide all meshes except the scene
@@ -169,21 +169,30 @@ class AssetsLoader {
 
     public createHitbox(rootMesh: AbstractMesh, partName: string, padding: number): AbstractMesh {
         // Function to find the first mesh that matches the partName
-        const findMeshByNamePart = (mesh: AbstractMesh, namePart: string): AbstractMesh => {
+        const findMeshByNamePart = (mesh, namePart: string): AbstractMesh => {
+
             if (mesh.name.includes(namePart)) {
                 return mesh;
             }
-            for (const child of mesh.getChildMeshes()) {
-                const result = findMeshByNamePart(child, namePart);
+
+            // Using a traditional for loop to be able to return immediately when the mesh is found
+            const childMeshes = mesh.getChildMeshes();
+            for (let i = 0; i < childMeshes.length; i++) {
+                const result = findMeshByNamePart(childMeshes[i], namePart);
                 if (result) {
                     return result;
                 }
             }
-            throw new Error('No mesh found matching the name part: ' + namePart);
+
+            return null;
         };
 
         // Find the first matching mesh
         const mesh = findMeshByNamePart(rootMesh, partName);
+
+        if (!mesh) {
+            throw new Error('No mesh found with the name part: ' + partName + ' in the root mesh ' + rootMesh.name);
+        }
 
         // Get the bounding box of the found mesh
         const boundingBox = mesh.getBoundingInfo().boundingBox;
@@ -192,9 +201,9 @@ class AssetsLoader {
         const hitbox = MeshBuilder.CreateBox(
             'hitbox-' + mesh.name,
             {
-                width: boundingBox.maximum.x - boundingBox.minimum.x - padding,
-                height: boundingBox.maximum.y - boundingBox.minimum.y - padding,
-                depth: boundingBox.maximum.z - boundingBox.minimum.z - padding,
+                width: boundingBox.maximum.x - boundingBox.minimum.x + padding,
+                height: boundingBox.maximum.y - boundingBox.minimum.y + padding,
+                depth: boundingBox.maximum.z - boundingBox.minimum.z + padding,
             },
             Game.instance.scene
         );

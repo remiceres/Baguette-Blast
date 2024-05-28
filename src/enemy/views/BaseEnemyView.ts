@@ -1,11 +1,7 @@
 import { AbstractMesh } from '@babylonjs/core';
-import BaseBonusView from '../../bonus/views/BaseBonusView';
 
 abstract class BaseEnemyView {
     private _mesh: AbstractMesh;
-
-    // Bonus view
-    private _bonusView: BaseBonusView;
 
     /////////////////
     // Constructor //
@@ -29,18 +25,6 @@ abstract class BaseEnemyView {
     public get mesh(): AbstractMesh {
         return this._mesh;
     }
-
-    public set bonusView(bonusView: BaseBonusView) {
-        this._bonusView = bonusView;
-        this._bonusView.mesh.parent = this._mesh;
-        this._bonusView.mesh.position.y = -2.5;
-    }
-
-    ////////////
-    // Update //
-    ////////////
-
-    public abstract update(deltaTime: number): void;
 
     /////////////
     // Dispose //
