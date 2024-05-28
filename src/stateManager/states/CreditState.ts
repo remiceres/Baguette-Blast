@@ -25,7 +25,8 @@ class CreditState extends BaseState {
         }
 
         const panel = CustomUI.addPanel(1, 1);
-        CustomUI.addButton('Back', State.Home, panel, true);
+        const panelimg = CustomUI.changePanel('credit');
+        CustomUI.addButton('Back', State.Home, panel, panelimg, true);
     }
 
     public update(deltaTime: number): void { deltaTime; }

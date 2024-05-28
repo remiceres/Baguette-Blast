@@ -25,19 +25,13 @@ class HomeState extends BaseState {
         }
 
         const panel = CustomUI.addPanel(1, 3);
+        panel.position.y = 3;
+        panel.position.x = -1;
+        const panelimg = CustomUI.changePanel('home');
 
-        // CustomUI.createTextZone(['Baguette Blast'], new Vector3(1.5, 4.8, 11.5), 2, 1);
-
-        CustomUI.addButton('Select Level', State.SelectLevel, panel);
-        CustomUI.addButton('Settings', State.Settings, panel);
-        CustomUI.addButton('Credit', State.Credit, panel);
-        const testText = `
-        Toto
-        Test
-            
-        Test
-        `;
-        CustomUI.addTextPanel(testText);
+        CustomUI.addButton('Select Level', State.SelectLevel, panel, panelimg);
+        CustomUI.addButton('Settings', State.Settings, panel, panelimg);
+        CustomUI.addButton('Credit', State.Credit, panel, panelimg);
     }
 
     public update(deltaTime: number): void { deltaTime; }
