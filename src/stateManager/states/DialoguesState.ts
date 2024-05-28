@@ -42,7 +42,7 @@ class DialogueState extends BaseState {
 
         const panel = CustomUI.addPanel(1, 1);
         const panelimg = CustomUI.changePanel(this._dialogue);
-        CustomUI.addButton('Back', State.Home, panel, panelimg, false, true);
+        CustomUI.addButton('Back', State.SelectLevel, panel, panelimg, false, true);
         CustomUI.addButton('Start', s, panel, panelimg, false, true);
     }
 
