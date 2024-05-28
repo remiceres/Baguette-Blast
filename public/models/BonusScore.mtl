@@ -1,17 +1,7 @@
-# Blender 3.5.1 MTL File: 'Box.blend'
-# www.blender.org
+# Blender MTL File: 'None'
+# Material Count: 6
 
-newmtl Material
-Ns 22.499992
-Ka 1.000000 1.000000 1.000000
-Kd 1.000000 0.715693 0.097588
-Ks 0.050000 0.050000 0.050000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-
-newmtl Material.001
+newmtl Material.003
 Ns 1000.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -21,42 +11,60 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl clock
+newmtl Material.004
+Ns 22.499993
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 0.715693 0.097588
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl clock.007
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
 map_Kd Images\\favorites.png
 map_d Images\\favorites.png
 
-newmtl clock.001
+newmtl clock.008
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
 map_Kd Images\\favorites.png
 map_d Images\\favorites.png
 
-newmtl clock.002
+newmtl clock.009
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
 map_Kd Images\\favorites.png
 map_d Images\\favorites.png
 
-newmtl clock.003
+newmtl clock.010
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
 map_Kd Images\\favorites.png
 map_d Images\\favorites.png

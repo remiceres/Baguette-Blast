@@ -1,17 +1,7 @@
-# Blender 3.5.1 MTL File: 'Box.blend'
-# www.blender.org
+# Blender MTL File: 'None'
+# Material Count: 7
 
-newmtl Material
-Ns 22.499992
-Ka 1.000000 1.000000 1.000000
-Kd 0.184475 0.184475 0.184475
-Ks 0.050000 0.050000 0.050000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-
-newmtl Material.001
+newmtl Material.010
 Ns 1000.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -21,42 +11,71 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl clock
-Ns 0.000000
+newmtl Material.011
+Ns 22.499993
 Ka 1.000000 1.000000 1.000000
-Ks 0.000000 0.000000 0.000000
+Kd 0.187821 0.184475 0.194618
+Ks 0.050000 0.050000 0.050000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-illum 1
-map_Kd Images\\time.png
-map_d Images\\time.png
+d 1.000000
+illum 2
 
-newmtl clock.001
-Ns 0.000000
+newmtl Material.012
+Ns 1000.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 0.000000
+d 1.000000
 illum 1
 map_Kd Images\\time.png
-map_d Images\\time.png
 
-newmtl clock.002
+newmtl clock.022
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
-map_Kd Images\\time.png
-map_d Images\\time.png
+map_Kd Images\\hourglass.png
+map_d Images\\hourglass.png
 
-newmtl clock.003
+newmtl clock.023
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
+d 1.000000
 illum 1
-map_Kd Images\\time.png
-map_d Images\\time.png
+map_Kd Images\\hourglass.png
+map_d Images\\hourglass.png
+
+newmtl clock.024
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd Images\\hourglass.png
+map_d Images\\hourglass.png
+
+newmtl clock.025
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd Images\\hourglass.png
+map_d Images\\hourglass.png
