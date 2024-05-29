@@ -20,7 +20,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 0.000000
 d 1.000000
 illum 1
-map_Kd Images\\hourglass.png
+map_Kd Images\time.png
 
 newmtl Material.006
 Ns 22.499993
