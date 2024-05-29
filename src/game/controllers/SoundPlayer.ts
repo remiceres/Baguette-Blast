@@ -1,4 +1,4 @@
-import { Scene, Sound, AbstractMesh, InstancedMesh, Vector3 } from '@babylonjs/core';
+import { Scene, Sound, AbstractMesh, InstancedMesh, Vector3, Engine } from '@babylonjs/core';
 import data from '../../../public/assets/sounds/sounds.json';
 import Game from '../../game/Game';
 
@@ -10,18 +10,17 @@ export class SoundPlayer {
     private _curentTime: number = 0;
 
     public constructor(name: string, scene: Scene, mesh?: AbstractMesh, addInList: boolean = true) {
-        this._id = name + '_' + Math.random() * 1000000;
-        this._sound = new Sound(this._id, data[name].file, scene, null);
+        this._sound = new Sound(name, data[name].file, scene, null);
         this._sound.spatialSound = data[name].spatialized;
         this._sound.setVolume(data[name].volume);
         // init sound
-        if (mesh !== undefined) {
+        if (mesh !== null) {
             this._mesh = mesh;
             this._sound.attachToMesh(this._mesh);
         }
-        // Engine.audioEngine.audioContext?.resume();
+        Engine.audioEngine.audioContext?.resume();
         if(addInList) {
-            Game.sounds.push(this);
+            Game.instance.sound = this;
         }
     }
 
@@ -58,6 +57,7 @@ export class SoundPlayer {
         } else if (!this._sound.isPlaying) {
             this._sound.play();
         }
+        console.log(this._sound);
     }
 
     public setPitch(rate: number) {
@@ -80,9 +80,9 @@ export class SoundPlayer {
         this._sound.stop();
         this._sound.dispose();
         // update Game.sounds
-        const index = Game.sounds.indexOf(this);
+        const index = Game.instance.sound.indexOf(this);
         if (index !== -1) {
-            Game.sounds.splice(index, 1);
+            Game.instance.sound.splice(index, 1);
         }
     }
 

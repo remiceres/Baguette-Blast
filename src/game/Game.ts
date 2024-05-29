@@ -63,7 +63,7 @@ class Game {
     private _debugConsole: DebugConsole;
 
     // The sounds used in the game.
-    public static sounds: SoundPlayer[] = [];
+    private _sounds: SoundPlayer[];
 
     // The player controller.
     private _player: PlayerController;
@@ -106,6 +106,7 @@ class Game {
         await this._assetManager.initialize();
 
         // Initialize other components of the game.
+        this._sounds = [];
         this._cameraManager = new CameraManager(this._xr, this._supportedVR);
         this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput(this._scene);
         this._stateManager = new StateManager(State.Home);
@@ -222,8 +223,20 @@ class Game {
     }
 
     ///////////////
+    // Setteurs //
+    ///////////////
+
+    public set sound(sound: SoundPlayer) {
+        this._sounds.push(sound);
+    }
+
+    ///////////////
     // Accessors //
     ///////////////
+
+    public get sound(): SoundPlayer[] {
+        return this._sounds;
+    }
 
     public get stateManager(): StateManager {
         return this._stateManager;

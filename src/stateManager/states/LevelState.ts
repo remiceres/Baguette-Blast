@@ -7,6 +7,7 @@ import Buttons from '../../menu/buttons';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class LevelState implements StateInterface {
     // Level data
@@ -24,6 +25,9 @@ class LevelState implements StateInterface {
 
     // Score
     private _score: number;
+
+    // Audio
+    private _soundLevel: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -146,8 +150,12 @@ class LevelState implements StateInterface {
     }
 
     private _initAudio(): void {
-        // const levelMusic = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
-        // levelMusic.play(true);
+        Game.instance.sound[0].stopAndDispose();
+        this._soundLevel = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
+        this._soundLevel.setPosition(Game.instance.cameraManager.playerCamera.position);
+        this._soundLevel.setAutoplay(true);
+        this._soundLevel.setLoop(true);
+        this._soundLevel.play();
     }
 
     //////////
@@ -236,6 +244,9 @@ class LevelState implements StateInterface {
         // Dispose interface
         this._cubeMenu.dispose();
 
+        // Dispose audio
+        this._soundLevel.stopAndDispose();
+        
         // Reset player
         Game.instance.player.dropWeapon('both');
     }
