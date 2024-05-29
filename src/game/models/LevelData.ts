@@ -128,7 +128,7 @@ interface LevelData {
 
 export {
     AttractEnemyProperties,
-    AvoidMeshMeshProperties, BehaviourData as BehaviorData, BehaviourType as BehaviorType, BehaviourData, BonusData,
+    AvoidMeshMeshProperties, BehaviourData, BehaviourType, BonusData,
     BonusType,
     EnemyData,
     EnemyType, FloatingProperties, GameData, GravityProperties, LevelData, MoveAtoBProperties, ProjectileType,

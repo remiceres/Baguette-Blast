@@ -2,8 +2,8 @@ import { Vector3 } from '@babylonjs/core';
 import {
     AttractEnemyProperties,
     AvoidMeshMeshProperties,
-    BehaviorType,
     BehaviourData,
+    BehaviourType,
     FloatingProperties,
     GravityProperties,
     MoveAtoBProperties,
@@ -19,15 +19,15 @@ import MoveAtoB from './MoveAtoB';
 class BehaviourFactory {
     public static createBehaviour(behaviorData: BehaviourData): IBehaviour {
         switch (behaviorData.type) {
-            case BehaviorType.AttractEnemy:
+            case BehaviourType.AttractEnemy:
                 return BehaviourFactory._createAttractEnemy(behaviorData as AttractEnemyProperties);
-            case BehaviorType.AvoidMesh:
+            case BehaviourType.AvoidMesh:
                 return BehaviourFactory._createAvoidMesh(behaviorData as AvoidMeshMeshProperties);
-            case BehaviorType.Floating:
+            case BehaviourType.Floating:
                 return BehaviourFactory._createFloating(behaviorData as FloatingProperties);
-            case BehaviorType.Gravity:
+            case BehaviourType.Gravity:
                 return BehaviourFactory._createGravity(behaviorData as GravityProperties);
-            case BehaviorType.MoveAtoB:
+            case BehaviourType.MoveAtoB:
                 return BehaviourFactory._createMoveAtoB(behaviorData as MoveAtoBProperties);
             default:
                 throw new Error(`Unsupported behaviour type: ${behaviorData.type}`);
