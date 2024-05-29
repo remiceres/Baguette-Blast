@@ -4,8 +4,10 @@ import DialogueState from './states/DialoguesState';
 import HomeState from './states/HomeState';
 import LevelSelectState from './states/LevelSelect';
 import LevelState from './states/LevelState';
+import LooseState from './states/LooseState';
 import SettingsState from './states/SettingsState';
 import StateInterface from './states/StateInterface';
+import WinState from './states/WinState';
 
 /**
  * Manages the different states of the application, such as menu, game levels, etc.
@@ -38,6 +40,8 @@ class StateManager {
             [State.Level4, new LevelState(4)],
             [State.Level5, new LevelState(5)],
             [State.Level6, new LevelState(6)],
+            [State.Win, new WinState()],
+            [State.Loose, new LooseState()]
         ]);
         this._currentState = this._states.get(initialState);
         this._currentState.init();

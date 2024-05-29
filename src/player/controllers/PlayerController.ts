@@ -21,7 +21,7 @@ class PlayerController implements ICollider {
     // Constructor //
     /////////////////
 
-    constructor(model: PlayerModel, view: PlayerView) {
+    public constructor(model: PlayerModel, view: PlayerView) {
         this._model = model;
         this._view = view;
 
@@ -77,17 +77,8 @@ class PlayerController implements ICollider {
         return this._model.weaponRight;
     }
 
-    ///////////
-    // Reset //
-    ///////////
-
-    public reset(): void {
-        // Reset player health
-        this._model.health = 100;
-
-        // Reset player weapons
-        this._model.weaponLeft = null;
-        this._model.weaponRight = null;
+    public dropWeapon(hand: 'left' | 'right' | 'both'): void {
+        this._model.dropWeapon(hand);
     }
 
     //////////////

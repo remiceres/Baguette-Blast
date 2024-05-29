@@ -7,7 +7,6 @@ import Buttons from '../../menu/buttons';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class LevelState implements StateInterface {
     // Level data
@@ -123,7 +122,6 @@ class LevelState implements StateInterface {
 
     private _initPlayer(): void {
         // Reset the player
-        Game.instance.player.reset();
         Game.instance.player.health = this._levelData.player.health;
 
         // Teleport player to the starting position
@@ -195,12 +193,12 @@ class LevelState implements StateInterface {
 
     private _win(): void {
         console.log('You win!');
-        Game.instance.stateManager.changeState(State.SelectLevel);
+        Game.instance.stateManager.changeState(State.Win);
     }
 
     private _lose(): void {
         console.log('You lose!');
-        Game.instance.stateManager.changeState(State.SelectLevel);
+        Game.instance.stateManager.changeState(State.Loose);
     }
 
     ////////////
@@ -226,9 +224,6 @@ class LevelState implements StateInterface {
             enemyController.update(deltaTime);
         });
 
-        // Update player
-        Game.instance.player.update(deltaTime);
-
         // Update collision
         Game.instance.collisionManager.update();
     }
@@ -248,7 +243,11 @@ class LevelState implements StateInterface {
         // Dispose interface
         this._cubeMenu.dispose();
 
+        // Dispose audio
         this._soundLevel.stopAndDispose();
+        
+        // Reset player
+        Game.instance.player.dropWeapon('both');
     }
 }
 
