@@ -47,9 +47,6 @@ class MoveFreelyInCube implements IBehaviour {
         // Calculate the movement vector based on the force and direction
         const movement = direction.scale(this._force * deltaTime);
 
-        // Apply the movement to the mesh position
-        mesh.position.addInPlace(movement);
-
         return movement;
     }
 }
