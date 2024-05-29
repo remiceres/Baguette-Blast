@@ -15,6 +15,7 @@ import PlayerController from '../../player/controllers/PlayerController';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class LevelState implements StateInterface {
     public static _enemiesController: EnemyController[] = [];
@@ -119,7 +120,8 @@ class LevelState implements StateInterface {
             GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
             this._initInterface();
             this._initializeLevelData();
-            Game.instance.audioManager.switchTrackSmoothly('level' + this._levelNumber);
+            const levelMusic = new SoundPlayer('music_levels_'+this._levelNumber, Game.instance.scene, null, true);
+            levelMusic.play(true);
         } catch (error) {
             console.error('Error during game initialization:', error);
         }
@@ -178,7 +180,8 @@ class LevelState implements StateInterface {
         LevelState._enemiesController.forEach((enemy) => enemy.dispose());
         LevelState._enemiesController = [];
         Game.instance.player.dispose();
-        Game.instance.audioManager.switchTrackSmoothly('theme');
+        const themeMusic = new SoundPlayer('music_theme', Game.instance.scene, null, true);
+        themeMusic.play(true);
         Game.instance.player.dispose();
     }
 
