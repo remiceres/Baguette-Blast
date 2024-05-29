@@ -5,7 +5,7 @@ import BaseEnemyModel from './BaseEnemyModel';
 
 class BalloonModel extends BaseEnemyModel {
     // Default behavior
-    private _defaultBehavior: IBehaviour = new Floating();
+    private _defaultBehavior: IBehaviour = new Floating(0.08, 0.5);
 
     // Bonus
     private _bonusController: BaseBonusController;
@@ -19,7 +19,7 @@ class BalloonModel extends BaseEnemyModel {
         position,
         health,
         score,
-        behavior: IBehaviour[],
+        behavior: IBehaviour[] = [],
         maxSpeed = 20,
         dampingFactor = 0.98,
         hitboxPadding = 0.1,

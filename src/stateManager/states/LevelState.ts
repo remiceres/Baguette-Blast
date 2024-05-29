@@ -12,16 +12,17 @@ import Buttons from '../../menu/buttons';
 import PlayerController from '../../player/controllers/PlayerController';
 // import ProjectileController from '../../projectile/controllers/ProjectileController';
 // import ProjectileView from '../../projectile/views/ProjectileView';
-import { WeaponFactory, weaponType } from '../../weapon/WeaponFactory';
+import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 
 class LevelState implements StateInterface {
+    public static _enemiesController: EnemyController[] = [];
+
     private _levelNumber: number;
     private _levelData?: LevelData;
     // private _collisionManager: CollisionManager;
     private _playerController: PlayerController;
-    private _enemiesController: EnemyController[] = [];
     private _cubeMenu: Mesh;
     private _score: number;
     private _currentWaveIndex: number = 0;
@@ -93,15 +94,24 @@ class LevelState implements StateInterface {
         // TODO : Add behavior in json file /////////////////////////////////////////////////
         const behaviors: IBehaviour[] = [];
         behaviors.push(new Gravity(25));
-        behaviors.push(new AttractEnemy(this._enemiesController, 5, 10));
+        behaviors.push(new AttractEnemy(LevelState._enemiesController, 5, 10));
         // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
         //////////////////////////////////////////////////////////////////////////////////////
 
         // const projectile = new ProjectileController(new ProjectileView(), new ProjectileModel(), behaviors);
 
-        const weaponController = WeaponFactory.createWeapon(weaponType.laserGun, { durability: 100 });
+        const weaponDataLeft = this._levelData.player.left_hand;
+        if (weaponDataLeft) {
+            const weaponController = WeaponFactory.createWeapon(weaponDataLeft);
+            Game.instance.player.giveWeapon('left', weaponController);
+        }
 
-        Game.instance.player.giveWeapon('right', weaponController);
+        const weaponDataRight = this._levelData.player.right_hand;
+        if (weaponDataRight) {
+            const weaponController = WeaponFactory.createWeapon(weaponDataRight);
+            Game.instance.player.giveWeapon('right', weaponController);
+        }
+
     }
 
     public async init(): Promise<void> {
@@ -133,14 +143,14 @@ class LevelState implements StateInterface {
             const currentWave = this._levelData.waves[this._currentWaveIndex];
 
             // Clear existing enemies from the previous wave
-            this._enemiesController.forEach((enemyController) => {
+            LevelState._enemiesController.forEach((enemyController) => {
                 Game.instance.collisionManager.removeCollider(enemyController);
                 enemyController.dispose(); // Assuming destroy cleans up properly
             });
-            this._enemiesController = []; // Reset the enemies controller list
+            LevelState._enemiesController = []; // Reset the enemies controller list
 
             // Create and add new enemies for the current wave
-            this._enemiesController.push(...currentWave.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
+            LevelState._enemiesController.push(...currentWave.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
             // this._enemiesController.forEach((enemyController) => {
             //     Game.instance.collisionManager.addCollider(enemyController);
             // });
@@ -165,8 +175,8 @@ class LevelState implements StateInterface {
 
     public dispose(): void {
         this._cubeMenu.dispose();
-        this._enemiesController.forEach((enemy) => enemy.dispose());
-        this._enemiesController = [];
+        LevelState._enemiesController.forEach((enemy) => enemy.dispose());
+        LevelState._enemiesController = [];
         Game.instance.player.dispose();
         Game.instance.audioManager.switchTrackSmoothly('theme');
         Game.instance.player.dispose();
@@ -176,10 +186,10 @@ class LevelState implements StateInterface {
         // Assuming playerController has a method to get current health
         const playerHealth = Game.instance.player.health;
 
-        GameManager.getInstance().update(deltaTime, playerHealth, this._enemiesController);
+        GameManager.getInstance().update(deltaTime, playerHealth, LevelState._enemiesController);
 
         // Update enemies
-        this._enemiesController.forEach((enemyController) => {
+        LevelState._enemiesController.forEach((enemyController) => {
             enemyController.update(deltaTime);
         });
 

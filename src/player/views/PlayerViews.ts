@@ -38,7 +38,7 @@ class PlayerView {
         this._bodyHitbox.position = bodyOffset;
 
         // Set visibile
-        this._headHitbox.isVisible = true;
+        this._headHitbox.isVisible = false;
     }
 
     ///////////////

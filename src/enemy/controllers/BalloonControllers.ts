@@ -25,7 +25,7 @@ class BalloonController extends EnemyController {
     // Bonus //
     ///////////
 
-    public set attachBonus(bonusController: BaseBonusController) {
+    public set bonus(bonusController: BaseBonusController) {
 
         if (this._model.bonusController) {
             this._model.bonusController.dispose();

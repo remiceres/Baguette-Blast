@@ -1,54 +1,34 @@
-import { ProjectileType } from '../projectile/ProjectileFactory';
+import { WeaponData, WeaponType } from '../game/models/LevelData';
 import GunController from './controllers/GunController';
 import HandController from './controllers/HandController';
 import WeaponController from './controllers/WeaponController';
 import GunModel from './models/GunModel';
 import HandModel from './models/HandModel';
-import BallGatlingView from './views/BallGatlingView';
 import BallGunView from './views/BallGunView';
 import HandView from './views/HandView';
-import LaserGatlingView from './views/LaserGatlingView';
 import LaserGunView from './views/LaserGunView';
-
-enum weaponType {
-    hand,
-    ballGun,
-    laserGun,
-    ballGatlingGun,
-    laserGatlingGun,
-}
-
-interface WeaponProperties {
-    durability: number;
-}
 
 class WeaponFactory {
     /////////////////
     // Constructor //
     /////////////////
 
-    private constructor() {
-        //  Private constructor to prevent instantiation
-    }
+    // Private constructor to prevent instantiation
+    private constructor() {}
 
     /////////////
     // Publics //
     /////////////
 
-    public static createWeapon(type: weaponType, properties: WeaponProperties): WeaponController {
-        switch (type) {
-            case weaponType.hand:
-                return WeaponFactory._createHand(properties.durability);
-            case weaponType.ballGun:
-                return WeaponFactory._createBallGun(properties.durability);
-            case weaponType.laserGun:
-                return WeaponFactory._createLaserGun(properties.durability);
-            case weaponType.ballGatlingGun:
-                return WeaponFactory._createBallGatlingGun(properties.durability);
-            case weaponType.laserGatlingGun:
-                return WeaponFactory._createLaserGatlingGun(properties.durability);
+    public static createWeapon(weaponData: WeaponData): WeaponController {
+        switch (weaponData.type) {
+            case WeaponType.Hand:
+                return WeaponFactory._createHand(weaponData);
+            case WeaponType.Gun:
+            case WeaponType.GatlingGun:
+                return WeaponFactory._createLaserGun(weaponData);
             default:
-                throw new Error(`Weapon type ${type} is not supported`);
+                throw new Error(`Unsupported weapon type: ${weaponData.type}`);
         }
     }
 
@@ -56,25 +36,46 @@ class WeaponFactory {
     // Privates //
     //////////////
 
-    private static _createHand(durability: number) {
-        return new HandController(new HandView(), new HandModel(ProjectileType.Ball, 10, durability, 1));
+    private static _createHand(weaponData: WeaponData) {
+        // Extract data
+        const projectileType = weaponData.projectile;
+        const force = weaponData.force;
+        const durability = weaponData.durability;
+        const cooldownSecond = weaponData.cooldown;
+
+        // Create model/view
+        const model = new HandModel(projectileType, force, durability, cooldownSecond);
+        const view = new HandView();
+
+        return new HandController(view, model);
     }
 
-    private static _createBallGun(durability: number) {
-        return new GunController(new BallGunView(), new GunModel(ProjectileType.Ball, 60, durability, 1));
-    }
+    private static _createLaserGun(weaponData: WeaponData) {
+        // Extract data
+        const projectileType = weaponData.projectile;
+        const force = weaponData.force;
+        const durability = weaponData.durability;
+        const cooldownSecond = weaponData.cooldown;
 
-    private static _createLaserGun(durability: number) {
-        return new GunController(new LaserGunView(), new GunModel(ProjectileType.Laser, 60, durability, 1));
-    }
+        console.log('cooldownSecond :', cooldownSecond);
 
-    private static _createLaserGatlingGun(durability: number) {
-        return new GunController(new LaserGatlingView(), new GunModel(ProjectileType.Ball, 60, durability, 0.1));
-    }
+        // Create model/view
+        let view;
+        let model;
 
-    private static _createBallGatlingGun(durability: number) {
-        return new GunController(new BallGatlingView(), new GunModel(ProjectileType.Laser, 60, durability, 0.1));
+        switch (weaponData.type) {
+            case WeaponType.Gun:
+                view = new BallGunView();
+                model = new GunModel(projectileType, force, durability, cooldownSecond);
+                break;
+            case WeaponType.GatlingGun:
+                view = new LaserGunView();
+                model = new GunModel(projectileType, force, durability, cooldownSecond);
+                break;
+        }
+
+        return new GunController(view, model);
     }
 }
 
-export { WeaponFactory, weaponType };
+export { WeaponFactory };
