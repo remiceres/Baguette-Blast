@@ -5,6 +5,10 @@ class PlayerModel {
     private _weaponRight: WeaponController;
     private _health: number;
 
+    ///////////////
+    // Accessors //
+    ///////////////
+
     set weaponLeft(weapon: WeaponController) {
         this._weaponLeft = weapon;
     }
@@ -27,6 +31,22 @@ class PlayerModel {
 
     get health(): number {
         return this._health;
+    }
+
+    ////////////
+    // Weapon //
+    ////////////
+
+    public dropWeapon(hand: 'left' | 'right' | 'both'): void {
+        if (hand === 'left' || hand === 'both') {
+            this._weaponLeft?.dispose();
+            this._weaponLeft = undefined;
+        }
+
+        if (hand === 'right' || hand === 'both') {
+            this._weaponRight?.dispose();
+            this._weaponRight = undefined;
+        }
     }
 
     /////////////

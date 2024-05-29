@@ -214,6 +214,7 @@ class Game {
                     this._environmentControllers.update(deltaTime);
                     this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
                     this._cameraManager.update();
+                    this._player.update(deltaTime);
                     this._scene.render();
                 }
             }

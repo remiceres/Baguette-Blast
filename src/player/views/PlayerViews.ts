@@ -39,6 +39,7 @@ class PlayerView {
 
         // Set visibile
         this._headHitbox.isVisible = false;
+        this._bodyHitbox.isVisible = false;
     }
 
     ///////////////
