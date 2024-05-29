@@ -28,6 +28,20 @@ class PlayerModel {
     get health(): number {
         return this._health;
     }
+
+    /////////////
+    // Dispose //
+    /////////////
+
+    public dispose(): void {
+        if (this._weaponLeft) {
+            this._weaponLeft.dispose();
+        }
+
+        if (this._weaponRight) {
+            this._weaponRight.dispose();
+        }
+    }
 }
 
 export default PlayerModel;

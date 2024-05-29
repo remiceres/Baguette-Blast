@@ -28,6 +28,9 @@ class PlayerController implements ICollider {
         this._inputManager = Game.instance.inputManager;
         this._leftHand = Game.instance.inputManager.leftAnchor;
         this._rightHand = Game.instance.inputManager.rightAnchor;
+
+        // Add to collider
+        Game.instance.collisionManager.addCollider(this);
     }
 
     ///////////////
@@ -41,9 +44,11 @@ class PlayerController implements ICollider {
     public onCollision(other: ICollider): void {
         if (other instanceof EnemyController) {
             console.log('Player hit by enemy');
+            this._model.health -= 10;
             // TODO: Define what happens when player is hit by enemy
         } else if (other instanceof ProjectileController) {
             console.log('Player hit by projectile');
+            this._model.health -= 10;
             // TODO: Define what happens when player is hit by projectile
         }
 
@@ -170,6 +175,8 @@ class PlayerController implements ICollider {
     /////////////
 
     public dispose(): void {
+        Game.instance.collisionManager.removeCollider(this);
+        this._model.dispose();
         this._view.dispose();
     }
 }

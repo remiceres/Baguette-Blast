@@ -94,8 +94,8 @@ interface MoveFreelyInCubeProperties {
     type: BehaviourType.MoveFreelyInCube;
     force: number;
     radius: number;
-    minPosition: { x: number; y: number; z: number; };
-    maxPosition: { x: number; y: number; z: number; };
+    minPosition: { x: number; y: number; z: number };
+    maxPosition: { x: number; y: number; z: number };
 }
 
 interface EnemyData {
@@ -118,11 +118,6 @@ enum EnemyType {
     Pigeon = 'pigeon',
 }
 
-interface GameData {
-    time: number;
-    score: number;
-}
-
 interface Wave {
     waveNumber: number; // Optionally added for clearer wave tracking
     enemies: EnemyData[];
@@ -131,18 +126,23 @@ interface Wave {
 interface LevelData {
     player: PlayerData;
     waves: Wave[];
-    game: GameData;
 }
 
 export {
     AttractEnemyProperties,
-    AvoidMeshMeshProperties, BehaviourData, BehaviourType, BonusData,
+    AvoidMeshMeshProperties,
+    BehaviourData,
+    BehaviourType,
+    BonusData,
     BonusType,
     EnemyData,
-    EnemyType, FloatingProperties, GameData, GravityProperties, LevelData, MoveAtoBProperties, 
+    EnemyType,
+    FloatingProperties,
+    GravityProperties,
+    LevelData,
+    MoveAtoBProperties,
     MoveFreelyInCubeProperties,
-    ProjectileType, 
+    ProjectileType,
     WeaponData,
-    WeaponType
+    WeaponType,
 };
-

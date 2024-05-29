@@ -1,63 +1,45 @@
-import { Mesh, MeshBuilder, Vector3 } from '@babylonjs/core';
-import IBehaviour from '../../behaviors/IBehaviour';
-// import Gravity from '../../behaviors/Gravity';
-import AttractEnemy from '../../behaviors/AttractEnemy';
-import Gravity from '../../behaviors/Gravity';
+import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs/core';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
-import GameManager from '../../game/controllers/GameManager';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
-import PlayerController from '../../player/controllers/PlayerController';
-// import ProjectileController from '../../projectile/controllers/ProjectileController';
-// import ProjectileView from '../../projectile/views/ProjectileView';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
 
 class LevelState implements StateInterface {
+    // Level data
+    private _levelNumber: number;
+    private _levelData: LevelData;
+
+    // Interface
+    private _cubeMenu: Mesh;
+
+    // Enemies
     public static _enemiesController: EnemyController[] = [];
 
-    private _levelNumber: number;
-    private _levelData?: LevelData;
-    // private _collisionManager: CollisionManager;
-    private _playerController: PlayerController;
-    private _cubeMenu: Mesh;
-    private _score: number;
+    // Wave
     private _currentWaveIndex: number = 0;
 
-    constructor(levelNumber: number) {
-        this._setLevelNumber(levelNumber);
-        this._returnLevelByNumber(levelNumber)
-            .then((levelData) => {
-                // Use the level data here
-                this._levelData = levelData;
-            })
-            .catch((error) => {
-                // Handle errors here
-                console.error('Cannot load level data:', error);
-            });
-        // this._collisionManager = new CollisionManager();
+    // Score
+    private _score: number;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    public constructor(levelNumber: number) {
+        this._construct(levelNumber);
     }
 
-    private _returnLevelByNumber(levelNumber: number): Promise<LevelData> {
-        const url = `../../levels/level${levelNumber}.json`;
-        return fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch level ${levelNumber}: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Assuming LevelData is an interface representing your JSON data structure
-                return data as LevelData;
-            })
-            .catch((error) => {
-                console.error('Error loading level data:', error);
-                throw error;
-            });
+    private async _construct(levelNumber: number): Promise<void> {
+        try {
+            this._setLevelNumber(levelNumber);
+            this._levelData = await this._fetchLevelData(levelNumber);
+        } catch (error) {
+            console.error('Cannot load level data:', error);
+        }
     }
 
     private _setLevelNumber(levelNumber: number): void {
@@ -67,22 +49,80 @@ class LevelState implements StateInterface {
         this._levelNumber = levelNumber;
     }
 
+    private async _fetchLevelData(levelNumber: number): Promise<LevelData> {
+        const url = `../../levels/level${levelNumber}.json`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch level ${levelNumber}: ${response.status}`);
+            }
+            const data = await response.json();
+            return data as LevelData;
+        } catch (error) {
+            console.error('Error loading level data:', error);
+            throw error;
+        }
+    }
+
+    ////////////////////
+    // Initialisation //
+    ////////////////////
+
+    // Override
+    public async init(): Promise<void> {
+        try {
+            this._score = 0;
+            this._initAudio();
+            this._initInterface();
+            this._initPlayer();
+            this._advanceToNextWave();
+        } catch (error) {
+            console.error('Error during game initialization:', error);
+        }
+    }
+
     private _initInterface(): void {
-        this._cubeMenu = MeshBuilder.CreateBox('cubeMenu', { size: 1 }, Game.instance.scene);
-        const playerPosition = new Vector3(
-            this._levelData?.player?.position.x,
-            this._levelData?.player?.position.y,
-            this._levelData?.player?.position.z
+        // Create button
+        this._cubeMenu = this._createButtonMesh();
+
+        // Set position
+        this._cubeMenu.position = new Vector3(
+            this._levelData.player.position.x,
+            0.1,
+            this._levelData.player.position.z - 5
         );
-        this._cubeMenu.position = playerPosition.add(new Vector3(0, 0, 5));
+
+        // Attach click event
         Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
             Game.instance.stateManager.changeState(State.SelectLevel);
         });
     }
 
-    private _initPlayerController(): void {
+    private _createButtonMesh(): Mesh {
+        // Create mesh
+        const base = MeshBuilder.CreateBox('button', { width: 1, height: 0.1, depth: 1 }, Game.instance.scene);
+        const button = MeshBuilder.CreateCylinder('button', { height: 0.1, diameter: 0.8 }, Game.instance.scene);
+        button.position.y = 0.1;
+        button.parent = base;
+
+        // Create material
+        const baseMaterial = new StandardMaterial('baseMaterial', Game.instance.scene);
+        baseMaterial.diffuseColor = new Color3(0.2, 0.2, 0.2);
+        base.material = baseMaterial;
+
+        const buttonMaterial = new StandardMaterial('buttonMaterial', Game.instance.scene);
+        buttonMaterial.diffuseColor = new Color3(0.8, 0, 0);
+        button.material = buttonMaterial;
+
+        return base;
+    }
+
+    private _initPlayer(): void {
+        // Reset the player
         Game.instance.player.reset();
-        Game.instance.player.health = this._levelData?.player?.health || 100;
+        Game.instance.player.health = this._levelData.player.health;
+
+        // Teleport player to the starting position
         Game.instance.player.teleport(
             new Vector3(
                 this._levelData?.player?.position.x,
@@ -91,102 +131,86 @@ class LevelState implements StateInterface {
             )
         );
 
-        // TODO : Add behavior in json file /////////////////////////////////////////////////
-        const behaviors: IBehaviour[] = [];
-        behaviors.push(new Gravity(25));
-        behaviors.push(new AttractEnemy(LevelState._enemiesController, 5, 10));
-        // behaviors.push(new MoveAtoB(1, new Vector3(0, 0, 0), new Vector3(0, 0, 10), 5));
-        //////////////////////////////////////////////////////////////////////////////////////
-
-        // const projectile = new ProjectileController(new ProjectileView(), new ProjectileModel(), behaviors);
-
+        // Add weapon left hand
         const weaponDataLeft = this._levelData.player.left_hand;
         if (weaponDataLeft) {
             const weaponController = WeaponFactory.createWeapon(weaponDataLeft);
             Game.instance.player.giveWeapon('left', weaponController);
         }
 
+        // Add weapon right hand
         const weaponDataRight = this._levelData.player.right_hand;
         if (weaponDataRight) {
             const weaponController = WeaponFactory.createWeapon(weaponDataRight);
             Game.instance.player.giveWeapon('right', weaponController);
         }
-
     }
 
-    public async init(): Promise<void> {
-        try {
-            GameManager.getInstance(this._levelData?.game?.time || 30).resetChrono();
-            this._initInterface();
-            this._initializeLevelData();
-            Game.instance.audioManager.switchTrackSmoothly('level' + this._levelNumber);
-        } catch (error) {
-            console.error('Error during game initialization:', error);
-        }
+    private _initAudio(): void {
+        Game.instance.audioManager.switchTrackSmoothly('level' + this._levelNumber);
     }
 
-    private _initializeLevelData(): void {
-        if (this._levelData?.player) {
-            this._initPlayerController();
-            Game.instance.collisionManager.addCollider(Game.instance.player);
-        }
-
-        // Init score
-        this._score = 0;
-
-        // Initialize enemies wave
-        this._initWave();
-    }
-
-    private _initWave(): void {
-        if (this._levelData?.waves && this._levelData.waves.length > this._currentWaveIndex) {
-            const currentWave = this._levelData.waves[this._currentWaveIndex];
-
-            // Clear existing enemies from the previous wave
-            LevelState._enemiesController.forEach((enemyController) => {
-                Game.instance.collisionManager.removeCollider(enemyController);
-                enemyController.dispose(); // Assuming destroy cleans up properly
-            });
-            LevelState._enemiesController = []; // Reset the enemies controller list
-
-            // Create and add new enemies for the current wave
-            LevelState._enemiesController.push(...currentWave.enemies.map((enemy) => EnemyFactory.createEnemy(enemy)));
-            // this._enemiesController.forEach((enemyController) => {
-            //     Game.instance.collisionManager.addCollider(enemyController);
-            // });
-
-            // Update the global count of enemies left
-            // Game.instance.enemiesLeft = this._enemiesController.length;
-            // console.log('Enemies left:', Game.instance.enemiesLeft);
-        } else {
-            console.log('No more waves found or wave index out of bounds.');
-        }
-    }
+    //////////
+    // Wave //
+    //////////
 
     private _advanceToNextWave(): void {
-        if (this._currentWaveIndex < this._levelData.waves.length - 1) {
+        if (this._currentWaveIndex < this._levelData.waves.length) {
+            this._loadNextWave();
             this._currentWaveIndex++;
-            this._initWave();
         } else {
-            console.log('No more waves to advance to.');
-            this.dispose();
+            this._win();
         }
     }
 
-    public dispose(): void {
-        this._cubeMenu.dispose();
+    private _loadNextWave(): void {
+        console.log('Loading wave', this._currentWaveIndex);
+        // Reset enemies
         LevelState._enemiesController.forEach((enemy) => enemy.dispose());
         LevelState._enemiesController = [];
-        Game.instance.player.dispose();
-        Game.instance.audioManager.switchTrackSmoothly('theme');
-        Game.instance.player.dispose();
+
+        // Reset score
+        Game.score = this._score;
+
+        // Create enemies
+        const waveData = this._levelData.waves[this._currentWaveIndex];
+        waveData.enemies.forEach((enemyData) => {
+            const enemyController = EnemyFactory.createEnemy(enemyData);
+            LevelState._enemiesController.push(enemyController);
+        });
     }
 
-    public update(deltaTime: number): void {
-        // Assuming playerController has a method to get current health
-        const playerHealth = Game.instance.player.health;
+    //////////////
+    // Win/Lose //
+    //////////////
 
-        GameManager.getInstance().update(deltaTime, playerHealth, LevelState._enemiesController);
+    private _win(): void {
+        console.log('You win!');
+        Game.instance.stateManager.changeState(State.SelectLevel);
+    }
+
+    private _lose(): void {
+        console.log('You lose!');
+        Game.instance.stateManager.changeState(State.SelectLevel);
+    }
+
+    ////////////
+    // Update //
+    ////////////
+
+    public update(deltaTime: number): void {
+        // Clear disposed enemies
+        LevelState._enemiesController = LevelState._enemiesController.filter((enemy) => !enemy.canBeDisposed);
+
+        // Advance to next wave if all enemies are dead
+        if (LevelState._enemiesController.length === 0) {
+            this._advanceToNextWave();
+        }
+
+        // Check if the game is over
+        if (Game.instance.player.health <= 0) {
+            this._lose();
+        }
 
         // Update enemies
         LevelState._enemiesController.forEach((enemyController) => {
@@ -196,25 +220,24 @@ class LevelState implements StateInterface {
         // Update player
         Game.instance.player.update(deltaTime);
 
-        // let elimination = null;
-        // Check for collisions
-        // elimination = this._collisionManager.checkForCollisions(Game.instance.player.weaponRight);
-        // if (elimination) {
-        //     // Remove the enemy from the list
-        //     const index = this._enemiesController.indexOf(elimination);
-        //     if (index > -1) {
-        //         this._score += this._enemiesController[index].score;
-        //         Game.score = this._score;
-        //         this._enemiesController.splice(index, 1);
-        //     }
-        //     elimination.dispose();
-        // }
+        // Update collision
         Game.instance.collisionManager.update();
+    }
 
-        // Check if all enemies are dead
-        // if (Game.instance.enemiesLeft === 0) {
-        // this._advanceToNextWave();
-        // }
+    /////////////
+    // Dispose //
+    /////////////
+
+    // Override
+    public dispose(): void {
+        // Reset wave index
+        this._currentWaveIndex = 0;
+
+        // Dispose all enemies
+        LevelState._enemiesController.forEach((enemy) => enemy.dispose());
+
+        // Dispose interface
+        this._cubeMenu.dispose();
     }
 }
 

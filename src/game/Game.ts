@@ -10,7 +10,6 @@ import PlayerModel from '../player/models/PlayerModels';
 import PlayerView from '../player/views/PlayerViews';
 import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
-// import CustomUI from '../UI/CustomUI';
 import { AnimationController } from './controllers/AnimationController';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
 import AudioManager from './controllers/AudioManager';

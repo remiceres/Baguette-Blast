@@ -88,6 +88,7 @@ class PlayerView {
 
     public dispose(): void {
         this._headHitbox.dispose();
+        this._bodyHitbox.dispose();
     }
 }
 

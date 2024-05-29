@@ -8,7 +8,6 @@ import {
     TransformNode,
     Vector3,
 } from '@babylonjs/core';
-import { Inspector } from '@babylonjs/inspector';
 import WallController from '../../wall/controllers/WallController';
 import WallModel from '../../wall/models/WallModel';
 import WallView from '../../wall/view/WallView';
@@ -130,8 +129,6 @@ class AssetsLoader {
         const materials = this._scene.materials.filter((material) =>
             searchNames.some((name) => material.name.toLowerCase().includes(name.toLowerCase()))
         );
-
-        console.log('materials : ', materials);
 
         // Active back face culling for all materials
         materials.forEach((material) => {

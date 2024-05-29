@@ -57,8 +57,6 @@ class WeaponFactory {
         const durability = weaponData.durability;
         const cooldownSecond = weaponData.cooldown;
 
-        console.log('cooldownSecond :', cooldownSecond);
-
         // Create model/view
         let view;
         let model;
