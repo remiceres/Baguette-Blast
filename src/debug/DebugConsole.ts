@@ -167,7 +167,7 @@ export default class DebugConsole {
      */
     private _toggleDebug(): void {
 
-        const primaryPressed : boolean = this._inputManager.leftPrimary.pressed;
+        const primaryPressed: boolean = this._inputManager.leftTrigger.pressed;
         const isVisible : boolean = this._plane.isVisible;
 
         if (primaryPressed && !this._continuePressed) {

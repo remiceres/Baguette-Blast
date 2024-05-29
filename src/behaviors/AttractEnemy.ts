@@ -4,13 +4,13 @@ import IBehaviour from './IBehaviour';
 
 class AttractEnemy implements IBehaviour {
     private _enemies: EnemyController[];
-    private _detectionRadius: number;
     private _force: number;
+    private _radius: number;
 
-    public constructor(enemies: EnemyController[], detectionRadius: number, force: number) {
+    public constructor(enemies: EnemyController[], force: number, radius: number) {
         this._enemies = enemies;
-        this._detectionRadius = detectionRadius;
         this._force = force;
+        this._radius = radius;
     }
 
     public getForceVector(deltaTime: number, mesh: AbstractMesh): Vector3 {
@@ -21,7 +21,7 @@ class AttractEnemy implements IBehaviour {
         for (const enemy of this._enemies) {
             const distance = enemy.position.subtract(mesh.position).length();
 
-            if (distance < this._detectionRadius && distance < minDistance) {
+            if (distance < this._radius && distance < minDistance) {
                 minDistance = distance;
                 nearestEnemy = enemy;
             }

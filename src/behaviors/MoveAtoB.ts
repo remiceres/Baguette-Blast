@@ -2,16 +2,17 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from './IBehaviour';
 
 class MoveAtoB implements IBehaviour {
+    private _force: number;
+    private _radius: number;
     private _positionA: Vector3;
     private _positionB: Vector3;
-    private _speed: number;
-    private _distance: number;
 
-    constructor(distance: number, positionA: Vector3, positionB: Vector3, speed: number) {
+    constructor(force: number, radius: number, positionA: Vector3, positionB: Vector3) {
+        console.log('force :', force + ' radius :', radius + ' positionA :', positionA + ' positionB :', positionB);
+        this._force = force;
+        this._radius = radius;
         this._positionA = positionA;
         this._positionB = positionB;
-        this._speed = speed;
-        this._distance = distance;
     }
 
     getForceVector(deltaTime: number, mesh: AbstractMesh, currentForce: Vector3): Vector3 {
@@ -29,7 +30,7 @@ class MoveAtoB implements IBehaviour {
         }
 
         // If the mesh is close to the target, change the target
-        if (mesh.position.subtract(mesh.metadata.target).length() < this._distance) {
+        if (mesh.position.subtract(mesh.metadata.target).length() < this._radius) {
             if (mesh.metadata.target.equals(this._positionA)) {
                 mesh.metadata.target = this._positionB;
             } else {
@@ -43,7 +44,7 @@ class MoveAtoB implements IBehaviour {
 
         // Calculate the force vector proportional to the distance to the target (close = slow, far = fast)
         const distance = mesh.position.subtract(mesh.metadata.target).length();
-        const force = direction.scale(this._speed * (distance / 100));
+        const force = direction.scale(this._force * (distance / 100));
         return force;
     }
 }

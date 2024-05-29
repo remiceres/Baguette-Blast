@@ -1,7 +1,13 @@
 import { Vector3 } from '@babylonjs/core';
+import Floating from '../../behaviors/Floating';
+import IBehaviour from '../../behaviors/IBehaviour';
 import BaseEnemyModel from './BaseEnemyModel';
 
 class PigeonModel extends BaseEnemyModel {
+    // Default behavior
+    private _defaultBehavior: IBehaviour = new Floating(0.3, 0.2);
+
+    // Head rotation
     private _offsetHeadRotation: number;
     private _headRotationSpeed: number;
 
@@ -9,10 +15,13 @@ class PigeonModel extends BaseEnemyModel {
     // Constructor //
     /////////////////
 
-    public constructor(position: Vector3, health: number, score: number) {
-        super(position, health, score, []);
+    public constructor(position: Vector3, health: number, score: number, behavior: IBehaviour[] = []) {
+        super(position, health, score, behavior);
         this._offsetHeadRotation = this._generateOffsetHeadRotation();
         this._headRotationSpeed = 1;
+
+        // Behavior
+        this.addBehavior(this._defaultBehavior);
     }
 
     private _generateOffsetHeadRotation(): number {

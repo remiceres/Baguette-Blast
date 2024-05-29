@@ -1,14 +1,23 @@
 {
     "player": {
         "left_hand": {
-            "item": "gun",
-            "durability": 10,
-            "power": 60
+            "type": "gun",
+            "projectile": "ball",
+            "force": 60,
+            "durability": 100,
+            "cooldown": 1
+        },
+        "right_hand": {
+            "type": "gun",
+            "projectile": "ball",
+            "force": 60,
+            "durability": 100,
+            "cooldown": 1
         },
         "health": 100,
         "position": {
             "x": -7.52959,
-            "y": 2.0,
+            "y": 2,
             "z": 3.89444
         }
     },
@@ -27,11 +36,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2,
-                        "speed": 10
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "pigeon",
@@ -44,11 +49,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 4,
-                        "speed": 20
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "pigeon",
@@ -61,11 +62,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2,
-                        "speed": 15
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "pigeon",
@@ -78,11 +75,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2,
-                        "speed": 10
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "silver",
@@ -95,11 +88,23 @@
                     "bonus": {
                         "type": "time"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 5,
-                        "speed": 30
-                    }
+                    "behaviours": [
+                        {
+                            "type": "moveAtoB",
+                            "force": 1,
+                            "radius": 1,
+                            "pointA": {
+                                "x": 24.609,
+                                "y": 7.113,
+                                "z": 4.365
+                            },
+                            "pointB": {
+                                "x": 4.609,
+                                "y": 7.113,
+                                "z": 4.365
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -117,11 +122,23 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2.9,
-                        "speed": 10
-                    }
+                    "behaviours": [
+                        {
+                            "type": "moveAtoB",
+                            "force": 10,
+                            "radius": 1,
+                            "pointA": {
+                                "x": -8.974,
+                                "y": 10.001,
+                                "z": 9.563
+                            },
+                            "pointB": {
+                                "x": -8.974,
+                                "y": 10.001,
+                                "z": 9.563
+                            }
+                        }
+                    ]
                 },
                 {
                     "type": "pigeon",
@@ -134,11 +151,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2,
-                        "speed": 10
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "silver",
@@ -151,11 +164,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 4,
-                        "speed": 30
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "pigeon",
@@ -168,11 +177,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2.5,
-                        "speed": 10
-                    }
+                    "behaviours": []
                 },
                 {
                     "type": "pigeon",
@@ -185,11 +190,7 @@
                     "bonus": {
                         "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 2,
-                        "speed": 20
-                    }
+                    "behaviours": []
                 }
             ]
         }

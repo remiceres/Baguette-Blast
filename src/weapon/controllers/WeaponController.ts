@@ -33,16 +33,17 @@ abstract class WeaponController {
         this._model.durability--;
 
         // Get the position and speed vector
-        const position = this._model.parent.getAbsolutePosition().clone();
-        const speedVector = this._getInitialForce();
-        const orientation = this._getInitialOrientation(speedVector);
+        const initialPosition = this._model.parent.getAbsolutePosition().clone();
+        const initialSpeedVector = this._getInitialForce();
+        const initialOrientation = this._getInitialOrientation(initialSpeedVector);
 
         // Create a new projectile
-        const projectile = ProjectileFactory.createProjectile(this._model.projectileType, {
-            initialPosition: position,
-            initialSpeedVector: speedVector,
-            initialOrientation: orientation,
-        });
+        const projectile = ProjectileFactory.createProjectile(
+            this._model.projectileType,
+            initialPosition,
+            initialSpeedVector,
+            initialOrientation
+        );
 
         // Add to projectile list
         this._model.projectiles.push(projectile);

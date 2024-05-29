@@ -1,21 +1,11 @@
 import { Vector3 } from '@babylonjs/core';
+import { ProjectileType } from '../game/models/LevelData';
 import BallController from './controllers/BallController';
 import LaserController from './controllers/LaserController';
 import BallModel from './models/BallModels';
 import LaserModel from './models/LaserModel';
 import BallView from './views/BallView';
 import LaserView from './views/LaserView';
-
-enum ProjectileType {
-    Ball = 'ball',
-    Laser = 'laser',
-}
-
-interface ProjectileProperties {
-    initialPosition: Vector3;
-    initialSpeedVector: Vector3;
-    initialOrientation: Vector3;
-}
 
 class ProjectileFactory {
     /////////////////
@@ -30,12 +20,17 @@ class ProjectileFactory {
     // Publics //
     /////////////
 
-    public static createProjectile(type: ProjectileType, properties: ProjectileProperties): BallController {
+    public static createProjectile(
+        type: ProjectileType,
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): BallController | LaserController {
         switch (type) {
             case ProjectileType.Ball:
-                return ProjectileFactory._createBall(properties);
+                return ProjectileFactory._createBall(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Laser:
-                return ProjectileFactory._createLaser(type, properties);
+                return ProjectileFactory._createLaser(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -45,17 +40,25 @@ class ProjectileFactory {
     // Privates //
     //////////////
 
-    private static _createBall(properties: ProjectileProperties): BallController {
+    private static _createBall(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): BallController {
         return new BallController(
             new BallView(),
-            new BallModel(properties.initialPosition, properties.initialOrientation, properties.initialSpeedVector)
+            new BallModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
 
-    private static _createLaser(type: ProjectileType, properties: ProjectileProperties): LaserController {
+    private static _createLaser(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): LaserController {
         return new LaserController(
             new LaserView(),
-            new LaserModel(properties.initialPosition, properties.initialOrientation, properties.initialSpeedVector)
+            new LaserModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
 }

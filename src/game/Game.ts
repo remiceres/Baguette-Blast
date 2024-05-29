@@ -175,24 +175,56 @@ class Game {
     private _render(): void {
         let lastTime = window.performance.now();
 
+        // Gérer la visibilité de l'onglet
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
+                lastTime = window.performance.now();
+            } else {
+                lastTime = null;
+            }
+        });
+
+        // Gérer le focus et le blur de la fenêtre
+        window.addEventListener('blur', () => {
+            lastTime = null;
+        });
+        window.addEventListener('focus', () => {
+            if (!lastTime) {
+                lastTime = window.performance.now();
+            }
+        });
+
+        // Gérer la minimisation et le changement de fenêtre
+        window.addEventListener('pagehide', () => {
+            lastTime = null;
+        });
+        window.addEventListener('pageshow', () => {
+            if (!lastTime) {
+                lastTime = window.performance.now();
+            }
+        });
+        window.addEventListener('freeze', () => {
+            lastTime = null;
+        });
+        window.addEventListener('resume', () => {
+            if (!lastTime) {
                 lastTime = window.performance.now();
             }
         });
 
         this._engine.runRenderLoop(() => {
             const currentTime = window.performance.now();
-            this._timeControl.update();
-            const deltaTime = ((currentTime - lastTime) / 1000.0) * this._timeControl.getTimeScale();
-            lastTime = currentTime;
+            if (lastTime) {
+                const deltaTime = ((currentTime - lastTime) / 1000.0) * this._timeControl.getTimeScale();
+                lastTime = currentTime;
 
-            if (document.visibilityState === 'visible') {
-                this._stateManager.currentState.update(deltaTime);
-                this._environmentControllers.update(deltaTime);
-                this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
-                this._cameraManager.update();
-                this._scene.render();
+                if (document.visibilityState === 'visible') {
+                    this._stateManager.currentState.update(deltaTime);
+                    this._environmentControllers.update(deltaTime);
+                    this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');
+                    this._cameraManager.update();
+                    this._scene.render();
+                }
             }
         });
     }
