@@ -53,6 +53,7 @@ class AssetsLoader {
     public async initialize(): Promise<void> {
         await this._loadAssets();
         this._generateColliders();
+        this._disableBackFaceCulling();
     }
 
     private async _loadAssets(): Promise<void> {
@@ -123,6 +124,22 @@ class AssetsLoader {
         });
     }
 
+    private _disableBackFaceCulling(): void {
+        const searchNames = ['Material'];
+
+        // Get all material with a name contain a substring of in an array searchNames
+        const materials = this._scene.materials.filter((material) =>
+            searchNames.some((name) => material.name.toLowerCase().includes(name.toLowerCase()))
+        );
+
+        console.log('materials : ', materials);
+
+        // Active back face culling for all materials
+        materials.forEach((material) => {
+            material.backFaceCulling = false;
+        });
+    }
+
     ///////////////
     // Factories //
     ///////////////
@@ -170,7 +187,6 @@ class AssetsLoader {
     public createHitbox(rootMesh: AbstractMesh, partName: string, padding: number): AbstractMesh {
         // Function to find the first mesh that matches the partName
         const findMeshByNamePart = (mesh, namePart: string): AbstractMesh => {
-
             if (mesh.name.includes(namePart)) {
                 return mesh;
             }
