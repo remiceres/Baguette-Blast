@@ -12,10 +12,10 @@ import State from '../stateManager/EnumState';
 import StateManager from '../stateManager/StateManager';
 import { AnimationController } from './controllers/AnimationController';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
-import AudioManager from './controllers/AudioManager';
 import CameraManager from './controllers/CameraManager';
 import CollisionManager from './controllers/CollisionManager';
 import TimeControl from './controllers/TimeControl';
+import { SoundPlayer } from './controllers/SoundPlayer';
 
 /**
  * The Game class is the central class of the application.
@@ -53,9 +53,6 @@ class Game {
     // Manages the loading of assets like models, textures, etc.
     private _assetManager: AssetManager;
 
-    // Manages the sound effects and music.
-    private _audioManager: AudioManager;
-
     // Manages the environement, like lights, shadows, etc.
     private _environmentControllers: EnvironmentControllers;
 
@@ -64,6 +61,9 @@ class Game {
 
     // A console for displaying debug information.
     private _debugConsole: DebugConsole;
+
+    // The sounds used in the game.
+    public static sounds: SoundPlayer[] = [];
 
     // The player controller.
     private _player: PlayerController;
@@ -97,10 +97,6 @@ class Game {
         if (this._supportedVR) {
             this._xr = await this._scene.createDefaultXRExperienceAsync({});
         }
-
-        // Initialize the audio manager.
-        this._audioManager = new AudioManager();
-        await this._audioManager.initialize();
 
         // Initialize the collision manager.
         this._collisionManager = new CollisionManager();
@@ -250,10 +246,6 @@ class Game {
 
     public get assetManager(): AssetManager {
         return this._assetManager;
-    }
-
-    public get audioManager(): AudioManager {
-        return this._audioManager;
     }
 
     public get scene(): Scene {

@@ -7,6 +7,7 @@ import Buttons from '../../menu/buttons';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class LevelState implements StateInterface {
     // Level data
@@ -147,7 +148,8 @@ class LevelState implements StateInterface {
     }
 
     private _initAudio(): void {
-        Game.instance.audioManager.switchTrackSmoothly('level' + this._levelNumber);
+        const levelMusic = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
+        levelMusic.play(true);
     }
 
     //////////

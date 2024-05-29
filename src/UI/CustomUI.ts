@@ -2,8 +2,7 @@ import { GUI3DManager, HolographicButton, PlanePanel } from 'babylonjs-gui';
 import State from '../stateManager/EnumState';
 import Game from '../game/Game';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
-import { Color3, DynamicTexture, Engine, Mesh, 
-    MeshBuilder, StandardMaterial, Texture, TransformNode, Vector3 } from '@babylonjs/core';
+import { Color3, DynamicTexture, Engine, Mesh, MeshBuilder, StandardMaterial, Texture, TransformNode, Vector3 } from '@babylonjs/core';
 
 class CustomUI {
     public static buttons: HolographicButton[] = [];
