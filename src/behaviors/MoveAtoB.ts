@@ -8,7 +8,6 @@ class MoveAtoB implements IBehaviour {
     private _positionB: Vector3;
 
     constructor(force: number, radius: number, positionA: Vector3, positionB: Vector3) {
-        console.log('force :', force + ' radius :', radius + ' positionA :', positionA + ' positionB :', positionB);
         this._force = force;
         this._radius = radius;
         this._positionA = positionA;

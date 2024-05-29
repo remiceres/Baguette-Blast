@@ -33,7 +33,6 @@ class CustomUI {
         if (isAlone) {
             button.position = new Vector3(0.5, 0.5, 0);
         } else if (isRight) {
-            console.log('isRight');
             panel.position._x = 2;
         }
     

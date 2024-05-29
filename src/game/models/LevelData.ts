@@ -44,6 +44,7 @@ enum BehaviourType {
     Floating = 'floating',
     Gravity = 'gravity',
     MoveAtoB = 'moveAtoB',
+    MoveFreelyInCube = 'moveFreelyInCube',
 }
 
 interface BehaviourData {
@@ -89,6 +90,13 @@ interface MoveAtoBProperties extends BehaviourData {
     };
 }
 
+interface MoveFreelyInCubeProperties {
+    type: BehaviourType.MoveFreelyInCube;
+    force: number;
+    radius: number;
+    minPosition: { x: number; y: number; z: number; };
+    maxPosition: { x: number; y: number; z: number; };
+}
 
 interface EnemyData {
     type: EnemyType;
@@ -131,7 +139,9 @@ export {
     AvoidMeshMeshProperties, BehaviourData, BehaviourType, BonusData,
     BonusType,
     EnemyData,
-    EnemyType, FloatingProperties, GameData, GravityProperties, LevelData, MoveAtoBProperties, ProjectileType,
+    EnemyType, FloatingProperties, GameData, GravityProperties, LevelData, MoveAtoBProperties, 
+    MoveFreelyInCubeProperties,
+    ProjectileType, 
     WeaponData,
     WeaponType
 };

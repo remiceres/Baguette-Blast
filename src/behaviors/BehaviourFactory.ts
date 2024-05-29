@@ -7,6 +7,7 @@ import {
     FloatingProperties,
     GravityProperties,
     MoveAtoBProperties,
+    MoveFreelyInCubeProperties,
 } from '../game/models/LevelData';
 import LevelState from '../stateManager/states/LevelState';
 import AttractEnemy from './AttractEnemy';
@@ -15,6 +16,7 @@ import Floating from './Floating';
 import Gravity from './Gravity';
 import IBehaviour from './IBehaviour';
 import MoveAtoB from './MoveAtoB';
+import MoveFreelyInCube from './MoveFreelyInCube';
 
 class BehaviourFactory {
     public static createBehaviour(behaviorData: BehaviourData): IBehaviour {
@@ -29,6 +31,8 @@ class BehaviourFactory {
                 return BehaviourFactory._createGravity(behaviorData as GravityProperties);
             case BehaviourType.MoveAtoB:
                 return BehaviourFactory._createMoveAtoB(behaviorData as MoveAtoBProperties);
+            case BehaviourType.MoveFreelyInCube:
+                return BehaviourFactory._createMoveFreelyInCube(behaviorData as MoveFreelyInCubeProperties);
             default:
                 throw new Error(`Unsupported behaviour type: ${behaviorData.type}`);
         }
@@ -56,6 +60,15 @@ class BehaviourFactory {
             properties.radius,
             new Vector3(properties.pointA.x, properties.pointA.y, properties.pointA.z),
             new Vector3(properties.pointB.x, properties.pointB.y, properties.pointB.z)
+        );
+    }
+
+    private static _createMoveFreelyInCube(properties: MoveFreelyInCubeProperties): IBehaviour {
+        return new MoveFreelyInCube(
+            properties.force,
+            properties.radius,
+            new Vector3(properties.minPosition.x, properties.minPosition.y, properties.minPosition.z),
+            new Vector3(properties.maxPosition.x, properties.maxPosition.y, properties.maxPosition.z)
         );
     }
 }

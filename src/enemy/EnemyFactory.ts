@@ -48,13 +48,10 @@ class EnemyFactory {
         const score = enemyData.score;
 
         const behaviours = [];
-        console.log('behaviours :', enemyData.behaviours);
         for (const behaviourData of enemyData.behaviours) {
             const behaviour = BehaviourFactory.createBehaviour(behaviourData);
             behaviours.push(behaviour);
         }
-
-
 
         // Create model/view
         const model = new BalloonModel(position, health, score, behaviours);
@@ -92,7 +89,7 @@ class EnemyFactory {
         }
 
         // Create model/view
-        const model = new PigeonModel(position, health, score);
+        const model = new PigeonModel(position, health, score, behaviours);
         const view = new PigeonView();
         const controller = new PigeonController(model, view);
 

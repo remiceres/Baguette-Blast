@@ -124,13 +124,6 @@ class Game {
         if (this._debug) {
             Inspector.Show(this._scene, {});
         }
-
-        // Get the position of mesh boundaries of the "Panneau" mesh in the Nodes.
-        const panneau = this._scene.getMeshByName('Panneau');
-        if (panneau) {
-            console.log('Panneau position:', panneau.getAbsolutePosition());
-            console.log('Panneau bounding box:', panneau.getBoundingInfo().boundingBox);
-        }
     }
 
     ///////////////
