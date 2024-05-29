@@ -24,7 +24,7 @@ abstract class BaseBonusController implements ICollider {
     }
 
     private _createHitbox(): AbstractMesh {
-        return Game.instance.assetManager.createHitbox(this._view.mesh, 'mm5', this._model.hitboxPadding);
+        return Game.instance.assetManager.createHitbox(this._view.mesh, 'mm1', this._model.hitboxPadding);
     }
 
     //////////////
