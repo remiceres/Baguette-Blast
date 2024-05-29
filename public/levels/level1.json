@@ -34,7 +34,7 @@
                         "z": -4.398
                     },
                     "bonus": {
-                        "type": "none"
+                        "type": "score"
                     },
                     "behaviours": []
                 },
