@@ -1,5 +1,6 @@
 import State from './EnumState';
 import CreditState from './states/CreditState';
+import DialogueState from './states/DialoguesState';
 import HomeState from './states/HomeState';
 import LevelSelectState from './states/LevelSelect';
 import LevelState from './states/LevelState';
@@ -24,6 +25,13 @@ class StateManager {
             [State.SelectLevel, new LevelSelectState()],
             [State.Settings, new SettingsState()],
             [State.Credit, new CreditState()],
+            [State.Dialogue1, new DialogueState('1')],
+            [State.Dialogue2, new DialogueState('2')],
+            [State.Dialogue3, new DialogueState('3')],
+            [State.Dialogue4, new DialogueState('4')],
+            [State.Dialogue5, new DialogueState('5')],
+            [State.Dialogue6, new DialogueState('6')],
+            [State.Dialogue7, new DialogueState('7')],
             [State.Level1, new LevelState(1)],
             [State.Level2, new LevelState(2)],
             [State.Level3, new LevelState(3)],
