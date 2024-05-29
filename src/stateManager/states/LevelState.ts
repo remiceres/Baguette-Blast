@@ -186,12 +186,12 @@ class LevelState implements StateInterface {
 
     private _win(): void {
         console.log('You win!');
-        Game.instance.stateManager.changeState(State.SelectLevel);
+        Game.instance.stateManager.changeState(State.Win);
     }
 
     private _lose(): void {
         console.log('You lose!');
-        Game.instance.stateManager.changeState(State.SelectLevel);
+        Game.instance.stateManager.changeState(State.Loose);
     }
 
     ////////////

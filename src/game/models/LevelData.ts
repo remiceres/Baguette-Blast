@@ -45,6 +45,7 @@ enum BehaviourType {
     Gravity = 'gravity',
     MoveAtoB = 'moveAtoB',
     MoveFreelyInCube = 'moveFreelyInCube',
+    Rush = 'rush',
 }
 
 interface BehaviourData {
@@ -88,6 +89,11 @@ interface MoveAtoBProperties extends BehaviourData {
         y: number;
         z: number;
     };
+}
+
+interface RushProperties extends BehaviourData {
+    type: BehaviourType.Rush;
+    force: number;
 }
 
 interface MoveFreelyInCubeProperties {
@@ -142,6 +148,7 @@ export {
     LevelData,
     MoveAtoBProperties,
     MoveFreelyInCubeProperties,
+    RushProperties,
     ProjectileType,
     WeaponData,
     WeaponType,

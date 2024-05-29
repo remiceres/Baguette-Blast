@@ -111,6 +111,8 @@ class CustomUI {
             '5': 'assets/frames/panels/StartLvl5.json',
             '6': 'assets/frames/panels/StartLvl6.json',
             EndLvl6: 'assets/frames/panels/EndLvl6.json',
+            loose: 'assets/frames/panels/Loose.json',
+            win: 'assets/frames/panels/Win.json',
         };
 
         const scene = Game.instance.scene;
