@@ -5,17 +5,17 @@ class Floating implements IBehaviour {
     private _force: number;
     private _oscillationTime: number;
     private _phaseOffset: number;
+    private _elapsedTime: number = 0; // Temps accumulé depuis l'activation
 
     public constructor(force: number = 0.08, oscillationFreq: number = 400) {
         this._force = force;
         this._oscillationTime = oscillationFreq;
-        // Random phase offset between 0 and 2π to avoid all enemies oscillating in sync
         this._phaseOffset = Math.random() * 2 * Math.PI;
     }
 
-    public getForceVector(): Vector3 {
-        const currentTime = Date.now();
-        const oscillation = Math.sin(currentTime / this._oscillationTime + this._phaseOffset) * this._force;
+    public getForceVector(deltaTime: number): Vector3 {
+        this._elapsedTime += deltaTime; // Mettre à jour le temps écoulé
+        const oscillation = Math.sin(this._elapsedTime / this._oscillationTime + this._phaseOffset) * this._force;
         return new Vector3(0, oscillation, 0);
     }
 }

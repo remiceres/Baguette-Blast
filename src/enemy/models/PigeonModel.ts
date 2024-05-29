@@ -5,7 +5,7 @@ import BaseEnemyModel from './BaseEnemyModel';
 
 class PigeonModel extends BaseEnemyModel {
     // Default behavior
-    private _defaultBehavior: IBehaviour = new Floating(0.3, 0.2);
+    private _defaultBehavior: IBehaviour = new Floating(0.1, 0.2);
 
     // Head rotation
     private _offsetHeadRotation: number;

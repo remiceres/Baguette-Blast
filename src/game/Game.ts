@@ -212,12 +212,15 @@ class Game {
             }
         });
 
+        const maxStep = 0.1; // Limite le deltaTime à 0.1 seconde pour éviter les grands sauts
         this._engine.runRenderLoop(() => {
             const currentTime = window.performance.now();
             if (lastTime) {
-                const deltaTime = ((currentTime - lastTime) / 1000.0) * this._timeControl.getTimeScale();
-                lastTime = currentTime;
+                let deltaTime = (currentTime - lastTime) / 1000.0;
+                deltaTime = Math.min(deltaTime, maxStep); // Limiter le deltaTime
+                deltaTime *= this._timeControl.getTimeScale();
 
+                lastTime = currentTime;
                 if (document.visibilityState === 'visible') {
                     this._stateManager.currentState.update(deltaTime);
                     this._environmentControllers.update(deltaTime);
