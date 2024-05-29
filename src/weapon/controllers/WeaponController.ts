@@ -147,11 +147,9 @@ abstract class WeaponController {
 
         this._view.mesh.dispose();
 
-        // Not disposing the projectiles here, they will be auto disposed
-        // The goal is to avoid projectiles to be disposed if the weapon is disposed
-        // (e.g. when the player change weapon)
-
-        // Continue to update the projectiles until they are all disposed
+        this._model.projectiles.forEach((projectile) => {
+            projectile.dispose();
+        });
     }
 }
 export default WeaponController;
