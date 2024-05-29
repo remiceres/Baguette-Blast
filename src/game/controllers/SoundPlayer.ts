@@ -1,5 +1,4 @@
 import { Scene, Sound, AbstractMesh, InstancedMesh, Vector3 } from '@babylonjs/core';
-import * as BABYLON from 'babylonjs';
 import data from '../../../public/assets/sounds/sounds.json';
 import Game from '../../game/Game';
 
@@ -20,7 +19,7 @@ export class SoundPlayer {
             this._mesh = mesh;
             this._sound.attachToMesh(this._mesh);
         }
-        BABYLON.Engine.audioEngine.audioContext?.resume();
+        // Engine.audioEngine.audioContext?.resume();
         if(addInList) {
             Game.sounds.push(this);
         }

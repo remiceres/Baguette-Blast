@@ -14,8 +14,8 @@ import { AnimationController } from './controllers/AnimationController';
 import { default as AssetManager, default as AssetsLoader } from './controllers/AssetsLoader';
 import CameraManager from './controllers/CameraManager';
 import CollisionManager from './controllers/CollisionManager';
-import TimeControl from './controllers/TimeControl';
 import { SoundPlayer } from './controllers/SoundPlayer';
+import TimeControl from './controllers/TimeControl';
 
 /**
  * The Game class is the central class of the application.

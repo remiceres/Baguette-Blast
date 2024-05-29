@@ -148,8 +148,8 @@ class LevelState implements StateInterface {
     }
 
     private _initAudio(): void {
-        const levelMusic = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
-        levelMusic.play(true);
+        // const levelMusic = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
+        // levelMusic.play(true);
     }
 
     //////////
