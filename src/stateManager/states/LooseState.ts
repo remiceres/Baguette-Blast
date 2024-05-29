@@ -1,10 +1,10 @@
+import { Vector3 } from '@babylonjs/core';
 import CustomUI from '../../UI/CustomUI';
 import Game from '../../game/Game';
 import State from '../EnumState';
 import BaseState from './BaseState';
 
 class LooseState extends BaseState {
-
     constructor() {
         super();
     }
@@ -17,9 +17,9 @@ class LooseState extends BaseState {
     }
 
     private _setupCamera(): void {
-        // const camera = Game.instance.cameraManager.playerCamera;
-        // camera.position = new Vector3(-1.5, 3, 4);
-        // camera.setTarget(new Vector3(-1.5, 3, 5));
+        const camera = Game.instance.cameraManager.playerCamera;
+        camera.position = new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 4);
+        camera.setTarget(new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 5));
     }
 
     private _setupGUI(): void {
@@ -33,6 +33,8 @@ class LooseState extends BaseState {
         CustomUI.addButton('Level Select', State.SelectLevel, panel, panelimg, true);
     }
 
-    public update(deltaTime: number): void { deltaTime; }
+    public update(deltaTime: number): void {
+        deltaTime;
+    }
 }
 export default LooseState;
