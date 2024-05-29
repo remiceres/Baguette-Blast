@@ -1,56 +1,56 @@
 {
     "balloonPop": {
-        "file": "/sounds/balloonPop.mp3",
+        "file": "./sounds/balloonPop.mp3",
         "volume": 0.08,
         "spatialized": true
     },
     "laserGun": {
-        "file": "/sounds/laserGun.mp3",
+        "file": "./sounds/laserGun.mp3",
         "volume": 0.06,
         "spatialized": true
     },
     "pigeonDying": {
-        "file": "/sounds/pigeonDying.mp3",
+        "file": "./sounds/pigeonDying.mp3",
         "volume": 0.1,
         "spatialized": true
     },
     "playerHit": {
-        "file": "/sounds/playerHit.mp3",
+        "file": "./sounds/playerHit.mp3",
         "volume": 0.1,
         "spatialized": false
     },
     "music_theme": {
-        "file": "/musics/theme.mp3",
+        "file": "./musics/theme.mp3",
         "volume": 0.01,
         "spatialized": false
     },
     "music_levels_1": {
-        "file": "/musics/Baguette Blast - Level 1.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_1.mp3",
         "volume": 0.01,
         "spatialized": false
     },
     "music_levels_2": {
-        "file": "/musics/Baguette Blast - Level 2.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_2.mp3",
         "volume": 0.01,
         "spatialized": false
     },
     "music_levels_3": {
-        "file": "/musics/Baguette Blast - Level 3.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_3.mp3",
         "volume": 0.15,
         "spatialized": false
     },
     "music_levels_4": {
-        "file": "/musics/Baguette Blast - Level 4.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_4.mp3",
         "volume": 0.15,
         "spatialized": false
     },
     "music_levels_5": {
-        "file": "/musics/Baguette Blast - Level 5.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_5.mp3",
         "volume": 0.15,
         "spatialized": false
     },
     "music_levels_6": {
-        "file": "/musics/Baguette Blast - Level 6.mp3",
+        "file": "./musics/levels/BaguetteBlast_Level_6.mp3",
         "volume": 0.15,
         "spatialized": false
     }
