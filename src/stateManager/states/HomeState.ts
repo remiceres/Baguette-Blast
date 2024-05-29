@@ -1,8 +1,8 @@
+import { Vector3 } from '@babylonjs/core';
 import Game from '../../game/Game';
-import BaseState from './BaseState';
 import CustomUI from '../../UI/CustomUI';
 import State from '../EnumState';
-import { Vector3 } from '@babylonjs/core';
+import BaseState from './BaseState';
 
 class HomeState extends BaseState {
 
@@ -35,6 +35,8 @@ class HomeState extends BaseState {
     }
 
     public update(deltaTime: number): void { deltaTime; }
+
+    public dispose(): void { }
 }
 
 export default HomeState;

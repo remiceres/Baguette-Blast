@@ -5,7 +5,6 @@ import State from '../EnumState';
 import { Vector3 } from '@babylonjs/core';
 
 class LevelSelectState extends BaseState {
-
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
         this._setupCamera();
@@ -42,7 +41,11 @@ class LevelSelectState extends BaseState {
         CustomUI.addButton('Home', State.Home, panel, panelimg);
     }
 
-    public update(deltaTime: number): void { deltaTime; }
+    public update(deltaTime: number): void {
+        deltaTime;
+    }
+
+    public dispose(): void {}
 }
 
 export default LevelSelectState;

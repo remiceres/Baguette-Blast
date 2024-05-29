@@ -1,7 +1,7 @@
 import Game from '../../game/Game';
+import CustomUI from '../../UI/CustomUI';
 import State from '../EnumState';
 import BaseState from './BaseState';
-import CustomUI from '../../UI/CustomUI';
 
 class SettingsState extends BaseState {
 
@@ -29,6 +29,8 @@ class SettingsState extends BaseState {
     }
 
     public update(deltaTime: number): void { deltaTime; }
+
+    public dispose(): void { }
 }
 
 export default SettingsState;

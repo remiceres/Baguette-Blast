@@ -50,6 +50,7 @@ class CustomUI {
             panel.position._x = 2;
         }
 
+        // Dispose all the buttons and change state when clicked
         button.onPointerClickObservable.add(() => {
             // Dispose of the buttons
             for (const btn of this.buttons) {

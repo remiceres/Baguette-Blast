@@ -13,15 +13,8 @@ class DialogueState extends BaseState {
 
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
-        this._setupCamera();
         this._setupGUI();
         return Promise.resolve();
-    }
-
-    private _setupCamera(): void {
-        // const camera = Game.instance.cameraManager.playerCamera;
-        // camera.position = new Vector3(-1.5, 3, 4);
-        // camera.setTarget(new Vector3(-1.5, 3, 5));
     }
 
     private _setupGUI(): void {
@@ -32,12 +25,24 @@ class DialogueState extends BaseState {
 
         let s = State.Home;
         switch (this._dialogue) {
-            case '1': s= State.Level1; break;
-            case '2': s= State.Level2; break;
-            case '3': s= State.Level3; break;
-            case '4': s= State.Level4; break;
-            case '5': s= State.Level5; break;
-            case '6': s= State.Level6; break;
+            case '1':
+                s = State.Level1;
+                break;
+            case '2':
+                s = State.Level2;
+                break;
+            case '3':
+                s = State.Level3;
+                break;
+            case '4':
+                s = State.Level4;
+                break;
+            case '5':
+                s = State.Level5;
+                break;
+            case '6':
+                s = State.Level6;
+                break;
         }
 
         const panel = CustomUI.addPanel(1, 1);
@@ -46,7 +51,11 @@ class DialogueState extends BaseState {
         CustomUI.addButton('Start', s, panel, panelimg, false, true);
     }
 
-    public update(deltaTime: number): void { deltaTime; }
+    public update(deltaTime: number): void {
+        deltaTime;
+    }
+
+    public dispose(): void {}
 }
 
 export default DialogueState;

@@ -36,5 +36,7 @@ class LooseState extends BaseState {
     public update(deltaTime: number): void {
         deltaTime;
     }
+
+    public dispose(): void {}
 }
 export default LooseState;
