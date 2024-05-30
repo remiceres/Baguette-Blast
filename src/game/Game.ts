@@ -27,7 +27,7 @@ class Game {
     private static _instance: Game;
 
     // Activate or deactivate debug mode.
-    private _debug = true;
+    private _debug = false;
 
     // The Babylon.js engine used for rendering.
     private _engine: Engine;
@@ -234,6 +234,10 @@ class Game {
     ///////////////
     // Accessors //
     ///////////////
+
+    public get supportedVR(): boolean {
+        return this._supportedVR;
+    }
 
     public get sounds(): SoundPlayer[] {
         return this._sounds;
