@@ -12,6 +12,7 @@ import GoldBalloonView from './views/GoldBalloonView';
 import PigeonView from './views/PigeonView';
 import SilverBalloonView from './views/SilverBalloonView';
 import ShooterPigeonController from './controllers/PigeonShooterControllet';
+import DropperPigeonController from './controllers/PigeonDropperController';
 
 class EnemyFactory {
     /////////////////
@@ -34,7 +35,9 @@ class EnemyFactory {
             case EnemyType.Pigeon:
                 return EnemyFactory._createPigeon(enemyData);
             case EnemyType.PigeonShooter:
-                return EnemyFactory._createPigeon(enemyData, true);
+                return EnemyFactory._createPigeon(enemyData, 'shoot');
+            case EnemyType.PigeonDropper:
+                return EnemyFactory._createPigeon(enemyData, 'drop');
             default:
                 throw new Error(`Unsupported enemy type: ${enemyData.type}`);
         }
@@ -79,7 +82,7 @@ class EnemyFactory {
         return controller;
     }
 
-    private static _createPigeon(enemyData: EnemyData, shooter: boolean = false): PigeonController {
+    private static _createPigeon(enemyData: EnemyData, speciality: string = 'none'): PigeonController {
         // Extract data
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
         const health = enemyData.health;
@@ -94,7 +97,19 @@ class EnemyFactory {
         // Create model/view
         const model = new PigeonModel(position, health, score, behaviours);
         const view = new PigeonView();
-        const controller = shooter ? new ShooterPigeonController(model, view) : new PigeonController(model, view);
+        // Controller can be dropper, shooter or normal pigeon
+        let controller;
+        switch (speciality) {
+            case 'shoot':
+                controller = new ShooterPigeonController(model, view);
+                break;
+            case 'drop':
+                controller = new DropperPigeonController(model, view);
+                break;
+            default:
+                controller = new PigeonController(model, view);
+                break;
+        }
 
         return controller;
     }

@@ -6,6 +6,9 @@ import BallModel from './models/BallModels';
 import LaserModel from './models/LaserModel';
 import BallView from './views/BallView';
 import LaserView from './views/LaserView';
+import EggView from './views/EggView';
+import EggController from './controllers/EggController';
+import EggModel from './models/EggModel';
 
 class ProjectileFactory {
     /////////////////
@@ -31,6 +34,8 @@ class ProjectileFactory {
                 return ProjectileFactory._createBall(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Laser:
                 return ProjectileFactory._createLaser(initialPosition, initialSpeedVector, initialOrientation);
+            case ProjectileType.Egg:
+                return ProjectileFactory._createEgg(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -59,6 +64,17 @@ class ProjectileFactory {
         return new LaserController(
             new LaserView(),
             new LaserModel(initialPosition, initialOrientation, initialSpeedVector)
+        );
+    }
+
+    private static _createEgg(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): EggController {
+        return new EggController(
+            new EggView(),
+            new EggModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
 }

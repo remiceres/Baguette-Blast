@@ -15,6 +15,7 @@ enum WeaponType {
 enum ProjectileType {
     Ball = 'ball',
     Laser = 'laser',
+    Egg = 'Egg',
 }
 
 interface PlayerData {
@@ -123,6 +124,7 @@ enum EnemyType {
     Gold = 'gold',
     Pigeon = 'pigeon',
     PigeonShooter = 'pigeonShooter',
+    PigeonDropper = 'pigeonDropper',
 }
 
 interface Wave {

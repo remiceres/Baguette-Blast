@@ -1,11 +1,10 @@
-import Game from '../../game/Game';
 import { ProjectileFactory, ProjectileType } from '../../projectile/ProjectileFactory';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import PigeonModel from '../models/PigeonModel';
 import PigeonView from '../views/PigeonView';
 import PigeonController from './PigeonControllers';
 
-class ShooterPigeonController extends PigeonController {
+class DropperPigeonController extends PigeonController {
     private _fireCooldown: number = 2; // Cooldown time in seconds
     private _timeSinceLastFire: number = 0;
 
@@ -33,19 +32,14 @@ class ShooterPigeonController extends PigeonController {
     private _fireProjectile() {
         const initialPosition = this._model.position.clone();
         initialPosition.y -= 0.5;
-
-        // Random head or body as target 
-        const targetDirection = Math.random() > 0.5 ? 
-            Game.instance.player.positionHead : Game.instance.player.positionBody;
-
         // Create instance
         this._projectiles.push(ProjectileFactory.createProjectile(
             ProjectileType.Egg, 
             initialPosition, 
-            this._view.mesh.forward.clone().normalize().scaleInPlace(4), 
-            targetDirection)
+            this._view.mesh.forward.clone().normalize().scaleInPlace(2), 
+            this._view.mesh.rotation.clone())
         );
     }
 }
 
-export default ShooterPigeonController;
+export default DropperPigeonController;
