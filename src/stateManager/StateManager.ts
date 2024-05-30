@@ -5,6 +5,7 @@ import HomeState from './states/HomeState';
 import LevelSelectState from './states/LevelSelect';
 import LevelState from './states/LevelState';
 import LooseState from './states/LooseState';
+import NoVrState from './states/NoVrState';
 import SettingsState from './states/SettingsState';
 import StateInterface from './states/StateInterface';
 import WinState from './states/WinState';
@@ -21,9 +22,9 @@ class StateManager {
      * @param {Scene} scene - The Babylon.js scene for the level.
      * @param {State} initialState - The initial state of the application.
      */
-    public constructor(initialState: State) {
+    public constructor() {
         this._states = new Map<State, StateInterface>([
-            [State.Home, new HomeState()], 
+            [State.Home, new HomeState()],
             [State.SelectLevel, new LevelSelectState()],
             [State.Settings, new SettingsState()],
             [State.Credit, new CreditState()],
@@ -41,10 +42,9 @@ class StateManager {
             [State.Level5, new LevelState(5)],
             [State.Level6, new LevelState(6)],
             [State.Win, new WinState()],
-            [State.Loose, new LooseState()]
+            [State.Loose, new LooseState()],
+            [State.NoVr, new NoVrState()],
         ]);
-        this._currentState = this._states.get(initialState);
-        this._currentState.init();
     }
 
     /**

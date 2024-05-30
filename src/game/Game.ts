@@ -87,7 +87,17 @@ class Game {
         window.addEventListener('resize', () => this._engine.resize());
 
         // Initialize the game components and start the rendering loop.
-        this._init().then(() => this._render());
+        this._init().then(() => {
+            this.stateManager.changeState(State.Home);
+
+            if (this._supportedVR) {
+                this._stateManager.changeState(State.Home);
+            } else {
+                this._stateManager.changeState(State.NoVr);
+            }
+
+            this._render();
+        });
     }
 
     private async _init(): Promise<void> {
@@ -118,7 +128,7 @@ class Game {
         this._cameraManager = new CameraManager(this._xr, this._supportedVR);
         this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput(this._scene);
         this._environmentControllers = new EnvironmentControllers();
-        this._stateManager = new StateManager(State.Home);
+        this._stateManager = new StateManager();
         this._timeControl = new TimeControl();
         this._debugConsole = new DebugConsole();
         this._player = new PlayerController(new PlayerModel(), new PlayerView());

@@ -20,7 +20,8 @@ enum State {
     Level5,
     Level6,
     Win,
-    Loose
+    Loose,
+    NoVr,
 }
 
 export default State;

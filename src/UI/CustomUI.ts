@@ -9,8 +9,7 @@ import {
     TransformNode,
     Vector3,
 } from '@babylonjs/core';
-import { AdvancedDynamicTexture } from '@babylonjs/gui';
-import { GUI3DManager, HolographicButton, PlanePanel } from 'babylonjs-gui';
+import { AdvancedDynamicTexture, GUI3DManager, HolographicButton, PlanePanel } from '@babylonjs/gui';
 import Game from '../game/Game';
 import State from '../stateManager/EnumState';
 
