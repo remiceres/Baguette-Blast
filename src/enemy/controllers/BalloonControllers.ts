@@ -65,6 +65,14 @@ class BalloonController extends EnemyController {
         }
     }
 
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get type(): string {
+        return 'balloon';
+    }
+
     /////////////
     // Dispose //
     /////////////
