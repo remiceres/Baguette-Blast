@@ -1,4 +1,8 @@
 {
+    "emvironement": {
+        "time": 0.7,
+        "duration": 1800
+    },
     "player": {
         "left_hand": {
             "type": "gun",
@@ -147,6 +151,53 @@
                             },
                             "pointB": {
                                 "x": 4.609,
+                                "y": 7.113,
+                                "z": 4.365
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wave": 1,
+            "enemies": [
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": -15.724,
+                        "y": 4.235,
+                        "z": -4.398
+                    },
+                    "bonus": {
+                        "type": "score"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "gold",
+                    "health": 10,
+                    "position": {
+                        "x": 24.609,
+                        "y": 7.113,
+                        "z": 4.365
+                    },
+                    "bonus": {
+                        "type": "time"
+                    },
+                    "behaviours": [
+                        {
+                            "type": "moveAtoB",
+                            "force": 1,
+                            "radius": 1,
+                            "pointA": {
+                                "x": -24.609,
+                                "y": 7.113,
+                                "z": 4.365
+                            },
+                            "pointB": {
+                                "x": -4.609,
                                 "y": 7.113,
                                 "z": 4.365
                             }

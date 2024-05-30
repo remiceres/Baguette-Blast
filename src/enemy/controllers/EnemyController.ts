@@ -85,6 +85,8 @@ abstract class EnemyController implements ICollider {
         return this._model.canBeDisposed;
     }
 
+    public abstract get type(): string;
+
     /////////////
     // Dispose //
     /////////////

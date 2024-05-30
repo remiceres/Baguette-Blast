@@ -6,12 +6,18 @@ import State from '../EnumState';
 import BaseState from './BaseState';
 
 class HomeState extends BaseState {
-
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
         this._setupCamera();
+        this._setupEnvironment();
         this._setupGUI();
         this._initAudio();
+    }
+
+    private _setupEnvironment(): void {
+        const environment = Game.instance.environmentControllers;
+        environment.cycleDuration = 1800;
+        environment.pourcentageOfDay = Math.random();
     }
 
     private _setupCamera(): void {
@@ -44,9 +50,11 @@ class HomeState extends BaseState {
         CustomUI.addButton('Credit', State.Credit, panel, panelimg);
     }
 
-    public update(deltaTime: number): void { deltaTime; }
+    public update(deltaTime: number): void {
+        deltaTime;
+    }
 
-    public dispose(): void { }
+    public dispose(): void {}
 }
 
 export default HomeState;

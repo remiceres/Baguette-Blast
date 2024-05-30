@@ -13,7 +13,7 @@ class EnvironmentControllers {
 
     // Sun
     private _sun: Sun;
-    private _sunUpdate: boolean = false;
+    private _sunUpdate: boolean = true;
 
     // Shadow
     private _shadowsManager: Shadows;
@@ -31,7 +31,7 @@ class EnvironmentControllers {
     // Constructor //
     /////////////////
 
-    constructor() {
+    public constructor() {
         this._sun = new Sun();
         this._shadowsManager = new Shadows(this._sun.sunLight);
         this._sky = new Sky();
@@ -42,22 +42,17 @@ class EnvironmentControllers {
     // Public API //
     ////////////////
 
-    public sunUpdate(value: boolean): void {
-        this._sunUpdate = value;
+    public set cycleDuration(duration: number) {
+        this._cycleDuration = duration;
     }
 
-    public enableShadows(value: boolean): void {
-        this._enableShadows = value;
-
-        // if shadows are enabled, create a new shadow manager
-        if (this._enableShadows) {
-            this._shadowsManager = new Shadows(this._sun.sunLight);
-        }
-        // if shadows are disabled, remove the shadow manager
-        else {
-            this._shadowsManager.dispose();
-        }
+    public set pourcentageOfDay(pourcentage: number) {
+        this._timeElapsed = this._cycleDuration * pourcentage;
     }
+
+    ////////////
+    // Update //
+    ////////////
 
     public update(deltaTime: number): void {
         this._timeElapsed += deltaTime;

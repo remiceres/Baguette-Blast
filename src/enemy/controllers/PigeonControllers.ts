@@ -20,6 +20,14 @@ class PigeonController extends EnemyController {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'polySurface71', this._model.hitboxPadding);
     }
 
+    //////////////
+    // Accessor //
+    //////////////
+
+    public get type(): string {
+        return 'Pigeon';
+    }
+
     ////////////
     // Update //
     ////////////
