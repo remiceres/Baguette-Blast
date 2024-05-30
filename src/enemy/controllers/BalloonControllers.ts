@@ -1,9 +1,9 @@
 import { AbstractMesh } from '@babylonjs/core';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import Game from '../../game/Game';
-import EnemyController from './EnemyController';
 import BalloonModel from '../models/BalloonModel';
 import BalloonView from '../views/BalloonView';
+import EnemyController from './EnemyController';
 
 class BalloonController extends EnemyController {
     protected _model: BalloonModel;
@@ -21,12 +21,24 @@ class BalloonController extends EnemyController {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'Ballon', this._model.hitboxPadding);
     }
 
+    //////////////
+    // Collider //
+    //////////////
+
+    // @Override
+    public onCollision(): void {
+        if (this._model.bonusController) {
+            this._model.bonusController.activate();
+        }
+
+        super.onCollision();
+    }
+
     ///////////
     // Bonus //
     ///////////
 
     public set bonus(bonusController: BaseBonusController) {
-
         if (this._model.bonusController) {
             this._model.bonusController.dispose();
         }
@@ -60,7 +72,6 @@ class BalloonController extends EnemyController {
     public dispose(): void {
         super.dispose();
         if (this._model.bonusController) {
-            this._model.bonusController.activate();
             this._model.bonusController.dispose();
         }
     }
