@@ -2,6 +2,7 @@ import { Vector3 } from '@babylonjs/core';
 import Floating from '../../behaviors/Floating';
 import IBehaviour from '../../behaviors/IBehaviour';
 import BaseEnemyModel from './BaseEnemyModel';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class PigeonModel extends BaseEnemyModel {
     // Default behavior
@@ -10,6 +11,9 @@ class PigeonModel extends BaseEnemyModel {
     // Head rotation
     private _offsetHeadRotation: number;
     private _headRotationSpeed: number;
+
+    // Sound
+    protected _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -38,6 +42,15 @@ class PigeonModel extends BaseEnemyModel {
 
     public get headRotationSpeed(): number {
         return this._headRotationSpeed;
+    }
+
+    // Sound
+    public get sound(): SoundPlayer {
+        return this._sound;
+    }
+
+    public set sound(sound: SoundPlayer) {
+        this._sound = sound;
     }
 }
 

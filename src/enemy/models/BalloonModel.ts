@@ -13,7 +13,6 @@ class BalloonModel extends BaseEnemyModel {
     private _bonusOffsetY: number;
 
     // Sound
-
     protected _sound: SoundPlayer;
 
     /////////////////
