@@ -1,3 +1,4 @@
+import Game from '../../game/Game';
 import { ProjectileFactory, ProjectileType } from '../../projectile/ProjectileFactory';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import PigeonModel from '../models/PigeonModel';
@@ -31,13 +32,18 @@ class ShooterPigeonController extends PigeonController {
 
     private _fireProjectile() {
         const initialPosition = this._model.position.clone();
-        initialPosition.y -= 0.7;
+        initialPosition.y -= 0.5;
+
+        // Random head or body as target 
+        const targetDirection = Math.random() > 0.5 ? 
+            Game.instance.player.positionHead : Game.instance.player.positionBody;
+
         // Create instance
         this._projectiles.push(ProjectileFactory.createProjectile(
-            ProjectileType.Ball, 
+            ProjectileType.Egg, 
             initialPosition, 
-            this._view.mesh.forward.clone().normalize().scaleInPlace(2), 
-            this._view.mesh.rotation.clone())
+            this._view.mesh.forward.clone().normalize().scaleInPlace(4), 
+            targetDirection)
         );
     }
 }

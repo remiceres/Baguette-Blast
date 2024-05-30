@@ -12,9 +12,9 @@
     },
     "player": {
         "left_hand": {
-            "type": "gun",
-            "projectile": "ball",
-            "force": 60,
+            "type": "boomerangLauncher",
+            "projectile": "boomerang",
+            "force": 3,
             "durability": 100,
             "cooldown": 1
         },

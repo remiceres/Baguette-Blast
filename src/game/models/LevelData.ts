@@ -10,11 +10,14 @@ enum WeaponType {
     Hand = 'hand',
     Gun = 'gun',
     GatlingGun = 'gatlingGun',
+    BoomerangLauncher = 'boomerangLauncher',
 }
 
 enum ProjectileType {
     Ball = 'ball',
     Laser = 'laser',
+    Egg = 'Egg',
+    Boomerang = 'boomerang',
 }
 
 interface PlayerData {
@@ -134,6 +137,7 @@ enum EnemyType {
     Gold = 'gold',
     Pigeon = 'pigeon',
     PigeonShooter = 'pigeonShooter',
+    PigeonDropper = 'pigeonDropper',
 }
 
 interface Wave {
