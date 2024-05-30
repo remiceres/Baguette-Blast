@@ -1,7 +1,7 @@
 {
     "balloonPop": {
         "file": "./sounds/balloonPop.mp3",
-        "volume": 1,
+        "volume": 0.5,
         "spatialized": true
     },
     "laserGun": {
@@ -11,7 +11,7 @@
     },
     "pigeonDying": {
         "file": "./sounds/pigeonDying.mp3",
-        "volume": 1,
+        "volume": 0.5,
         "spatialized": false
     },
     "playerHit": {

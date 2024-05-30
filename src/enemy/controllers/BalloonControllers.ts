@@ -23,7 +23,7 @@ class BalloonController extends EnemyController {
     }
 
     protected _initAudio(): SoundPlayer {
-        return new SoundPlayer('balloonPop', this._view.mesh, true);
+        return new SoundPlayer('balloonPop', this._model.hitbox, true);
     }
 
     //////////////

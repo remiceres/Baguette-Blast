@@ -113,7 +113,9 @@
                         "z": 34.10
                     },
                     "bonus": {
-                        "type": "time"
+                        "type": "time",
+                        "duration": 10,
+                        "speedRatio": 0.05
                     },
                     "behaviours": [
                         {
@@ -142,7 +144,9 @@
                         "z": 42.12
                     },
                     "bonus": {
-                        "type": "time"
+                        "type": "time",
+                        "duration": 5,
+                        "speedRatio": 0.05
                     },
                     "behaviours": [
                         {
