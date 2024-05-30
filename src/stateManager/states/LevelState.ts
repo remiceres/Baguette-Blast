@@ -81,8 +81,15 @@ class LevelState implements StateInterface {
             this._initInterface();
             this._initPlayer();
             this._advanceToNextWave();
+            this._initVr();
         } catch (error) {
             console.error('Error during game initialization:', error);
+        }
+    }
+
+    private _initVr(): void {
+        if (Game.instance.supportedVR) {
+            Game.instance.inputManager.setControllerVisibility(false, 'both');
         }
     }
 
@@ -239,6 +246,11 @@ class LevelState implements StateInterface {
 
         // reStart main theme music
         Game.instance.mainTheme.play();
+
+        // VR
+        if (Game.instance.supportedVR) {
+            Game.instance.inputManager.setControllerVisibility(true, 'both');
+        }
     }
 }
 
