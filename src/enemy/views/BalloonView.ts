@@ -16,7 +16,12 @@ abstract class BalloonView extends BaseEnemyView {
         particleSystem.particleTexture = new Texture('assets/textures/patricles/particle.png', Game.instance.scene);
 
         // Where the particles come from
-        particleSystem.emitter = this.mesh.position; // the starting location
+        const offsety = 1.3;
+        particleSystem.emitter = new Vector3(
+            this.mesh.position.x,
+            this.mesh.position.y + offsety,
+            this.mesh.position.z
+        );
 
         // Colors of all particles
         // particleSystem.color1 = new Color4(1, 0.1, 0.1, 1); // vibrant red
