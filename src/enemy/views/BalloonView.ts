@@ -1,7 +1,6 @@
 import { ParticleSystem, Texture, Vector3 } from '@babylonjs/core';
 import Game from '../../game/Game';
 import BaseEnemyView from './BaseEnemyView';
-import { SoundPlayer} from '../../game/controllers/SoundPlayer';
 
 abstract class BalloonView extends BaseEnemyView {
     constructor() {
@@ -69,9 +68,6 @@ abstract class BalloonView extends BaseEnemyView {
 
         // Optionally dispose the mesh
         this.mesh.dispose();
-
-        const sound = new SoundPlayer('balloonPop', Game.instance.scene, this.mesh, true);
-        sound.play();
     }
 }
 

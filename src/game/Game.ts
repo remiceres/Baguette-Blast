@@ -74,6 +74,9 @@ class Game {
     // Annimation manager.
     private _animationManager: AnimationController;
 
+    // Main theme music
+    private _mainTheme: SoundPlayer;
+
     /////////////////
     // Constructor //
     /////////////////
@@ -105,8 +108,13 @@ class Game {
         this._assetManager = new AssetsLoader();
         await this._assetManager.initialize();
 
-        // Initialize other components of the game.
+        // Initialize the sounds.
         this._sounds = [];
+        this._mainTheme = new SoundPlayer('music_theme');
+        this._mainTheme.setAutoplay(true);
+        this._mainTheme.setLoop(true);
+
+        // Initialize other components of the game.
         this._cameraManager = new CameraManager(this._xr, this._supportedVR);
         this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput(this._scene);
         this._environmentControllers = new EnvironmentControllers();
@@ -223,19 +231,19 @@ class Game {
     }
 
     ///////////////
-    // Setteurs //
-    ///////////////
-
-    public set sound(sound: SoundPlayer) {
-        this._sounds.push(sound);
-    }
-
-    ///////////////
     // Accessors //
     ///////////////
 
-    public get sound(): SoundPlayer[] {
+    public get sounds(): SoundPlayer[] {
         return this._sounds;
+    }
+
+    public get mainTheme(): SoundPlayer {
+        return this._mainTheme;
+    }
+
+    public set sounds(sound: SoundPlayer[]) {
+        this._sounds = sound;
     }
 
     public get stateManager(): StateManager {

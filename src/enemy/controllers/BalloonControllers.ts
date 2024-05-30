@@ -1,10 +1,10 @@
 import { AbstractMesh } from '@babylonjs/core';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import Game from '../../game/Game';
 import BalloonModel from '../models/BalloonModel';
 import BalloonView from '../views/BalloonView';
 import EnemyController from './EnemyController';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class BalloonController extends EnemyController {
     protected _model: BalloonModel;
@@ -16,10 +16,15 @@ class BalloonController extends EnemyController {
 
     public constructor(model: BalloonModel, view: BalloonView) {
         super(model, view);
+        this._initAudio();
     }
 
     public createHitbox(): AbstractMesh {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'Ballon', this._model.hitboxPadding);
+    }
+
+    private _initAudio(): void {
+        this._model.sound = new SoundPlayer('balloonPop', this._view.mesh, true);
     }
 
     //////////////
@@ -33,7 +38,6 @@ class BalloonController extends EnemyController {
         }
 
         super.onCollision();
-        this._model.sound = new SoundPlayer('balloonPop', Game.instance.scene, this._view.mesh, true);
         this._model.sound.setAutoplay(true);
         this._model.sound.play();
     }

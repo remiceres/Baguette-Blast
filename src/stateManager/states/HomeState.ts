@@ -1,5 +1,4 @@
 import { Vector3 } from '@babylonjs/core';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import Game from '../../game/Game';
 import CustomUI from '../../UI/CustomUI';
 import State from '../EnumState';
@@ -27,11 +26,7 @@ class HomeState extends BaseState {
     }
 
     private _initAudio(): void {
-        const homeSound = new SoundPlayer('music_theme', Game.instance.scene, null, true);
-        homeSound.setPosition(Game.instance.cameraManager.playerCamera.position);
-        homeSound.setAutoplay(true);
-        homeSound.setLoop(true);
-        homeSound.play();
+        Game.instance.mainTheme.play();
     }
 
     private _setupGUI(): void {

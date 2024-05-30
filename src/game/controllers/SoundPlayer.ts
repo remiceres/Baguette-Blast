@@ -1,4 +1,4 @@
-import { Scene, Sound, AbstractMesh, InstancedMesh, Vector3, Engine } from '@babylonjs/core';
+import { AbstractMesh, Engine, Sound } from '@babylonjs/core';
 import data from '../../../public/assets/sounds/sounds.json';
 import Game from '../../game/Game';
 
@@ -9,43 +9,42 @@ export class SoundPlayer {
 
     private _curentTime: number = 0;
 
-    public constructor(name: string, scene: Scene, mesh?: AbstractMesh, addInList: boolean = true) {
-        this._sound = new Sound(name, data[name].file, scene, null);
-        this._sound.spatialSound = data[name].spatialized;
-        this._sound.setVolume(data[name].volume);
-        // init sound
-        if (mesh !== null) {
+    public constructor(name: string, mesh?: AbstractMesh, addInList: boolean = true) {
+        // Get sound data
+        const soundData = data[name];
+
+        // Create sound
+        this._sound = new Sound(name, soundData.file, Game.instance.scene, null);
+
+        // Activate spatial sound
+        if (soundData.spatialized && mesh !== null) {
+            this._sound.spatialSound = true;
             this._mesh = mesh;
             this._sound.attachToMesh(this._mesh);
         }
-        Engine.audioEngine.audioContext?.resume();
-        if(addInList) {
-            Game.instance.sound = this;
+
+        // Set volume
+        this._sound.setVolume(soundData.volume);
+
+        // Add sound to Game.sounds
+        if (addInList) {
+            Game.instance.sounds.push(this);
         }
-    }
 
-    public attachToInstancedMesh(instancedMesh: InstancedMesh) {
-        this._sound.attachToMesh(instancedMesh);
-    }
-
-    public setPosition(position: Vector3) {
-        this._sound.setPosition(position);
+        // Set id
+        Engine.audioEngine.audioContext.resume();
     }
 
     public setAutoplay(bool: boolean) {
         this._sound.autoplay = bool;
     }
 
-    public setVolume(volume: number, time?: number) {
-        if (time !== undefined) {
-            this._sound.setVolume(volume, time);
-        } else {
-            this._sound.setVolume(volume);
-        }
+    public setLoop(bool: boolean): void {
+        this._sound.loop = bool;
     }
 
-    public enableLoop() {
-        this._sound.loop = true;
+    public setPitch(rate: number) {
+        this._sound.setPlaybackRate(rate);
     }
 
     public play(ignoreIsPlaying: boolean = false): void {
@@ -57,20 +56,11 @@ export class SoundPlayer {
         } else if (!this._sound.isPlaying) {
             this._sound.play();
         }
-        console.log(this._sound);
-    }
-
-    public setPitch(rate: number) {
-        this._sound.setPlaybackRate(rate);
     }
 
     public pause(): void {
         this._sound.pause();
         this._curentTime = this._sound.currentTime;
-    }
-
-    public setLoop(bool: boolean): void {
-        this._sound.loop = bool;
     }
 
     public stopAndDispose(): void {
@@ -80,27 +70,9 @@ export class SoundPlayer {
         this._sound.stop();
         this._sound.dispose();
         // update Game.sounds
-        const index = Game.instance.sound.indexOf(this);
+        const index = Game.instance.sounds.indexOf(this);
         if (index !== -1) {
-            Game.instance.sound.splice(index, 1);
+            Game.instance.sounds.splice(index, 1);
         }
-    }
-
-    public getVolume(): number {
-        return this._sound.getVolume();
-    }
-
-    public playWithRepeater(second: number) {
-        setInterval(() => {
-            this._sound.play();
-        }, second * 1000);
-    }
-
-    public getName(): string {
-        return this._id;
-    }
-
-    public isPlaying(): boolean {
-        return this._sound.isPlaying;
     }
 }

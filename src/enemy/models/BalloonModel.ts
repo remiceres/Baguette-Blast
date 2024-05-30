@@ -1,9 +1,8 @@
 import Floating from '../../behaviors/Floating';
 import IBehaviour from '../../behaviors/IBehaviour';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
-import BaseEnemyModel from './BaseEnemyModel';
-import Game from '../../game/Game';
 import { SoundPlayer } from '../../game/controllers/SoundPlayer';
+import BaseEnemyModel from './BaseEnemyModel';
 
 class BalloonModel extends BaseEnemyModel {
     // Default behavior
@@ -14,7 +13,7 @@ class BalloonModel extends BaseEnemyModel {
     private _bonusOffsetY: number;
 
     // Sound
-    
+
     protected _sound: SoundPlayer;
 
     /////////////////
@@ -53,17 +52,18 @@ class BalloonModel extends BaseEnemyModel {
         this._bonusController = bonusController;
     }
 
-    public set sound(sound: SoundPlayer) {
-        this._sound = sound;
-    }
-
     // Bonus offset Y
     public get bonusOffsetY(): number {
         return this._bonusOffsetY;
     }
 
+    // Sound
     public get sound(): SoundPlayer {
         return this._sound;
+    }
+
+    public set sound(sound: SoundPlayer) {
+        this._sound = sound;
     }
 }
 

@@ -143,9 +143,11 @@ class LevelState implements StateInterface {
     }
 
     private _initAudio(): void {
-        Game.instance.sound[0].stopAndDispose();
-        this._soundLevel = new SoundPlayer('music_levels_' + this._levelNumber, Game.instance.scene, null, true);
-        this._soundLevel.setPosition(Game.instance.cameraManager.playerCamera.position);
+        // Stop main theme music
+        Game.instance.mainTheme.pause();
+
+        // Initialize level music
+        this._soundLevel = new SoundPlayer('music_levels_' + this._levelNumber);
         this._soundLevel.setAutoplay(true);
         this._soundLevel.setLoop(true);
         this._soundLevel.play();
@@ -231,11 +233,14 @@ class LevelState implements StateInterface {
         // Dispose interface
         this._returnButton.dispose();
 
+        // Reset player
+        Game.instance.player.dropWeapon('both');
+
         // Dispose audio
         this._soundLevel.stopAndDispose();
 
-        // Reset player
-        Game.instance.player.dropWeapon('both');
+        // reStart main theme music
+        Game.instance.mainTheme.play();
     }
 }
 
