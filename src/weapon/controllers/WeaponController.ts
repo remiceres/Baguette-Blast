@@ -3,6 +3,7 @@ import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import { ProjectileFactory } from '../../projectile/ProjectileFactory';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
+import Game from '../../game/Game';
 
 abstract class WeaponController {
     // MVC
@@ -28,10 +29,16 @@ abstract class WeaponController {
     // Fire //
     //////////
 
-    public fire(): void {
+    public fire(controller :  'left' | 'right' | 'both'): void {
         // Check if the weapon can fire
         if (!this._canFire()) {
             return;
+        }
+
+        if (controller === 'right') {
+            Game.instance.inputManager.vibrateController('right', 0.5, 100, 0);
+        }else if (controller === 'left') {
+            Game.instance.inputManager.vibrateController('left', 0.5, 100, 0);
         }
 
         // Play the sound
