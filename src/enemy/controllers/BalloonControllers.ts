@@ -23,7 +23,7 @@ class BalloonController extends EnemyController {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'Ballon', this._model.hitboxPadding);
     }
 
-    private _initAudio(): void {
+    public _initAudio(): void {
         this._model.sound = new SoundPlayer('balloonPop', this._view.mesh, true);
     }
 

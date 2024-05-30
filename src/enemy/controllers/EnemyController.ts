@@ -30,7 +30,7 @@ abstract class EnemyController implements ICollider {
         Game.instance.collisionManager.addCollider(this);
     }
 
-    private _initAudio(): void {
+    public _initAudio(): void {
         // Initialize level music
         this._sound = new SoundPlayer('pigeonDying', this._view.mesh);
         this._sound.setAutoplay(true);
