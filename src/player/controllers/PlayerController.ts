@@ -66,7 +66,7 @@ class PlayerController implements ICollider {
     }
 
     private _initAudio(): void {
-        this._sound = new SoundPlayer('playerDying', null, true);
+        this._sound = new SoundPlayer('playerHit', null, true);
     }
 
     //////////////////
