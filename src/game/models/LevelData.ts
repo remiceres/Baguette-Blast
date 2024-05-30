@@ -33,7 +33,18 @@ interface PlayerData {
 
 interface BonusData {
     type: BonusType;
-    value: number;
+}
+
+interface TimeBonusData extends BonusData {
+    type: BonusType.Time;
+    duration: number;
+    speedRatio: number; // 1 is normal speed, 0.5 is half speed.
+    // Don't hesitate to play with this value to create interesting gameplay
+}
+
+interface ScoreBonusData extends BonusData {
+    type: BonusType.Score;
+    score: number;
 }
 
 enum BonusType {
@@ -170,6 +181,8 @@ export {
     MoveFreelyInCubeProperties,
     ProjectileType,
     RushProperties,
+    ScoreBonusData,
+    TimeBonusData,
     WeaponData,
     WeaponType,
 };

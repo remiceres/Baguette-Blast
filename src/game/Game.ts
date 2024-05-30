@@ -27,7 +27,7 @@ class Game {
     private static _instance: Game;
 
     // Activate or deactivate debug mode.
-    private _debug = true;
+    private _debug = false;
 
     // The Babylon.js engine used for rendering.
     private _engine: Engine;
@@ -219,6 +219,7 @@ class Game {
 
                 lastTime = currentTime;
                 if (document.visibilityState === 'visible') {
+                    this._timeControl.update();
                     this._stateManager.currentState.update(deltaTime);
                     this._environmentControllers.update(deltaTime);
                     this._debugConsole.update(this._engine.getFps().toFixed() + ' fps');

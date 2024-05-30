@@ -1,3 +1,4 @@
+import Game from '../../game/Game';
 import TimeBonusModel from '../models/TimeBonusModel';
 import TimeBonusView from '../views/TimeBonusView';
 import BaseBonusController from './BaseBonusController';
@@ -20,8 +21,13 @@ class TimeBonusController extends BaseBonusController {
 
     public activate(): void {
         super.activate();
-        // Todo: Implement the action of the time bonus
-        console.log('Time bonus activated');
+
+        Game.instance.timeControl.activeSlowPower(this._model.speedRatio);
+
+        // reset the slow power time to undefined to allow the slow power to be activated again
+        setTimeout(() => {
+            Game.instance.timeControl.disableSlowPower();
+        }, this._model.duration * 1000);
     }
 }
 

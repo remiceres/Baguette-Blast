@@ -1,3 +1,5 @@
+import Game from '../Game';
+
 /**
  * Class responsible for controlling the simulation time.
  * This class allows pausing, resuming, and applying slow motion effects to the simulation.
@@ -94,6 +96,12 @@ class TimeControl {
         const transitionSpeed = 0.08;
         const currentSpeedRatio = this._lerp(this._timeScale, targetSpeedRatio, transitionSpeed);
         this._timeScale = currentSpeedRatio;
+
+        // Update the animations speed
+        Game.instance.animationManager.updateSpeedRatio(currentSpeedRatio);
+
+        // Update sounds speed
+        Game.instance.sounds.forEach((sound) => sound.setPitch(currentSpeedRatio));
     }
 
     /**

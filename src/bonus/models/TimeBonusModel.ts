@@ -2,14 +2,16 @@ import BaseBonusModel from './BaseBonusModel';
 
 class TimeBonusModel extends BaseBonusModel {
     private _duration: number;
+    private _speedRatio: number;
 
     /////////////////
     // Constructor //
     /////////////////
 
-    constructor(duration: number) {
+    public constructor(duration: number, speedRatio: number) {
         super();
         this._duration = duration;
+        this._speedRatio = speedRatio;
     }
 
     //////////////
@@ -18,6 +20,10 @@ class TimeBonusModel extends BaseBonusModel {
 
     public get duration(): number {
         return this._duration;
+    }
+
+    public get speedRatio(): number {
+        return this._speedRatio;
     }
 }
 

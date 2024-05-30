@@ -120,7 +120,7 @@ class AnimationController {
             const animationNames = animatable.getAnimations().map((animation) => animation.animation.name);
 
             for (const name of animationNames) {
-                const config = this._animationConfigs.find((cfg) => cfg.name === name);
+                const config = this._animationConfigs.find((cfg) => name.includes(cfg.name));
 
                 if (config) {
                     const currentSpeed = animatable.speedRatio;

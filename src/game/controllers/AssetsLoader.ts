@@ -89,6 +89,16 @@ class AssetsLoader {
             mesh.scaling.scaleInPlace(0.7);
         }
 
+        // Re-scale silver balloon mesh
+        if (name === 'BallonSilver') {
+            mesh.scaling.scaleInPlace(0.5);
+        }
+
+        // Re-scale gold balloon mesh
+        if (name === 'BallonGold') {
+            mesh.scaling.scaleInPlace(0.3);
+        }
+
         // Re-scale bullet mesh
         if (name === 'Bullet') {
             mesh.scaling.scaleInPlace(0.05);
