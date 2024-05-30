@@ -37,9 +37,11 @@ class BalloonController extends EnemyController {
             this._model.bonusController.activate();
         }
 
-        super.onCollision();
         this._model.sound.setAutoplay(true);
         this._model.sound.play();
+        
+        super.onCollision();
+        this.dispose();
     }
 
     ///////////
