@@ -1,4 +1,5 @@
 import { AbstractMesh } from '@babylonjs/core';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import ProjectileController from '../../projectile/controllers/ProjectileController';
 import { ProjectileType } from '../../projectile/ProjectileFactory';
 
@@ -12,7 +13,8 @@ abstract class WeaponModel {
     private _isGrabed: boolean;
     private _timeSinceLastShot: number;
     private _isDispose: boolean;
-    private _canBeDisposed;
+    private _canBeDisposed: boolean;
+    private _fireSound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -122,6 +124,25 @@ abstract class WeaponModel {
 
     public set canBeDisposed(canBeDisposed: boolean) {
         this._canBeDisposed = canBeDisposed;
+    }
+
+    // Fire sound
+    public get fireSound(): SoundPlayer {
+        return this._fireSound;
+    }
+
+    public set fireSound(fireSound: SoundPlayer) {
+        this._fireSound = fireSound;
+    }
+
+    /////////////
+    // Dispose //
+    /////////////
+
+    public dispose(): void {
+        if (this._fireSound) {
+            this._fireSound.stopAndDispose();
+        }
     }
 }
 export default WeaponModel;

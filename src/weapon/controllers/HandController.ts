@@ -1,4 +1,5 @@
 import { Vector3 } from '@babylonjs/core';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import WeaponController from '../controllers/WeaponController';
 import HandModel from '../models/HandModel';
 import HandView from '../views/HandView';
@@ -13,6 +14,11 @@ class HandController extends WeaponController {
 
     constructor(view: HandView, model: HandModel) {
         super(view, model);
+    }
+
+    protected _initAudio(): SoundPlayer {
+        // No sound for hand
+        return null;
     }
 
     //////////
