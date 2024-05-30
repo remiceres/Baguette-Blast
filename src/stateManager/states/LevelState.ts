@@ -167,8 +167,6 @@ class LevelState implements StateInterface {
     }
 
     private _loadNextWave(): void {
-        console.log('Loading wave', this._currentWaveIndex);
-
         // Create enemies from wave data
         const waveData = this._levelData.waves[this._currentWaveIndex];
         waveData.enemies.forEach((enemyData) => {

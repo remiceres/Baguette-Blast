@@ -1,44 +1,40 @@
-import { Vector3 } from '@babylonjs/core';
+import { Vector3, Quaternion } from '@babylonjs/core';
 import ProjectileController from './ProjectileController';
-import Game from '../../game/Game';
 import BoomerangView from '../views/BoomerangView';
 import BoomerangModel from '../models/BoomerangModel';
 
 class BoomerangController extends ProjectileController {
     private _initialDirection: Vector3;
-    private _returnTarget: Vector3;
     private _timeElapsed: number;
     private _maxFlightTime: number; // The time it takes to reach the furthest point before returning
+    private _turnDirection: number; // -1 for left, 1 for right
+    private _curveAngle: number; // Angle to curve
 
     constructor(view: BoomerangView, model: BoomerangModel) {
         super(view, model);
         this._initialDirection = view.mesh.forward.clone().normalize().scaleInPlace(4);
         this._timeElapsed = 0;
-        this._maxFlightTime = 2; // For example, 2 seconds to reach the furthest point
-        this._returnTarget = Math.random() > 0.5 ? 
-            Game.instance.player.positionHead.clone() : Game.instance.player.positionBody.clone();
+        this._maxFlightTime = 2; // For example, 2 seconds to start curving
+        this._turnDirection = Math.random() > 0.5 ? 1 : -1; // Randomly choose left or right
+        this._curveAngle = Math.PI / 8 + Math.random() * (Math.PI / 8); // Random angle between π/8 and π/4
     }
 
     public update(deltaTime: number): void {
         super.update(deltaTime);
         this._timeElapsed += deltaTime;
-        
+
         if (this._timeElapsed <= this._maxFlightTime) {
             // Going straight
-            // const progress = this._timeElapsed / this._maxFlightTime;
             this._view.mesh.position.addInPlace(this._initialDirection.scale(deltaTime));
         } else {
-            // Returning with a bit of a curve
-            const returnProgress = (this._timeElapsed - this._maxFlightTime) / this._maxFlightTime;
-            const curveFactor = Math.sin(returnProgress * Math.PI); // Sinusoidal curve
+            // Curving left or right
+            const curveFactor = (this._timeElapsed - this._maxFlightTime) / this._maxFlightTime;
+            const angle = this._curveAngle * curveFactor * this._turnDirection;
+            const rotationQuaternion = Quaternion.RotationYawPitchRoll(angle, 0, 0);
+            const curvedDirection = Vector3.Zero(); // Create a result vector to store the result
 
-            // Interpolate between the furthest point and the return target
-            const furthestPoint = this._initialDirection.scale(this._maxFlightTime);
-            const directionToTarget = this._returnTarget.subtract(furthestPoint).normalize();
-
-            // Apply the curve
-            const currentDirection = Vector3.Lerp(this._initialDirection, directionToTarget, curveFactor);
-            this._view.mesh.position.addInPlace(currentDirection.scale(deltaTime));
+            this._initialDirection.rotateByQuaternionToRef(rotationQuaternion, curvedDirection);
+            this._view.mesh.position.addInPlace(curvedDirection.scale(deltaTime));
         }
     }
 }
