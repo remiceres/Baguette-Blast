@@ -2,11 +2,14 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import Game from '../../game/Game';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 abstract class EnemyController implements ICollider {
     // MVC
     protected _model: BaseEnemyModel;
     protected _view: BaseEnemyView;
+
+    protected _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -20,8 +23,17 @@ abstract class EnemyController implements ICollider {
         // Initialize the hitbox
         this._model.hitbox = this.createHitbox();
 
+        // Sound
+        this._initAudio();
+
         // Add to collider
         Game.instance.collisionManager.addCollider(this);
+    }
+
+    public _initAudio(): void {
+        // Initialize level music
+        this._sound = new SoundPlayer('pigeonDying', this._view.mesh);
+        this._sound.setAutoplay(true);
     }
 
     public abstract createHitbox(): AbstractMesh;
@@ -36,6 +48,9 @@ abstract class EnemyController implements ICollider {
     }
 
     public onCollision(): void {
+        // Play the sound
+        this._sound.play();
+
         this.dispose();
     }
 
@@ -96,6 +111,7 @@ abstract class EnemyController implements ICollider {
         Game.instance.collisionManager.removeCollider(this);
         this._view.dispose();
         this._model.dispose();
+        this._sound.stopAndDispose();
     }
 }
 
