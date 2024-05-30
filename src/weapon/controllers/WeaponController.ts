@@ -2,11 +2,14 @@ import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import { ProjectileFactory } from '../../projectile/ProjectileFactory';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 abstract class WeaponController {
     // MVC
     protected _model: WeaponModel;
     protected _view: WeaponView;
+
+    protected _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -16,6 +19,12 @@ abstract class WeaponController {
         // MVC
         this._view = view;
         this._model = model;
+        this._initAudio();
+    }
+
+    private _initAudio(): void {
+        this._sound = new SoundPlayer('laserGun', this._view.mesh, true);
+        this._sound.setAutoplay(true);
     }
 
     //////////
@@ -27,6 +36,9 @@ abstract class WeaponController {
         if (!this._canFire()) {
             return;
         }
+
+        // Play the sound
+        this._sound.play();
 
         // Reset the time since last shot and decrease durability
         this._model.timeSinceLastShot = 0;
@@ -150,6 +162,8 @@ abstract class WeaponController {
         this._model.projectiles.forEach((projectile) => {
             projectile.dispose();
         });
+
+        this._sound.stopAndDispose();
     }
 }
 export default WeaponController;

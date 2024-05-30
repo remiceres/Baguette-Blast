@@ -6,6 +6,7 @@ import ProjectileController from '../../projectile/controllers/ProjectileControl
 import WeaponController from '../../weapon/controllers/WeaponController';
 import PlayerModel from '../models/PlayerModels';
 import PlayerView from '../views/PlayerViews';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class PlayerController implements ICollider {
     // Mvc
@@ -16,6 +17,8 @@ class PlayerController implements ICollider {
     private _inputManager: InputManager;
     private _leftHand: AbstractMesh;
     private _rightHand: AbstractMesh;
+
+    private _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -31,6 +34,9 @@ class PlayerController implements ICollider {
 
         // Add to collider
         Game.instance.collisionManager.addCollider(this);
+
+        // Sound
+        this._initAudio();
     }
 
     ///////////////
@@ -45,14 +51,22 @@ class PlayerController implements ICollider {
         if (other instanceof EnemyController) {
             console.log('Player hit by enemy');
             this._model.health -= 10;
+            this._sound.setAutoplay(true);
+            this._sound.play();
             // TODO: Define what happens when player is hit by enemy
         } else if (other instanceof ProjectileController) {
             console.log('Player hit by projectile');
             this._model.health -= 10;
+            this._sound.setAutoplay(true);
+            this._sound.play();
             // TODO: Define what happens when player is hit by projectile
         }
 
         return;
+    }
+
+    private _initAudio(): void {
+        this._sound = new SoundPlayer('playerHit', null, true);
     }
 
     //////////////////
@@ -169,6 +183,7 @@ class PlayerController implements ICollider {
         Game.instance.collisionManager.removeCollider(this);
         this._model.dispose();
         this._view.dispose();
+        this._sound.stopAndDispose();
     }
 }
 
