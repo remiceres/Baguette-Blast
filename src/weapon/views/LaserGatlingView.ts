@@ -1,4 +1,6 @@
-import { AbstractMesh, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import { AnimationName } from '../../game/controllers/AnimationController';
+import Game from '../../game/Game';
 import GunView from './LaserGunView';
 
 class LaserGatlingView extends GunView {
@@ -11,8 +13,13 @@ class LaserGatlingView extends GunView {
     }
 
     protected _createMesh(): AbstractMesh {
-        const mesh = MeshBuilder.CreateBox('laser_gatling', { size: 2 });
-        mesh.scaling = new Vector3(0.1, 0.1, 0.5);
+        const mesh = Game.instance.assetManager.getBallGatlingInstance();
+        mesh.position = new Vector3(0, 0, 0.5);
+        mesh.rotate(Vector3.Up(), -Math.PI / 2);
+
+        Game.instance.animationManager.playAnimation(mesh, AnimationName.cylinderAction);
+        Game.instance.scene.beginAnimation(mesh, 0, 100, true, 1);
+
         return mesh;
     }
 }

@@ -20,6 +20,7 @@ enum AnimationName {
     pigeonQueue = 'polySurface72Action',
     pigeonLeftWing = 'polySurface73Action',
     pigeonRightWing = 'polySurface74Action',
+    cylinderAction = 'CylinderAction',
 }
 
 /**
@@ -33,6 +34,7 @@ class AnimationController {
         { name: AnimationName.pigeonQueue, loop: true, speedRatio: 1 },
         { name: AnimationName.pigeonLeftWing, loop: true, speedRatio: 1 },
         { name: AnimationName.pigeonRightWing, loop: true, speedRatio: 1 },
+        { name: AnimationName.cylinderAction, loop: true, speedRatio: 1 },
     ];
 
     private _animatables: Animatable[] = [];

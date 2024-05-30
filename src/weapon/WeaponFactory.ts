@@ -1,4 +1,4 @@
-import { WeaponData, WeaponType } from '../game/models/LevelData';
+import { ProjectileType, WeaponData, WeaponType } from '../game/models/LevelData';
 import GunController from './controllers/GunController';
 import HandController from './controllers/HandController';
 import WeaponController from './controllers/WeaponController';
@@ -6,6 +6,7 @@ import GunModel from './models/GunModel';
 import HandModel from './models/HandModel';
 import BallGunView from './views/BallGunView';
 import HandView from './views/HandView';
+import LaserGatlingView from './views/LaserGatlingView';
 import LaserGunView from './views/LaserGunView';
 
 class WeaponFactory {
@@ -63,12 +64,46 @@ class WeaponFactory {
 
         switch (weaponData.type) {
             case WeaponType.Gun:
-                view = new BallGunView();
+                switch (weaponData.projectile) {
+                    case ProjectileType.Ball:
+                        view = new BallGunView();
+                        break;
+                    case ProjectileType.Laser:
+                        view = new LaserGunView();
+                        break;
+                    default:
+                        throw new Error(`Unsupported projectile type: ${weaponData.projectile}`);
+                }
                 model = new GunModel(projectileType, force, durability, cooldownSecond);
                 break;
+
             case WeaponType.GatlingGun:
-                view = new LaserGunView();
+                switch (weaponData.projectile) {
+                    case ProjectileType.Ball:
+                        view = new LaserGatlingView();
+                        break;
+                    case ProjectileType.Laser:
+                        view = new LaserGatlingView();
+                        break;
+                    default:
+                        throw new Error(`Unsupported projectile type: ${weaponData.projectile}`);
+                }
                 model = new GunModel(projectileType, force, durability, cooldownSecond);
+                break;
+
+            case WeaponType.Hand:
+                switch (weaponData.projectile) {
+                    case ProjectileType.Ball:
+                        view = new HandView();
+                        break;
+                    case ProjectileType.Laser:
+                        view = new HandView();
+                        break;
+                    default:
+                        throw new Error(`Unsupported projectile type: ${weaponData.projectile}`);
+                }
+
+                model = new HandModel(projectileType, force, durability, cooldownSecond);
                 break;
         }
 
