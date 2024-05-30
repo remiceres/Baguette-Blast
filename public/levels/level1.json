@@ -1,4 +1,8 @@
 {
+    "emvironement": {
+        "time": 0.7,
+        "duration": 1800
+    },
     "player": {
         "left_hand": {
             "type": "gun",

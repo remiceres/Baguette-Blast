@@ -2,12 +2,12 @@ import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import { LevelData } from '../../game/models/LevelData';
 import Buttons from '../../menu/buttons';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class LevelState implements StateInterface {
     // Level data
@@ -76,6 +76,7 @@ class LevelState implements StateInterface {
     public async init(): Promise<void> {
         try {
             this._score = 0;
+            this._initEnvironement();
             this._initAudio();
             this._initInterface();
             this._initPlayer();
@@ -83,6 +84,17 @@ class LevelState implements StateInterface {
         } catch (error) {
             console.error('Error during game initialization:', error);
         }
+    }
+
+    private _initEnvironement(): void {
+        const duration = this._levelData.emvironement.duration;
+        const time = this._levelData.emvironement.time;
+
+        // Set cycle duration
+        Game.instance.environmentControllers.cycleDuration = duration;
+
+        // Set time
+        Game.instance.environmentControllers.pourcentageOfDay = time;
     }
 
     private _initInterface(): void {
@@ -246,7 +258,7 @@ class LevelState implements StateInterface {
 
         // Dispose audio
         this._soundLevel.stopAndDispose();
-        
+
         // Reset player
         Game.instance.player.dropWeapon('both');
     }

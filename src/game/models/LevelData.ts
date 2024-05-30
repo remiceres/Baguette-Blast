@@ -129,8 +129,14 @@ interface Wave {
     enemies: EnemyData[];
 }
 
+interface EnvironmentData {
+    time: number; // between 0 and 1, 0 for noon, 0.5 for midnight
+    duration: number; // in seconds, time for one cycle
+}
+
 interface LevelData {
     player: PlayerData;
+    emvironement: EnvironmentData;
     waves: Wave[];
 }
 

@@ -109,8 +109,8 @@ class Game {
         this._sounds = [];
         this._cameraManager = new CameraManager(this._xr, this._supportedVR);
         this._inputManager = this._supportedVR ? new QuestInput(this._xr, this._scene) : new KeyboardInput(this._scene);
-        this._stateManager = new StateManager(State.Home);
         this._environmentControllers = new EnvironmentControllers();
+        this._stateManager = new StateManager(State.Home);
         this._timeControl = new TimeControl();
         this._debugConsole = new DebugConsole();
         this._player = new PlayerController(new PlayerModel(), new PlayerView());
@@ -276,6 +276,10 @@ class Game {
 
     public get animationManager(): AnimationController {
         return this._animationManager;
+    }
+
+    public get environmentControllers(): EnvironmentControllers {
+        return this._environmentControllers;
     }
 }
 
