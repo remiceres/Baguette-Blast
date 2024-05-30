@@ -159,7 +159,10 @@ abstract class BaseEnemyModel {
         }
 
         if (this._deathSound) {
-            this._deathSound.stopAndDispose();
+            // wait 4s before disposing the sound
+            setTimeout(() => {
+                this._deathSound.stopAndDispose();
+            }, 4000);
         }
     }
 }
