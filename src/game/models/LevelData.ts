@@ -122,6 +122,7 @@ enum EnemyType {
     Silver = 'silver',
     Gold = 'gold',
     Pigeon = 'pigeon',
+    PigeonShooter = 'pigeonShooter',
 }
 
 interface Wave {
