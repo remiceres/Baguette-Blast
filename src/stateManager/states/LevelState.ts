@@ -185,14 +185,8 @@ class LevelState implements StateInterface {
 
     private _loadNextWave(): void {
         console.log('Loading wave', this._currentWaveIndex);
-        // Reset enemies
-        LevelState._enemiesController.forEach((enemy) => enemy.dispose());
-        LevelState._enemiesController = [];
 
-        // Reset score
-        Game.score = this._score;
-
-        // Create enemies
+        // Create enemies from wave data
         const waveData = this._levelData.waves[this._currentWaveIndex];
         waveData.enemies.forEach((enemyData) => {
             const enemyController = EnemyFactory.createEnemy(enemyData);
@@ -222,8 +216,8 @@ class LevelState implements StateInterface {
         // Clear disposed enemies
         LevelState._enemiesController = LevelState._enemiesController.filter((enemy) => !enemy.canBeDisposed);
 
-        // Advance to next wave if all enemies are dead
-        if (LevelState._enemiesController.length === 0) {
+        // Advance to next wave if all enemies (not balloons) are dead
+        if (LevelState._enemiesController.filter((enemy) => enemy.type !== 'balloon').length === 0) {
             this._advanceToNextWave();
         }
 
