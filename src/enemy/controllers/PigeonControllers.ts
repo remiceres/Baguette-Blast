@@ -1,4 +1,5 @@
 import { AbstractMesh, Quaternion, Vector3 } from '@babylonjs/core';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import Game from '../../game/Game';
 import PigeonModel from '../models/PigeonModel';
 import PigeonView from '../views/PigeonView';
@@ -16,8 +17,12 @@ class PigeonController extends EnemyController {
         super(model, view);
     }
 
-    public createHitbox(): AbstractMesh {
+    protected _createHitbox(): AbstractMesh {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'polySurface71', this._model.hitboxPadding);
+    }
+
+    protected _initAudio(): SoundPlayer {
+        return new SoundPlayer('pigeonDying', this._view.mesh, true);
     }
 
     //////////////

@@ -9,7 +9,7 @@ export class SoundPlayer {
 
     private _curentTime: number = 0;
 
-    public constructor(name: string, mesh?: AbstractMesh, addInList: boolean = true) {
+    public constructor(name: string, mesh: AbstractMesh = null, addInList: boolean = true) {
         // Get sound data
         const soundData = data[name];
 

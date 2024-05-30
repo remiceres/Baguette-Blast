@@ -1,15 +1,13 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import Game from '../../game/Game';
 import BaseEnemyModel from '../models/BaseEnemyModel';
 import BaseEnemyView from '../views/BaseEnemyView';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 abstract class EnemyController implements ICollider {
     // MVC
     protected _model: BaseEnemyModel;
     protected _view: BaseEnemyView;
-
-    protected _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -21,22 +19,18 @@ abstract class EnemyController implements ICollider {
         this._view = view;
 
         // Initialize the hitbox
-        this._model.hitbox = this.createHitbox();
+        this._model.hitbox = this._createHitbox();
 
         // Sound
-        this._initAudio();
+        this._model.deathSound = this._initAudio();
 
         // Add to collider
         Game.instance.collisionManager.addCollider(this);
     }
 
-    public _initAudio(): void {
-        // Initialize level music
-        this._sound = new SoundPlayer('pigeonDying', this._view.mesh);
-        this._sound.setAutoplay(true);
-    }
+    protected abstract _createHitbox(): AbstractMesh;
 
-    public abstract createHitbox(): AbstractMesh;
+    protected abstract _initAudio(): SoundPlayer;
 
     //////////////
     // Collider //
@@ -49,8 +43,11 @@ abstract class EnemyController implements ICollider {
 
     public onCollision(): void {
         // Play the sound
-        this._sound.play();
+        if (this._model.deathSound) {
+            this._model.deathSound.play(true);
+        }
 
+        // Dispose the enemy
         this.dispose();
     }
 
@@ -107,11 +104,15 @@ abstract class EnemyController implements ICollider {
     /////////////
 
     public dispose(): void {
+        // Set the flag to true
         this._model.canBeDisposed = true;
+
+        // Remove from collider
         Game.instance.collisionManager.removeCollider(this);
+
+        // MVC
         this._view.dispose();
         this._model.dispose();
-        this._sound.stopAndDispose();
     }
 }
 

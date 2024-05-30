@@ -1,5 +1,6 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import IBehaviour from '../../behaviors/IBehaviour';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 abstract class BaseEnemyModel {
     // Mouvement
@@ -16,6 +17,9 @@ abstract class BaseEnemyModel {
     // Stats
     private _health: number;
     private _score: number;
+
+    // Sound
+    private _deathSound: SoundPlayer;
 
     // Dispose
     private _canBeDisposed: boolean;
@@ -136,6 +140,15 @@ abstract class BaseEnemyModel {
         this._canBeDisposed = isDisposed;
     }
 
+    // Sound
+    public get deathSound(): SoundPlayer {
+        return this._deathSound;
+    }
+
+    public set deathSound(deathSound: SoundPlayer) {
+        this._deathSound = deathSound;
+    }
+
     /////////////
     // Dispose //
     /////////////
@@ -143,6 +156,10 @@ abstract class BaseEnemyModel {
     public dispose(): void {
         if (this._hitbox) {
             this._hitbox.dispose();
+        }
+
+        if (this._deathSound) {
+            this._deathSound.stopAndDispose();
         }
     }
 }

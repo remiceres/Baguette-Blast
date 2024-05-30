@@ -16,15 +16,14 @@ class BalloonController extends EnemyController {
 
     public constructor(model: BalloonModel, view: BalloonView) {
         super(model, view);
-        this._initAudio();
     }
 
-    public createHitbox(): AbstractMesh {
+    protected _createHitbox(): AbstractMesh {
         return Game.instance.assetManager.createHitbox(this._view.mesh, 'Ballon', this._model.hitboxPadding);
     }
 
-    public _initAudio(): void {
-        this._model.sound = new SoundPlayer('balloonPop', this._view.mesh, true);
+    protected _initAudio(): SoundPlayer {
+        return new SoundPlayer('balloonPop', this._view.mesh, true);
     }
 
     //////////////
@@ -37,9 +36,6 @@ class BalloonController extends EnemyController {
             this._model.bonusController.activate();
         }
 
-        this._model.sound.setAutoplay(true);
-        this._model.sound.play();
-        
         super.onCollision();
         this.dispose();
     }
@@ -92,7 +88,6 @@ class BalloonController extends EnemyController {
         if (this._model.bonusController) {
             this._model.bonusController.dispose();
         }
-        this._model.sound.stopAndDispose();
     }
 }
 

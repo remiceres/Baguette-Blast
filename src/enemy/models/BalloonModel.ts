@@ -1,7 +1,6 @@
 import Floating from '../../behaviors/Floating';
 import IBehaviour from '../../behaviors/IBehaviour';
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
-import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import BaseEnemyModel from './BaseEnemyModel';
 
 class BalloonModel extends BaseEnemyModel {
@@ -11,9 +10,6 @@ class BalloonModel extends BaseEnemyModel {
     // Bonus
     private _bonusController: BaseBonusController;
     private _bonusOffsetY: number;
-
-    // Sound
-    protected _sound: SoundPlayer;
 
     /////////////////
     // Constructor //
@@ -56,14 +52,6 @@ class BalloonModel extends BaseEnemyModel {
         return this._bonusOffsetY;
     }
 
-    // Sound
-    public get sound(): SoundPlayer {
-        return this._sound;
-    }
-
-    public set sound(sound: SoundPlayer) {
-        this._sound = sound;
-    }
 }
 
 export default BalloonModel;
