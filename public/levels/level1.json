@@ -3,6 +3,13 @@
         "time": 0.7,
         "duration": 1800
     },
+    "ui": {
+        "returnButtonOffset": {
+            "x": 0,
+            "y": 0.1,
+            "z": -5
+        }
+    },
     "player": {
         "left_hand": {
             "type": "gun",

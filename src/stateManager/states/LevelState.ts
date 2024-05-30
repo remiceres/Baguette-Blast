@@ -1,10 +1,10 @@
-import { Color3, Mesh, MeshBuilder, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Vector3 } from '@babylonjs/core';
+import ReturnButton from '../../UI/ReturnButton';
 import EnemyFactory from '../../enemy/EnemyFactory';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import { LevelData } from '../../game/models/LevelData';
-import Buttons from '../../menu/buttons';
 import { WeaponFactory } from '../../weapon/WeaponFactory';
 import State from '../EnumState';
 import StateInterface from './StateInterface';
@@ -15,7 +15,7 @@ class LevelState implements StateInterface {
     private _levelData: LevelData;
 
     // Interface
-    private _cubeMenu: Mesh;
+    private _returnButton: ReturnButton;
 
     // Enemies
     public static _enemiesController: EnemyController[] = [];
@@ -98,39 +98,20 @@ class LevelState implements StateInterface {
     }
 
     private _initInterface(): void {
-        // Create button
-        this._cubeMenu = this._createButtonMesh();
-
-        // Set position
-        this._cubeMenu.position = new Vector3(
-            this._levelData.player.position.x,
-            0.1,
-            this._levelData.player.position.z - 5
+        // Get button offset
+        const buttonOffset = new Vector3(
+            this._levelData.ui.returnButtonOffset.x,
+            this._levelData.ui.returnButtonOffset.y,
+            this._levelData.ui.returnButtonOffset.z
         );
 
-        // Attach click event
-        Buttons.clickable(Game.instance.scene, this._cubeMenu, () => {
-            Game.instance.stateManager.changeState(State.SelectLevel);
-        });
-    }
+        const playerPosition = new Vector3(this._levelData.player.position.x, 0, this._levelData.player.position.z);
 
-    private _createButtonMesh(): Mesh {
-        // Create mesh
-        const base = MeshBuilder.CreateBox('button', { width: 1, height: 0.1, depth: 1 }, Game.instance.scene);
-        const button = MeshBuilder.CreateCylinder('button', { height: 0.1, diameter: 0.8 }, Game.instance.scene);
-        button.position.y = 0.1;
-        button.parent = base;
+        // Calculate button position
+        const buttonPosition = playerPosition.add(buttonOffset);
 
-        // Create material
-        const baseMaterial = new StandardMaterial('baseMaterial', Game.instance.scene);
-        baseMaterial.diffuseColor = new Color3(0.2, 0.2, 0.2);
-        base.material = baseMaterial;
-
-        const buttonMaterial = new StandardMaterial('buttonMaterial', Game.instance.scene);
-        buttonMaterial.diffuseColor = new Color3(0.8, 0, 0);
-        button.material = buttonMaterial;
-
-        return base;
+        // Create button
+        this._returnButton = new ReturnButton(buttonPosition);
     }
 
     private _initPlayer(): void {
@@ -248,7 +229,7 @@ class LevelState implements StateInterface {
         LevelState._enemiesController.forEach((enemy) => enemy.dispose());
 
         // Dispose interface
-        this._cubeMenu.dispose();
+        this._returnButton.dispose();
 
         // Dispose audio
         this._soundLevel.stopAndDispose();

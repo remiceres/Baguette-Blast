@@ -137,7 +137,16 @@ interface EnvironmentData {
 interface LevelData {
     player: PlayerData;
     emvironement: EnvironmentData;
+    ui: uiData;
     waves: Wave[];
+}
+
+interface uiData {
+    returnButtonOffset: {
+        x: number;
+        y: number;
+        z: number;
+    };
 }
 
 export {
@@ -154,8 +163,8 @@ export {
     LevelData,
     MoveAtoBProperties,
     MoveFreelyInCubeProperties,
-    RushProperties,
     ProjectileType,
+    RushProperties,
     WeaponData,
     WeaponType,
 };

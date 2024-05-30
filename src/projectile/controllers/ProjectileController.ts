@@ -2,6 +2,7 @@ import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import EnemyController from '../../enemy/controllers/EnemyController';
 import Game from '../../game/Game';
 import PlayerController from '../../player/controllers/PlayerController';
+import ReturnButton from '../../UI/ReturnButton';
 import WallController from '../../wall/controllers/WallController';
 import ProjectileModel from '../models/ProjectileModel';
 import ProjectileView from '../views/ProjectileView';
@@ -70,6 +71,14 @@ abstract class ProjectileController implements ICollider {
             }
         }
 
+        // Check if the projectile collides with return button
+        else if (other instanceof ReturnButton) {
+            if (other.mesh.intersectsMesh(this._model.hitbox)) {
+                // console.log('Projectile hit return button');
+                return true;
+            }
+        }
+
         // Otherwise, return false
         return false;
     }
@@ -95,7 +104,7 @@ abstract class ProjectileController implements ICollider {
 
     private _checkDisposalConditions(): void {
         // if the projectile is under the ground, dispose
-        if (this._model.position.y < 0) {
+        if (this._model.position.y < -1) {
             // console.log('Projectile under the ground');
             this.dispose();
         }
