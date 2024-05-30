@@ -11,6 +11,7 @@ import CopperBalloonView from './views/CopperBalloonView';
 import GoldBalloonView from './views/GoldBalloonView';
 import PigeonView from './views/PigeonView';
 import SilverBalloonView from './views/SilverBalloonView';
+import ShooterPigeonController from './controllers/PigeonShooterControllet';
 
 class EnemyFactory {
     /////////////////
@@ -32,6 +33,8 @@ class EnemyFactory {
                 return EnemyFactory._createBalloon(enemyData);
             case EnemyType.Pigeon:
                 return EnemyFactory._createPigeon(enemyData);
+            case EnemyType.PigeonShooter:
+                return EnemyFactory._createPigeon(enemyData, true);
             default:
                 throw new Error(`Unsupported enemy type: ${enemyData.type}`);
         }
@@ -76,7 +79,7 @@ class EnemyFactory {
         return controller;
     }
 
-    private static _createPigeon(enemyData: EnemyData): PigeonController {
+    private static _createPigeon(enemyData: EnemyData, shooter: boolean = false): PigeonController {
         // Extract data
         const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
         const health = enemyData.health;
@@ -91,7 +94,7 @@ class EnemyFactory {
         // Create model/view
         const model = new PigeonModel(position, health, score, behaviours);
         const view = new PigeonView();
-        const controller = new PigeonController(model, view);
+        const controller = shooter ? new ShooterPigeonController(model, view) : new PigeonController(model, view);
 
         return controller;
     }
