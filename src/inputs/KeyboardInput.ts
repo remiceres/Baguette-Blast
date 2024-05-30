@@ -65,14 +65,14 @@ class KeyboardInput extends InputManager {
         // Handling other keys
         if (event.key === ' ') this.setPrimary('left', true);
 
-        if (event.key === 'Enter') this.setPrimary('right', true);
-        if (event.key === 'Shift') this.setSecondary('left', true);
+        if (event.key === 'b') this.setPrimary('right', true);
+        if (event.key === 'n') this.setSecondary('left', true);
 
         if (event.key === 'Control') this.setSecondary('right', true);
         if (event.key === 'q') this.setGrip('left', true, 1);
         if (event.key === 'e') this.setGrip('right', true, 1);
-        if (event.key === 'z') this.setTrigger('left', true, 1);
-        if (event.key === 'c') this.setTrigger('right', true, 1);
+        if (event.key === ' ') this.setTrigger('left', true, 1);
+        if (event.key === 'Enter') this.setTrigger('right', true, 1);
     }
 
     /**
@@ -98,14 +98,14 @@ class KeyboardInput extends InputManager {
         // Handling other keys
         if (event.key === ' ') this.setPrimary('left', false);
 
-        if (event.key === 'Enter') this.setPrimary('right', false);
-        if (event.key === 'Shift') this.setSecondary('left', false);
+        if (event.key === 'b') this.setPrimary('right', false);
+        if (event.key === 'n') this.setSecondary('left', false);
 
         if (event.key === 'Control') this.setSecondary('right', false);
         if (event.key === 'q') this.setGrip('left', false, 0);
         if (event.key === 'e') this.setGrip('right', false, 0);
-        if (event.key === 'z') this.setTrigger('left', false, 0);
-        if (event.key === 'c') this.setTrigger('right', false, 0);
+        if (event.key === ' ') this.setTrigger('left', false, 0);
+        if (event.key === 'Enter') this.setTrigger('right', false, 0);
     }
 
     public setControllerVisibility(visible: boolean, controllerSide: 'left' | 'right' | 'both'): void {
