@@ -152,11 +152,11 @@ class PlayerController implements ICollider {
 
     private _triggerWeapons(): void {
         // Fire weapon on right hand
-        if (this._inputManager.rightPrimary.pressed && this._model.weaponRight) {
+        if (this._inputManager.rightTrigger.value > 0.8 && this._model.weaponRight) {
             this._model.weaponRight.fire('right');
         }
         // Fire weapon on left hand
-        if (this._inputManager.leftPrimary.pressed && this._model.weaponLeft) {
+        if (this._inputManager.leftTrigger.value > 0.8 && this._model.weaponLeft) {
             this._model.weaponLeft.fire('left');
         }
     }
