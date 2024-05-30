@@ -12,6 +12,9 @@ import EggModel from './models/EggModel';
 import BoomerangController from './controllers/BoomerangController';
 import BoomerangView from './views/BoomerangView';
 import BoomerangModel from './models/BoomerangModel';
+import JavelinController from './controllers/JavelinController';
+import JavelinView from './views/JavelinView';
+import JavelinModel from './models/JavelinModel';
 
 class ProjectileFactory {
     /////////////////
@@ -41,6 +44,8 @@ class ProjectileFactory {
                 return ProjectileFactory._createEgg(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Boomerang:
                 return ProjectileFactory._createBoomerang(initialPosition, initialSpeedVector, initialOrientation);
+            case ProjectileType.Javelin:
+                return ProjectileFactory._createJavelin(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -93,7 +98,17 @@ class ProjectileFactory {
             new BoomerangModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
-    
+
+    private static _createJavelin(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): JavelinController {
+        return new JavelinController(
+            new JavelinView(),
+            new JavelinModel(initialPosition, initialOrientation, initialSpeedVector)
+        );
+    }
 }
 
 export { ProjectileFactory, ProjectileType };

@@ -39,6 +39,8 @@ class AssetsLoader {
         ['BallGun', '.glb'],
         ['BallGatling', '.glb'],
         ['Egg', '.obj'],
+        ['Boomerang', '.obj'],
+        ['Baguette', '.obj'],
     ];
 
     /////////////////
@@ -117,6 +119,16 @@ class AssetsLoader {
         // Re-scale flying pigeon mesh
         if (name === 'Egg') {
             mesh.scaling.scaleInPlace(0.2);
+        }
+
+        // Re-scale boomerang mesh
+        if (name === 'Boomerang') {
+            mesh.scaling.scaleInPlace(0.05);
+        }
+
+        // Re-scale baguette mesh
+        if (name === 'Baguette') {
+            mesh.scaling.scaleInPlace(2);
         }
 
         // Re-scale ball gun mesh
@@ -217,7 +229,11 @@ class AssetsLoader {
     }
 
     public getBoomerangInstance(): InstancedMesh {
-        return this._createInstance('BallGun');
+        return this._createInstance('Boomerang');
+    }
+
+    public getJavelinInstance(): InstancedMesh {
+        return this._createInstance('Baguette');
     }
 
     /////////////////
