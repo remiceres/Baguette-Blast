@@ -202,7 +202,7 @@ abstract class InputManager {
     protected _createAnchor(): void {
         for (const name of ['leftAnchor', 'rightAnchor']) {
             const anchor = MeshBuilder.CreateBox(name, { size: 0.1 }, this._scene);
-            anchor.isVisible = true;
+            anchor.isVisible = false;
             anchor.isPickable = false;
             this[`_${name}`] = anchor;
         }
