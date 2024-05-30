@@ -1,4 +1,4 @@
-import { BonusData, BonusType } from '../game/models/LevelData';
+import { BonusData, BonusType, ScoreBonusData, TimeBonusData } from '../game/models/LevelData';
 import BaseBonusController from './controllers/BaseBonusController';
 import ScoreBonusController from './controllers/ScoreBonusController';
 import TimeBonusController from './controllers/TimeBonusController';
@@ -22,9 +22,9 @@ class BonusFactory {
     public static createBonus(bonusData: BonusData): BaseBonusController {
         switch (bonusData.type) {
             case BonusType.Score:
-                return BonusFactory._createScoreBonus(bonusData);
+                return BonusFactory._createScoreBonus(bonusData as ScoreBonusData);
             case BonusType.Time:
-                return BonusFactory._createTimeBonus(bonusData);
+                return BonusFactory._createTimeBonus(bonusData as TimeBonusData);
             default:
                 throw new Error(`Unknown bonus type: ${bonusData.type}`);
         }
@@ -34,9 +34,9 @@ class BonusFactory {
     // Privates //
     //////////////
 
-    private static _createScoreBonus(bonusData: BonusData): BaseBonusController {
+    private static _createScoreBonus(bonusData: ScoreBonusData): BaseBonusController {
         // Extract data
-        const score = bonusData.value ? bonusData.value : 10;
+        const score = bonusData.score ? bonusData.score : 10;
 
         // Create MVC
         const model = new ScoreBonusModel(score);
@@ -46,12 +46,13 @@ class BonusFactory {
         return controller;
     }
 
-    private static _createTimeBonus(bonusData: BonusData): BaseBonusController {
+    private static _createTimeBonus(bonusData: TimeBonusData): BaseBonusController {
         // Extract data
-        const time = bonusData.value ? bonusData.value : 3;
+        const duration = bonusData.duration ? bonusData.duration : 6;
+        const speedRatio = bonusData.speedRatio ? bonusData.speedRatio : 0.5;
 
         // Create MVC
-        const model = new TimeBonusModel(time);
+        const model = new TimeBonusModel(duration, speedRatio);
         const view = new TimeBonusView();
         const controller = new TimeBonusController(model, view);
 

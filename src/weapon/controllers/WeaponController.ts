@@ -1,9 +1,9 @@
 import { AbstractMesh, Vector3 } from '@babylonjs/core';
 import { SoundPlayer } from '../../game/controllers/SoundPlayer';
+import Game from '../../game/Game';
 import { ProjectileFactory } from '../../projectile/ProjectileFactory';
 import WeaponModel from '../models/WeaponModel';
 import WeaponView from '../views/WeaponView';
-import Game from '../../game/Game';
 
 abstract class WeaponController {
     // MVC
@@ -105,7 +105,8 @@ abstract class WeaponController {
 
     public update(deltaTime: number): void {
         // Update time since last shot
-        this._model.timeSinceLastShot += deltaTime;
+        // use time scale to keep the same cooldown
+        this._model.timeSinceLastShot += (1 / Game.instance.timeControl.getTimeScale()) * deltaTime;
 
         // Clear disposed projectiles
         this._model.projectiles = this._model.projectiles.filter((projectile) => {

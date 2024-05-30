@@ -126,7 +126,9 @@
                         "z": 4.365
                     },
                     "bonus": {
-                        "type": "time"
+                        "type": "time",
+                        "duration": 10,
+                        "speedRatio": 0.05
                     },
                     "behaviours": [
                         {
@@ -212,7 +214,7 @@
                     "position": {
                         "x": 27.22,
                         "y": 6.22,
-                        "z": 10.70
+                        "z": 10.7
                     },
                     "bonus": {
                         "type": "none"
