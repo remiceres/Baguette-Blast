@@ -1,15 +1,19 @@
 import { ProjectileType, WeaponData, WeaponType } from '../game/models/LevelData';
 import BoomerangView from '../projectile/views/BoomerangView';
+import JavelinView from '../projectile/views/JavelinView';
 import BoomerangLauncherController from './controllers/BoomerangLauncherController';
 import GunController from './controllers/GunController';
 import HandController from './controllers/HandController';
+import JavelinLauncherController from './controllers/JavelinLauncherController';
 import WeaponController from './controllers/WeaponController';
 import BoomerangLauncherModel from './models/BoomerangLauncherModel';
 import GunModel from './models/GunModel';
 import HandModel from './models/HandModel';
+import JavelinLauncherModel from './models/JavelinLauncherModel';
 import BallGunView from './views/BallGunView';
 import BoomerangLauncherView from './views/BoomerangLauncherView';
 import HandView from './views/HandView';
+import JavelinLauncherView from './views/JavelinLauncherView';
 import LaserGatlingView from './views/LaserGatlingView';
 import LaserGunView from './views/LaserGunView';
 
@@ -34,6 +38,8 @@ class WeaponFactory {
                 return WeaponFactory._createLaserGun(weaponData);
             case WeaponType.BoomerangLauncher:
                 return WeaponFactory._createBoomerangLauncher(weaponData);
+            case WeaponType.JavelinLauncher:
+                return WeaponFactory._createJavelinLauncher(weaponData);
             default:
                 throw new Error(`Unsupported weapon type: ${weaponData.type}`);
         }
@@ -71,6 +77,20 @@ class WeaponFactory {
         return new BoomerangLauncherController(view, model);
     }
 
+    private static _createJavelinLauncher(weaponData: WeaponData) {
+        // Extract data
+        const projectileType = weaponData.projectile;
+        const force = weaponData.force;
+        const durability = weaponData.durability;
+        const cooldownSecond = weaponData.cooldown;
+
+        // Create model/view
+        const model = new JavelinLauncherModel(projectileType, force, durability, cooldownSecond);
+        const view = new JavelinLauncherView();
+
+        return new JavelinLauncherController(view, model);
+    }
+
     private static _createLaserGun(weaponData: WeaponData) {
         // Extract data
         const projectileType = weaponData.projectile;
@@ -93,6 +113,9 @@ class WeaponFactory {
                         break;
                     case ProjectileType.Boomerang:
                         view = new BoomerangView();
+                        break;
+                    case ProjectileType.Javelin:
+                        view = new JavelinView();
                         break;
                     default:
                         throw new Error(`Unsupported projectile type: ${weaponData.projectile}`);

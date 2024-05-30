@@ -11,6 +11,7 @@ enum WeaponType {
     Gun = 'gun',
     GatlingGun = 'gatlingGun',
     BoomerangLauncher = 'boomerangLauncher',
+    JavelinLauncher = 'javelinLauncher',
 }
 
 enum ProjectileType {
@@ -18,6 +19,7 @@ enum ProjectileType {
     Laser = 'laser',
     Egg = 'Egg',
     Boomerang = 'boomerang',
+    Javelin = 'javelin',
 }
 
 interface PlayerData {
