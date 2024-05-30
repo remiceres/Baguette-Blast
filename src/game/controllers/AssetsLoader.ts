@@ -36,6 +36,7 @@ class AssetsLoader {
         ['Bullet', '.obj'],
         ['Laser', '.obj'],
         ['FlyingPigeon', '.glb'],
+        ['BallGun', '.glb'],
     ];
 
     /////////////////
@@ -99,6 +100,11 @@ class AssetsLoader {
         // Re-scale flying pigeon mesh
         if (name === 'FlyingPigeon') {
             mesh.scaling.scaleInPlace(15);
+        }
+
+        // Re-scale ball gun mesh
+        if (name === 'BallGun') {
+            mesh.scaling.scaleInPlace(0.2);
         }
 
         // Hide all meshes except the scene
@@ -174,6 +180,10 @@ class AssetsLoader {
 
     public getFlyingPigeonInstance(): InstancedMesh {
         return this._createInstance('FlyingPigeon');
+    }
+
+    public getBallGunInstance(): InstancedMesh {
+        return this._createInstance('BallGun');
     }
 
     /////////////////
