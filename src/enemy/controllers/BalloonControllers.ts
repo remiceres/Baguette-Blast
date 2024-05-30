@@ -4,6 +4,7 @@ import Game from '../../game/Game';
 import BalloonModel from '../models/BalloonModel';
 import BalloonView from '../views/BalloonView';
 import EnemyController from './EnemyController';
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 
 class BalloonController extends EnemyController {
     protected _model: BalloonModel;
@@ -32,6 +33,9 @@ class BalloonController extends EnemyController {
         }
 
         super.onCollision();
+        this._model.sound = new SoundPlayer('balloonPop', Game.instance.scene, this._view.mesh, true);
+        this._model.sound.setAutoplay(true);
+        this._model.sound.play();
     }
 
     ///////////
@@ -82,6 +86,7 @@ class BalloonController extends EnemyController {
         if (this._model.bonusController) {
             this._model.bonusController.dispose();
         }
+        this._model.sound.stopAndDispose();
     }
 }
 
