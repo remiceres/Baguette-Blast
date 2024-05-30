@@ -1,9 +1,11 @@
+import { SoundPlayer } from '../../game/controllers/SoundPlayer';
 import WeaponController from '../../weapon/controllers/WeaponController';
 
 class PlayerModel {
     private _weaponLeft: WeaponController;
     private _weaponRight: WeaponController;
     private _health: number;
+    private _hitSound: SoundPlayer;
 
     ///////////////
     // Accessors //
@@ -33,6 +35,14 @@ class PlayerModel {
         return this._health;
     }
 
+    get hitSound(): SoundPlayer {
+        return this._hitSound;
+    }
+
+    set hitSound(sound: SoundPlayer) {
+        this._hitSound = sound;
+    }
+
     ////////////
     // Weapon //
     ////////////
@@ -60,6 +70,10 @@ class PlayerModel {
 
         if (this._weaponRight) {
             this._weaponRight.dispose();
+        }
+
+        if (this._hitSound) {
+            this._hitSound.stopAndDispose();
         }
     }
 }
