@@ -1,10 +1,14 @@
 import { ProjectileType, WeaponData, WeaponType } from '../game/models/LevelData';
+import BoomerangView from '../projectile/views/BoomerangView';
+import BoomerangLauncherController from './controllers/BoomerangLauncherController';
 import GunController from './controllers/GunController';
 import HandController from './controllers/HandController';
 import WeaponController from './controllers/WeaponController';
+import BoomerangLauncherModel from './models/BoomerangLauncherModel';
 import GunModel from './models/GunModel';
 import HandModel from './models/HandModel';
 import BallGunView from './views/BallGunView';
+import BoomerangLauncherView from './views/BoomerangLauncherView';
 import HandView from './views/HandView';
 import LaserGatlingView from './views/LaserGatlingView';
 import LaserGunView from './views/LaserGunView';
@@ -28,6 +32,8 @@ class WeaponFactory {
             case WeaponType.Gun:
             case WeaponType.GatlingGun:
                 return WeaponFactory._createLaserGun(weaponData);
+            case WeaponType.BoomerangLauncher:
+                return WeaponFactory._createBoomerangLauncher(weaponData);
             default:
                 throw new Error(`Unsupported weapon type: ${weaponData.type}`);
         }
@@ -51,6 +57,20 @@ class WeaponFactory {
         return new HandController(view, model);
     }
 
+    private static _createBoomerangLauncher(weaponData: WeaponData) {
+        // Extract data
+        const projectileType = weaponData.projectile;
+        const force = weaponData.force;
+        const durability = weaponData.durability;
+        const cooldownSecond = weaponData.cooldown;
+
+        // Create model/view
+        const model = new BoomerangLauncherModel(projectileType, force, durability, cooldownSecond);
+        const view = new BoomerangLauncherView();
+
+        return new BoomerangLauncherController(view, model);
+    }
+
     private static _createLaserGun(weaponData: WeaponData) {
         // Extract data
         const projectileType = weaponData.projectile;
@@ -70,6 +90,9 @@ class WeaponFactory {
                         break;
                     case ProjectileType.Laser:
                         view = new LaserGunView();
+                        break;
+                    case ProjectileType.Boomerang:
+                        view = new BoomerangView();
                         break;
                     default:
                         throw new Error(`Unsupported projectile type: ${weaponData.projectile}`);

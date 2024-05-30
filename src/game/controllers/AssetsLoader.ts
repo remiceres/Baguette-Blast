@@ -206,6 +206,10 @@ class AssetsLoader {
         return this._createInstance('Egg');
     }
 
+    public getBoomerangInstance(): InstancedMesh {
+        return this._createInstance('BallGun');
+    }
+
     /////////////////
     // Hitbox API //
     /////////////////

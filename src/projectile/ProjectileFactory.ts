@@ -9,6 +9,9 @@ import LaserView from './views/LaserView';
 import EggView from './views/EggView';
 import EggController from './controllers/EggController';
 import EggModel from './models/EggModel';
+import BoomerangController from './controllers/BoomerangController';
+import BoomerangView from './views/BoomerangView';
+import BoomerangModel from './models/BoomerangModel';
 
 class ProjectileFactory {
     /////////////////
@@ -36,6 +39,8 @@ class ProjectileFactory {
                 return ProjectileFactory._createLaser(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Egg:
                 return ProjectileFactory._createEgg(initialPosition, initialSpeedVector, initialOrientation);
+            case ProjectileType.Boomerang:
+                return ProjectileFactory._createBoomerang(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -77,6 +82,18 @@ class ProjectileFactory {
             new EggModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
+
+    private static _createBoomerang(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): BoomerangController {
+        return new BoomerangController(
+            new BoomerangView(),
+            new BoomerangModel(initialPosition, initialOrientation, initialSpeedVector)
+        );
+    }
+    
 }
 
 export { ProjectileFactory, ProjectileType };

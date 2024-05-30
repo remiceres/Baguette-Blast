@@ -9,8 +9,8 @@ import ProjectileView from '../views/ProjectileView';
 
 abstract class ProjectileController implements ICollider {
     // MVC
-    private _view: ProjectileView;
-    private _model: ProjectileModel;
+    protected _view: ProjectileView;
+    protected _model: ProjectileModel;
 
     /////////////////
     // Constructor //
