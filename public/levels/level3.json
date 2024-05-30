@@ -1,11 +1,31 @@
 {
+    "emvironement": {
+        "time": 0.7,
+        "duration": 1800
+    },
+    "ui": {
+        "returnButtonOffset": {
+            "x": 0,
+            "y": 0.1,
+            "z": -5
+        }
+    },
     "player": {
         "left_hand": {
-            "item": "gun",
-            "durability": 10,
-            "power": 60
+            "type": "gun",
+            "projectile": "ball",
+            "force": 60,
+            "durability": 100,
+            "cooldown": 1
         },
-        "health": 100,
+        "right_hand": {
+            "type": "gun",
+            "projectile": "ball",
+            "force": 60,
+            "durability": 100,
+            "cooldown": 1
+        },
+        "health": 70,
         "position": {
             "x": 111.509,
             "y": 2.0,
@@ -16,29 +36,219 @@
         {
             "wave": 1,
             "enemies": [
-                
                 {
                     "type": "pigeon",
                     "health": 10,
                     "position": {
-                        "x": -15.724,
-                        "y": 4.235,
-                        "z": -4.398
+                        "x": 133.504,
+                        "y": 16.073,
+                        "z": 31.715
                     },
                     "bonus": {
-                        "type": "score"
+                        "type": "none"
                     },
-                    "behavior": {
-                        "type": "floating",
-                        "range": 1.8,
-                        "speed": 1.3
-                    }
+                    "behaviours": [
+                        {
+                            "type": "moveFreelyInCube",
+                            "force": 2,
+                            "radius": 1,
+                            "minPosition": {
+                                "x": 113.504,
+                                "y": 26.073,
+                                "z": 21.715
+                            },
+                            "maxPosition": {
+                                "x": 153.504,
+                                "y": 6.073,
+                                "z": 51.715
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 93.254,
+                        "y": 20.09,
+                        "z": 56.82
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "gold",
+                    "health": 10,
+                    "position": {
+                        "x": 157.588,
+                        "y": 12.819,
+                        "z": 37.724
+                    },
+                    "bonus": {
+                        "type": "time"
+                    },
+                    "behaviours": [
+                        {
+                            "type": "moveAtoB",
+                            "force": 1,
+                            "radius": 1,
+                            "pointA": {
+                                "x": 157.588,
+                                "y": 12.819,
+                                "z": 37.724
+                            },
+                            "pointB": {
+                                "x": 157.588,
+                                "y": 12.819,
+                                "z": 50.344
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 139.236,
+                        "y": 6.518,
+                        "z": 40.809
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 81.235,
+                        "y": 6.857,
+                        "z": 43.176
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": [
+                        {
+                            "type": "moveFreelyInCube",
+                            "force": 2,
+                            "radius": 1,
+                            "minPosition": {
+                                "x": 61.235,
+                                "y": 4.857,
+                                "z": 23.176
+                            },
+                            "maxPosition": {
+                                "x": 101.235,
+                                "y": 10.857,
+                                "z": 63.176
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 140.657,
+                        "y": 26.062,
+                        "z": 58.774
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                }
+            ]
+        },
+        {
+            "wave": 2,
+            "enemies": [
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 27.90,
+                        "y": 4.66,
+                        "z": 23.76
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 31.65,
+                        "y": 3.27,
+                        "z": 50.36
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 38.66,
+                        "y": 18.84,
+                        "z": 63.23
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": [
+                        {
+                            "type": "moveFreelyInCube",
+                            "force": 2,
+                            "radius": 1,
+                            "minPosition": {
+                                "x": 36.66,
+                                "y": 16.84,
+                                "z": 61.23
+                            },
+                            "maxPosition": {
+                                "x": 40.66,
+                                "y": 20.84,
+                                "z": 65.23
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 51.79,
+                        "y": 13.18,
+                        "z": 51.89
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
+                },
+                {
+                    "type": "pigeon",
+                    "health": 10,
+                    "position": {
+                        "x": 54.05,
+                        "y": 9.16,
+                        "z": 30.27
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": []
                 }
             ]
         }
-    ],
-    "game": {
-        "time": 60,
-        "score": 0
-    }
+    ]
 }

@@ -32,12 +32,12 @@ class BalloonController extends EnemyController {
 
     // @Override
     public onCollision(): void {
+        
         if (this._model.bonusController) {
             this._model.bonusController.activate();
         }
-
+        
         super.onCollision();
-        this.dispose();
     }
 
     ///////////
