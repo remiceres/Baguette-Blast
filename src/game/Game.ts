@@ -27,7 +27,7 @@ class Game {
     private static _instance: Game;
 
     // Activate or deactivate debug mode.
-    private _debug = false;
+    private _debug = true;
 
     // The Babylon.js engine used for rendering.
     private _engine: Engine;
@@ -88,12 +88,16 @@ class Game {
 
         // Initialize the game components and start the rendering loop.
         this._init().then(() => {
-            this.stateManager.changeState(State.Home);
+            // this.stateManager.changeState(State.Home);
 
             if (this._supportedVR) {
-                this._stateManager.changeState(State.Home);
+                this._stateManager.changeState(State.Bienvenue);
             } else {
-                this._stateManager.changeState(State.NoVr);
+                if (this._debug) {
+                    this._stateManager.changeState(State.Bienvenue);
+                } else {
+                    this._stateManager.changeState(State.NoVr);
+                }
             }
 
             this._render();

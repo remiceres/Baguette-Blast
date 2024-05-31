@@ -22,6 +22,7 @@ enum State {
     Win,
     Loose,
     NoVr,
+    Bienvenue,
 }
 
 export default State;
