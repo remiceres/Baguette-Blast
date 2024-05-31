@@ -37,6 +37,7 @@ class WeaponFactory {
 
     public static createWeapon(weaponData: WeaponData): WeaponController {
         switch (weaponData.type) {
+            case WeaponType.None:
             case WeaponType.Hand:
                 return WeaponFactory._createHand(weaponData);
             case WeaponType.Gun:
@@ -61,7 +62,12 @@ class WeaponFactory {
 
     private static _createHand(weaponData: WeaponData) {
         // Extract data
-        const projectileType = weaponData.projectile;
+        let projectileType;
+        if (weaponData.projectile == undefined) {
+            projectileType = weaponData.projectile;
+        }else {
+            projectileType = weaponData.projectile;
+        }
         const force = weaponData.force;
         const durability = weaponData.durability;
         const cooldownSecond = weaponData.cooldown;
