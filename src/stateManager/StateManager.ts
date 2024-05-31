@@ -1,4 +1,5 @@
 import State from './EnumState';
+import BienvenueState from './states/BienvenueState';
 import CreditState from './states/CreditState';
 import DialogueState from './states/DialoguesState';
 import HomeState from './states/HomeState';
@@ -44,6 +45,7 @@ class StateManager {
             [State.Win, new WinState()],
             [State.Loose, new LooseState()],
             [State.NoVr, new NoVrState()],
+            [State.Bienvenue, new BienvenueState()],
         ]);
     }
 

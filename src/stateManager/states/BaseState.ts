@@ -1,6 +1,6 @@
 import { Scene } from '@babylonjs/core';
-import { AdvancedDynamicTexture } from 'babylonjs-gui';
 import StateInterface from './StateInterface';
+import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
 abstract class BaseState implements StateInterface {
     protected _scene: Scene;

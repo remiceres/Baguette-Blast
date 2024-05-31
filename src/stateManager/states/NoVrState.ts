@@ -73,6 +73,7 @@ class NoVrState extends BaseState {
 
         // Create TextBlock
         UtilsUI.createTextZone(
+            // eslint-disable-next-line max-len
             'Bienvenue dans Baguette Blast ! Ce jeu ne peut être joué qu’avec un casque de réalité virtuelle, veuillez en enfiler un pour continuer.',
             this._mainPanel,
             5,

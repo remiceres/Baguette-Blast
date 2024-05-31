@@ -113,6 +113,7 @@ class CustomUI {
             EndLvl6: 'assets/frames/panels/EndLvl6.json',
             loose: 'assets/frames/panels/Loose.json',
             win: 'assets/frames/panels/Win.json',
+            bienvenue: 'assets/frames/panels/Bienvenue.json',
         };
 
         const scene = Game.instance.scene;
