@@ -15,14 +15,14 @@
             "type": "discLauncher",
             "projectile": "disc",
             "force": 15,
-            "durability": 100,
+            "durability": 10000,
             "cooldown": 1
         },
         "right_hand": {
             "type": "discLauncher",
             "projectile": "disc",
             "force": 15,
-            "durability": 100,
+            "durability": 10000,
             "cooldown": 1
         },
         "health": 70,

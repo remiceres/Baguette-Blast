@@ -14,6 +14,7 @@ enum WeaponType {
     JavelinLauncher = 'javelinLauncher',
     DiscLauncher = 'discLauncher',
     ChaosGun = 'chaosGun',
+    None = 'none',
 }
 
 enum ProjectileType {
