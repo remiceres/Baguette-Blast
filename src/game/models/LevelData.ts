@@ -25,6 +25,7 @@ enum ProjectileType {
     Javelin = 'javelin',
     Disc = 'disc',
     ChaosBall = 'chaosBall',
+    None = 'none',
 }
 
 interface PlayerData {
