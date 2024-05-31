@@ -21,7 +21,7 @@
         "right_hand": {
             "type": "javelinLauncher",
             "projectile": "javelin",
-            "force": 60,
+            "force": 10,
             "durability": 10000,
             "cooldown": 1
         },
