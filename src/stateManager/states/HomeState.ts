@@ -7,8 +7,8 @@ import BaseState from './BaseState';
 class HomeState extends BaseState {
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
-        this._setupCamera();
-        this._setupEnvironment();
+        // this._setupCamera();
+        // this._setupEnvironment();
         this._setupGUI();
         this._initAudio();
     }
