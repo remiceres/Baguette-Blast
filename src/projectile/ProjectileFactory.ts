@@ -18,6 +18,9 @@ import JavelinModel from './models/JavelinModel';
 import DiscController from './controllers/DiscController';
 import DiscView from './views/DiscView';
 import DiscModel from './models/DiscModel';
+import ChaosBallController from './controllers/ChaosBallController';
+import ChaosBallView from './views/ChaosBallView';
+import ChaosBallModel from './models/ChaosBallModel';
 
 class ProjectileFactory {
     /////////////////
@@ -51,6 +54,8 @@ class ProjectileFactory {
                 return ProjectileFactory._createJavelin(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Disc:
                 return ProjectileFactory._createDisc(initialPosition, initialSpeedVector, initialOrientation);
+            case ProjectileType.ChaosBall:
+                return ProjectileFactory._createChaosBall(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -123,6 +128,17 @@ class ProjectileFactory {
         return new DiscController(
             new DiscView(),
             new DiscModel(initialPosition, initialOrientation, initialSpeedVector)
+        );
+    }
+
+    private static _createChaosBall(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): ChaosBallController {
+        return new ChaosBallController(
+            new ChaosBallView(),
+            new ChaosBallModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
 }
