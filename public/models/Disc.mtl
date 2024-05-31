@@ -1,10 +1,10 @@
-# Blender MTL File: 'None'
-# Material Count: 1
+# Blender 3.5.1 MTL File: 'None'
+# www.blender.org
 
-newmtl Material
+newmtl Material.001
 Ns 1000.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.032183 0.031974 0.054957
+Kd 0.128918 0.072330 0.184469
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000

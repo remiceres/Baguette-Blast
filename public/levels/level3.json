@@ -19,9 +19,9 @@
             "cooldown": 1
         },
         "right_hand": {
-            "type": "gun",
-            "projectile": "ball",
-            "force": 60,
+            "type": "boomerangLauncher",
+            "projectile": "boomerang",
+            "force": 10,
             "durability": 100,
             "cooldown": 1
         },
