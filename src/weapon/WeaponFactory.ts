@@ -64,7 +64,7 @@ class WeaponFactory {
         // Extract data
         let projectileType;
         if (weaponData.projectile == undefined) {
-            projectileType = weaponData.projectile;
+            projectileType = ProjectileType.None;
         }else {
             projectileType = weaponData.projectile;
         }
