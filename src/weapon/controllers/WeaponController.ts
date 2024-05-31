@@ -51,7 +51,7 @@ abstract class WeaponController {
         this._model.durability--;
 
         // Get the position and speed vector
-        const initialPosition = this._model.parent.getAbsolutePosition().clone();
+        const initialPosition = this._model.parent.getAbsolutePosition().clone().add(this._model.parent.forward.scale(0.5)).add(this._model.parent.forward.scale(1));
         const initialSpeedVector = this._getInitialForce();
         const initialOrientation = this._getInitialOrientation(initialSpeedVector);
 

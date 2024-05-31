@@ -40,8 +40,8 @@ abstract class ProjectileController implements ICollider {
         // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
             if (other instanceof PigeonBossController && other.hitbox.intersectsMesh(this._model.hitbox)) {
-                console.log('Projectile hit boss');
-                console.log(other.health);
+                //console.log('Projectile hit boss');
+                //console.log(other.health);
                 other.health -= 1;
                 if (other.health <= 0) {
                     return true;
