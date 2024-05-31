@@ -19,11 +19,11 @@
             "cooldown": 1
         },
         "right_hand": {
-            "type": "none",
-            "projectile": "none",
-            "force": 5,
+            "type": "gatlingGun",
+            "projectile": "laser",
+            "force": 20,
             "durability": 100,
-            "cooldown": 1
+            "cooldown": 0.2
         },
         "health": 100,
         "position": {

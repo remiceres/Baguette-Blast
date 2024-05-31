@@ -17,6 +17,9 @@ class JavelinController extends ProjectileController {
         this._maxFlightTime = 2; // For example, 2 seconds to start curving
         this._turnDirection = Math.random() > 0.5 ? 1 : -1; // Randomly choose left or right
         this._curveAngle = Math.PI / 8 + Math.random() * (Math.PI / 8); // Random angle between π/8 and π/4
+
+        // Initialize the javelin's orientation to be 90° right
+        view.mesh.rotate(Vector3.Up(), Math.PI / 2);
     }
 
     public update(deltaTime: number): void {

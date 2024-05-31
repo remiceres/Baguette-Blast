@@ -140,7 +140,7 @@ class AssetsLoader {
 
         // Re-scale baguette mesh
         if (name === 'Baguette') {
-            mesh.scaling.scaleInPlace(2);
+            mesh.scaling.scaleInPlace(1);
         }
 
         // Re-scale ball gun mesh
@@ -221,7 +221,8 @@ class AssetsLoader {
     }
 
     public getLaserInstance(): InstancedMesh {
-        return this._createInstance('Laser');
+        return this._createInstance('Baguette');
+        // return this._createInstance('Laser');
     }
 
     public getFlyingPigeonInstance(): InstancedMesh {
