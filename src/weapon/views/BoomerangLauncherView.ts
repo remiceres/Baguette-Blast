@@ -12,7 +12,7 @@ class BoomerangLauncherView extends GunView {
     }
 
     protected _createMesh(): AbstractMesh {
-        const mesh = Game.instance.assetManager.getBallGunInstance();
+        const mesh = Game.instance.assetManager.getBoomerangLauncherInstance();
         mesh.position = new Vector3(0, 0, 0.5);
         mesh.rotate(Vector3.Up(), -Math.PI / 2);
 

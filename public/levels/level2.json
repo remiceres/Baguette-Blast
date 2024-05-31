@@ -12,15 +12,15 @@
     },
     "player": {
         "left_hand": {
-            "type": "javelinLauncher",
-            "projectile": "javelin",
+            "type": "none",
+            "projectile": "none",
             "force": 60,
             "durability": 100,
             "cooldown": 1
         },
         "right_hand": {
-            "type": "none",
-            "projectile": "none",
+            "type": "javelinLauncher",
+            "projectile": "javelin",
             "force": 60,
             "durability": 100,
             "cooldown": 1

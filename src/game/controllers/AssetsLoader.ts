@@ -38,6 +38,10 @@ class AssetsLoader {
         ['FlyingPigeon', '.glb'],
         ['FlyingPigeonBoss', '.glb'],
         ['BallGun', '.glb'],
+        ['BallGunV1', '.glb'],
+        ['BallGunV2', '.glb'],
+        ['BallGunV3', '.glb'],
+        ['BallGunV4', '.glb'],
         ['BallGatling', '.glb'],
         ['Egg', '.obj'],
         ['Boomerang', '.obj'],
@@ -154,6 +158,26 @@ class AssetsLoader {
 
         // Re-scale ball gun mesh
         if (name === 'BallGun') {
+            mesh.scaling.scaleInPlace(0.2);
+        }
+
+        // Re-scale ball gun mesh
+        if (name === 'BallGunV1') {
+            mesh.scaling.scaleInPlace(0.2);
+        }
+
+        // Re-scale ball gun mesh
+        if (name === 'BallGunV2') {
+            mesh.scaling.scaleInPlace(0.2);
+        }
+
+        // Re-scale ball gun mesh
+        if (name === 'BallGunV3') {
+            mesh.scaling.scaleInPlace(0.2);
+        }
+
+        // Re-scale ball gun mesh
+        if (name === 'BallGunV4') {
             mesh.scaling.scaleInPlace(0.2);
         }
 
@@ -275,6 +299,22 @@ class AssetsLoader {
         return this._createInstance('BallGun');
     }
 
+    public getJavelinLauncherInstance(): InstancedMesh {
+        return this._createInstance('BallGunV1');
+    }
+
+    public getBoomerangLauncherInstance(): InstancedMesh {
+        return this._createInstance('BallGunV2');
+    }
+
+    public getDiscLauncherInstance(): InstancedMesh {
+        return this._createInstance('BallGunV3');
+    }
+
+    public getChaosGunInstance(): InstancedMesh {
+        return this._createInstance('BallGunV4');
+    }
+
     public getBallGatlingInstance(): InstancedMesh {
         return this._createInstance('BallGatling');
     }
@@ -293,10 +333,6 @@ class AssetsLoader {
 
     public getDiscInstance(): InstancedMesh {
         return this._createInstance('Disc');
-    }
-
-    public getDiscLauncherInstance(): InstancedMesh {
-        return this._createInstance('BallGun');
     }
 
     /////////////////
