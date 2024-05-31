@@ -8,7 +8,7 @@ class LaserView extends ProjectileView {
     }
 
     protected _createMesh(): InstancedMesh {
-        return Game.instance.assetManager.getLaserInstance();
+        return Game.instance.assetManager.getRandomBallInstance();
     }
 }
 

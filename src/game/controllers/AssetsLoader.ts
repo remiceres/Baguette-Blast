@@ -43,6 +43,10 @@ class AssetsLoader {
         ['Boomerang', '.obj'],
         ['Baguette', '.obj'],
         ['Disc', '.obj'],
+        ['TennisBall', '.obj'],
+        ['Football', '.obj'],
+        ['Baseball', '.obj'],
+        ['PigeonBall', '.obj'],
     ];
 
     /////////////////
@@ -116,6 +120,11 @@ class AssetsLoader {
         // Re-scale flying pigeon mesh
         if (name === 'FlyingPigeon') {
             mesh.scaling.scaleInPlace(15);
+        }
+
+        // Re-scale pigeon ball mesh
+        if (name === 'PigeonBall') {
+            mesh.scaling.scaleInPlace(3);
         }
 
         // Re-scale flying pigeon mesh
@@ -221,9 +230,38 @@ class AssetsLoader {
     }
 
     public getLaserInstance(): InstancedMesh {
-        return this._createInstance('Baguette');
-        // return this._createInstance('Laser');
+        return this._createInstance('Laser');
     }
+
+    public getRandomBallInstance(): InstancedMesh {
+        const balls = [
+            { name: 'Bullet', weight: 25 },
+            { name: 'TennisBall', weight: 25 },
+            { name: 'Football', weight: 25 },
+            { name: 'Egg', weight: 5 }, // rare
+            { name: 'Baseball', weight: 15 },
+            { name: 'PigeonBall', weight: 5 }, // super rare
+        ];
+    
+        // Calculate the total weight
+        const totalWeight = balls.reduce((sum, ball) => sum + ball.weight, 0);
+    
+        // Generate a random number between 0 and the total weight
+        const random = Math.random() * totalWeight;
+    
+        // Determine which ball to return based on the random number
+        let cumulativeWeight = 0;
+        for (const ball of balls) {
+            cumulativeWeight += ball.weight;
+            if (random < cumulativeWeight) {
+                console.log('Random ball:', ball.name);
+                return this._createInstance(ball.name);
+            }
+        }
+    
+        // Fallback in case no ball is selected (shouldn't happen)
+        return this._createInstance('Bullet');
+    }    
 
     public getFlyingPigeonInstance(): InstancedMesh {
         return this._createInstance('FlyingPigeon');

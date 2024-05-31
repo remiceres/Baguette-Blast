@@ -12,18 +12,18 @@
     },
     "player": {
         "left_hand": {
-            "type": "gun",
-            "projectile": "ball",
-            "force": 60,
+            "type": "gatlingGun",
+            "projectile": "laser",
+            "force": 20,
             "durability": 100,
-            "cooldown": 1
+            "cooldown": 0.2
         },
         "right_hand": {
-            "type": "gun",
-            "projectile": "ball",
-            "force": 60,
+            "type": "gatlingGun",
+            "projectile": "laser",
+            "force": 20,
             "durability": 100,
-            "cooldown": 1
+            "cooldown": 0.2
         },
         "health": 40,
         "position": {

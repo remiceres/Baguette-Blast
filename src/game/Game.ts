@@ -27,7 +27,7 @@ class Game {
     private static _instance: Game;
 
     // Activate or deactivate debug mode.
-    private _debug = false;
+    private _debug = true;
 
     // The Babylon.js engine used for rendering.
     private _engine: Engine;
