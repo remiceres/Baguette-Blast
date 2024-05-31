@@ -20,14 +20,14 @@ class PlayerView {
         // Create head mesh
         this._headHitbox = MeshBuilder.CreateBox(
             'player_head_HitBox',
-            { width: 0.4, height: 0.4, depth: 0.025 },
+            { width: 0.3, height: 0.3, depth: 0.025 },
             Game.instance.scene
         );
 
         // Create body mesh
         this._bodyHitbox = MeshBuilder.CreateBox(
             'player_body_HitBox',
-            { width: 0.55, height: 0.6, depth: 0.3 },
+            { width: 0.3, height: 0.3, depth: 0.3 },
             Game.instance.scene
         );
 
