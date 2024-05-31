@@ -12,15 +12,15 @@
     },
     "player": {
         "left_hand": {
-            "type": "boomerangLauncher",
-            "projectile": "boomerang",
+            "type": "gun",
+            "projectile": "ball",
             "force": 10,
             "durability": 100,
             "cooldown": 1
         },
         "right_hand": {
-            "type": "javelinLauncher",
-            "projectile": "javelin",
+            "type": "gun",
+            "projectile": "ball",
             "force": 60,
             "durability": 100,
             "cooldown": 1
