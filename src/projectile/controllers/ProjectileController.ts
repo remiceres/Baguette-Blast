@@ -1,5 +1,6 @@
 import BaseBonusController from '../../bonus/controllers/BaseBonusController';
 import EnemyController from '../../enemy/controllers/EnemyController';
+import PigeonBossController from '../../enemy/controllers/PigeonBossController';
 import Game from '../../game/Game';
 import PlayerController from '../../player/controllers/PlayerController';
 import ReturnButton from '../../UI/ReturnButton';
@@ -38,7 +39,18 @@ abstract class ProjectileController implements ICollider {
     public collidesWith(other: ICollider): boolean {
         // Check if the projectile collides with an enemy
         if (other instanceof EnemyController) {
-            if (other.hitbox.intersectsMesh(this._model.hitbox)) {
+            if (other instanceof PigeonBossController && other.hitbox.intersectsMesh(this._model.hitbox)) {
+                console.log('Projectile hit boss');
+                console.log(other.health);
+                other.health -= 1;
+                if (other.health <= 0) {
+                    return true;
+                } else {
+                    // Dispose the projectile
+                    this.dispose();
+                    return false;
+                }
+            } else if (other.hitbox.intersectsMesh(this._model.hitbox)) {
                 // console.log('Projectile hit enemy');
                 return true;
             }

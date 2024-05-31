@@ -22,6 +22,7 @@ class PigeonBossModel extends BaseEnemyModel {
 
         // Behavior
         this.addBehavior(this._defaultBehavior);
+        this.health = health;
     }
 
     private _generateOffsetHeadRotation(): number {

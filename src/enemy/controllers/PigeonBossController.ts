@@ -72,6 +72,14 @@ class PigeonBossController extends EnemyController {
             this._model.headRotationSpeed * deltaTime
         );
     }
+
+    get health(): number {
+        return this._model.health;
+    }
+
+    set health(value: number) {
+        this._model.health = value;
+    }
 }
 
 export default PigeonBossController;

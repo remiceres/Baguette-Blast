@@ -38,7 +38,7 @@
             "enemies": [
                 {
                     "type": "pigeonBoss",
-                    "health": 10,
+                    "health": 100,
                     "position": {
                         "x": 145.045,
                         "y": 2.459,
