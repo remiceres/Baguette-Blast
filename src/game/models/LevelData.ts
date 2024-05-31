@@ -12,6 +12,7 @@ enum WeaponType {
     GatlingGun = 'gatlingGun',
     BoomerangLauncher = 'boomerangLauncher',
     JavelinLauncher = 'javelinLauncher',
+    DiscLauncher = 'discLauncher',
 }
 
 enum ProjectileType {
@@ -20,6 +21,7 @@ enum ProjectileType {
     Egg = 'Egg',
     Boomerang = 'boomerang',
     Javelin = 'javelin',
+    Disc = 'disc',
 }
 
 interface PlayerData {
@@ -138,6 +140,7 @@ enum EnemyType {
     Silver = 'silver',
     Gold = 'gold',
     Pigeon = 'pigeon',
+    PigeonBoss = 'pigeonBoss',
     PigeonShooter = 'pigeonShooter',
     PigeonDropper = 'pigeonDropper',
 }

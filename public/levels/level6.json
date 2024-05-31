@@ -37,6 +37,35 @@
             "wave": 1,
             "enemies": [
                 {
+                    "type": "pigeonBoss",
+                    "health": 10,
+                    "position": {
+                        "x": 145.045,
+                        "y": 2.459,
+                        "z": 2.134
+                    },
+                    "bonus": {
+                        "type": "none"
+                    },
+                    "behaviours": [
+                        {
+                            "type": "moveAtoB",
+                            "force": 1,
+                            "radius": 1,
+                            "pointA": {
+                                "x": 145.045,
+                                "y": 23.269,
+                                "z": 2.134
+                            },
+                            "pointB": {
+                                "x": 119.887,
+                                "y": 12.084,
+                                "z": 2.522
+                            }
+                        }
+                    ]
+                },
+                {
                     "type": "pigeonShooter",
                     "health": 10,
                     "position": {

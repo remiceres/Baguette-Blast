@@ -13,6 +13,9 @@ import PigeonView from './views/PigeonView';
 import SilverBalloonView from './views/SilverBalloonView';
 import ShooterPigeonController from './controllers/PigeonShooterControllet';
 import DropperPigeonController from './controllers/PigeonDropperController';
+import PigeonBossController from './controllers/PigeonBossController';
+import PigeonBossModel from './models/PigeonBossModel';
+import PigeonBossView from './views/PigeonBossView';
 
 class EnemyFactory {
     /////////////////
@@ -34,6 +37,9 @@ class EnemyFactory {
                 return EnemyFactory._createBalloon(enemyData);
             case EnemyType.Pigeon:
                 return EnemyFactory._createPigeon(enemyData);
+            case EnemyType.PigeonBoss:
+                console.log('Creating pigeon boss');
+                return EnemyFactory._createPigeonBoss(enemyData);
             case EnemyType.PigeonShooter:
                 return EnemyFactory._createPigeon(enemyData, 'shoot');
             case EnemyType.PigeonDropper:
@@ -108,6 +114,38 @@ class EnemyFactory {
                 break;
             default:
                 controller = new PigeonController(model, view);
+                break;
+        }
+
+        return controller;
+    }
+
+    private static _createPigeonBoss(enemyData: EnemyData, speciality: string = 'none'): PigeonController {
+        // Extract data
+        const position = new Vector3(enemyData.position.x, enemyData.position.y, enemyData.position.z);
+        const health = enemyData.health;
+        const score = enemyData.score;
+
+        const behaviours = [];
+        for (const behaviourData of enemyData.behaviours) {
+            const behaviour = BehaviourFactory.createBehaviour(behaviourData);
+            behaviours.push(behaviour);
+        }
+
+        // Create model/view
+        const model = new PigeonBossModel(position, health, score, behaviours);
+        const view = new PigeonBossView();
+        // Controller can be dropper, shooter or normal pigeon
+        let controller;
+        switch (speciality) {
+            case 'shoot':
+                controller = new PigeonBossController(model, view);
+                break;
+            case 'drop':
+                controller = new PigeonBossController(model, view);
+                break;
+            default:
+                controller = new PigeonBossController(model, view);
                 break;
         }
 

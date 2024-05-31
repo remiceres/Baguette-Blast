@@ -2,16 +2,19 @@ import { ProjectileType, WeaponData, WeaponType } from '../game/models/LevelData
 import BoomerangView from '../projectile/views/BoomerangView';
 import JavelinView from '../projectile/views/JavelinView';
 import BoomerangLauncherController from './controllers/BoomerangLauncherController';
+import DiscLauncherController from './controllers/DiscLauncherController';
 import GunController from './controllers/GunController';
 import HandController from './controllers/HandController';
 import JavelinLauncherController from './controllers/JavelinLauncherController';
 import WeaponController from './controllers/WeaponController';
 import BoomerangLauncherModel from './models/BoomerangLauncherModel';
+import DiscLauncherModel from './models/DiscLauncherModel';
 import GunModel from './models/GunModel';
 import HandModel from './models/HandModel';
 import JavelinLauncherModel from './models/JavelinLauncherModel';
 import BallGunView from './views/BallGunView';
 import BoomerangLauncherView from './views/BoomerangLauncherView';
+import DiscLauncherView from './views/DiscLauncherView';
 import HandView from './views/HandView';
 import JavelinLauncherView from './views/JavelinLauncherView';
 import LaserGatlingView from './views/LaserGatlingView';
@@ -40,6 +43,8 @@ class WeaponFactory {
                 return WeaponFactory._createBoomerangLauncher(weaponData);
             case WeaponType.JavelinLauncher:
                 return WeaponFactory._createJavelinLauncher(weaponData);
+            case WeaponType.DiscLauncher:
+                return WeaponFactory._createDiscLauncher(weaponData);
             default:
                 throw new Error(`Unsupported weapon type: ${weaponData.type}`);
         }
@@ -89,6 +94,20 @@ class WeaponFactory {
         const view = new JavelinLauncherView();
 
         return new JavelinLauncherController(view, model);
+    }
+
+    private static _createDiscLauncher(weaponData: WeaponData) {
+        // Extract data
+        const projectileType = weaponData.projectile;
+        const force = weaponData.force;
+        const durability = weaponData.durability;
+        const cooldownSecond = weaponData.cooldown;
+
+        // Create model/view
+        const model = new DiscLauncherModel(projectileType, force, durability, cooldownSecond);
+        const view = new DiscLauncherView();
+
+        return new DiscLauncherController(view, model);
     }
 
     private static _createLaserGun(weaponData: WeaponData) {

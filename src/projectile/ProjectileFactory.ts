@@ -15,6 +15,9 @@ import BoomerangModel from './models/BoomerangModel';
 import JavelinController from './controllers/JavelinController';
 import JavelinView from './views/JavelinView';
 import JavelinModel from './models/JavelinModel';
+import DiscController from './controllers/DiscController';
+import DiscView from './views/DiscView';
+import DiscModel from './models/DiscModel';
 
 class ProjectileFactory {
     /////////////////
@@ -46,6 +49,8 @@ class ProjectileFactory {
                 return ProjectileFactory._createBoomerang(initialPosition, initialSpeedVector, initialOrientation);
             case ProjectileType.Javelin:
                 return ProjectileFactory._createJavelin(initialPosition, initialSpeedVector, initialOrientation);
+            case ProjectileType.Disc:
+                return ProjectileFactory._createDisc(initialPosition, initialSpeedVector, initialOrientation);
             default:
                 throw new Error(`Projectile type ${type} is not supported`);
         }
@@ -107,6 +112,17 @@ class ProjectileFactory {
         return new JavelinController(
             new JavelinView(),
             new JavelinModel(initialPosition, initialOrientation, initialSpeedVector)
+        );
+    }
+
+    private static _createDisc(
+        initialPosition: Vector3,
+        initialSpeedVector: Vector3,
+        initialOrientation: Vector3
+    ): DiscController {
+        return new DiscController(
+            new DiscView(),
+            new DiscModel(initialPosition, initialOrientation, initialSpeedVector)
         );
     }
 }

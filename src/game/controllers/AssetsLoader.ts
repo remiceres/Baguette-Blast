@@ -36,11 +36,13 @@ class AssetsLoader {
         ['Bullet', '.obj'],
         ['Laser', '.obj'],
         ['FlyingPigeon', '.glb'],
+        ['FlyingPigeonBoss', '.glb'],
         ['BallGun', '.glb'],
         ['BallGatling', '.glb'],
         ['Egg', '.obj'],
         ['Boomerang', '.obj'],
         ['Baguette', '.obj'],
+        ['Disc', '.obj'],
     ];
 
     /////////////////
@@ -114,6 +116,11 @@ class AssetsLoader {
         // Re-scale flying pigeon mesh
         if (name === 'FlyingPigeon') {
             mesh.scaling.scaleInPlace(15);
+        }
+
+        // Re-scale flying pigeon mesh
+        if (name === 'FlyingPigeonBoss') {
+            mesh.scaling.scaleInPlace(90);
         }
 
         // Re-scale flying pigeon mesh
@@ -216,6 +223,10 @@ class AssetsLoader {
         return this._createInstance('FlyingPigeon');
     }
 
+    public getFlyingPigeonBossInstance(): InstancedMesh {
+        return this._createInstance('FlyingPigeonBoss');
+    }
+
     public getBallGunInstance(): InstancedMesh {
         return this._createInstance('BallGun');
     }
@@ -234,6 +245,10 @@ class AssetsLoader {
 
     public getJavelinInstance(): InstancedMesh {
         return this._createInstance('Baguette');
+    }
+
+    public getDiscInstance(): InstancedMesh {
+        return this._createInstance('Disc');
     }
 
     /////////////////
