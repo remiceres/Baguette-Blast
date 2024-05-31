@@ -133,6 +133,11 @@ class AssetsLoader {
             mesh.scaling.scaleInPlace(0.05);
         }
 
+        // Re-scale disc mesh
+        if (name === 'Disc') {
+            mesh.scaling.scaleInPlace(0.5);
+        }
+
         // Re-scale baguette mesh
         if (name === 'Baguette') {
             mesh.scaling.scaleInPlace(2);
@@ -249,6 +254,10 @@ class AssetsLoader {
 
     public getDiscInstance(): InstancedMesh {
         return this._createInstance('Disc');
+    }
+
+    public getDiscLauncherInstance(): InstancedMesh {
+        return this._createInstance('BallGun');
     }
 
     /////////////////

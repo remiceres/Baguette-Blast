@@ -19,8 +19,8 @@
             "cooldown": 1
         },
         "right_hand": {
-            "type": "discLauncher",
-            "projectile": "disc",
+            "type": "none",
+            "projectile": "none",
             "force": 5,
             "durability": 100,
             "cooldown": 1
