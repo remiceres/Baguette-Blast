@@ -19,9 +19,9 @@
             "cooldown": 1
         },
         "right_hand": {
-            "type": "none",
-            "projectile": "none",
-            "force": 60,
+            "type": "javelinLauncher",
+            "projectile": "javelin",
+            "force": 10,
             "durability": 10000,
             "cooldown": 1
         },

@@ -19,11 +19,11 @@
             "cooldown": 1
         },
         "right_hand": {
-	    "type": "none",
-            "projectile": "none",
-            "force": 20,
+            "type": "gun",
+            "projectile": "ball",
+            "force": 60,
             "durability": 10000,
-            "cooldown": 0.2
+            "cooldown": 1
         },
         "health": 100,
         "position": {
