@@ -10,8 +10,16 @@ class BienvenueState extends BaseState {
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
         this._setupGUI();
+        this._setupEnvironment();
         this._setupCamera();
         return Promise.resolve();
+    }
+
+    private _setupEnvironment(): void {
+        const environment = Game.instance.environmentControllers;
+        environment.cycleDuration = 1800;
+        // Randon between [0 - 0.25] and [0.75 - 1] to have a day each time
+        environment.pourcentageOfDay = Math.random() < 0.5 ? Math.random() * 0.25 : Math.random() * 0.25 + 0.75;
     }
 
     private _setupGUI(): void {
