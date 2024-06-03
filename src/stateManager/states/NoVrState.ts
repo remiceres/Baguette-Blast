@@ -1,5 +1,6 @@
 import { Axis, Space, TargetCamera, TransformNode, Vector3 } from '@babylonjs/core';
 import { GUI3DManager, StackPanel3D } from '@babylonjs/gui';
+import EnvironmentControllers from '../../environment/controllers/EnvironmentControllers';
 import Game from '../../game/Game';
 import UtilsUI from '../../UI/UtilsUI';
 import State from '../EnumState';
@@ -9,6 +10,7 @@ class NoVrState extends BaseState {
     private _mainPanel: StackPanel3D;
     private _anchor: TransformNode;
     private _manager: GUI3DManager;
+    private _environment: EnvironmentControllers;
 
     private _camera: TargetCamera;
 
@@ -21,9 +23,9 @@ class NoVrState extends BaseState {
     }
 
     private _setupEnvironment(): void {
-        const environment = Game.instance.environmentControllers;
-        environment.cycleDuration = 60;
-        environment.pourcentageOfDay = Math.random();
+        this._environment = Game.instance.environmentControllers;
+        this._environment.cycleDuration = 60;
+        this._environment.pourcentageOfDay = Math.random();
     }
 
     private _setupCamera(): void {
@@ -92,6 +94,10 @@ class NoVrState extends BaseState {
         this._camera.position = new Vector3(-0.74, 3.6, 5.22);
         this._camera.setTarget(new Vector3(-0.74, 3.59, 7.45));
         this._camera.attachControl();
+
+        // Reset environment
+        this._environment.cycleDuration = 1800;
+        this._environment.pourcentageOfDay = Math.random() < 0.5 ? Math.random() * 0.25 : Math.random() * 0.25 + 0.75;
 
         // Dispose the GUI
         this._mainPanel.dispose();
