@@ -65,7 +65,7 @@ class CameraManager {
         }
 
         const secondaryPressed = Game.instance.inputManager.leftSecondary.pressed;
-        if (secondaryPressed && !this._continuePressed && !Game.instance.debug) {
+        if (secondaryPressed && !this._continuePressed && Game.instance.debug) {
             this._continuePressed = true;
             this._debugModeEnabled = !this._debugModeEnabled;
             this._switchCamera(this._debugModeEnabled ? this._debugCamera : this._pcCamera);
