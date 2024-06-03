@@ -1,4 +1,4 @@
-import { Axis, Space, TransformNode, Vector3 } from '@babylonjs/core';
+import { Axis, Space, TargetCamera, TransformNode, Vector3 } from '@babylonjs/core';
 import { GUI3DManager, StackPanel3D } from '@babylonjs/gui';
 import Game from '../../game/Game';
 import UtilsUI from '../../UI/UtilsUI';
@@ -9,6 +9,8 @@ class NoVrState extends BaseState {
     private _mainPanel: StackPanel3D;
     private _anchor: TransformNode;
     private _manager: GUI3DManager;
+
+    private _camera: TargetCamera;
 
     public async init(): Promise<void> {
         this._scene = Game.instance.scene;
@@ -25,10 +27,10 @@ class NoVrState extends BaseState {
     }
 
     private _setupCamera(): void {
-        const camera = Game.instance.cameraManager.playerCamera;
-        camera.position = new Vector3(-55, 24, 10);
-        camera.setTarget(new Vector3(20, 5, 4));
-        camera.detachControl();
+        this._camera = Game.instance.cameraManager.playerCamera;
+        this._camera.position = new Vector3(-55, 24, 10);
+        this._camera.setTarget(new Vector3(20, 5, 4));
+        this._camera.detachControl();
     }
 
     private _initAudio(): void {
@@ -81,11 +83,17 @@ class NoVrState extends BaseState {
     public update(): void {
         // Set an escape with the key e to go to home state
         if (Game.instance.inputManager.rightSecondary.pressed) {
-            Game.instance.stateManager.changeState(State.Bienvenue);
+            Game.instance.stateManager.changeState(State.Home);
         }
     }
 
     public dispose(): void {
+        // Teleport the player in front of the panel
+        this._camera.position = new Vector3(-0.74, 3.6, 5.22);
+        this._camera.setTarget(new Vector3(-0.74, 3.59, 7.45));
+        this._camera.attachControl();
+
+        // Dispose the GUI
         this._mainPanel.dispose();
         this._manager.dispose();
         this._anchor.dispose();

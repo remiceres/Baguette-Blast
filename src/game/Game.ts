@@ -89,11 +89,6 @@ class Game {
         // Initialize the game components and start the rendering loop.
         this._init().then(() => {
             this.stateManager.changeState(State.Bienvenue);
-
-            if (!this._supportedVR) {
-                this._stateManager.changeState(State.NoVr);
-            }
-
             this._render();
         });
     }
@@ -119,8 +114,21 @@ class Game {
         // Initialize the sounds.
         this._sounds = [];
         this._mainTheme = new SoundPlayer('music_theme');
-        this._mainTheme.setAutoplay(true);
         this._mainTheme.setLoop(true);
+
+        // Disable the default audio unlock button
+        Engine.audioEngine.useCustomUnlockedButton = true;
+
+        // Unlock audio on first user interaction.
+        window.addEventListener(
+            'click',
+            () => {
+                if (!Engine.audioEngine.unlocked) {
+                    Engine.audioEngine.unlock();
+                }
+            },
+            { once: true }
+        );
 
         // Initialize other components of the game.
         this._cameraManager = new CameraManager(this._xr, this._supportedVR);
