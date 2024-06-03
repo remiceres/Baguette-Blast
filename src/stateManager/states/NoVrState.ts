@@ -16,16 +16,11 @@ class NoVrState extends BaseState {
         this._setupEnvironment();
         this._setupGUI();
         this._initAudio();
-
-        // Set an escape with the key e to go to home state
-        if (Game.instance.inputManager.leftSecondary.pressed) {
-            Game.instance.stateManager.changeState(State.Home);
-        }
     }
 
     private _setupEnvironment(): void {
         const environment = Game.instance.environmentControllers;
-        environment.cycleDuration = 60 * 2;
+        environment.cycleDuration = 60;
         environment.pourcentageOfDay = Math.random();
     }
 
@@ -74,7 +69,7 @@ class NoVrState extends BaseState {
         // Create TextBlock
         UtilsUI.createTextZone(
             // eslint-disable-next-line max-len
-            'Bienvenue dans Baguette Blast ! Ce jeu ne peut être joué qu’avec un casque de réalité virtuelle, veuillez en enfiler un pour continuer.',
+            'Bienvenue dans Baguette Blast !\n\nCe jeu ne peut être joué qu’avec un casque de réalité virtuelle, veuillez en enfiler un pour continuer.',
             this._mainPanel,
             5,
             0.5,
@@ -83,8 +78,11 @@ class NoVrState extends BaseState {
         );
     }
 
-    public update(deltaTime: number): void {
-        deltaTime;
+    public update(): void {
+        // Set an escape with the key e to go to home state
+        if (Game.instance.inputManager.rightSecondary.pressed) {
+            Game.instance.stateManager.changeState(State.Bienvenue);
+        }
     }
 
     public dispose(): void {

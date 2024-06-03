@@ -25,9 +25,7 @@ class BienvenueState extends BaseState {
 
     private _setupCamera(): void {
         const camera = Game.instance.cameraManager.playerCamera;
-        // camera.position = new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 4);
-        camera.position = new Vector3(-0.74, 3.60, 5.22);
-        // camera.setTarget(new Vector3(CustomUI.panelCenter.x, CustomUI.panelCenter.y, 5));
+        camera.position = new Vector3(-0.74, 3.6, 5.22);
         camera.setTarget(new Vector3(-0.74, 3.59, 7.45));
     }
 

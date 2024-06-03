@@ -88,16 +88,10 @@ class Game {
 
         // Initialize the game components and start the rendering loop.
         this._init().then(() => {
-            // this.stateManager.changeState(State.Home);
+            this.stateManager.changeState(State.Bienvenue);
 
-            if (this._supportedVR) {
-                this._stateManager.changeState(State.Bienvenue);
-            } else {
-                if (this._debug) {
-                    this._stateManager.changeState(State.Bienvenue);
-                } else {
-                    this._stateManager.changeState(State.NoVr);
-                }
+            if (!this._supportedVR) {
+                this._stateManager.changeState(State.NoVr);
             }
 
             this._render();
@@ -248,6 +242,10 @@ class Game {
     ///////////////
     // Accessors //
     ///////////////
+
+    public get debug(): boolean {
+        return this._debug;
+    }
 
     public get supportedVR(): boolean {
         return this._supportedVR;
