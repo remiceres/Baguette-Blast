@@ -33,12 +33,21 @@ class DropperPigeonController extends PigeonController {
         const initialPosition = this._model.position.clone();
         initialPosition.y -= 0.5;
         // Create instance
-        this._projectiles.push(ProjectileFactory.createProjectile(
-            ProjectileType.Egg, 
-            initialPosition, 
-            this._view.mesh.forward.clone().normalize().scaleInPlace(2), 
-            this._view.mesh.rotation.clone())
+        this._projectiles.push(
+            ProjectileFactory.createProjectile(
+                ProjectileType.Egg,
+                initialPosition,
+                this._view.mesh.forward.clone().normalize().scaleInPlace(2),
+                this._view.mesh.rotation.clone()
+            )
         );
+    }
+
+    public dispose(): void {
+        super.dispose();
+        this._projectiles.forEach((projectile) => {
+            projectile.dispose();
+        });
     }
 }
 

@@ -34,17 +34,26 @@ class ShooterPigeonController extends PigeonController {
         const initialPosition = this._model.position.clone();
         initialPosition.y -= 0.5;
 
-        // Random head or body as target 
-        const targetDirection = Math.random() > 0.5 ? 
-            Game.instance.player.positionHead : Game.instance.player.positionBody;
+        // Random head or body as target
+        const targetDirection =
+            Math.random() > 0.5 ? Game.instance.player.positionHead : Game.instance.player.positionBody;
 
         // Create instance
-        this._projectiles.push(ProjectileFactory.createProjectile(
-            ProjectileType.Egg, 
-            initialPosition, 
-            this._view.mesh.forward.clone().normalize().scaleInPlace(4), 
-            targetDirection)
+        this._projectiles.push(
+            ProjectileFactory.createProjectile(
+                ProjectileType.Egg,
+                initialPosition,
+                this._view.mesh.forward.clone().normalize().scaleInPlace(4),
+                targetDirection
+            )
         );
+    }
+
+    public dispose(): void {
+        super.dispose();
+        this._projectiles.forEach((projectile) => {
+            projectile.dispose();
+        });
     }
 }
 
