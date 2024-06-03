@@ -73,7 +73,7 @@ class NoVrState extends BaseState {
         // Create TextBlock
         UtilsUI.createTextZone(
             // eslint-disable-next-line max-len
-            'Bienvenue dans Baguette Blast !\n\nCe jeu ne peut être joué qu’avec un casque de réalité virtuelle, veuillez en enfiler un pour continuer.',
+            'Bienvenue dans Baguette Blast !\n\nPour une expérience de jeu optimale, veuillez utiliser un casque VR compatible tel que l\'Oculus et activer le mode VR en appuyant sur le bouton en bas à droite de votre navigateur.',
             this._mainPanel,
             5,
             0.5,
@@ -85,7 +85,7 @@ class NoVrState extends BaseState {
     public update(): void {
         // Set an escape with the key e to go to home state
         if (Game.instance.inputManager.rightSecondary.pressed) {
-            Game.instance.stateManager.changeState(State.Home);
+            Game.instance.stateManager.changeState(State.Bienvenue);
         }
     }
 

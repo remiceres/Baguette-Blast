@@ -88,7 +88,7 @@ class Game {
 
         // Initialize the game components and start the rendering loop.
         this._init().then(() => {
-            this.stateManager.changeState(State.Bienvenue);
+            this.stateManager.changeState(State.NoVr);
             this._render();
         });
     }

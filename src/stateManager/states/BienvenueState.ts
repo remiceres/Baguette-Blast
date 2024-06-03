@@ -31,11 +31,7 @@ class BienvenueState extends BaseState {
         const panel = CustomUI.addPanel(1, 1);
         const panelimg = CustomUI.changePanel('bienvenue');
 
-        if (Game.instance.supportedVR) {
-            CustomUI.addButton('Let s Gooo!', State.Home, panel, panelimg, true);
-        } else {
-            CustomUI.addButton('Let s Gooo!', State.NoVr, panel, panelimg, true);
-        }
+        CustomUI.addButton('Let s Gooo!', State.Home, panel, panelimg, true);
     }
 
     private _setupCamera(): void {

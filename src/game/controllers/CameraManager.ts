@@ -79,7 +79,7 @@ class CameraManager {
      * @returns {Camera} The active camera, no debug camera.
      */
     public get playerCamera(): TargetCamera {
-        return this._vrIsEnabled ? this._xr.baseExperience.camera : this._pcCamera;
+        return this._vrIsEnabled ? (Game.instance.scene.activeCamera as TargetCamera) : this._pcCamera;
     }
 }
 

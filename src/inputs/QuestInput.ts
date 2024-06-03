@@ -1,11 +1,16 @@
 import {
     AbstractMesh,
+    Color3,
+    MeshBuilder,
     Scene,
+    StandardMaterial,
     Vector3,
     WebXRAbstractMotionController,
     WebXRControllerComponent,
     WebXRDefaultExperience,
 } from '@babylonjs/core';
+import Game from '../game/Game';
+import State from '../stateManager/EnumState';
 import InputManager from './InputManager';
 
 /**
@@ -63,6 +68,34 @@ class QuestInput extends InputManager {
                 // Set up button listeners for each component.
                 this._setupButtonListeners(handedness, trigger, primary, secondary, grip, thumbstick);
             });
+        });
+
+
+        this._xr.baseExperience.sessionManager.onXRSessionInit.add(() => {
+            // Create a sphere to show the user where the center of the world is
+            const sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2 }, this._scene);
+            sphere.position = Game.instance.player.positionHead;
+            const material = new StandardMaterial('black', this._scene);
+            material.diffuseColor = new Color3(0, 0, 0);
+            material.backFaceCulling = false;
+            material.alpha = 1;
+            sphere.material = material;
+
+            // Fade out the sphere
+            setTimeout(() => {
+                let alpha = 1;
+                const interval = setInterval(() => {
+                    alpha -= 0.05;
+                    material.alpha = alpha;
+                    if (alpha <= 0) {
+                        clearInterval(interval);
+                        sphere.dispose();
+                    }
+                }, 50);
+            }, 1000);
+
+            // Switch to menu state
+            Game.instance.stateManager.changeState(State.Bienvenue);
         });
     }
 

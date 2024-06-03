@@ -1,18 +1,15 @@
-import { Mesh, MeshBuilder, Quaternion, TargetCamera, Vector3 } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Quaternion, Vector3 } from '@babylonjs/core';
 import Game from '../../game/Game';
 
 class PlayerView {
     private _headHitbox: Mesh;
     private _bodyHitbox: Mesh;
 
-    private _playerCamera: TargetCamera;
-
     /////////////////
     // Constructor //
     /////////////////
 
     public constructor() {
-        this._playerCamera = Game.instance.cameraManager.playerCamera;
         this._initializePlayerMesh();
     }
 
@@ -32,7 +29,7 @@ class PlayerView {
         );
 
         // Set position
-        this._headHitbox.parent = this._playerCamera;
+        this._headHitbox.parent = Game.instance.cameraManager.playerCamera;
 
         const bodyOffset = new Vector3(0, -0.42, -0.1);
         this._bodyHitbox.position = bodyOffset;
@@ -47,7 +44,7 @@ class PlayerView {
     ///////////////
 
     public set position(value: Vector3) {
-        this._playerCamera.position = value;
+        Game.instance.cameraManager.playerCamera.position = value;
     }
 
     public get position(): Vector3 {
