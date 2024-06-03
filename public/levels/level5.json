@@ -58,7 +58,7 @@
                     "type": "pigeonShooter",
                     "health": 10,
                     "position": {
-                        "x": 125.391,
+                        "x": 120.391,
                         "y": 10.085,
                         "z": -5.73
                     },
@@ -225,7 +225,7 @@
                     "type": "pigeonShooter",
                     "health": 10,
                     "position": {
-                        "x": 126.805,
+                        "x": 120.805,
                         "y": 9.921,
                         "z": 9.291
                     },
@@ -272,7 +272,7 @@
                     "type": "pigeon",
                     "health": 10,
                     "position": {
-                        "x": 125.985,
+                        "x": 120.985,
                         "y": 17.049,
                         "z": -8.336
                     },
