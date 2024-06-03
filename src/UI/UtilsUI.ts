@@ -5,6 +5,7 @@ import {
     HolographicButton,
     Image,
     MeshButton3D,
+    PlanePanel,
     Rectangle,
     StackPanel3D,
     TextBlock,
@@ -29,7 +30,7 @@ class UtilsUI {
      */
     public static createActionButton(
         text: string,
-        panel: StackPanel3D,
+        panel: PlanePanel,
         scale: Vector3,
         fontSize: number,
         callback: () => void,

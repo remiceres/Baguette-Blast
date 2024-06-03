@@ -1,17 +1,8 @@
-import {
-    Color3,
-    DynamicTexture,
-    Engine,
-    Mesh,
-    MeshBuilder,
-    StandardMaterial,
-    Texture,
-    TransformNode,
-    Vector3,
-} from '@babylonjs/core';
+import { DynamicTexture, Mesh, MeshBuilder, StandardMaterial, Texture, TransformNode, Vector3 } from '@babylonjs/core';
 import { AdvancedDynamicTexture, GUI3DManager, HolographicButton, PlanePanel } from '@babylonjs/gui';
 import Game from '../game/Game';
 import State from '../stateManager/EnumState';
+import UtilsUI from './UtilsUI';
 
 class CustomUI {
     public static buttons: HolographicButton[] = [];
@@ -29,12 +20,15 @@ class CustomUI {
         isAlone: boolean = false,
         isRight: boolean = false
     ): HolographicButton {
-        const button = new HolographicButton(name);
-        panel.addControl(button);
+        const action = () => {
+            // Dispose of the buttons
+            CustomUI.dispose();
+            Game.instance.stateManager.changeState(state);
+        };
+
+        const button = UtilsUI.createActionButton(name, panel, new Vector3(1, 0.25, 1), 20, action);
+
         this.buttons.push(button);
-        button.text = name;
-        button.plateMaterial.alphaMode = Engine.ALPHA_ONEONE;
-        button.plateMaterial.diffuseColor = new Color3(0.86, 0.69, 0.38);
 
         // Adjust button size
         if (button.mesh) {

@@ -77,7 +77,7 @@ class NoVrState extends BaseState {
             this._mainPanel,
             5,
             0.5,
-            40,
+            45,
             Game.instance.scene
         );
     }
