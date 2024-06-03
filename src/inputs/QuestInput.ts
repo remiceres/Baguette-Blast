@@ -11,6 +11,7 @@ import {
 } from '@babylonjs/core';
 import Game from '../game/Game';
 import State from '../stateManager/EnumState';
+import CustomUI from '../UI/CustomUI';
 import InputManager from './InputManager';
 
 /**
@@ -70,7 +71,6 @@ class QuestInput extends InputManager {
             });
         });
 
-
         this._xr.baseExperience.sessionManager.onXRSessionInit.add(() => {
             // Create a sphere to show the user where the center of the world is
             const sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2 }, this._scene);
@@ -95,6 +95,7 @@ class QuestInput extends InputManager {
             }, 1000);
 
             // Switch to menu state
+            CustomUI.dispose();
             Game.instance.stateManager.changeState(State.Bienvenue);
         });
     }
@@ -115,6 +116,10 @@ class QuestInput extends InputManager {
         grip: WebXRControllerComponent,
         thumbstick: WebXRControllerComponent
     ): void {
+        if (!trigger.onButtonStateChangedObservable) {
+            return;
+        }
+
         // Listener for the trigger button.
         trigger.onButtonStateChangedObservable.add((component) => {
             this.setTrigger(controller, component.pressed, component.value);

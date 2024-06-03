@@ -52,19 +52,23 @@ class CustomUI {
         // Dispose all the buttons and change state when clicked
         button.onPointerClickObservable.add(() => {
             // Dispose of the buttons
-            for (const btn of this.buttons) {
-                btn.dispose();
-            }
-            for (const textZone of this.textZones) {
-                textZone.dispose();
-            }
-            for (const plane of this.planes) {
-                plane.dispose();
-            }
+            CustomUI.dispose();
             Game.instance.stateManager.changeState(state);
         });
 
         return button;
+    }
+
+    public static dispose() {
+        for (const btn of this.buttons) {
+            btn.dispose();
+        }
+        for (const textZone of this.textZones) {
+            textZone.dispose();
+        }
+        for (const plane of this.planes) {
+            plane.dispose();
+        }
     }
 
     public static createImageZone(position: Vector3, width: number, height: number, imageUrl: string): void {
