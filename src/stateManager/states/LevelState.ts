@@ -229,6 +229,17 @@ class LevelState implements StateInterface {
 
     // Override
     public dispose(): void {
+        // Teleport the player in front of the panel
+        const camera = Game.instance.cameraManager.playerCamera;
+        camera.position = new Vector3(-0.74, 3.6, 5.22);
+        camera.setTarget(new Vector3(-0.74, 3.59, 7.45));
+        camera.attachControl();
+
+        // Reset environment
+        const environment = Game.instance.environmentControllers;
+        environment.cycleDuration = 1800;
+        environment.pourcentageOfDay = Math.random() < 0.5 ? Math.random() * 0.25 : Math.random() * 0.25 + 0.75;
+
         // Reset wave index
         this._currentWaveIndex = 0;
 
