@@ -1,6 +1,6 @@
 {
     "emvironement": {
-        "time": 0.7,
+        "time": 0.3,
         "duration": 1800
     },
     "ui": {
@@ -14,14 +14,14 @@
         "left_hand": {
             "type": "gatlingGun",
             "projectile": "laser",
-            "force": 20,
+            "force": 28,
             "durability": 10000,
             "cooldown": 0.2
         },
         "right_hand": {
             "type": "gatlingGun",
             "projectile": "laser",
-            "force": 20,
+            "force": 28,
             "durability": 10000,
             "cooldown": 0.2
         },

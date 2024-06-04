@@ -14,14 +14,14 @@
         "left_hand": {
             "type": "gun",
             "projectile": "ball",
-            "force": 60,
+            "force": 50,
             "durability": 10000,
             "cooldown": 1
         },
         "right_hand": {
             "type": "gun",
             "projectile": "ball",
-            "force": 60,
+            "force": 50,
             "durability": 10000,
             "cooldown": 1
         },

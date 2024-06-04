@@ -1,6 +1,6 @@
 {
     "emvironement": {
-        "time": 0.7,
+        "time": 0.1,
         "duration": 1800
     },
     "ui": {
@@ -14,14 +14,14 @@
         "left_hand": {
             "type": "boomerangLauncher",
             "projectile": "boomerang",
-            "force": 10,
+            "force": 30,
             "durability": 10000,
             "cooldown": 1
         },
         "right_hand": {
             "type": "boomerangLauncher",
             "projectile": "boomerang",
-            "force": 10,
+            "force": 30,
             "durability": 10000,
             "cooldown": 1
         },

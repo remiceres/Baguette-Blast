@@ -1,6 +1,6 @@
 {
     "emvironement": {
-        "time": 0.7,
+        "time": 0.85,
         "duration": 1800
     },
     "ui": {
@@ -14,14 +14,14 @@
         "left_hand": {
             "type": "javelinLauncher",
             "projectile": "javelin",
-            "force": 10,
+            "force": 20,
             "durability": 10000,
             "cooldown": 1
         },
         "right_hand": {
             "type": "javelinLauncher",
             "projectile": "javelin",
-            "force": 10,
+            "force": 20,
             "durability": 10000,
             "cooldown": 1
         },
