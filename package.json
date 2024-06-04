@@ -6,7 +6,9 @@
     "scripts": {
         "start": "webpack serve --port 8080 --config webpack.config.js",
         "start-vr": "HTTPS=true webpack serve --port 8443 --config webpack.config.js",
-        "start-win-vr": "set HTTPS=true && webpack serve --port 8443 --config webpack.config.js"
+        "start-win-vr": "set HTTPS=true && webpack serve --port 8443 --config webpack.config.js",
+        "start-prod-vr": "webpack serve --port 8443 --allowed-hosts baguette-blast.huesca.fr --config webpack.config.js"
+
     },
     "author": "",
     "license": "ISC",
