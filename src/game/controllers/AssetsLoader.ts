@@ -128,7 +128,7 @@ class AssetsLoader {
 
         // Re-scale pigeon ball mesh
         if (name === 'PigeonBall') {
-            mesh.scaling.scaleInPlace(1);
+            mesh.scaling.scaleInPlace(2.5);
         }
 
         // Re-scale flying pigeon mesh
