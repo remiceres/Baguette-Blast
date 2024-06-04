@@ -14,14 +14,14 @@
         "left_hand": {
             "type": "boomerangLauncher",
             "projectile": "boomerang",
-            "force": 10,
+            "force": 30,
             "durability": 10000,
             "cooldown": 1
         },
         "right_hand": {
             "type": "boomerangLauncher",
             "projectile": "boomerang",
-            "force": 10,
+            "force": 30,
             "durability": 10000,
             "cooldown": 1
         },
